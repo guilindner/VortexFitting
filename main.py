@@ -6,10 +6,10 @@ from scipy import ndimage
 from photutils import find_peaks
 
 #---- LOAD DATA ----#
-file1 = '../Data/plan_normal_+1.203_xyz_00.nc'
-file2 = '../Data/plan_normal_+1.203_xyz_00.gradient.nc'
-file3 = '../Data/plan_normal_+1.203_xyz.norm.nc'
-file4 = '../plan_normal_+1.203_xyz_00.detection_tourb_adapt.nc'
+file1 = 'Data/test_data.nc'
+#file2 = 'Data/plan_normal_+1.203_xyz_00.gradient.nc'
+#file3 = 'Data/plan_normal_+1.203_xyz.norm.nc'
+#file4 = 'Data/plan_normal_+1.203_xyz_00.detection_tourb_adapt.nc'
 g1=Dataset(file1,'r')
 gv=g1.variables
 gd=g1.dimensions
@@ -18,8 +18,8 @@ gd=g1.dimensions
 #z,y,x
 #print(gv['U'][1,1,100])
 #vel = np.array(gv['U'][21,:,:])
-velU = np.array(gv['velocity_s'][35])
-velV = np.array(gv['velocity_n'][35])
+velU = np.array(gv['velocity_s'][0])
+velV = np.array(gv['velocity_n'][0])
 velV = np.einsum('ij->ji',velV)
 velU = np.einsum('ij->ji',velU)
 print('Shape of vel:',velV.shape)
@@ -110,13 +110,13 @@ ax2.set_title('Velocity V (velocity_n)')
 #cbar = fig.colorbar(cax)#, ticks=[-1, 0, 1])
 
 #cax = ax3.imshow(vorticity, interpolation='nearest', cmap=plt.cm.coolwarm)
-ax3.set_title('Vorticity')
+ax3.set_title('Swirling Strength, max filter')
 ax3.set_xlim(0,1152)
 ax3.imshow(maxima1)
 ax3.scatter(maxima['x_peak'], maxima['y_peak'],s=strength,edgecolors='r',facecolors='none')
 
 cax = ax4.imshow(ls2, interpolation='nearest', cmap="Greys")
-ax4.set_title('Swirling Strength')
+ax4.set_title('Swirling Strength, no filter')
 #ax4.scatter(localy,localx,s=strength,edgecolors='r',facecolors='none')
 #ax4.plot(maxima['x_peak'], maxima['y_peak'], ls='none',marker='o')
 ax4.scatter(maxima['x_peak'], maxima['y_peak'],s=maxima['peak_value'],edgecolors='r',facecolors='none')
