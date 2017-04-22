@@ -1,3 +1,8 @@
+#!/usr/bin/env/ python
+"""vortex detection tool, by Guilherme Lindner, 2017-04
+This program load NetCDF files from DNS simulations  or PIV experiments
+and detect the vortices and apply a fitting to them.
+"""
 import numpy as np
 from matplotlib.backends.backend_pdf import PdfPages
 from netCDF4 import Dataset
