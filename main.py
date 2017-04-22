@@ -3,7 +3,8 @@ from matplotlib.backends.backend_pdf import PdfPages
 from netCDF4 import Dataset
 import matplotlib.pyplot as plt
 from scipy import ndimage
-from photutils import find_peaks
+#from photutils import find_peaks
+import detection
 
 #---- LOAD DATA ----#
 file1 = 'Data/test_data.nc'
@@ -95,8 +96,8 @@ for i in range(sizex):
 #        tempValue = ls2
 
 maxima1 = ndimage.maximum_filter(ls2,size=(6,6))
-maxima = find_peaks(ls2, 1.0, box_size=6)
-strength = maxima['peak_value']*10
+maxima = detection.find_peaks(ls2, 1.0, box_size=6)
+strength = maxima[2]*10
 #print(maxima)
 #---- PLOTTING ----#
 # Make plot with vertical (default) colorbar
@@ -113,13 +114,14 @@ ax2.set_title('Velocity V (velocity_n)')
 ax3.set_title('Swirling Strength, max filter')
 ax3.set_xlim(0,1152)
 ax3.imshow(maxima1)
-ax3.scatter(maxima['x_peak'], maxima['y_peak'],s=strength,edgecolors='r',facecolors='none')
+ax3.scatter(maxima[0], maxima[1],s=strength,edgecolors='r',facecolors='none')
 
 cax = ax4.imshow(ls2, interpolation='nearest', cmap="Greys")
 ax4.set_title('Swirling Strength, no filter')
 #ax4.scatter(localy,localx,s=strength,edgecolors='r',facecolors='none')
 #ax4.plot(maxima['x_peak'], maxima['y_peak'], ls='none',marker='o')
-ax4.scatter(maxima['x_peak'], maxima['y_peak'],s=maxima['peak_value'],edgecolors='r',facecolors='none')
+ax4.scatter(maxima[0], maxima[1],s=maxima[2],edgecolors='r',facecolors='none')
+#ax4.scatter(maxima['x_peak'], maxima['y_peak'],s=maxima['peak_value'],edgecolors='r',facecolors='none')
 
 plt.tight_layout()
 plt.show()
