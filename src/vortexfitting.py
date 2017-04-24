@@ -17,7 +17,7 @@ from classes import VelocityField
 
 parser = argparse.ArgumentParser(description='Optional app description',formatter_class=argparse.RawTextHelpFormatter)
 
-parser.add_argument('-i', '--input', dest='infilename', default='Data/test_data.nc',
+parser.add_argument('-i', '--input', dest='infilename', default='../data/test_data.nc',
                     help='input NetCDF file', metavar='FILE')
                     
 parser.add_argument('-o', '--output', dest='outfilename',

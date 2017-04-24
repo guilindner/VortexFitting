@@ -15,6 +15,7 @@ def secondOrderDiff(a):
 
 def fourthOrderDiff(a):
     print("Beginning differenciation with Fourth Order Scheme")
+    #dont work for non-uniform mesh
     x = a.u.shape[0]-1
     y = a.u.shape[1]-1
     a.derivative['dudx'][1,1] = (a.u[4,1] -6*a.u[3,1] + 18*a.u[2,1] -10*a.u[1,1] -3*a.u[0,1])/(12*(a.dx[1]-a.dx[0]))
