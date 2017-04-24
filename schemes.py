@@ -1,0 +1,34 @@
+import numpy as np
+
+def secondOrderDiff(a):
+    print("Beginning differenciation with Second Order Scheme")
+    x = a.u.shape[0]-1
+    y = a.u.shape[1]-1
+
+    for i in range(1,x-1):
+        for j in range(1,y-1):
+            a.derivative['dudx'][i,j] = (a.u[i+1, j] - a.u[i-1,j])/(2*(a.dx[i]-a.dx[i-1]))
+            a.derivative['dudy'][i,j] = (a.u[i, j+1] - a.u[i,j-1])/(2*(a.dy[j]-a.dy[j-1]))
+            a.derivative['dvdx'][i,j] = (a.v[i+1, j] - a.v[i-1,j])/(2*(a.dx[i]-a.dx[i-1]))
+            a.derivative['dvdy'][i,j] = (a.v[i, j+1] - a.v[i,j-1])/(2*(a.dy[j]-a.dy[j-1]))
+    return a.derivative
+
+def fourthOrderDiff(a):
+    print("Beginning differenciation with Fourth Order Scheme")
+    x = a.u.shape[0]-1
+    y = a.u.shape[1]-1
+    a.derivative['dudx'][1,1] = (a.u[4,1] -6*a.u[3,1] + 18*a.u[2,1] -10*a.u[1,1] -3*a.u[0,1])/(12*(a.dx[1]-a.dx[0]))
+    a.derivative['dudx'][x-1,1] = (3*a.u[x,1] +10*a.u[x-1,1] -18*a.u[x-2,1] +6*a.u[x-3,1] -1*a.u[x-4,1])/(12*(a.dx[1]-a.dx[0]))
+    a.derivative['dvdx'][1,1] = (a.v[4,1] -6*a.v[3,1] + 18*a.v[2,1] -10*a.v[1,1] -3*a.v[0,1])/(12*(a.dx[1]-a.dx[0]))
+    a.derivative['dvdx'][x-1,1] = (3*a.v[x,1] +10*a.v[x-1,1] -18*a.v[x-2,1] +6*a.v[x-3,1] -1*a.v[x-4,1])/(12*(a.dx[1]-a.dx[0]))
+    a.derivative['dudy'][1,1] = (a.u[1,4] -6*a.u[1,3] + 18*a.u[1,2] -10*a.u[1,1] -3*a.u[1,0])/(12*(a.dy[1]-a.dy[0]))
+    a.derivative['dudy'][1,y-1] = (3*a.u[1,y] +10*a.u[1,y-1] -18*a.u[1,y-2] +6*a.u[1,y-3] -1*a.u[1,y-4])/(12*(a.dy[1]-a.dy[0]))
+    a.derivative['dvdy'][1,1] = (a.v[1,4] -6*a.v[1,3] + 18*a.v[1,2] -10*a.v[1,1] -3*a.v[1,0])/(12*(a.dx[1]-a.dx[0]))
+    a.derivative['dvdy'][1,y-1] = (3*a.v[1,y] +10*a.v[1,y-1] -18*a.v[1,y-2] +6*a.v[1,y-3] -1*a.v[1,y-4])/(12*(a.dy[1]-a.dy[0]))
+    for i in range(2,x-2):
+        for j in range(2,y-2):
+            a.derivative['dudx'][i,j] = (-a.u[i+2,j] + 8*a.u[i+1, j] - 8*a.u[i-1,j] + a.u[i-2,j])/(12*(a.dx[i]-a.dx[i-1]))
+            a.derivative['dudy'][i,j] = (-a.u[i,j+2] + 8*a.u[i, j+1] - 8*a.u[i,j-1] + a.u[i,j-2])/(12*(a.dy[i]-a.dy[i-1]))
+            a.derivative['dvdx'][i,j] = (-a.v[i+2,j] + 8*a.v[i+1, j] - 8*a.v[i-1,j] + a.v[i-2,j])/(12*(a.dx[i]-a.dx[i-1]))
+            a.derivative['dvdy'][i,j] = (-a.v[i,j+2] + 8*a.v[i, j+1] - 8*a.v[i,j-1] + a.v[i,j-2])/(12*(a.dy[i]-a.dy[i-1]))
+    return a.derivative
