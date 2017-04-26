@@ -35,6 +35,8 @@ if __name__ == '__main__':
     
     args = parser.parse_args()
     
+    start = time.time()
+    
     #---- LOAD DATA ----#
     print("Opening file:",args.infilename)
     print("Time:", args.timestep)
@@ -45,14 +47,12 @@ if __name__ == '__main__':
     #print('Resolution x,y:',a.sizex,a.sizey)
     
     #---- Second-order difference approximation ----#
-    start = time.time()
+    lap = time.time()
     if args.scheme == 4:
         a.derivative = schemes.fourthOrderDiff(a)
     else:
         a.derivative = schemes.secondOrderDiff(a)
-    end = time.time()
-    print(end - start)
-    print(a.derivative['dvdy'])
+    print(round(time.time() - lap,3), 'seconds') 
 
     strength = []
     
@@ -62,23 +62,22 @@ if __name__ == '__main__':
     
     #---- VELOCITY TENSOR GRADIENT ----#
     print("Calculating Velocity Tensor Gradient")
-    L = np.zeros((a.sizex,a.sizey))
-    ls2 = np.zeros((a.sizex,a.sizey))
+    lap = time.time()
+    A = np.zeros((a.sizex*a.sizey,3,3))
+
+    A = np.array([[a.derivative['dudx'].ravel(),a.derivative['dudy'].ravel(),
+                a.derivative['dudz'].ravel()],[a.derivative['dvdx'].ravel(),
+                a.derivative['dvdy'].ravel(),a.derivative['dvdz'].ravel()],
+                [a.derivative['dwdx'].ravel(),a.derivative['dwdy'].ravel(),
+                -a.derivative['dudx'].ravel()-a.derivative['dvdy'].ravel()]])
+    A = A.transpose(2,1,0)
+    eigenvalues = np.linalg.eigvals(A)
+    swirling = np.max(eigenvalues.imag,axis=1).reshape(a.sizex,a.sizey)
+       
+    print(round(time.time() - lap,3), 'seconds')            
     
-    for i in range(a.sizex):
-            for j in range(a.sizey):
-                A = [[a.derivative['dudx'][i,j],a.derivative['dudy'][i,j],
-                a.derivative['dudz'][i,j]],[a.derivative['dvdx'][i,j],
-                a.derivative['dvdy'][i,j],a.derivative['dvdz'][i,j]],
-                [a.derivative['dwdx'][i,j],a.derivative['dwdy'][i,j],
-                -a.derivative['dudx'][i,j]-a.derivative['dvdy'][i,j]]]
-                ls = np.linalg.eigvals(A)
-                ls2[i,j] = max(abs(ls.imag))
-     print(A.shape)           
-                
-    
-    maxima1 = ndimage.maximum_filter(ls2,size=(6,6))
-    maxima = detection.find_peaks(ls2, 1.0, box_size=6)
+    maxima1 = ndimage.maximum_filter(swirling,size=(6,6))
+    maxima = detection.find_peaks(swirling, 1.0, box_size=6)
     strength = maxima[2]*10
     
     if args.outfilename == None:
@@ -86,7 +85,6 @@ if __name__ == '__main__':
     else:
         print("saving file",args.outfilename)
         
-    
     
     #---- PLOTTING ----#
     # Make plot with vertical (default) colorbar
@@ -105,7 +103,7 @@ if __name__ == '__main__':
     ax3.imshow(maxima1)
     ax3.scatter(maxima[0], maxima[1],s=strength,edgecolors='r',facecolors='none')
     
-    cax = ax4.imshow(ls2, interpolation='nearest', cmap="Greys")
+    cax = ax4.imshow(swirling, interpolation='nearest', cmap="Greys")
     ax4.set_title('Swirling Strength, no filter')
     #ax4.scatter(localy,localx,s=strength,edgecolors='r',facecolors='none')
     #ax4.plot(maxima['x_peak'], maxima['y_peak'], ls='none',marker='o')
@@ -113,5 +111,7 @@ if __name__ == '__main__':
     #ax4.scatter(maxima['x_peak'], maxima['y_peak'],s=maxima['peak_value'],edgecolors='r',facecolors='none')
     
     plt.tight_layout()
+    print(round(time.time() - start,3), 'seconds (Total execution time)')
     plt.show()
+    
     
