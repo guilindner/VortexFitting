@@ -4,7 +4,14 @@ import numpy as np
 from netCDF4 import Dataset
 
 class VelocityField():
-    """NetCDF file """
+    """NetCDF file 
+    
+    Loads the input file with the NetCFD (.nc) format and
+    initialize the variables.
+    
+    TODO: Detect PIV or DNS data.
+    
+    """
     def __init__(self,path="/",time=0):
         self.path = path
         self.time = time

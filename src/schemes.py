@@ -4,9 +4,22 @@
 import numpy as np
 
 def secondOrderDiff(a):
-    """Second order accurate finite difference scheme"""
-    print("Beginning differenciation with Second Order Scheme")
+    """Second order accurate finite difference scheme.
     
+    Scheme 1:0:-1
+    
+    Args:
+        a: 2D array of the velocity field, containing u and v
+    
+    Returns:
+        All the spatial derivatives, dudx, dudy, dvdx and dvdy
+        For example:
+        a.derivative['dudx']
+    """
+    print("Beginning differenciation with Second Order Scheme")
+    a.derivative['dudx'][0,0] = (a.u[1,0] - a.u[0,0])/(a.dx[1]-a.dx[0])
+    a.derivative['dudx'][-1,0] = (a.u[-1,0] - a.u[-2,0])/(a.dx[-1]-a.dx[-2])
+#    a.derivative['dudy'][0,0] = (a.u[1,0] - a.u[0,0])/(a.dx[1]-a.dx[0])
     a.derivative['dudx'][1:-1,1:-1] = (a.u[2:, 1:-1] - a.u[:-2,1:-1])/(2*(a.dx[1:-1,np.newaxis]-a.dx[0:-2,np.newaxis]))
     a.derivative['dudy'][1:-1,1:-1] = (a.u[1:-1, 2:] - a.u[1:-1,:-2])/(2*(a.dy[1:-1]-a.dy[0:-2]))
     a.derivative['dvdx'][1:-1,1:-1] = (a.v[2:, 1:-1] - a.v[:-2,1:-1])/(2*(a.dx[1:-1,np.newaxis]-a.dx[0:-2,np.newaxis]))
@@ -29,7 +42,18 @@ def SLOWsecondOrderDiff(a): # 1200 times slower
     return a.derivative
 
 def fourthOrderDiff(a):
-    """Fourth order accurate finite difference scheme"""
+    """Fourth order accurate finite difference scheme.
+    
+    Scheme: -1:8:0:-8:1
+    
+    Args:
+        a: 2D array of the velocity field, containing u and v
+    
+    Returns:
+        All the spatial derivatives, dudx, dudy, dvdx and dvdy
+        For example:
+        a.derivative['dudx']
+    """
     print("Beginning differenciation with Fourth Order Scheme")
     #dont work for non-uniform mesh
     x = a.u.shape[0]-1
