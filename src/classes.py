@@ -10,6 +10,7 @@ class VelocityField():
         self.time = time
         grp1 = Dataset(path,'r') 
         
+        #if d:
         self.u = np.array(grp1.variables['velocity_s'][self.time])
         self.v = np.array(grp1.variables['velocity_n'][self.time])
         self.u = np.einsum('ij->ji',self.u)

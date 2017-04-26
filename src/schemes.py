@@ -1,6 +1,20 @@
+"""Finite differences schemes
+"""
+
 import numpy as np
 
 def secondOrderDiff(a):
+    """Second order accurate finite difference scheme"""
+    print("Beginning differenciation with Second Order Scheme")
+    a.derivative['dudx'][1:-1,1:-1] = (a.u[2:, 1:-1] - a.u[:-2,1:-1])/(2*(a.dx[1:-1,np.newaxis]-a.dx[0:-2,np.newaxis]))
+    a.derivative['dudy'][1:-1,1:-1] = (a.u[1:-1, 2:] - a.u[1:-1,:-2])/(2*(a.dy[1:-1]-a.dy[0:-2]))
+    a.derivative['dvdx'][1:-1,1:-1] = (a.v[2:, 1:-1] - a.v[:-2,1:-1])/(2*(a.dx[1:-1,np.newaxis]-a.dx[0:-2,np.newaxis]))
+    a.derivative['dvdy'][1:-1,1:-1] = (a.v[1:-1, 2:] - a.v[1:-1,:-2])/(2*(a.dy[1:-1]-a.dy[0:-2]))
+    return a.derivative
+    
+    
+def SLOWsecondOrderDiff(a): # 1200 times slower
+    """Second order accurate finite difference scheme"""
     print("Beginning differenciation with Second Order Scheme")
     x = a.u.shape[0]-1
     y = a.u.shape[1]-1
@@ -14,6 +28,7 @@ def secondOrderDiff(a):
     return a.derivative
 
 def fourthOrderDiff(a):
+    """Fourth order accurate finite difference scheme"""
     print("Beginning differenciation with Fourth Order Scheme")
     #dont work for non-uniform mesh
     x = a.u.shape[0]-1
@@ -33,3 +48,5 @@ def fourthOrderDiff(a):
             a.derivative['dvdx'][i,j] = (-a.v[i+2,j] + 8*a.v[i+1, j] - 8*a.v[i-1,j] + a.v[i-2,j])/(12*(a.dx[i]-a.dx[i-1]))
             a.derivative['dvdy'][i,j] = (-a.v[i,j+2] + 8*a.v[i, j+1] - 8*a.v[i,j-1] + a.v[i,j-2])/(12*(a.dy[i]-a.dy[i-1]))
     return a.derivative
+    
+#    a.derivative['dudx'][:,:] = (-a.u[4:-2,4:-2] + 8*a.u[3:, :] - 8*a.u[1:-3,] + a.u[i-2,j])/(12*(a.dx[i]-a.dx[i-1]))
