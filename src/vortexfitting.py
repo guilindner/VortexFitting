@@ -43,7 +43,7 @@ if __name__ == '__main__':
     print("Time:", args.timestep)
     
     a = VelocityField(args.infilename,args.timestep)
-     
+    totalvel = np.sqrt(a.u**2 + a.v**2) 
     
     #print('Resolution x,y:',a.sizex,a.sizey)
     
@@ -72,24 +72,24 @@ if __name__ == '__main__':
     threshold = 0.1
     boxsize = (6,6)
     print("threshold=",threshold,"box size=",boxsize)
-    maxima1 = ndimage.maximum_filter(swirling,size=boxsize)
-    maxima = detection.find_peaks(swirling, threshold, box_size=boxsize[0])
+
+    peaks = detection.find_peaks(swirling, threshold, box_size=boxsize[0])
     clockwise = []
     clockwise_x, clockwise_y, clockwise_i = [],[],[]
     counterclockwise = []
     counterclockwise_x, counterclockwise_y, counterclockwise_i = [],[],[]
-    for i in range(len(maxima[0])):
-        if vorticity[maxima[1][i],maxima[0][i]] > 0.0:
-            clockwise_x.append(maxima[0][i])
-            clockwise_y.append(maxima[1][i])
-            clockwise_i.append(maxima[2][i])
+    for i in range(len(peaks[0])):
+        if vorticity[peaks[1][i],peaks[0][i]] > 0.0:
+            clockwise_x.append(peaks[0][i])
+            clockwise_y.append(peaks[1][i])
+            clockwise_i.append(peaks[2][i])
         else:
-            counterclockwise_x.append(maxima[0][i])
-            counterclockwise_y.append(maxima[1][i])
-            counterclockwise_i.append(maxima[2][i])
+            counterclockwise_x.append(peaks[0][i])
+            counterclockwise_y.append(peaks[1][i])
+            counterclockwise_i.append(peaks[2][i])
     clockwise = (clockwise_x, clockwise_y, clockwise_i)
     counterclockwise = (counterclockwise_x, counterclockwise_y, counterclockwise_i)
-    print("Vortices found:",len(maxima[0]))
+    print("Vortices found:",len(peaks[0]))
     if args.outfilename == None:
         pass
     else:
@@ -97,22 +97,18 @@ if __name__ == '__main__':
         
     
     #---- PLOTTING ----#
-    # Make plot with vertical (default) colorbar
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2)#, sharex=True, sharey=False)
     ax1.imshow(a.u, interpolation='nearest', cmap=plt.cm.coolwarm)
     ax1.set_title('Velocity U (velocity_s)')
-    #cbar = fig.colorbar(cax)#, ticks=[-1, 0, 1])
     
     ax2.imshow(a.v, interpolation='nearest', cmap=plt.cm.coolwarm)
     ax2.set_title('Velocity V (velocity_n)')
-    #cbar = fig.colorbar(cax)#, ticks=[-1, 0, 1])
     
-    #cax = ax3.imshow(vorticity, interpolation='nearest', cmap=plt.cm.coolwarm)
-    ax3.set_title('Swirling Strength')
+    ax3.set_title('Total velocity')
     ax3.set_xlim(0,1152)
     ax3.set_ylim(250,0)
-    ax3.imshow(maxima1)
-    ax3.scatter(maxima[0], maxima[1],s=maxima[2],edgecolors='r',facecolors='none')
+    ax3.imshow(totalvel, interpolation='nearest', cmap=plt.cm.coolwarm)
+    ax3.scatter(peaks[0], peaks[1],s=peaks[2],edgecolors='r',facecolors='none')
     
     ax4.imshow(vorticity, interpolation='nearest')#, cmap="Greys")
     ax4.set_title('Vorticity, rotation')
@@ -124,5 +120,7 @@ if __name__ == '__main__':
     
     print(round(time.time() - start,3), 'seconds (Total execution time)')
     plt.show()
+    
+    
     
     
