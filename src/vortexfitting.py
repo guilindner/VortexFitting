@@ -69,13 +69,27 @@ if __name__ == '__main__':
                 
     #---- DETECTION OF PEAK ----#
     print("Detecting peak of swirling strength")
-    threshold = 1.0
-    boxsize = (17,17)
+    threshold = 0.1
+    boxsize = (6,6)
     print("threshold=",threshold,"box size=",boxsize)
     maxima1 = ndimage.maximum_filter(swirling,size=boxsize)
     maxima = detection.find_peaks(swirling, threshold, box_size=boxsize[0])
+    clockwise = []
+    clockwise_x, clockwise_y, clockwise_i = [],[],[]
+    counterclockwise = []
+    counterclockwise_x, counterclockwise_y, counterclockwise_i = [],[],[]
+    for i in range(len(maxima[0])):
+        if vorticity[maxima[1][i],maxima[0][i]] > 0.0:
+            clockwise_x.append(maxima[0][i])
+            clockwise_y.append(maxima[1][i])
+            clockwise_i.append(maxima[2][i])
+        else:
+            counterclockwise_x.append(maxima[0][i])
+            counterclockwise_y.append(maxima[1][i])
+            counterclockwise_i.append(maxima[2][i])
+    clockwise = (clockwise_x, clockwise_y, clockwise_i)
+    counterclockwise = (counterclockwise_x, counterclockwise_y, counterclockwise_i)
     print("Vortices found:",len(maxima[0]))
-    
     if args.outfilename == None:
         pass
     else:
@@ -94,20 +108,20 @@ if __name__ == '__main__':
     #cbar = fig.colorbar(cax)#, ticks=[-1, 0, 1])
     
     #cax = ax3.imshow(vorticity, interpolation='nearest', cmap=plt.cm.coolwarm)
-    ax3.set_title('Swirling Strength, max filter')
+    ax3.set_title('Swirling Strength')
     ax3.set_xlim(0,1152)
     ax3.set_ylim(250,0)
     ax3.imshow(maxima1)
-    ax3.scatter(maxima[0], maxima[1],s=maxima[2]*10,edgecolors='r',facecolors='none')
+    ax3.scatter(maxima[0], maxima[1],s=maxima[2],edgecolors='r',facecolors='none')
     
-    ax4.imshow(swirling, interpolation='nearest', cmap="Greys")
-    ax4.set_title('Swirling Strength, no filter')
-    #X, Y = np.meshgrid(a.dx,a.dy)
-    #ax4.axis('scaled')
-    #plt.quiver(X,Y,a.u,a.v,units='width')
-    ax4.scatter(maxima[0], maxima[1],s=maxima[2]*10)#,edgecolors='r')#,facecolors='none')
-    
+    ax4.imshow(vorticity, interpolation='nearest')#, cmap="Greys")
+    ax4.set_title('Vorticity, rotation')
+    ax4.set_xlim(0,1152)
+    ax4.set_ylim(250,0)
+    ax4.scatter(counterclockwise[0],counterclockwise[1],counterclockwise[2],facecolors='r')
+    ax4.scatter(clockwise[0],clockwise[1],clockwise[2],facecolors='b')
     plt.tight_layout()
+    
     print(round(time.time() - start,3), 'seconds (Total execution time)')
     plt.show()
     
