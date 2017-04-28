@@ -28,11 +28,17 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--scheme', dest='scheme', type=int, default=2,
                         help='Scheme for differencing:\n2 = second order\n4 = fourth order')
     
-    parser.add_argument('-t', '--time', dest='timestep', type=int, default=0,
+    parser.add_argument('-T', '--time', dest='timestep', type=int, default=0,
                         help='Timestep desired')
                         
     parser.add_argument('-d', '--detect', dest='detect', default='swirling',
                         help='Detection method:\nQ = Q criterion\nswirling = 2D Swirling Strength')
+    
+    parser.add_argument('-t', '--threshold', dest='threshold', type=float, default=0.,
+                        help='Threshold for detection, integer')
+
+    parser.add_argument('-b', '--boxsize', dest='boxsize', type=int, default=6,
+                        help='Box size for the detection')
     
     args = parser.parse_args()
     
@@ -44,9 +50,8 @@ if __name__ == '__main__':
     a = VelocityField(args.infilename,args.timestep)
     totalvel = np.sqrt(a.u**2 + a.v**2) 
     
-    #print('Resolution x,y:',a.sizex,a.sizey)
     
-    #---- Second-order difference approximation ----#
+    #---- DIFFERENCE APPROXIMATION ----# 
     lap = time.time()
     if args.scheme == 4:
         a.derivative = schemes.fourthOrderDiff(a)
@@ -68,29 +73,17 @@ if __name__ == '__main__':
         detected = identification.calc_swirling(a)
     print(round(time.time() - lap,3), 'seconds')
 
-    #---- DETECTION OF PEAK ----#
+    #---- PEAK DETECTION ----#
     print("Detecting peak of swirling strength")
-    threshold = 0.0
-    boxsize = (4,4)
-    print("threshold=",threshold,"box size=",boxsize)
+    print("threshold=",args.threshold,"box size=",args.boxsize)
 
-    peaks = detection.find_peaks(detected, threshold, box_size=boxsize[0])
-    clockwise = []
-    clockwise_x, clockwise_y, clockwise_i = [],[],[]
-    counterclockwise = []
-    counterclockwise_x, counterclockwise_y, counterclockwise_i = [],[],[]
-    for i in range(len(peaks[0])):
-        if vorticity[peaks[1][i],peaks[0][i]] > 0.0:
-            clockwise_x.append(peaks[0][i])
-            clockwise_y.append(peaks[1][i])
-            clockwise_i.append(peaks[2][i])
-        else:
-            counterclockwise_x.append(peaks[0][i])
-            counterclockwise_y.append(peaks[1][i])
-            counterclockwise_i.append(peaks[2][i])
-    clockwise = (clockwise_x, clockwise_y, clockwise_i)
-    counterclockwise = (counterclockwise_x, counterclockwise_y, counterclockwise_i)
+    peaks = detection.find_peaks(detected, args.threshold, args.boxsize)
     print("Vortices found:",len(peaks[0]))
+
+    #---- PEAKS DIRECTION OF ROTATION ----#
+    clockwise, counterclockwise = detection.direction_rotation(vorticity,peaks)
+
+    #---- SAVING OUTPUT FILE ----#
     if args.outfilename == None:
         pass
     else:

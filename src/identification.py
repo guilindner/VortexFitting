@@ -1,9 +1,12 @@
 #!/usr/bin/env/ python
-"""Velocity tensor calculation
+"""Different methods for vortex detection
 """
 import numpy as np
 
 def calc_swirling(a):
+    """
+    2D Swirling strenght
+    """
     print("Detection method: 2D swirling strenght")
     A = np.zeros((a.sizex*a.sizey,3,3))
     A = np.array([[a.derivative['dudx'].ravel(),a.derivative['dudy'].ravel(),
@@ -18,6 +21,10 @@ def calc_swirling(a):
     return swirling
 
 def q_criterion(a):
+    """
+    Q Criterion
+    vorticity magnitude and mean strain rate 
+    """
     print("Detection method: Q criterion")
     Q = np.zeros((a.sizex,a.sizey))
     for i in range(a.sizex):

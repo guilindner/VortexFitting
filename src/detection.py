@@ -1,6 +1,7 @@
 import numpy as np
+from scipy import ndimage
 
-def find_peaks(data, threshold, box_size=3):
+def find_peaks(data, threshold, box_size):
     """
     Find local peaks in an image that are above above a specified
     threshold value.
@@ -35,8 +36,6 @@ def find_peaks(data, threshold, box_size=3):
         their values.
     """
 
-    from scipy import ndimage
-
     if np.all(data == data.flat[0]):
         return []
 
@@ -52,3 +51,25 @@ def find_peaks(data, threshold, box_size=3):
     peaks = (x_peaks, y_peaks, peak_values)
 
     return peaks
+
+def direction_rotation(vorticity,peaks):
+    """ Identify the direction of the vortices rotation
+    using the vorticity.
+    """
+    clockwise = []
+    clockwise_x, clockwise_y, clockwise_i = [],[],[]
+    counterclockwise = []
+    counterclockwise_x, counterclockwise_y, counterclockwise_i = [],[],[]
+    for i in range(len(peaks[0])):
+        if vorticity[peaks[1][i],peaks[0][i]] > 0.0:
+            clockwise_x.append(peaks[0][i])
+            clockwise_y.append(peaks[1][i])
+            clockwise_i.append(peaks[2][i])
+        else:
+            counterclockwise_x.append(peaks[0][i])
+            counterclockwise_y.append(peaks[1][i])
+            counterclockwise_i.append(peaks[2][i])
+    clockwise = (clockwise_x, clockwise_y, clockwise_i)
+    counterclockwise = (counterclockwise_x, counterclockwise_y, counterclockwise_i)
+
+    return clockwise, counterclockwise
