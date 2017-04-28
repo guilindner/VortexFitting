@@ -1,5 +1,5 @@
-#!/usr/bin/env/ python
-"""vortex detection tool, by Guilherme Lindner, 2017-04
+#!/usr/bin/env/ python3
+"""vortex detection tool, by Guilherme Lindner, 2017-04\n
 This program load NetCDF files from DNS simulations  or PIV experiments
 and detect the vortices and apply a fitting to them.
 """
@@ -23,7 +23,7 @@ if __name__ == '__main__':
                         help='input NetCDF file', metavar='FILE')
                         
     parser.add_argument('-o', '--output', dest='outfilename',
-                        help='input NetCDF file', metavar='FILE')
+                        help='output NetCDF file', metavar='FILE')
     
     parser.add_argument('-s', '--scheme', dest='scheme', type=int, default=2,
                         help='Scheme for differencing:\n2 = second order\n4 = fourth order')
@@ -79,7 +79,6 @@ if __name__ == '__main__':
 
     peaks = detection.find_peaks(detected, args.threshold, args.boxsize)
     print("Vortices found:",len(peaks[0]))
-
     #---- PEAKS DIRECTION OF ROTATION ----#
     clockwise, counterclockwise = detection.direction_rotation(vorticity,peaks)
 
@@ -88,8 +87,13 @@ if __name__ == '__main__':
         pass
     else:
         print("saving file",args.outfilename)
-    
     #---- PLOTTING ----#
+    plt.subplot()
+    plt.title('Vorticity, rotation')
+    plt.scatter(counterclockwise[0],counterclockwise[1],s=counterclockwise[2]*10,edgecolor='b',facecolor='none')
+    plt.scatter(clockwise[0],clockwise[1],s=clockwise[2]*10,edgecolor='r',facecolor='none')
+    plt.imshow(vorticity, interpolation='nearest', cmap="seismic")
+    plt.tight_layout()
     
     #~ X, Y = np.meshgrid(a.dx[0:15],a.dy[180:230])
     #~ U = a.u[0:15,180:230]
@@ -99,30 +103,22 @@ if __name__ == '__main__':
     #~ plt.title('Arrows scale with plot width, not view')
     #~ Q = plt.quiver(X, Y, U, V,pivot='mid')
  
-    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2)#, sharex=True, sharey=False)
-    ax1.imshow(a.u, cmap='seismic')
-    ax1.set_title('Velocity U (velocity_s)')
+    #fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2)#, sharex=True, sharey=False)
+    #ax1.imshow(a.u, cmap='seismic')
+    #ax1.set_title('Velocity U (velocity_s)')
     
-    ax2.imshow(a.v, interpolation='nearest', cmap='seismic')
-    ax2.set_title('Velocity V (velocity_n)')
+    #ax2.imshow(a.v, interpolation='nearest', cmap='seismic')
+    #ax2.set_title('Velocity V (velocity_n)')
     
-    ax3.set_title('Total velocity')
-    #ax3.set_xlim(0,1152)
-    #ax3.set_ylim(250,0)
-    ax3.imshow(totalvel, interpolation='nearest', cmap='seismic')
-    ax3.scatter(peaks[0], peaks[1],s=peaks[2],edgecolors='c',facecolors='none')
+    #ax3.set_title('Total velocity')
+    #ax3.imshow(totalvel, interpolation='nearest', cmap='seismic')
+    #ax3.scatter(peaks[0], peaks[1],s=peaks[2]*10,edgecolors='c',facecolors='none')
     
-    ax4.imshow(vorticity, interpolation='nearest', cmap="seismic")
-    ax4.set_title('Vorticity, rotation')
-    #ax4.set_xlim(0,1152)
-    #ax4.set_ylim(250,0)
-    ax4.scatter(counterclockwise[0],counterclockwise[1],counterclockwise[2],facecolors='y')
-    ax4.scatter(clockwise[0],clockwise[1],clockwise[2],facecolors='g')
-    plt.tight_layout()
+    #ax4.imshow(vorticity, interpolation='nearest', cmap="seismic")
+    #ax4.set_title('Vorticity, rotation')
+    #ax4.scatter(counterclockwise[0],counterclockwise[1],s=counterclockwise[2]*10,edgecolors='y',facecolors='y')
+    #ax4.scatter(clockwise[0],clockwise[1],s=clockwise[2]*10,edgecolors='g',facecolors='g')
+    #plt.tight_layout()
     
     print(round(time.time() - start,3), 'seconds (Total execution time)')
     plt.show()
-    
-    
-    
-    

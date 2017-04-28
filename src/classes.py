@@ -33,18 +33,15 @@ class VelocityField():
             grp4 = Dataset('../data/DNS_example/grid_x.nc','r')
             grp5 = Dataset('../data/DNS_example/grid_y.nc','r')
             grp6 = Dataset('../data/DNS_example/grid_z.nc','r')
-            self.u = np.array(grp1.variables['U'][80])
-            self.v = np.array(grp2.variables['V'][80])
-            self.w = np.array(grp3.variables['W'][80])
-            domain_x = 1.
-            domain_y = 1.
-            domain_z = 1.
-            self.dx = np.linspace(0,domain_x,grp1.dimensions['resolution_x'].size)
-            self.dy = np.linspace(0,domain_y,grp1.dimensions['resolution_y'].size)
-            self.dz = np.linspace(0,domain_z,grp1.dimensions['resolution_z'].size)
+            self.u = np.array(grp1.variables['U'][60])
+            self.v = np.array(grp2.variables['V'][60])
+            self.w = np.array(grp3.variables['W'][60])
+            self.dx = np.array(grp4.variables['gridx'][0,0,:])
+            self.dy = np.array(grp5.variables['gridy'][0,:,0])
+            self.dz = np.array(grp6.variables['gridz'][:,0,0])
             self.sizex = self.u.shape[0]
-            self.sizey = self.u.shape[1]
-            self.sizez = self.u.shape[1]#fix later for different size
+            self.sizey = self.v.shape[0]
+            self.sizez = self.w.shape[0]#fix later for different size
         else:
             print('Netcdf file format not recognized')		
         

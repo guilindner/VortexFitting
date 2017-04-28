@@ -6,9 +6,9 @@ def find_peaks(data, threshold, box_size):
     Find local peaks in an image that are above above a specified
     threshold value.
 
-    Peaks are the maxima above the ``threshold`` within a local region.
-    The regions are defined by the ``box_size`` parameters.  
-    ``box_size`` defines the local region around each pixel
+    Peaks are the maxima above the "threshold" within a local region.
+    The regions are defined by the "box_size" parameters.
+    "box_size" defines the local region around each pixel
     as a square box.
 
     Parameters
@@ -71,5 +71,6 @@ def direction_rotation(vorticity,peaks):
             counterclockwise_i.append(peaks[2][i])
     clockwise = (clockwise_x, clockwise_y, clockwise_i)
     counterclockwise = (counterclockwise_x, counterclockwise_y, counterclockwise_i)
-
+    clockwise = np.asarray(clockwise)
+    counterclockwise = np.asarray(counterclockwise)
     return clockwise, counterclockwise
