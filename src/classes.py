@@ -28,16 +28,23 @@ class VelocityField():
             self.sizey = self.u.shape[1]
             
         elif 'U' in grp1.variables.keys():
-            self.u = np.array(grp1.variables['U'][20])
-            self.v = np.array(grp1.variables['V'][20])
-            #self.u = np.einsum('ij->ji',self.u)
-            #self.v = np.einsum('ij->ji',self.v)
-            domain_x = 1
-            domain_y = 1
+            grp2 = Dataset('../data/DNS_example/vel_v_00000000.00400000.nc','r')
+            grp3 = Dataset('../data/DNS_example/vel_w_00000000.00400000.nc','r')
+            grp4 = Dataset('../data/DNS_example/grid_x.nc','r')
+            grp5 = Dataset('../data/DNS_example/grid_y.nc','r')
+            grp6 = Dataset('../data/DNS_example/grid_z.nc','r')
+            self.u = np.array(grp1.variables['U'][80])
+            self.v = np.array(grp2.variables['V'][80])
+            self.w = np.array(grp3.variables['W'][80])
+            domain_x = 1.
+            domain_y = 1.
+            domain_z = 1.
             self.dx = np.linspace(0,domain_x,grp1.dimensions['resolution_x'].size)
             self.dy = np.linspace(0,domain_y,grp1.dimensions['resolution_y'].size)
+            self.dz = np.linspace(0,domain_z,grp1.dimensions['resolution_z'].size)
             self.sizex = self.u.shape[0]
             self.sizey = self.u.shape[1]
+            self.sizez = self.u.shape[1]#fix later for different size
         else:
             print('Netcdf file format not recognized')		
         

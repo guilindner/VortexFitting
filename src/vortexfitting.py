@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 from scipy import ndimage
 import detection
 import schemes
-import tensor
+import identification
 from classes import VelocityField
 
 if __name__ == '__main__':
@@ -31,13 +31,12 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--time', dest='timestep', type=int, default=0,
                         help='Timestep desired')
                         
-    parser.add_argument('-d', '--detect', dest='detect', type=int, default=0,
-                        help='Detection method:\n2 = 2D Swirling Strength')
+    parser.add_argument('-d', '--detect', dest='detect', default='swirling',
+                        help='Detection method:\nQ = Q criterion\nswirling = 2D Swirling Strength')
     
     args = parser.parse_args()
     
     start = time.time()
-    
     #---- LOAD DATA ----#
     print("Opening file:",args.infilename)
     print("Time:", args.timestep)
@@ -61,19 +60,21 @@ if __name__ == '__main__':
     print("Calculating vorticity")
     vorticity = a.derivative['dudy'] - a.derivative['dvdx']
     
-    #---- VELOCITY TENSOR GRADIENT ----#
-    print("Calculating Velocity Tensor Gradient")
+    #---- METHOD FOR DETECTION OF VORTICES ----#
     lap = time.time()
-    swirling = tensor.calc_swirling(a)    
+    if args.detect == 'Q':
+        detected = identification.q_criterion(a)
+    elif args.detect == 'swirling':
+        detected = identification.calc_swirling(a)
     print(round(time.time() - lap,3), 'seconds')
-                
+
     #---- DETECTION OF PEAK ----#
     print("Detecting peak of swirling strength")
-    threshold = 0.1
-    boxsize = (6,6)
+    threshold = 0.0
+    boxsize = (4,4)
     print("threshold=",threshold,"box size=",boxsize)
 
-    peaks = detection.find_peaks(swirling, threshold, box_size=boxsize[0])
+    peaks = detection.find_peaks(detected, threshold, box_size=boxsize[0])
     clockwise = []
     clockwise_x, clockwise_y, clockwise_i = [],[],[]
     counterclockwise = []
@@ -94,28 +95,36 @@ if __name__ == '__main__':
         pass
     else:
         print("saving file",args.outfilename)
-        
     
     #---- PLOTTING ----#
+    
+    #~ X, Y = np.meshgrid(a.dx[0:15],a.dy[180:230])
+    #~ U = a.u[0:15,180:230]
+    #~ V = a.v[0:15,180:230]
+    #~ #print(U)
+    #~ plt.figure()
+    #~ plt.title('Arrows scale with plot width, not view')
+    #~ Q = plt.quiver(X, Y, U, V,pivot='mid')
+ 
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2)#, sharex=True, sharey=False)
-    ax1.imshow(a.u, interpolation='nearest', cmap=plt.cm.coolwarm)
+    ax1.imshow(a.u, cmap='seismic')
     ax1.set_title('Velocity U (velocity_s)')
     
-    ax2.imshow(a.v, interpolation='nearest', cmap=plt.cm.coolwarm)
+    ax2.imshow(a.v, interpolation='nearest', cmap='seismic')
     ax2.set_title('Velocity V (velocity_n)')
     
     ax3.set_title('Total velocity')
-    ax3.set_xlim(0,1152)
-    ax3.set_ylim(250,0)
-    ax3.imshow(totalvel, interpolation='nearest', cmap=plt.cm.coolwarm)
-    ax3.scatter(peaks[0], peaks[1],s=peaks[2],edgecolors='r',facecolors='none')
+    #ax3.set_xlim(0,1152)
+    #ax3.set_ylim(250,0)
+    ax3.imshow(totalvel, interpolation='nearest', cmap='seismic')
+    ax3.scatter(peaks[0], peaks[1],s=peaks[2],edgecolors='c',facecolors='none')
     
-    ax4.imshow(vorticity, interpolation='nearest')#, cmap="Greys")
+    ax4.imshow(vorticity, interpolation='nearest', cmap="seismic")
     ax4.set_title('Vorticity, rotation')
-    ax4.set_xlim(0,1152)
-    ax4.set_ylim(250,0)
-    ax4.scatter(counterclockwise[0],counterclockwise[1],counterclockwise[2],facecolors='r')
-    ax4.scatter(clockwise[0],clockwise[1],clockwise[2],facecolors='b')
+    #ax4.set_xlim(0,1152)
+    #ax4.set_ylim(250,0)
+    ax4.scatter(counterclockwise[0],counterclockwise[1],counterclockwise[2],facecolors='y')
+    ax4.scatter(clockwise[0],clockwise[1],clockwise[2],facecolors='g')
     plt.tight_layout()
     
     print(round(time.time() - start,3), 'seconds (Total execution time)')
