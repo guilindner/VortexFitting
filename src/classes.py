@@ -22,8 +22,8 @@ class VelocityField():
             self.v = np.array(grp1.variables['velocity_n'][self.time])
             self.u = np.einsum('ij->ji',self.u)
             self.v = np.einsum('ij->ji',self.v)
-            self.dx = np.array(grp1.variables['grid_n'])
-            self.dy = np.array(grp1.variables['grid_z'])
+            self.dx = np.array(grp1.variables['grid_z'])
+            self.dy = np.array(grp1.variables['grid_n'])
             self.sizex = self.u.shape[0]
             self.sizey = self.u.shape[1]
             
