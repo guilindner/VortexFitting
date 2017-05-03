@@ -56,21 +56,21 @@ def direction_rotation(vorticity,peaks):
     """ Identify the direction of the vortices rotation
     using the vorticity.
     """
-    clockwise = []
-    clockwise_x, clockwise_y, clockwise_i = [],[],[]
-    counterclockwise = []
-    counterclockwise_x, counterclockwise_y, counterclockwise_i = [],[],[]
+    dirR = []
+    dirR_x, dirR_y, dirR_i = [],[],[]
+    dirL = []
+    dirL_x, dirL_y, dirL_i = [],[],[]
     for i in range(len(peaks[0])):
         if vorticity[peaks[1][i],peaks[0][i]] > 0.0:
-            clockwise_x.append(peaks[0][i])
-            clockwise_y.append(peaks[1][i])
-            clockwise_i.append(peaks[2][i])
+            dirR_x.append(peaks[0][i])
+            dirR_y.append(peaks[1][i])
+            dirR_i.append(peaks[2][i])
         else:
-            counterclockwise_x.append(peaks[0][i])
-            counterclockwise_y.append(peaks[1][i])
-            counterclockwise_i.append(peaks[2][i])
-    clockwise = (clockwise_x, clockwise_y, clockwise_i)
-    counterclockwise = (counterclockwise_x, counterclockwise_y, counterclockwise_i)
-    clockwise = np.asarray(clockwise)
-    counterclockwise = np.asarray(counterclockwise)
-    return clockwise, counterclockwise
+            dirL_x.append(peaks[0][i])
+            dirL_y.append(peaks[1][i])
+            dirL_i.append(peaks[2][i])
+    dirR = (dirR_x, dirR_y, dirR_i)
+    dirL = (dirL_x, dirL_y, dirL_i)
+    dirR = np.asarray(dirR)
+    dirL = np.asarray(dirL)
+    return dirR, dirL
