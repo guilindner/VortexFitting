@@ -58,6 +58,10 @@ if __name__ == '__main__':
     print("Time:", args.timestep)
     
     a = VelocityField(args.infilename,args.timestep)
+    Umean = np.mean(a.u)
+    Vmean = np.mean(a.v)
+    u2 = a.u - Umean
+    v2 = a.v - Vmean
     totalvel = np.sqrt(a.u**2 + a.v**2) 
     
     
@@ -88,6 +92,9 @@ if __name__ == '__main__':
 
     peaks = detection.find_peaks(detected, args.threshold, args.boxsize)
     print("Vortices found:",len(peaks[0]))
+    print('x','y','swirl')
+    #for i in range(len(peaks[0])):
+    #    print(peaks[0][i],peaks[1][i],peaks[2][i])
     #---- PEAKS DIRECTION OF ROTATION ----#
     dirL, dirR = detection.direction_rotation(vorticity,peaks)
     #---- SAVING OUTPUT FILE ----#
@@ -98,18 +105,22 @@ if __name__ == '__main__':
     #---- PLOTTING ----#
     plt.subplot()
     plt.title('Vorticity, rotation')
-    plt.scatter(dirR[0],dirR[1],s=dirR[2]*100,edgecolor='G',facecolor='none')
-    plt.scatter(dirL[0],dirL[1],s=dirL[2]*100,edgecolor='Y',facecolor='none')
+    plt.scatter(dirR[0],dirR[1],s=dirR[2]*10,edgecolor='G',facecolor='none')
+    plt.scatter(dirL[0],dirL[1],s=dirL[2]*10,edgecolor='Y',facecolor='none')
     plt.imshow(vorticity, interpolation='nearest', cmap="seismic")
     plt.tight_layout()
+
+    xCenter = 1000 
+    yCenter = 150
+    dist = 20
+    X, Y = np.meshgrid(a.dx[xCenter-dist:xCenter+dist],
+                       a.dy[yCenter-dist:yCenter+dist])
+    U = a.u[yCenter-dist:yCenter+dist,xCenter-dist:xCenter+dist]-Umean
+    V = a.v[yCenter-dist:yCenter+dist,xCenter-dist:xCenter+dist]
     
-    #~ X, Y = np.meshgrid(a.dx[0:15],a.dy[180:230])
-    #~ U = a.u[0:15,180:230]
-    #~ V = a.v[0:15,180:230]
-    #~ #print(U)
-    #~ plt.figure()
-    #~ plt.title('Arrows scale with plot width, not view')
-    #~ Q = plt.quiver(X, Y, U, V,pivot='mid')
+    plt.figure()
+    plt.title('Arrows scale with plot width, not view')
+    Q = plt.quiver(X, Y, U, V)
  
     #fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2)#, sharex=True, sharey=False)
     #ax1.imshow(a.u, cmap='seismic')

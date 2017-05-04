@@ -29,5 +29,7 @@ def q_criterion(a):
     Q = np.zeros((a.sizex,a.sizey))
     for i in range(a.sizex):
         for j in range(a.sizey):
-            Q[i,j] = -0.5*(a.derivative['dudx'][i,j]**2 + a.derivative['dvdy'][i,j]**2) - a.derivative['dudy'][i,j]*a.derivative['dvdx'][i,j]
+            Q[i,j] = -0.5*(a.derivative['dudx'][i,j]**2
+            + a.derivative['dvdy'][i,j]**2)
+            - a.derivative['dudy'][i,j]*a.derivative['dvdx'][i,j]
     return Q
