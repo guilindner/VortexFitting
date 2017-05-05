@@ -2,9 +2,12 @@ import numpy as np
 
 def sub_mean(x, hom_axis):
     mean = np.mean(x, axis=hom_axis)
-    x = x - mean[:,None]
+    if (hom_axis == 0):
+        x = x - mean
+    else:
+        x = x - mean[:,None]
     return x
-
+      
 def normalize(x, hom_axis):
     mean = np.mean(x, axis=hom_axis)
     x = x/mean[:,None]
