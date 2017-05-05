@@ -8,6 +8,7 @@ import argparse
 import time
 import numpy as np
 
+import tools
 import plot
 import detection
 import schemes
@@ -63,18 +64,18 @@ if __name__ == '__main__':
     print("Time:", args.timestep)
     
     a = VelocityField(args.infilename,args.timestep)
-    Umean = np.zeros(a.u.shape[0])
-    Umean = np.mean(a.u, axis=1)
-    Vmean = np.mean(a.v, axis=1)
-    a.u = a.u - Umean[:,None]
-    a.v = a.v - Vmean[:,None]
+    a.u = tools.sub_mean(a.u,1)
+    a.v = tools.sub_mean(a.v,1)
     
     #---- DIFFERENCE APPROXIMATION ----# 
     lap = time.time()
     if args.scheme == 4:
         a.derivative = schemes.fourth_order_diff(a)
-    else:
+    elif args.scheme == 2:
         a.derivative = schemes.second_order_diff(a)
+    else:
+        print('No scheme', args.scheme, 'found. Exitting!')
+        sys.exit()
     print(round(time.time() - lap,3), 'seconds') 
 
     strength = []
@@ -86,16 +87,16 @@ if __name__ == '__main__':
     #---- METHOD FOR DETECTION OF VORTICES ----#
     lap = time.time()
     if args.detect == 'Q':
-        detected = identification.q_criterion(a)
+         detected = identification.q_criterion(a)
     elif args.detect == 'swirling':
-        detected,swirlingNorm = identification.calc_swirling(a)
+        swirling = identification.calc_swirling(a)
     print(round(time.time() - lap,3), 'seconds')
 
     #---- PEAK DETECTION ----#
     print("Detecting peak of swirling strength")
     print("threshold=",args.threshold,"box size=",args.boxsize)
 
-    peaks = detection.find_peaks(swirlingNorm, args.threshold, args.boxsize)
+    peaks = detection.find_peaks(swirling, args.threshold, args.boxsize)
 
     print("Vortices found:",len(peaks[0]))
     #print('x','y','swirl')
@@ -112,7 +113,7 @@ if __name__ == '__main__':
         
     #---- PLOTTING ----#
     if args.plot_x == 'detect':
-        plot.plot_detection(dirL,dirR,swirlingNorm)
+        plot.plot_detection(dirL,dirR,swirling)
     elif args.plot_x == 'fields':
         plot.plot_fields(a)
     elif args.plot_x == 'quiver':
