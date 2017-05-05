@@ -7,10 +7,9 @@ import sys
 import argparse
 import time
 import numpy as np
-from matplotlib.backends.backend_pdf import PdfPages
-from netCDF4 import Dataset
-import matplotlib.pyplot as plt
-from scipy import ndimage
+
+import tools
+import plot
 import detection
 import schemes
 import identification
@@ -50,6 +49,13 @@ if __name__ == '__main__':
                         default=6, type=int,
                         help='Box size for the detection')
     
+    parser.add_argument('-p', '--plot', dest='plot_x',
+                        default='detect',
+                        help='Plot on screen:\n'
+                             'detect = Vortices position\n'
+                             'fields = Velocity fields\n'
+                             'quiver = Vector on specific position')
+    
     args = parser.parse_args()
     
     start = time.time()
@@ -58,15 +64,18 @@ if __name__ == '__main__':
     print("Time:", args.timestep)
     
     a = VelocityField(args.infilename,args.timestep)
-    totalvel = np.sqrt(a.u**2 + a.v**2) 
-    
+    a.u = tools.sub_mean(a.u,1)
+    a.v = tools.sub_mean(a.v,1)
     
     #---- DIFFERENCE APPROXIMATION ----# 
     lap = time.time()
     if args.scheme == 4:
         a.derivative = schemes.fourth_order_diff(a)
-    else:
+    elif args.scheme == 2:
         a.derivative = schemes.second_order_diff(a)
+    else:
+        print('No scheme', args.scheme, 'found. Exitting!')
+        sys.exit()
     print(round(time.time() - lap,3), 'seconds') 
 
     strength = []
@@ -74,20 +83,26 @@ if __name__ == '__main__':
     #---- VORTICITY ----#
     print("Calculating vorticity")
     vorticity = a.derivative['dudy'] - a.derivative['dvdx']
+    
     #---- METHOD FOR DETECTION OF VORTICES ----#
     lap = time.time()
     if args.detect == 'Q':
-        detected = identification.q_criterion(a)
+         detected = identification.q_criterion(a)
     elif args.detect == 'swirling':
-        detected = identification.calc_swirling(a)
+        swirling = identification.calc_swirling(a)
     print(round(time.time() - lap,3), 'seconds')
 
     #---- PEAK DETECTION ----#
     print("Detecting peak of swirling strength")
     print("threshold=",args.threshold,"box size=",args.boxsize)
 
-    peaks = detection.find_peaks(detected, args.threshold, args.boxsize)
+    peaks = detection.find_peaks(swirling, args.threshold, args.boxsize)
+
     print("Vortices found:",len(peaks[0]))
+    #print('x','y','swirl')
+    #for i in range(len(peaks[0])):
+    #    print(peaks[0][i],peaks[1][i],peaks[2][i])
+    
     #---- PEAKS DIRECTION OF ROTATION ----#
     dirL, dirR = detection.direction_rotation(vorticity,peaks)
     #---- SAVING OUTPUT FILE ----#
@@ -95,38 +110,19 @@ if __name__ == '__main__':
         pass
     else:
         print("saving file",args.outfilename)
+        
     #---- PLOTTING ----#
-    plt.subplot()
-    plt.title('Vorticity, rotation')
-    plt.scatter(dirR[0],dirR[1],s=dirR[2]*100,edgecolor='G',facecolor='none')
-    plt.scatter(dirL[0],dirL[1],s=dirL[2]*100,edgecolor='Y',facecolor='none')
-    plt.imshow(vorticity, interpolation='nearest', cmap="seismic")
-    plt.tight_layout()
-    
-    #~ X, Y = np.meshgrid(a.dx[0:15],a.dy[180:230])
-    #~ U = a.u[0:15,180:230]
-    #~ V = a.v[0:15,180:230]
-    #~ #print(U)
-    #~ plt.figure()
-    #~ plt.title('Arrows scale with plot width, not view')
-    #~ Q = plt.quiver(X, Y, U, V,pivot='mid')
- 
-    #fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2)#, sharex=True, sharey=False)
-    #ax1.imshow(a.u, cmap='seismic')
-    #ax1.set_title('Velocity U (velocity_s)')
-    
-    #ax2.imshow(a.v, interpolation='nearest', cmap='seismic')
-    #ax2.set_title('Velocity V (velocity_n)')
-    
-    #ax3.set_title('Total velocity')
-    #ax3.imshow(totalvel, interpolation='nearest', cmap='seismic')
-    #ax3.scatter(peaks[0], peaks[1],s=peaks[2]*10,edgecolors='c',facecolors='none')
-    
-    #ax4.imshow(vorticity, interpolation='nearest', cmap="seismic")
-    #ax4.set_title('Vorticity, rotation')
-    #ax4.scatter(dirR[0],dirR[1],s=dirR[2]*10,edgecolors='y',facecolors='y')
-    #ax4.scatter(dirL[0],dirL[1],s=dirL[2]*10,edgecolors='g',facecolors='g')
-    #plt.tight_layout()
-    
-    print(round(time.time() - start,3), 'seconds (Total execution time)')
-    plt.show()
+    if args.plot_x == 'detect':
+        plot.plot_detection(dirL,dirR,swirling)
+    elif args.plot_x == 'fields':
+        plot.plot_fields(a)
+    elif args.plot_x == 'quiver':
+        xCenter = 229
+        yCenter = 24
+        dist = 24
+        plot.plot_quiver(a, xCenter, yCenter, dist)
+    else:
+        print('no plot')
+
+
+  

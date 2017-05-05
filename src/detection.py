@@ -18,16 +18,12 @@ def find_peaks(data, threshold, box_size):
 
     threshold : float or array-like
         The data value or pixel-wise data values to be used for the
-        detection threshold.  A 2D ``threshold`` must have the same
-        shape as ``data``.  See `detect_threshold` for one way to create
-        a ``threshold`` image.
+        detection threshold.  A 2D "threshold" must have the same
+        shape as "data".  See `detect_threshold` for one way to create
+        a "threshold" image.
 
     box_size : scalar or tuple, optional
         The size of the local region to search for peaks at every point
-        in ``data``.  If ``box_size`` is a scalar, then the region shape
-        will be ``(box_size, box_size)``.  Either ``box_size`` or
-        ``footprint`` must be defined.  If they are both defined, then
-        ``footprint`` overrides ``box_size``.
 
     Returns
     -------

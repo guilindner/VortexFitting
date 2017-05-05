@@ -3,13 +3,13 @@
 
 import numpy as np
 
-def Rsecond_order_diff(a):
+def second_order_diff(a):
     x, y = np.meshgrid(a.dx,a.dy)
-    a.derivative['dudx'], a.derivative['dudy'] = np.gradient(a.u,0.02)
-    a.derivative['dvdx'], a.derivative['dvdy'] = np.gradient(a.v,0.02)
+    a.derivative['dudx'], a.derivative['dudy'] = np.gradient(a.u,0.002)
+    a.derivative['dvdx'], a.derivative['dvdy'] = np.gradient(a.v,0.002)
     return a.derivative
 
-def second_order_diff(a):
+def Rsecond_order_diff(a): #there is a problem on the boundary
     """Second order accurate finite difference scheme.
     
     Scheme 1:0:-1
@@ -23,23 +23,24 @@ def second_order_diff(a):
         a.derivative['dudx']
     """
     print("Difference scheme: Second order accurate central")
-    a.derivative['dudx'][0,:] = (a.u[1,:] - a.u[0,:])/(a.dx[1]-a.dx[0])
+    a.derivative['dudx'][ 0,:] = (a.u[1,: ] - a.u[0,: ])/(a.dx[1]-a.dx[0])
     a.derivative['dudx'][-1,:] = (a.u[-1,:] - a.u[-2,:])/(a.dx[-1]-a.dx[-2])
-    a.derivative['dudy'][:,0] = (a.u[:,1] - a.u[:,0])/(a.dy[1]-a.dy[0])
-    a.derivative['dudy'][:,0] = (a.u[:,-1] - a.u[:,-2])/(a.dx[-1]-a.dx[-2])
-    a.derivative['dvdx'][0,:] = (a.v[1,:] - a.v[0,:])/(a.dx[1]-a.dx[0])
+    a.derivative['dudy'][:, 0] = (a.u[:,1 ] - a.u[:,0 ])/(a.dy[1]-a.dy[0])
+    a.derivative['dudy'][:,-1] = (a.u[:,-1] - a.u[:,-2])/(a.dy[-1]-a.dy[-2])
+    a.derivative['dvdx'][0,: ] = (a.v[1,: ] - a.v[0,: ])/(a.dx[1]-a.dx[0])
     a.derivative['dvdx'][-1,:] = (a.v[-1,:] - a.v[-2,:])/(a.dx[-1]-a.dx[-2])
-    a.derivative['dvdy'][:,0] = (a.v[:,1] - a.v[:,0])/(a.dy[1]-a.dy[0])
-    a.derivative['dvdy'][:,0] = (a.v[:,-1] - a.v[:,-2])/(a.dx[-1]-a.dx[-2])
+    a.derivative['dvdy'][:,0 ] = (a.v[:,1 ] - a.v[:,0 ])/(a.dy[1]-a.dy[0])
+    a.derivative['dvdy'][:,-1] = (a.v[:,-1] - a.v[:,-2])/(a.dy[-1]-a.dy[-2])
     a.derivative['dudx'][1:-1,1:-1] = (a.u[2:, 1:-1] 
                                     - a.u[:-2,1:-1])/(2*(a.dx[1:-1]-a.dx[0:-2]))
     a.derivative['dudy'][1:-1,1:-1] = (a.u[1:-1, 2:] 
-              - a.u[1:-1,:-2])/(2*(a.dy[1:-1,np.newaxis]-a.dy[0:-2,np.newaxis]))
+              - a.u[1:-1,:-2])/(2*(a.dy[1:-1,None]-a.dy[0:-2,None]))
     a.derivative['dvdx'][1:-1,1:-1] = (a.v[2:, 1:-1] 
                                     - a.v[:-2,1:-1])/(2*(a.dx[1:-1]-a.dx[0:-2]))
     a.derivative['dvdy'][1:-1,1:-1] = (a.v[1:-1, 2:] 
-              - a.v[1:-1,:-2])/(2*(a.dy[1:-1,np.newaxis]-a.dy[0:-2,np.newaxis]))
-#    a.derivative['dwdx'][1:-1,1:-1] = (a.w[2:, 1:-1] - a.w[:-2,1:-1])/(2*(a.dx[1:-1,np.newaxis]-a.dx[0:-2,np.newaxis]))
+              - a.v[1:-1,:-2])/(2*(a.dy[1:-1,None]-a.dy[0:-2,None]))
+#    print(a.u[0,2],a.u[0,1],a.dy[2],a.dy[1])
+#    a.derivative['dwdx'][1:-1,1:-1] = (a.w[2:, 1:-1] - a.w[:-2,1:-1])/(2*(a.dx[1:-1,None]-a.dx[0:-2,None]))
 #    a.derivative['dwdy'][1:-1,1:-1] = (a.w[1:-1, 2:] - a.w[1:-1,:-2])/(2*(a.dy[1:-1]-a.dy[0:-2]))
     return a.derivative
     
@@ -84,4 +85,4 @@ def fourth_order_diff(a):
 #    a.derivative['dudx'][2:-2,2:-2] = (-a.u[4:,2:-2] + 8*a.u[2:, 2:-2] - 8*a.u[1:-3,] + a.u[i-2,j])/(12*(a.dx[i]-a.dx[i-1]))
 
 #    a.derivative['dudx'][i,j] = (a.u[i+1, j] - a.u[i-1,j])/(2*(a.dx[i]-a.dx[i-1]))
-#    a.derivative['dudx'][1:-1,1:-1] = (a.u[2:, 1:-1] - a.u[:-2,1:-1])/(2*(a.dx[1:-1,np.newaxis]-a.dx[0:-2,np.newaxis]))
+#    a.derivative['dudx'][1:-1,1:-1] = (a.u[2:, 1:-1] - a.u[:-2,1:-1])/(2*(a.dx[1:-1,None]-a.dx[0:-2,None]))
