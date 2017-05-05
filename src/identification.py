@@ -14,11 +14,18 @@ def calc_swirling(a):
                 a.derivative['dvdy'].ravel(),a.derivative['dvdz'].ravel()],
                 [a.derivative['dwdx'].ravel(),a.derivative['dwdy'].ravel(),
                 -a.derivative['dudx'].ravel()-a.derivative['dvdy'].ravel()]])
-                #a.derivative['dwdz'].ravel()]])
+
     A = A.transpose(2,1,0)
     eigenvalues = np.linalg.eigvals(A)
     swirling = np.max(eigenvalues.imag,axis=1).reshape(a.sizex,a.sizey)
-    return swirling
+    swirlMean = np.mean(swirling,axis=1)
+    swirlingNorm = swirling/swirlMean[:,np.newaxis]
+    where_are_NaNs = np.isnan(swirlingNorm)
+    swirlingNorm[where_are_NaNs] = 0
+    
+
+    print(np.max(swirlingNorm))
+    return swirling, swirlingNorm
 
 def q_criterion(a):
     """
