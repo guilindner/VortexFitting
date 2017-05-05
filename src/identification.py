@@ -10,16 +10,17 @@ def calc_swirling(a):
     2D Swirling strenght
     """
     print("Detection method: 2D swirling strenght")
-    A = np.zeros((a.sizex*a.sizey,3,3))
-    A = np.array([[a.derivative['dudx'].ravel(),a.derivative['dudy'].ravel(),
-                a.derivative['dudz'].ravel()],[a.derivative['dvdx'].ravel(),
-                a.derivative['dvdy'].ravel(),a.derivative['dvdz'].ravel()],
-                [a.derivative['dwdx'].ravel(),a.derivative['dwdy'].ravel(),
-                -a.derivative['dudx'].ravel()-a.derivative['dvdy'].ravel()]])
+    A = np.zeros((a.u.size,3,3))
+    A = np.array(
+           [[a.derivative['dudx'].ravel(),a.derivative['dudy'].ravel(),
+            a.derivative['dudz'].ravel()],[a.derivative['dvdx'].ravel(),
+            a.derivative['dvdy'].ravel(),a.derivative['dvdz'].ravel()],
+           [a.derivative['dwdx'].ravel(),a.derivative['dwdy'].ravel(),
+           -a.derivative['dudx'].ravel()-a.derivative['dvdy'].ravel()]])
 
     A = A.transpose(2,1,0)
     eigenvalues = np.linalg.eigvals(A)
-    swirling = np.max(eigenvalues.imag,axis=1).reshape(a.sizex,a.sizey)
+    swirling = np.max(eigenvalues.imag,axis=1).reshape(a.u[:,0].size,a.u[0,:].size)
     swirling = tools.normalize(swirling,1)    
     print(np.max(swirling))
     return swirling

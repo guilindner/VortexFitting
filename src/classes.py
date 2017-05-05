@@ -18,14 +18,20 @@ class VelocityField():
         grp1 = Dataset(path,'r') 
 
         if 'velocity_s' in grp1.variables.keys():
-            self.u = np.array(grp1.variables['velocity_s'][self.time])
-            self.v = np.array(grp1.variables['velocity_n'][self.time])
-            self.u = np.einsum('ij->ji',self.u)
-            self.v = np.einsum('ij->ji',self.v)
+            
+            samples = grp1.variables['velocity_s'].shape[0]
             self.dx = np.array(grp1.variables['grid_z'])
             self.dy = np.array(grp1.variables['grid_n'])
-            self.sizex = self.u.shape[0]
-            self.sizey = self.u.shape[1]
+            self.u = np.zeros((self.dx.size,self.dy.size))
+            self.v = np.zeros((self.dx.size,self.dy.size))
+            for i in range(samples):
+                self.u = self.u + np.array(grp1.variables['velocity_s'][i])
+                self.v = self.v + np.array(grp1.variables['velocity_n'][i])
+            self.u = self.u/samples
+            self.v = self.v/samples
+            self.u = np.einsum('ij->ji',self.u)
+            self.v = np.einsum('ij->ji',self.v)
+
             
         elif 'U' in grp1.variables.keys():
             grp2 = Dataset('../data/DNS_example/vel_v_00000000.00400000.nc','r')
@@ -39,18 +45,16 @@ class VelocityField():
             self.dx = np.array(grp4.variables['gridx'][0,0,:])
             self.dy = np.array(grp5.variables['gridy'][0,:,0])
             self.dz = np.array(grp6.variables['gridz'][:,0,0])
-            self.sizex = self.u.shape[0]
-            self.sizey = self.v.shape[0]
-            self.sizez = self.w.shape[0]#fix later for different size
+
         else:
             print('Netcdf file format not recognized')		
         
-        self.derivative = {'dudx': np.zeros((self.sizex,self.sizey)),
-                           'dudy': np.zeros((self.sizex,self.sizey)),
-                           'dudz': np.zeros((self.sizex,self.sizey)),
-                           'dvdx': np.zeros((self.sizex,self.sizey)),
-                           'dvdy': np.zeros((self.sizex,self.sizey)),
-                           'dvdz': np.zeros((self.sizex,self.sizey)),
-                           'dwdx': np.zeros((self.sizex,self.sizey)),
-                           'dwdy': np.zeros((self.sizex,self.sizey)),
-                           'dwdz': np.zeros((self.sizex,self.sizey))}
+        self.derivative = {'dudx': np.zeros_like(self.u),
+                           'dudy': np.zeros_like(self.u),
+                           'dudz': np.zeros_like(self.u),
+                           'dvdx': np.zeros_like(self.u),
+                           'dvdy': np.zeros_like(self.u),
+                           'dvdz': np.zeros_like(self.u),
+                           'dwdx': np.zeros_like(self.u),
+                           'dwdy': np.zeros_like(self.u),
+                           'dwdz': np.zeros_like(self.u)}

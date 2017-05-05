@@ -33,7 +33,7 @@ if __name__ == '__main__':
     
     parser.add_argument('-T', '--time', dest='timestep', type=int,
                         default=0,
-                        help='Timestep desired')
+                        help='Timestep/Sample desired')
                         
     parser.add_argument('-d', '--detect', dest='detect',
                         default='swirling',
@@ -117,9 +117,9 @@ if __name__ == '__main__':
     elif args.plot_x == 'fields':
         plot.plot_fields(a)
     elif args.plot_x == 'quiver':
-        xCenter = 229
-        yCenter = 24
-        dist = 24
+        xCenter = 1115
+        yCenter = 238
+        dist = 15
         plot.plot_quiver(a, xCenter, yCenter, dist)
     else:
         print('no plot')

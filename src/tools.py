@@ -1,4 +1,7 @@
 import numpy as np
+from classes import VelocityField
+
+np.seterr(divide='ignore', invalid='ignore')
 
 def sub_mean(x, hom_axis):
     mean = np.mean(x, axis=hom_axis)

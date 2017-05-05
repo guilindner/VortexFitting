@@ -39,6 +39,6 @@ def plot_quiver(a, xCenter, yCenter, dist=15):
     
     plt.figure()
     plt.title('Arrows scale with plot width, not view')
-    Q = plt.quiver(X, Y, U, V)
+    Q = plt.quiver(X, -Y, U, V)
  
     plt.show()
