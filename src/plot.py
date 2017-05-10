@@ -11,11 +11,12 @@ def plot_fields(a):
     ax2.imshow(a.v, cmap='seismic')
     ax2.set_title('Velocity V (velocity_n)')
     
-    totalvel = np.sqrt(a.u**2 + a.v**2)
-    ax3.set_title('Total velocity')
-    ax3.imshow(totalvel, cmap='seismic')
     
-    ax4.set_title('Total velocity')
+    ax3.imshow(a.w, cmap='seismic')
+    ax3.set_title('Velocity W (velocity_z)')
+    
+    totalvel = np.sqrt(a.v**2 + a.w**2)
+    ax4.set_title('Total velocity (v and w)')
     ax4.imshow(totalvel, cmap='seismic')
     plt.tight_layout()
     
@@ -24,9 +25,9 @@ def plot_fields(a):
 def plot_detection(dirL,dirR,field):
     plt.subplot()
     plt.title('Vorticity, rotation')
-    plt.scatter(dirL[0],dirL[1],s=dirL[2],edgecolor='G',facecolor='none')
-    plt.scatter(dirR[0],dirR[1],s=dirR[2],edgecolor='Y',facecolor='none')
-    plt.imshow(field, vmax=10, cmap="Greys_r")
+    plt.scatter(dirL[1],dirL[0],s=dirL[2],edgecolor='G',facecolor='none')
+    plt.scatter(dirR[1],dirR[0],s=dirR[2],edgecolor='Y',facecolor='none')
+    plt.imshow(field, cmap="Greys_r", vmax=10)
     plt.tight_layout()
     
     plt.show()
@@ -34,11 +35,11 @@ def plot_detection(dirL,dirR,field):
 def plot_quiver(a, xCenter, yCenter, dist=15):
     X, Y = np.meshgrid(a.dx[xCenter-dist:xCenter+dist],
                        a.dy[yCenter-dist:yCenter+dist])
-    U = a.u[yCenter-dist:yCenter+dist,xCenter-dist:xCenter+dist]
-    V = a.v[yCenter-dist:yCenter+dist,xCenter-dist:xCenter+dist]
-    
+    U = a.u[xCenter-dist:xCenter+dist,yCenter-dist:yCenter+dist]
+    V = a.v[xCenter-dist:xCenter+dist,yCenter-dist:yCenter+dist]
     plt.figure()
     plt.title('Arrows scale with plot width, not view')
-    Q = plt.quiver(X, -Y, U, V)
+    s = 1
+    Q = plt.quiver(X[::s,::s], Y[::s,::s], U[::s,::s], V[::s,::s])
  
     plt.show()

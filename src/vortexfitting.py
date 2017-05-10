@@ -61,11 +61,20 @@ if __name__ == '__main__':
     start = time.time()
     #---- LOAD DATA ----#
     print("Opening file:",args.infilename)
-    print("Time:", args.timestep)
+
+    print("Sample target: (todo)", args.timestep)
     
     a = VelocityField(args.infilename,args.timestep)
-    a.u = tools.sub_mean(a.u,1)
-    a.v = tools.sub_mean(a.v,1)
+    print("Samples:", a.samples)
+
+    
+#    a.u = tools.sub_mean(a.u,0)
+#    a.v = tools.sub_mean(a.v,0)
+#    a.w = tools.sub_mean(a.w,0)
+#    print(mean_u)
+#    print(mean_v)
+#    print(mean_w)
+    
     
     #---- DIFFERENCE APPROXIMATION ----# 
     lap = time.time()
@@ -83,7 +92,6 @@ if __name__ == '__main__':
     #---- VORTICITY ----#
     print("Calculating vorticity")
     vorticity = a.derivative['dudy'] - a.derivative['dvdx']
-    
     #---- METHOD FOR DETECTION OF VORTICES ----#
     lap = time.time()
     if args.detect == 'Q':
@@ -99,28 +107,35 @@ if __name__ == '__main__':
     peaks = detection.find_peaks(swirling, args.threshold, args.boxsize)
 
     print("Vortices found:",len(peaks[0]))
-    #print('x','y','swirl')
-    #for i in range(len(peaks[0])):
-    #    print(peaks[0][i],peaks[1][i],peaks[2][i])
-    
+#    print('x','y','swirl')
+#    print(peaks[0][10],peaks[1][10],peaks[2][10])
+#    print(peaks[0][50],peaks[1][50],peaks[2][50])
+#    print(peaks[0][100],peaks[1][100],peaks[2][100])
+
     #---- PEAKS DIRECTION OF ROTATION ----#
     dirL, dirR = detection.direction_rotation(vorticity,peaks)
+
     #---- SAVING OUTPUT FILE ----#
     if args.outfilename == None:
         pass
     else:
         print("saving file",args.outfilename)
-        
+    
+
+  
     #---- PLOTTING ----#
     if args.plot_x == 'detect':
         plot.plot_detection(dirL,dirR,swirling)
     elif args.plot_x == 'fields':
         plot.plot_fields(a)
     elif args.plot_x == 'quiver':
-        xCenter = 1115
-        yCenter = 238
-        dist = 15
-        plot.plot_quiver(a, xCenter, yCenter, dist)
+        for i in range(len(peaks[0])):
+            xCenter = peaks[0][i]
+            yCenter = peaks[1][i]
+            dist = 10
+            if (xCenter > dist) and (yCenter > dist):
+                print('x:',xCenter,'y:',yCenter)
+                plot.plot_quiver(a, xCenter, yCenter, dist)
     else:
         print('no plot')
 

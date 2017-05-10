@@ -41,8 +41,8 @@ def find_peaks(data, threshold, box_size):
     peak_goodmask = (data == data_max)    # good pixels are True
 
     peak_goodmask = np.logical_and(peak_goodmask, (data > threshold))
-    y_peaks, x_peaks = peak_goodmask.nonzero()
-    peak_values = data[y_peaks, x_peaks]
+    x_peaks, y_peaks = peak_goodmask.nonzero()
+    peak_values = data[x_peaks, y_peaks]
 
     peaks = (x_peaks, y_peaks, peak_values)
 
@@ -57,7 +57,7 @@ def direction_rotation(vorticity,peaks):
     dirL = []
     dirL_x, dirL_y, dirL_i = [],[],[]
     for i in range(len(peaks[0])):
-        if vorticity[peaks[1][i],peaks[0][i]] > 0.0:
+        if vorticity[peaks[0][i],peaks[1][i]] > 0.0:
             dirR_x.append(peaks[0][i])
             dirR_y.append(peaks[1][i])
             dirR_i.append(peaks[2][i])

@@ -19,18 +19,23 @@ class VelocityField():
 
         if 'velocity_s' in grp1.variables.keys():
             
-            samples = grp1.variables['velocity_s'].shape[0]
+            self.samples = grp1.variables['velocity_s'].shape[0]
             self.dx = np.array(grp1.variables['grid_z'])
             self.dy = np.array(grp1.variables['grid_n'])
             self.u = np.zeros((self.dx.size,self.dy.size))
             self.v = np.zeros((self.dx.size,self.dy.size))
-            for i in range(samples):
-                self.u = self.u + np.array(grp1.variables['velocity_s'][i])
-                self.v = self.v + np.array(grp1.variables['velocity_n'][i])
-            self.u = self.u/samples
-            self.v = self.v/samples
-            self.u = np.einsum('ij->ji',self.u)
-            self.v = np.einsum('ij->ji',self.v)
+            self.z = np.zeros((self.dx.size,self.dy.size))
+            u = np.array(grp1.variables['velocity_s'][:,:,:])
+            v = np.array(grp1.variables['velocity_n'][:,:,:])
+            w = np.array(grp1.variables['velocity_z'][:,:,:])
+            u = u - np.mean(u,axis=(0,1))[None,None,:]
+            v = v - np.mean(v,axis=(0,1))[None,None,:]
+            w = w - np.mean(w,axis=(0,1))[None,None,:]
+            self.u = u[10]
+            self.v = v[10]
+            self.w = w[10]
+#            self.u = np.einsum('ij->ji',self.u)
+#            self.v = np.einsum('ij->ji',self.v)
 
             
         elif 'U' in grp1.variables.keys():

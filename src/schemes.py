@@ -5,8 +5,10 @@ import numpy as np
 
 def second_order_diff(a):
     x, y = np.meshgrid(a.dx,a.dy)
-    a.derivative['dudx'], a.derivative['dudy'] = np.gradient(a.u,0.002)
-    a.derivative['dvdx'], a.derivative['dvdy'] = np.gradient(a.v,0.002)
+    dx = a.dx[1]-a.dx[0] #only for homogeneous mesh
+    dy = a.dy[1]-a.dy[0] #only for homogeneous mesh
+    a.derivative['dudx'], a.derivative['dudy'] = np.gradient(a.u,dx)
+    a.derivative['dvdx'], a.derivative['dvdy'] = np.gradient(a.v,dy)
     return a.derivative
 
 def Rsecond_order_diff(a): #there is a problem on the boundary
