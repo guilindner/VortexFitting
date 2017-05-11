@@ -26,14 +26,14 @@ def Rsecond_order_diff(a): #there is a problem on the boundary
         a.derivative['dudx']
     """
     print("Difference scheme: Second order accurate central")
-    a.derivative['dudx'][ 0,:] = (a.u[1,: ] - a.u[0,: ])/(a.dx[1]-a.dx[0])
-    a.derivative['dudx'][-1,:] = (a.u[-1,:] - a.u[-2,:])/(a.dx[-1]-a.dx[-2])
-    a.derivative['dudy'][:, 0] = (a.u[:,1 ] - a.u[:,0 ])/(a.dy[1]-a.dy[0])
-    a.derivative['dudy'][:,-1] = (a.u[:,-1] - a.u[:,-2])/(a.dy[-1]-a.dy[-2])
-    a.derivative['dvdx'][0,: ] = (a.v[1,: ] - a.v[0,: ])/(a.dx[1]-a.dx[0])
-    a.derivative['dvdx'][-1,:] = (a.v[-1,:] - a.v[-2,:])/(a.dx[-1]-a.dx[-2])
-    a.derivative['dvdy'][:,0 ] = (a.v[:,1 ] - a.v[:,0 ])/(a.dy[1]-a.dy[0])
-    a.derivative['dvdy'][:,-1] = (a.v[:,-1] - a.v[:,-2])/(a.dy[-1]-a.dy[-2])
+    #a.derivative['dudx'][ 0,:] = (a.u[1,: ] - a.u[0,: ])/(a.dx[1]-a.dx[0])
+    #a.derivative['dudx'][-1,:] = (a.u[-1,:] - a.u[-2,:])/(a.dx[-1]-a.dx[-2])
+    #a.derivative['dudy'][:, 0] = (a.u[:,1 ] - a.u[:,0 ])/(a.dy[1]-a.dy[0])
+    #a.derivative['dudy'][:,-1] = (a.u[:,-1] - a.u[:,-2])/(a.dy[-1]-a.dy[-2])
+    #a.derivative['dvdx'][0,: ] = (a.v[1,: ] - a.v[0,: ])/(a.dx[1]-a.dx[0])
+    #a.derivative['dvdx'][-1,:] = (a.v[-1,:] - a.v[-2,:])/(a.dx[-1]-a.dx[-2])
+    #a.derivative['dvdy'][:,0 ] = (a.v[:,1 ] - a.v[:,0 ])/(a.dy[1]-a.dy[0])
+    #a.derivative['dvdy'][:,-1] = (a.v[:,-1] - a.v[:,-2])/(a.dy[-1]-a.dy[-2])
     a.derivative['dudx'][1:-1,1:-1] = (a.u[2:, 1:-1] 
                                     - a.u[:-2,1:-1])/(2*(a.dx[1:-1]-a.dx[0:-2]))
     a.derivative['dudy'][1:-1,1:-1] = (a.u[1:-1, 2:] 

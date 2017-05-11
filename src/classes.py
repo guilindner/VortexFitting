@@ -28,29 +28,28 @@ class VelocityField():
             u = np.array(grp1.variables['velocity_s'][:,:,:])
             v = np.array(grp1.variables['velocity_n'][:,:,:])
             w = np.array(grp1.variables['velocity_z'][:,:,:])
-            #u = u - np.mean(u,axis=(0,1))[None,None,:]
-            #v = v - np.mean(v,axis=(0,1))[None,None,:]
-            #w = w - np.mean(w,axis=(0,1))[None,None,:]
-            self.u = u[15]
-            self.v = v[15]
-            self.w = w[15]
-
-        elif 'velocity_x' in grp1.variables.keys():
-            self.samples = grp1.variables['velocity_x'].shape[0]
-            self.dx = np.linspace(0,1,self.samples)
-            self.dy = np.linspace(0,1,self.samples)
-            self.u = np.zeros((self.dx.size,self.dy.size))
-            self.v = np.zeros((self.dx.size,self.dy.size))
-            self.z = np.zeros((self.dx.size,self.dy.size))
-            u = np.array(grp1.variables['velocity_x'][:,:,:])
-            v = np.array(grp1.variables['velocity_y'][:,:,:])
-            w = np.array(grp1.variables['velocity_z'][:,:,:])
             u = u - np.mean(u,axis=(0,1))[None,None,:]
             v = v - np.mean(v,axis=(0,1))[None,None,:]
             w = w - np.mean(w,axis=(0,1))[None,None,:]
             self.u = u[15]
             self.v = v[15]
             self.w = w[15]
+
+        elif 'velocity_x' in grp1.variables.keys():
+            self.samples = grp1.variables['velocity_x'].shape[0]
+            self.dx = np.linspace(0,10,self.samples)
+            self.dy = np.linspace(0,10,self.samples)
+            u = np.array(grp1.variables['velocity_x'][:,:,:])
+            v = np.array(grp1.variables['velocity_y'][:,:,:])
+            w = np.array(grp1.variables['velocity_z'][:,:,:])
+            #u = u - np.mean(u,axis=(0,1))[None,None,:]
+            #v = v - np.mean(v,axis=(0,1))[None,None,:]
+            #w = w - np.mean(w,axis=(0,1))[None,None,:]
+            self.u = u[0]
+            self.v = v[0]
+            self.w = w[0]
+            self.u = np.einsum('ij->ji',self.u)
+            self.v = np.einsum('ij->ji',self.v)
                 
         elif 'U' in grp1.variables.keys():
             grp2 = Dataset('../data/DNS_example/vel_v_00000000.00400000.nc','r')

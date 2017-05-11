@@ -31,10 +31,9 @@ def q_criterion(a):
     vorticity magnitude and mean strain rate 
     """
     print("Detection method: Q criterion")
-    Q = np.zeros((a.sizex,a.sizey))
-    for i in range(a.sizex):
-        for j in range(a.sizey):
-            Q[i,j] = -0.5*(a.derivative['dudx'][i,j]**2
-            + a.derivative['dvdy'][i,j]**2)
-            - a.derivative['dudy'][i,j]*a.derivative['dvdx'][i,j]
+    Q = np.zeros((a.u[0].size,a.u[0].size))
+    for i in range(a.u[0].size):
+        for j in range(a.u[0].size):
+            Q[i,j] = -(a.derivative['dudx'][i,j]**2
+            + a.derivative['dudy'][i,j]*a.derivative['dvdx'][i,j])
     return Q

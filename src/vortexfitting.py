@@ -67,15 +67,6 @@ if __name__ == '__main__':
     a = VelocityField(args.infilename,args.timestep)
     print("Samples:", a.samples)
 
-    
-#    a.u = tools.sub_mean(a.u,0)
-#    a.v = tools.sub_mean(a.v,0)
-#    a.w = tools.sub_mean(a.w,0)
-#    print(mean_u)
-#    print(mean_v)
-#    print(mean_w)
-    
-    
     #---- DIFFERENCE APPROXIMATION ----# 
     lap = time.time()
     if args.scheme == 4:
@@ -86,16 +77,16 @@ if __name__ == '__main__':
         print('No scheme', args.scheme, 'found. Exitting!')
         sys.exit()
     print(round(time.time() - lap,3), 'seconds') 
-
-    strength = []
     
     #---- VORTICITY ----#
     print("Calculating vorticity")
-    vorticity = a.derivative['dudy'] - a.derivative['dvdx']
+
+    vorticity = a.derivative['dvdx'] - a.derivative['dudy']
+
     #---- METHOD FOR DETECTION OF VORTICES ----#
     lap = time.time()
     if args.detect == 'Q':
-         detected = identification.q_criterion(a)
+        swirling = identification.q_criterion(a)
     elif args.detect == 'swirling':
         swirling = identification.calc_swirling(a)
     print(round(time.time() - lap,3), 'seconds')
@@ -123,14 +114,16 @@ if __name__ == '__main__':
     if args.plot_x == 'detect':
         plot.plot_detection(dirL,dirR,swirling)
     elif args.plot_x == 'fields':
-        plot.plot_fields(a)
+        plot.plot_fields(a,vorticity)
     elif args.plot_x == 'quiver':
         for i in range(len(peaks[0])):
             xCenter = peaks[0][i]
             yCenter = peaks[1][i]
-            dist = 20
+            dist = 10
             if (xCenter > dist) and (yCenter > dist):
-                print('s:',xCenter,'n:',yCenter)
+                print('x1:',xCenter,'x2:',yCenter, 'swirl:',peaks[2][i])
+                totalvel = np.sqrt(a.u**2+a.v**2)
+                
                 plot.plot_quiver(a, xCenter, yCenter, dist, swirling)
     else:
         print('no plot')
