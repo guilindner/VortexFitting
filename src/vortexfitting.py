@@ -107,10 +107,6 @@ if __name__ == '__main__':
     peaks = detection.find_peaks(swirling, args.threshold, args.boxsize)
 
     print("Vortices found:",len(peaks[0]))
-#    print('x','y','swirl')
-#    print(peaks[0][10],peaks[1][10],peaks[2][10])
-#    print(peaks[0][50],peaks[1][50],peaks[2][50])
-#    print(peaks[0][100],peaks[1][100],peaks[2][100])
 
     #---- PEAKS DIRECTION OF ROTATION ----#
     dirL, dirR = detection.direction_rotation(vorticity,peaks)
@@ -132,10 +128,10 @@ if __name__ == '__main__':
         for i in range(len(peaks[0])):
             xCenter = peaks[0][i]
             yCenter = peaks[1][i]
-            dist = 10
+            dist = 20
             if (xCenter > dist) and (yCenter > dist):
-                print('x:',xCenter,'y:',yCenter)
-                plot.plot_quiver(a, xCenter, yCenter, dist)
+                print('s:',xCenter,'n:',yCenter)
+                plot.plot_quiver(a, xCenter, yCenter, dist, swirling)
     else:
         print('no plot')
 
