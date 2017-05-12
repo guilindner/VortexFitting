@@ -122,8 +122,6 @@ if __name__ == '__main__':
             dist = 10
             if (xCenter > dist) and (yCenter > dist):
                 print('x1:',xCenter,'x2:',yCenter, 'swirl:',peaks[2][i])
-                totalvel = np.sqrt(a.u**2+a.v**2)
-                
                 plot.plot_quiver(a, xCenter, yCenter, dist, swirling)
     else:
         print('no plot')
