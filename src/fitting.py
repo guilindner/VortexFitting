@@ -9,7 +9,7 @@ def correlation(a,b):
     return R
 
 
-def velocity(x, y, coreR):
+def model_oseen(a, x, y, coreR):
     r = np.hypot(x, y)
     gamma = 1.0
     u_c = 0.0

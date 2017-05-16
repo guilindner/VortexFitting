@@ -7,6 +7,8 @@ import sys
 import argparse
 import time
 import numpy as np
+import scipy
+from scipy import optimize
 
 import tools
 import plot
@@ -42,7 +44,7 @@ if __name__ == '__main__':
                              'swirling = 2D Swirling Strength')
     
     parser.add_argument('-t', '--threshold', dest='threshold',
-                        default=0., type=float,
+                        default=11., type=float,
                         help='Threshold for detection, integer')
 
     parser.add_argument('-b', '--boxsize', dest='boxsize',
@@ -50,7 +52,7 @@ if __name__ == '__main__':
                         help='Box size for the detection')
     
     parser.add_argument('-p', '--plot', dest='plot_x',
-                        default='detect',
+                        default='',
                         help='Plot on screen:\n'
                              'detect = Vortices position\n'
                              'fields = Velocity fields\n'
@@ -102,6 +104,10 @@ if __name__ == '__main__':
     #---- PEAKS DIRECTION OF ROTATION ----#
     dirL, dirR = detection.direction_rotation(vorticity,peaks)
 
+    #---- MODEL FITTING ----#
+
+    #if (R < 0.75):
+
     #---- SAVING OUTPUT FILE ----#
     if args.outfilename == None:
         pass
@@ -123,6 +129,15 @@ if __name__ == '__main__':
             if (xCenter > dist) and (yCenter > dist):
                 print('x1:',xCenter,'x2:',yCenter, 'swirl:',peaks[2][i])
                 plot.plot_quiver(a, xCenter, yCenter, dist, swirling)
+    elif args.plot_x == 'corr':
+        for i in range(len(peaks[0])):
+            xCenter = peaks[0][i]
+            yCenter = peaks[1][i]
+            gamma = vorticity[xCenter,yCenter]
+            dist = 4
+            if (xCenter > dist) and (yCenter > dist):
+                print('x1:',xCenter,'x2:',yCenter, 'swirl:',peaks[2][i])
+                plot.plot_corr(a, xCenter, yCenter, dist, gamma)
     else:
         print('no plot')
 
