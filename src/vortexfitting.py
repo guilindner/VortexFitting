@@ -133,7 +133,6 @@ if __name__ == '__main__':
         for i in range(len(peaks[0])):
             xCenter = peaks[0][i]
             yCenter = peaks[1][i]
-            dist = 10
             X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
             swirlingw = swirling[xCenter-dist:xCenter+dist,yCenter-dist:yCenter+dist] #reuse window function?
             if (xCenter > dist) and (yCenter > dist):
@@ -146,11 +145,15 @@ if __name__ == '__main__':
             gamma = vorticity[xCenter,yCenter]
             X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
             uMod, vMod = fitting.velocity_model(a, X, Y,xCenter,yCenter, vorticity[xCenter,yCenter], coreR)
-
             if (xCenter > dist) and (yCenter > dist):
                 print('x1:',xCenter,'x2:',yCenter, 'swirl:',peaks[2][i])
                 corr = fitting.correlation(Uw,Vw,uMod,vMod)
+                if (corr > 0.75):
+                    print('R > 0.75, it\'s a vortex')
+                else:
+                    print('not a vortex')
                 plot.plot_corr(X, Y, Uw, Vw, uMod, vMod)
+                
     else:
         print('no plot')
 

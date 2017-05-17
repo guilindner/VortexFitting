@@ -27,8 +27,9 @@ def plot_detection(dirL,dirR,field):
     plt.subplot()
     plt.title('detection')
     plt.contourf(field, cmap="Greys_r")
-    plt.scatter(dirL[1],dirL[0],s=dirL[2]*10,edgecolor='G',facecolor='none')
-    plt.scatter(dirR[1],dirR[0],s=dirR[2]*10,edgecolor='Y',facecolor='none')
+    plt.scatter(dirL[1],dirL[0],s=dirL[2]*10,edgecolor='G',facecolor='none',label='left')
+    plt.scatter(dirR[1],dirR[0],s=dirR[2]*10,edgecolor='Y',facecolor='none',label='right')
+    plt.legend()
     #plt.imshow(field, cmap="Greys_r",origin="lower")
     plt.tight_layout()
     
@@ -48,7 +49,7 @@ def plot_corr(X, Y, Uw, Vw, uMod, vMod):
     plt.figure()
     plt.title('Correlation')
     s = 1
-    plt.quiver(X[::s,::s], Y[::s,::s], Vw[::s,::s],Uw[::s,::s],color='r',scale=15,pivot='middle')
-    plt.quiver(X[::s,::s], Y[::s,::s], vMod[::s,::s], uMod[::s,::s],color='b',scale=15,pivot='middle')
-    
+    plt.quiver(X[::s,::s], Y[::s,::s], Vw[::s,::s],Uw[::s,::s],color='r',scale=15,pivot='middle',label='data')
+    plt.quiver(X[::s,::s], Y[::s,::s], vMod[::s,::s], uMod[::s,::s],color='b',scale=15,pivot='middle',label='model')
+    plt.legend()
     plt.show()

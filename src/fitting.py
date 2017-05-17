@@ -1,39 +1,25 @@
 import numpy as np
+from scipy.signal import correlate2d
 
 def correlation(Uw,Vw,u,v):
-    u = np.nan_to_num(u)
-    v = np.nan_to_num(v)
-    x_corr = (np.corrcoef(Vw,u))
-    y_corr = (np.corrcoef(Uw,v))
-    R = (x_corr+y_corr)/2.
+    #Uw[0] = (Uw[0]-np.mean(Uw[0]))/np.std(Uw[0])
+    #u[0] = (u[0]-np.mean(u[0]))/np.std(u[0])
+    #x_corr = (correlate2d(Uw,u))
+    #y_corr = (correlate2d(Vw,v))
+    #R = (x_corr+y_corr)/2.
     #print('!!!Vw',Uw)
     #print('!!!v',v)
     
     #print('Uw',Vw)
     #print('u',u)
     
-    print('x:',x_corr[0])
-    print('y:',y_corr[0])
-    #sumsquare_z_x = 0.0
-    #sumsquare_z_y = 0.0
-    #sumsquare_o_x = 0.0
-    #sumsquare_o_y = 0.0
-    #sum_zo_x = 0.0
-    #sum_zo_y = 0.0
-    #u = Vw
-    #sumsquare_z_x += np.sum(Vw**2)
-    #sumsquare_z_y += np.sum(Uw**2)
-    #sumsquare_o_x += np.sum(u**2)
-    #sumsquare_o_y += np.sum(v**2)
-    #sum_zo_x += np.sum(Uw*u)
-    #sum_zo_y += np.sum(Vw*v)
-    ##sum_zo = sum_zo_x + sum_zo_y
-    #corr_x = sum_zo_x**2/(sumsquare_z_x*sumsquare_o_x)
-    #corr_y = sum_zo_y**2/(sumsquare_z_y*sumsquare_o_y)  
-    #print('corr x',corr_x)
-    #print('corr y',corr_y)
-    #R = 1.
     
+    corr_x = np.mean(Uw*u)/(np.sqrt(np.mean(Uw**2))*np.sqrt(np.mean(u**2)))
+    corr_y = np.mean(Vw*v)/(np.sqrt(np.mean(Vw**2))*np.sqrt(np.mean(v**2)))  
+    print('corr x',corr_x)
+    print('corr y',corr_y)
+    R = (corr_x+corr_y)/2
+    print(R)
     return R
 
 def Ruim_model_oseen(a, x, y, coreR):
