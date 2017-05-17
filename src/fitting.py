@@ -6,11 +6,11 @@ def correlation(Uw,Vw,u,v):
     x_corr = (np.corrcoef(Vw,u))
     y_corr = (np.corrcoef(Uw,v))
     R = (x_corr+y_corr)/2.
-    print('!!!Vw',Uw)
-    print('!!!v',v)
+    #print('!!!Vw',Uw)
+    #print('!!!v',v)
     
-    print('Uw',Vw)
-    print('u',u)
+    #print('Uw',Vw)
+    #print('u',u)
     
     print('x:',x_corr[0])
     print('y:',y_corr[0])
@@ -46,5 +46,10 @@ def Ruim_model_oseen(a, x, y, coreR):
 def velocity_model(a, x, y,xCenter,yCenter, gamma, coreR):
     r = np.hypot(x-a.dx[xCenter], y-a.dy[yCenter])
     vel = (gamma/(2 * np.pi * r)) * (1 - np.exp(-(r**2)/(coreR)**2))
-    return (y-a.dy[yCenter]) * vel, (-x+a.dx[xCenter]) * vel
+    vel = np.nan_to_num(vel)
+    u_conv = a.u[xCenter,yCenter] 
+    v_conv = a.v[xCenter,yCenter]
+    velx = (vel + u_conv)*(-x+a.dx[xCenter])
+    vely = (vel + v_conv)*(y-a.dy[yCenter])
+    return velx, vely
     

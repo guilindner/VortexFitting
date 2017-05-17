@@ -134,9 +134,11 @@ if __name__ == '__main__':
             xCenter = peaks[0][i]
             yCenter = peaks[1][i]
             dist = 10
+            X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
+            swirlingw = swirling[xCenter-dist:xCenter+dist,yCenter-dist:yCenter+dist] #reuse window function?
             if (xCenter > dist) and (yCenter > dist):
                 print('x1:',xCenter,'x2:',yCenter, 'swirl:',peaks[2][i])
-                plot.plot_quiver(a, xCenter, yCenter, dist, swirling)
+                plot.plot_quiver(X, Y, Uw, Vw, swirlingw)
     elif args.plot_x == 'corr':
         for i in range(len(peaks[0])):
             xCenter = peaks[0][i]
@@ -144,6 +146,7 @@ if __name__ == '__main__':
             gamma = vorticity[xCenter,yCenter]
             X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
             uMod, vMod = fitting.velocity_model(a, X, Y,xCenter,yCenter, vorticity[xCenter,yCenter], coreR)
+
             if (xCenter > dist) and (yCenter > dist):
                 print('x1:',xCenter,'x2:',yCenter, 'swirl:',peaks[2][i])
                 corr = fitting.correlation(Uw,Vw,uMod,vMod)
