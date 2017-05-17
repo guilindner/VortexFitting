@@ -11,6 +11,7 @@ import scipy
 from scipy import optimize
 
 import tools
+import fitting
 import plot
 import detection
 import schemes
@@ -104,8 +105,15 @@ if __name__ == '__main__':
     #---- PEAKS DIRECTION OF ROTATION ----#
     dirL, dirR = detection.direction_rotation(vorticity,peaks)
 
-    #---- MODEL FITTING ----#
-
+    #---- MODEL FITTING ----# SEE IN PLOT
+    #xCenter = peaks[0][3]
+    #yCenter = peaks[0][3]
+    dist = 5
+    coreR = 0.3
+    #X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
+    #uMod, vMod = fitting.velocity_model(a, X, Y,xCenter,yCenter, vorticity[xCenter,yCenter], coreR)
+    #corr = fitting.correlation(a,xCenter,yCenter,Uw,Vw,uMod,vMod)
+    #print(corr)
     #if (R < 0.75):
 
     #---- SAVING OUTPUT FILE ----#
@@ -134,10 +142,12 @@ if __name__ == '__main__':
             xCenter = peaks[0][i]
             yCenter = peaks[1][i]
             gamma = vorticity[xCenter,yCenter]
-            dist = 4
+            X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
+            uMod, vMod = fitting.velocity_model(a, X, Y,xCenter,yCenter, vorticity[xCenter,yCenter], coreR)
             if (xCenter > dist) and (yCenter > dist):
                 print('x1:',xCenter,'x2:',yCenter, 'swirl:',peaks[2][i])
-                plot.plot_corr(a, xCenter, yCenter, dist, gamma)
+                corr = fitting.correlation(Uw,Vw,uMod,vMod)
+                plot.plot_corr(X, Y, Uw, Vw, uMod, vMod)
     else:
         print('no plot')
 
