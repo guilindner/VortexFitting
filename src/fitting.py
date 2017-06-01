@@ -36,66 +36,35 @@ def velocity_model(a, x, y,xCenter,yCenter, gamma, coreR):
     return velx, vely
     
     
-def Bfunx(coreR):
-    r2 = (x-xCenter)**2 + (y-yCenter)**2
-    expr2 = np.exp(-r2/coreR[0])
-    return velx - gamma*(y - yCenter)/r2 * (1 - expr2)
-
-def Bfuny(coreR):
-    r2 = (x-xCenter)**2 + (y-yCenter)**2
-    expr2 = np.exp(-r2/coreR[0])
-    return vely + gamma*(x - xCenter)/r2 * (1 - expr2)
-
-def Bjacx(coreR):
-    r2 = (x-xCenter)**2 + (y-yCenter)**2
-    expr2 = np.exp(-r2/coreR[0])
-    velx_x = -gamma*(y-yCenter)*2.*(x-xCenter)/r2 * (1./r2-(1./r2+1./coreR[0])*expr2)
-    velx_y = -gamma*(((y-yCenter)**2-(x-xCenter)**2)/r2**2 * (1.-expr2)-2.*(y-yCenter)**2/(coreR[0]*r2)*expr2)
-    return velx_y, velx_x
-    
-def Bjacy(coreR):
-    r2 = (x-xCenter)**2 + (y-yCenter)**2
-    expr2 = np.exp(-r2/coreR)
-    vely_x = gamma*(((y-yCenter)**2-(x-xCenter)^2)/r2**2 * (1.-expr2)-2.*(y-yCenter)**2/(coreR*r2)*expr2)
-    vely_y = gamma*(y-yCenter)*2.*(x-xCenter)/r2 * (1./r2-(1./r2+1./coreR)*expr2)
-    return vely_x, vely_y
-    
-def super_fitx(x,y,velx,vely,gamma):
+ 
+def super_fitx(a, x, y, xCenter, yCenter, Uw, velx, gamma):
     x = x.ravel()
     y = y.ravel()
-    velx = velx.ravel()
-    vely = vely.ravel()
+    Uw = Uw.ravel()
     def funx(coreR):
-        r2 = x**2 + y**2
-        expr2 = np.exp(-r2/coreR[0])
-        return velx - gamma*(y)/r2 * (1 - expr2)
-    def jacx(coreR):
-        r2 = (x)**2 + (y)**2
-        expr2 = np.exp(-r2/coreR[0])
-        velx_x = -gamma*(y)*2.*(x)/r2 * (1./r2-(1./r2+1./coreR[0])*expr2)
-        velx_y = -gamma*(((y)**2-(x)**2)/r2**2 * (1.-expr2)-2.*(y)**2/(coreR[0]*r2)*expr2)
-        return velx_y, velx_x    
-    sol = optimize.root(funx, 0.3, jac=jacx, method='lm')
-    #print('x,y,vx,vy,gamma',x,y,velx,vely,gamma)
-    #print(sol)
+        r = np.hypot(x-a.dx[xCenter], y-a.dy[yCenter])
+        expr2 = np.exp(-r**2/coreR**2)
+        z = -gamma/(2*np.pi*r) * (1 - expr2)
+        z = np.nan_to_num(z)
+        z = (z + velx)*(-x+a.dx[xCenter]) +Uw
+        #print(Uw.reshape(10,10))
+        return z        
+  
+    sol = optimize.root(funx, 0.1, jac=False, method='lm')
+    #print(sol.fun.reshape(10,10))
     return sol.x
 
-def super_fity(x,y,velx,vely,gamma):
+def super_fity(a, x, y, xCenter, yCenter, Vw, vely, gamma):
     x = x.ravel()
     y = y.ravel()
-    velx = velx.ravel()
-    vely = vely.ravel()
+    Vw = Vw.ravel()
     def funy(coreR):
-        r2 = x**2 + y**2
-        expr2 = np.exp(-r2/coreR[0])
-        return vely + gamma*(x)/r2 * (1 - expr2)
-    def jacy(coreR):
-        r2 = (x)**2 + (y)**2
-        expr2 = np.exp(-r2/coreR[0])
-        vely_x = gamma*(((y)**2-(x)**2)/r2**2 * (1.-expr2)-2.*(y)**2/(coreR*r2)*expr2)
-        vely_y = gamma*(y)*2.*(x)/r2 * (1./r2-(1./r2+1./coreR)*expr2)
-        return vely_x, vely_y 
-    sol = optimize.root(funy, 0.3, jac=jacy, method='lm')
-    #print('x,y,vx,vy,gamma',x,y,velx,vely,gamma)
-    return sol.x    
-    
+        r = np.hypot(x-a.dx[xCenter], y-a.dy[yCenter])
+        expr2 = np.exp(-r**2/coreR**2)
+        z = gamma/(2*np.pi*r) * (1 - expr2)
+        z = np.nan_to_num(z)
+        z = (z + vely)*(y-a.dy[yCenter]) -Vw
+        return z         
+
+    sol = optimize.root(funy, 0.1, jac=False, method='lm')
+    return sol.x
