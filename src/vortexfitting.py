@@ -106,10 +106,21 @@ if __name__ == '__main__':
     dirL, dirR = detection.direction_rotation(vorticity,peaks)
 
     #---- MODEL FITTING ----# SEE IN PLOT
-
-    dist = 5
-    coreR = 1.0
-
+    vortices = list()
+    vortices.append(['xCenter','yCenter','coreR','correlation'])
+    
+    for i in range(len(peaks[0])):
+            xCenter = peaks[0][i]
+            yCenter = peaks[1][i]
+            if (240 > xCenter > 10) and (240 > yCenter > 10):
+                gamma = vorticity[xCenter,yCenter]
+                coreR, corr, dist = fitting.full_fit(a, xCenter, yCenter, gamma)
+                #print('core radius',coreR)
+                #print('correlation',corr)
+                if (corr > 0.5):
+                    vortices.append([xCenter,yCenter,coreR,corr,dist])
+    #for vortex in vortices:
+    #    print(vortex)
 
     #---- SAVING OUTPUT FILE ----#
     if args.outfilename == None:
@@ -117,9 +128,8 @@ if __name__ == '__main__':
     else:
         print("saving file",args.outfilename)
     
-
   
-    #---- PLOTTING ----#
+    #---- PLOTTING OPTIONS ----#
     if args.plot_x == 'detect':
         plot.plot_detection(dirL,dirR,swirling)
     elif args.plot_x == 'fields':
@@ -133,56 +143,19 @@ if __name__ == '__main__':
             if (xCenter > dist) and (yCenter > dist):
                 print('x1:',xCenter,'x2:',yCenter, 'swirl:',peaks[2][i])
                 plot.plot_quiver(X, Y, Uw, Vw, swirlingw)
-    elif args.plot_x == 'corr':
-        for i in range(len(peaks[0])):
-            xCenter = peaks[0][i]
-            yCenter = peaks[1][i]
-            gamma = vorticity[xCenter,yCenter]
-            X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
-            uMod, vMod = fitting.velocity_model(a, X, Y,xCenter,yCenter, vorticity[xCenter,yCenter], coreR)
-            if (xCenter > dist) and (yCenter > dist):
-                print('x1:',xCenter,'x2:',yCenter, 'swirl:',peaks[2][i])
-                corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
-                print('Correlation R =',corr)
-                if (corr > 0.75):
-                    print('R > 0.75, it\'s a vortex')
-                    print('uMod',uMod)
-                    print('Uw',Uw)
-                else:
-                    print('not a vortex')
-                plot.plot_corr(X, Y, Uw, Vw, uMod, vMod)
+    
     elif args.plot_x == 'fit':
-        for i in range(30):
-            xCenter = peaks[0][i]
-            yCenter = peaks[1][i]
+        for i in range(len(vortices)):
+            xCenter = vortices[i+1][0]
+            yCenter = vortices[i+1][1]
+            coreR = vortices[i+1][2]
+            dist = vortices[i+1][4]
             gamma = vorticity[xCenter,yCenter]
+            print('xCenter:',xCenter,'yCenter:',yCenter, 'vorticity:',gamma, 'mesh',dist)
             X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
-            uMod, vMod = fitting.velocity_model(a, X, Y,xCenter,yCenter, vorticity[xCenter,yCenter], coreR)
-            #print(uMod)
-            print('xCenter:',xCenter,'yCenter:',yCenter, 'vorticity:',gamma)
-            if (xCenter > dist) and (yCenter > dist):
+            uMod, vMod = fitting.velocity_model(a, X, Y,xCenter,yCenter, gamma, coreR)
+            plot.plot_corr(X, Y, Uw, Vw, uMod, vMod)
                 
-                corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
-                print('Correlation R =',corr)
-                
-                if (corr < 0.75):
-                    #print('not a vortex, initializing fitting')
-                    velx = a.u[xCenter,yCenter]
-                    vely = a.v[xCenter,yCenter]
-                    fitx = fitting.super_fitx(a, X, Y, xCenter, yCenter, Uw, velx, gamma)
-                    fity = fitting.super_fity(a, X, Y, xCenter, yCenter, Vw, vely, gamma)
-                    #fit = optimize.root(fitting.funx, 2.0, jac=fitting.jacx, method='lm')
-                    uModN, vModN = fitting.velocity_model(a, X, Y,xCenter,yCenter, vorticity[xCenter,yCenter], fitx)
-                    corrN = fitting.correlation_coef(Uw,Vw,uModN,vModN)
-                    #print(Uw)
-                    #print(uMod)
-                    print('using',fitx,fity,'New Correlation R =',corrN)
-                    print('----')
-                    #plot.plot_corr(X, Y, Uw, Vw, uModN, vModN)
-                else:
-                    print('R > 0.75, it\'s a vortex')
-                
-
     else:
         print('no plot')
 

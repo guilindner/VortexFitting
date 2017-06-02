@@ -12,19 +12,6 @@ def correlation_coef(Uw,Vw,u,v):
     R = corr_x*corr_y
     return R
 
-def model_oseen_x(coreR):
-    #xCenter = 37
-    #yCenter = 47
-    #gamma = 22.4031
-    #x, y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
-    #r = np.hypot(x-a.dx[xCenter], y-a.dy[yCenter])
-    r = np.hypot(2-a.dx[xCenter], 2-a.dy[yCenter])
-    velx = a.u[x,y] - (gamma/(2 * np.pi * r)) * (1 - np.exp(-(r**2)/(coreR)**2))
-    vel = np.nan_to_num(vel)
-    u_conv = a.u[xCenter,yCenter] 
-    velx2 = (velx + u_conv)*(-x+a.dx[xCenter])
-    return velx2
-
 def velocity_model(a, x, y,xCenter,yCenter, gamma, coreR):
     r = np.hypot(x-a.dx[xCenter], y-a.dy[yCenter])
     vel = (gamma/(2 * np.pi * r)) * (1 - np.exp(-(r**2)/(coreR)**2))
@@ -34,37 +21,43 @@ def velocity_model(a, x, y,xCenter,yCenter, gamma, coreR):
     velx = (vel + u_conv)*(-x+a.dx[xCenter])
     vely = (vel + v_conv)*(y-a.dy[yCenter])
     return velx, vely
-    
-    
- 
-def super_fitx(a, x, y, xCenter, yCenter, Uw, velx, gamma):
+
+def full_fit(a, xCenter, yCenter, gamma):
+    u_conv = a.u[xCenter, yCenter]
+    v_conv = a.v[xCenter, yCenter]
+    coreR = 0.1
+    corrOld = 0.0
+    corr = 0.001
+    dist = 3
+    while (corr > corrOld):
+        #print('loop using dist=',dist)
+        corrOld = corr
+        coreROld = coreR
+        X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
+        coreR = super_fit(a, X, Y, xCenter, yCenter, Uw, Vw, u_conv, v_conv, gamma)
+        uMod, vMod = velocity_model(a, X, Y,xCenter,yCenter, gamma, coreR)
+        corr = correlation_coef(Uw,Vw,uMod,vMod)
+        dist += 1
+        #print('Old CoreR',coreROld,'Old corr',corrOld,'New CoreR',coreR,'New corr',corr)
+        
+    return coreROld, corrOld, dist-2
+        
+  
+def super_fit(a, x, y, xCenter, yCenter, Uw, Vw, velx, vely, gamma):
     x = x.ravel()
     y = y.ravel()
     Uw = Uw.ravel()
-    def funx(coreR):
+    Vw = Vw.ravel()
+    
+    def fun(coreR):
         r = np.hypot(x-a.dx[xCenter], y-a.dy[yCenter])
         expr2 = np.exp(-r**2/coreR**2)
         z = -gamma/(2*np.pi*r) * (1 - expr2)
         z = np.nan_to_num(z)
-        z = (z + velx)*(-x+a.dx[xCenter]) +Uw
-        #print(Uw.reshape(10,10))
-        return z        
-  
-    sol = optimize.root(funx, 0.1, jac=False, method='lm')
-    #print(sol.fun.reshape(10,10))
-    return sol.x
-
-def super_fity(a, x, y, xCenter, yCenter, Vw, vely, gamma):
-    x = x.ravel()
-    y = y.ravel()
-    Vw = Vw.ravel()
-    def funy(coreR):
-        r = np.hypot(x-a.dx[xCenter], y-a.dy[yCenter])
-        expr2 = np.exp(-r**2/coreR**2)
-        z = gamma/(2*np.pi*r) * (1 - expr2)
-        z = np.nan_to_num(z)
-        z = (z + vely)*(y-a.dy[yCenter]) -Vw
-        return z         
-
-    sol = optimize.root(funy, 0.1, jac=False, method='lm')
-    return sol.x
+        zx = (z + velx)*(-x+a.dx[xCenter]) +Uw
+        zy = (-z + vely)*(y-a.dy[yCenter]) -Vw
+        zt = np.append(zx,zy)
+        return zt       
+        
+    sol = optimize.least_squares(fun, 0.1, method='lm')
+    return float(sol.x)
