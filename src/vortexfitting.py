@@ -45,7 +45,7 @@ if __name__ == '__main__':
                              'swirling = 2D Swirling Strength')
     
     parser.add_argument('-t', '--threshold', dest='threshold',
-                        default=11., type=float,
+                        default=1.5, type=float,
                         help='Threshold for detection, integer')
 
     parser.add_argument('-b', '--boxsize', dest='boxsize',
@@ -112,11 +112,9 @@ if __name__ == '__main__':
     for i in range(len(peaks[0])):
             xCenter = peaks[0][i]
             yCenter = peaks[1][i]
-            if (240 > xCenter > 10) and (240 > yCenter > 10):
+            if (244 > xCenter > 10) and (244 > yCenter > 10):
                 gamma = vorticity[xCenter,yCenter]
                 coreR, corr, dist = fitting.full_fit(a, xCenter, yCenter, gamma)
-                #print('core radius',coreR)
-                #print('correlation',corr)
                 if (corr > 0.5):
                     vortices.append([xCenter,yCenter,coreR,corr,dist])
     #for vortex in vortices:
@@ -149,9 +147,10 @@ if __name__ == '__main__':
             xCenter = vortices[i+1][0]
             yCenter = vortices[i+1][1]
             coreR = vortices[i+1][2]
+            corr = vortices[i+1][3]
             dist = vortices[i+1][4]
             gamma = vorticity[xCenter,yCenter]
-            print('xCenter:',xCenter,'yCenter:',yCenter, 'vorticity:',gamma, 'mesh',dist)
+            print('xCenter:',xCenter,'yCenter:',yCenter, 'vorticity:',gamma, 'mesh',dist, 'correlation',corr)
             X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
             uMod, vMod = fitting.velocity_model(a, X, Y,xCenter,yCenter, gamma, coreR)
             plot.plot_corr(X, Y, Uw, Vw, uMod, vMod)

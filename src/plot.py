@@ -49,8 +49,11 @@ def plot_corr(X, Y, Uw, Vw, uMod, vMod):
     plt.figure()
     plt.title('Correlation')
     s = 1
-    plt.quiver(X[::s,::s], Y[::s,::s], Vw[::s,::s],Uw[::s,::s],color='r',scale=15,label='data')
-    plt.quiver(X[::s,::s], Y[::s,::s], vMod[::s,::s], uMod[::s,::s],color='b',scale=15,label='model')
-    plt.grid()
+    if (X.size > 400):
+        s = 2
+    plt.quiver(X[::s,::s], Y[::s,::s], Vw[::s,::s],Uw[::s,::s],
+               color='r',label='data')
+    plt.quiver(X[::s,::s], Y[::s,::s], vMod[::s,::s], uMod[::s,::s],
+               color='b',label='model')
     plt.legend()
     plt.show()
