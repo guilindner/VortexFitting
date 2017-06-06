@@ -5,8 +5,10 @@ from scipy import optimize
 import tools
 
 def correlation_coef(Uw,Vw,u,v):
-    corr_x = np.mean(Uw*u)/(np.sqrt(np.mean(Uw**2))*np.sqrt(np.mean(u**2)))
-    corr_y = np.mean(Vw*v)/(np.sqrt(np.mean(Vw**2))*np.sqrt(np.mean(v**2)))  
+    #corr_x = np.mean(Uw*u)/(np.sqrt(np.mean(Uw**2))*np.sqrt(np.mean(u**2)))
+    #corr_y = np.mean(Vw*v)/(np.sqrt(np.mean(Vw**2))*np.sqrt(np.mean(v**2)))  
+    corr_x = (np.mean(Uw*u)/(np.sqrt(np.mean(Uw**2))*np.sqrt(np.mean(u**2))))**0.5
+    corr_y = (np.mean(Vw*v)/(np.sqrt(np.mean(Vw**2))*np.sqrt(np.mean(v**2))))**0.5
     R = corr_x*corr_y
     #print('corr x',corr_x,'corr y',corr_y,'total correlation',R)
     return R
@@ -28,6 +30,7 @@ def full_fit(a, xCenter, yCenter, gamma):
     corrOld = 0.0
     corr = 0.001
     dist = 3
+    #print('xC:',xCenter,'yC:',yCenter, 'vort:',gamma)
     while (corr > corrOld):
         corrOld = corr
         coreROld = coreR
@@ -36,7 +39,9 @@ def full_fit(a, xCenter, yCenter, gamma):
         uMod, vMod = velocity_model(a, X, Y,xCenter,yCenter, gamma, coreR)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
         dist += 1
-        #print('dist:',dist-1,'Old CoreR',coreROld,'Old corr',corrOld,'New CoreR',coreR,'New corr',corr)
+        #print('dist:',dist-1,'Old Radius',round(coreROld,3),
+        #      'Old corr',round(corrOld,3),'New CoreR',round(coreR,3),
+        #      'New corr',round(corr,3))
         
     return coreROld, corrOld, dist-2
         

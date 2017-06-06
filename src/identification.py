@@ -21,8 +21,8 @@ def calc_swirling(a):
     A = A.transpose(2,1,0)
     eigenvalues = np.linalg.eigvals(A)
     swirling = np.max(eigenvalues.imag,axis=1).reshape(a.u[:,0].size,a.u[0,:].size)
-    #swirling = tools.normalize(swirling,0)    
     print('Max value of swirling:',np.max(swirling))
+    #swirling = tools.normalize(swirling,0) 
     return swirling
 
 def q_criterion(a):

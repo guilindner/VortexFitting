@@ -13,7 +13,7 @@ from scipy import optimize
 import tools
 import fitting
 import plot
-import detection
+#import detection
 import schemes
 import identification
 from classes import VelocityField
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     #---- LOAD DATA ----#
     print("Opening file:",args.infilename)
 
-    print("Sample target: (todo)", args.timestep)
+    #print("Sample target: (todo)", args.timestep)
     
     a = VelocityField(args.infilename,args.timestep)
     print("Samples:", a.samples)
@@ -79,10 +79,9 @@ if __name__ == '__main__':
     else:
         print('No scheme', args.scheme, 'found. Exitting!')
         sys.exit()
-    print(round(time.time() - lap,3), 'seconds') 
+    #print(round(time.time() - lap,3), 'seconds') 
     
     #---- VORTICITY ----#
-    print("Calculating vorticity")
 
     vorticity = a.derivative['dvdx'] - a.derivative['dudy']
 
@@ -92,22 +91,23 @@ if __name__ == '__main__':
         swirling = identification.q_criterion(a)
     elif args.detect == 'swirling':
         swirling = identification.calc_swirling(a)
-    print(round(time.time() - lap,3), 'seconds')
+    #print(round(time.time() - lap,3), 'seconds')
+
+    #swirling = tools.normalize(swirling,0) #normalization
 
     #---- PEAK DETECTION ----#
-    print("Detecting peak of swirling strength")
     print("threshold=",args.threshold,"box size=",args.boxsize)
 
-    peaks = detection.find_peaks(swirling, args.threshold, args.boxsize)
+    peaks = tools.find_peaks(swirling, args.threshold, args.boxsize)
 
     print("Vortices found:",len(peaks[0]))
 
     #---- PEAKS DIRECTION OF ROTATION ----#
-    dirL, dirR = detection.direction_rotation(vorticity,peaks)
+    dirL, dirR = tools.direction_rotation(vorticity,peaks)
 
     #---- MODEL FITTING ----# SEE IN PLOT
     vortices = list()
-    vortices.append(['xCenter','yCenter','coreR','correlation'])
+    #vortices.append(['xCenter','yCenter','coreR','correlation'])
     
     for i in range(len(peaks[0])):
             xCenter = peaks[0][i]
@@ -115,10 +115,12 @@ if __name__ == '__main__':
             if (244 > xCenter > 10) and (244 > yCenter > 10):
                 gamma = vorticity[xCenter,yCenter]
                 coreR, corr, dist = fitting.full_fit(a, xCenter, yCenter, gamma)
-                if (corr > 0.5):
+                if (corr > 0.75):
                     vortices.append([xCenter,yCenter,coreR,corr,dist])
-    #for vortex in vortices:
-    #    print(vortex)
+    print('---- Accepted vortices ----')
+    print('xCenter, yCenter, core Radius, correlation, mesh distance')
+    for vortex in vortices:
+        print(vortex)
 
     #---- SAVING OUTPUT FILE ----#
     if args.outfilename == None:
@@ -133,6 +135,7 @@ if __name__ == '__main__':
     elif args.plot_x == 'fields':
         plot.plot_fields(a,vorticity)
     elif args.plot_x == 'quiver':
+        dist = 10
         for i in range(len(peaks[0])):
             xCenter = peaks[0][i]
             yCenter = peaks[1][i]
@@ -144,17 +147,17 @@ if __name__ == '__main__':
     
     elif args.plot_x == 'fit':
         for i in range(len(vortices)):
-            xCenter = vortices[i+1][0]
-            yCenter = vortices[i+1][1]
-            coreR = vortices[i+1][2]
-            corr = vortices[i+1][3]
-            dist = vortices[i+1][4]
+            xCenter = vortices[i][0]
+            yCenter = vortices[i][1]
+            coreR = vortices[i][2]
+            corr = vortices[i][3]
+            dist = vortices[i][4]
             gamma = vorticity[xCenter,yCenter]
-            print('xCenter:',xCenter,'yCenter:',yCenter, 'vorticity:',gamma, 'mesh',dist, 'correlation',corr)
+            #print('xC:',xCenter,'yC:',yCenter, 'vort:',gamma, 'mesh',dist, 'corr',corr, 'coreR',coreR)
             X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
             uMod, vMod = fitting.velocity_model(a, X, Y,xCenter,yCenter, gamma, coreR)
-            plot.plot_corr(X, Y, Uw, Vw, uMod, vMod)
-                
+            plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr)
+    
     else:
         print('no plot')
 
