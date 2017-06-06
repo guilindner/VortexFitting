@@ -34,33 +34,35 @@ def full_fit(a, xCenter, yCenter, gamma):
     while (corr > corrOld):
         corrOld = corr
         coreROld = coreR
+        gammaOld = gamma
         X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
-        coreR = super_fit(a, X, Y, xCenter, yCenter, Uw, Vw, u_conv, v_conv, gamma)
+        coreR, gamma = fit(a, X, Y, xCenter, yCenter, Uw, Vw, u_conv, v_conv, gamma)
+        #coreR = abs(coreR)
         uMod, vMod = velocity_model(a, X, Y,xCenter,yCenter, gamma, coreR)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
         dist += 1
-        #print('dist:',dist-1,'Old Radius',round(coreROld,3),
-        #      'Old corr',round(corrOld,3),'New CoreR',round(coreR,3),
-        #      'New corr',round(corr,3))
+        print('dist:',dist-1,'O Radius',round(coreROld,3),
+              'N Radius',round(coreR,3),'O Gamma',round(gammaOld,3),
+              'N Gamma',round(gamma,3),'O corr',round(corrOld,3),
+              'N corr',round(corr,3))
         
     return coreROld, corrOld, dist-2
         
   
-def super_fit(a, x, y, xCenter, yCenter, Uw, Vw, u_conv, v_conv, gamma):
+def fit(a, x, y, xCenter, yCenter, Uw, Vw, u_conv, v_conv, gamma):
     x = x.ravel()
     y = y.ravel()
     Uw = Uw.ravel()
     Vw = Vw.ravel()
-    
-    def fun(coreR):
+    def fun(fitted): #fitted[0]=coreR, fitted[1]=gamma, fitted[2]=u_conv, fitted[3]=v_conv
         r = np.hypot(x-a.dx[xCenter], y-a.dy[yCenter])
-        expr2 = np.exp(-r**2/coreR**2)
-        z = -gamma/(2*np.pi*r) * (1 - expr2)
+        expr2 = np.exp(-r**2/fitted[0]**2)
+        z = -fitted[1]/(2*np.pi*r) * (1 - expr2)
         z = np.nan_to_num(z)
         zx = (z + u_conv)*(-x+a.dx[xCenter]) +Uw
         zy = (-z + v_conv)*(y-a.dy[yCenter]) -Vw
         zt = np.append(zx,zy)
         return zt       
-        
-    sol = optimize.least_squares(fun, 0.1, method='lm')
-    return float(sol.x)
+       
+    sol = optimize.least_squares(fun, [0.3,gamma],method='lm')
+    return sol.x

@@ -116,9 +116,9 @@ if __name__ == '__main__':
                 gamma = vorticity[xCenter,yCenter]
                 coreR, corr, dist = fitting.full_fit(a, xCenter, yCenter, gamma)
                 if (corr > 0.75):
-                    vortices.append([xCenter,yCenter,coreR,corr,dist])
+                    vortices.append([xCenter,yCenter, gamma, coreR,corr,dist])
     print('---- Accepted vortices ----')
-    print('xCenter, yCenter, core Radius, correlation, mesh distance')
+    print('xCenter, yCenter, gamma, core Radius, correlation, mesh distance')
     for vortex in vortices:
         print(vortex)
 
@@ -149,10 +149,10 @@ if __name__ == '__main__':
         for i in range(len(vortices)):
             xCenter = vortices[i][0]
             yCenter = vortices[i][1]
-            coreR = vortices[i][2]
-            corr = vortices[i][3]
-            dist = vortices[i][4]
-            gamma = vorticity[xCenter,yCenter]
+            gamma = vortices[i][2]
+            coreR = vortices[i][3]
+            corr = vortices[i][4]
+            dist = vortices[i][5]
             #print('xC:',xCenter,'yC:',yCenter, 'vort:',gamma, 'mesh',dist, 'corr',corr, 'coreR',coreR)
             X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
             uMod, vMod = fitting.velocity_model(a, X, Y,xCenter,yCenter, gamma, coreR)
