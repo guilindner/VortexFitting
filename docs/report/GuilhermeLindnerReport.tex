@@ -21,7 +21,7 @@
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 
 
-\title{ \normalsize \textsc{Internship project}
+\title{ \normalsize \textsc{Master 1 - Final year project}
 	\\ [2.0cm]
 	\hrule
 	\vspace{0.5cm}
@@ -69,42 +69,69 @@ here is all the introduction
 \section{legal}
 
 \chapter{Detection methods}
-In this section, the detection methods implemented in the code for vortex identification are presented.
+In this section, the detection methods implemented in the code for vortex identification are presented. These methods are based on the velocity gradient tensor, $\overline{D}$, that can be written as:
+
+\begin{equation}
+D_{ij} = \frac{\partial u_i}{\partial x_i}
+\end{equation}
+
+As this is a second order tensor, it can be decomposed into a symmetric and anti-symmetric part, $D_{ij} = S_{ij} + \Omega_{ij}$ where:
+
+\begin{equation}
+S_{ij} = \frac{1}{2} \left(\frac{\partial u_i}{\partial x_j} + \frac{\partial u_j}{\partial x_i}\right)
+\end{equation}
+
+\begin{equation}
+\Omega_{ij} = \frac{1}{2} \left(\frac{\partial u_i}{\partial x_j} - \frac{\partial u_j}{\partial x_i}\right)
+\end{equation}
+$S_{ij}$ is known as the rate-of-strain tensor and $\Omega_{ij}$ is the vorticity tensor.
+
+The characteristic equation for $\nabla u$ is given by
+
+\begin{equation}
+\lambda^3 + P \lambda^2 + Q \lambda + R = 0
+\end{equation}
+where P, Q and R are the three invariants of the velocity gradient tensor. Using the decomposition into symmetric and anti-symmetric parts, these invariants can be expressed as:
+\begin{equation}
+P = -tr(\bar{D})
+\end{equation}
+
+\begin{equation}
+Q = \frac{1}{2} (tr(\bar{D})^2 -tr(\bar{D}^2)) = \frac{1}{2} (\norm{\Omega}^2 - \norm{S}^2)
+\end{equation}
+
+\begin{equation}
+R = -det(\bar{D})
+\end{equation}
 
 \section{Q criterion}
 
-The Q criterion proposed by Hung \textit{et al} (1988) identifies the vortices as flow regions with positive second invariant of $\nabla v$. An additional condition is that the pressure in the eddy region should to be lower than the ambient pressure. The second invariant of Q is defined as:
+The Q criterion proposed by Hung \textit{et al} (1988) identifies the vortices as flow regions with positive second invariant of $\nabla u$. An additional condition is that the pressure in the eddy region should to be lower than the ambient pressure. Chakraborty \textit{et al}(2005) \cite{chakra2005} quoted "in an incompressible flow Q is a local measure of the excess rotation rate relative to the strain rate".
+
+In practical terms, the vortex is detected in case of the second invariant $Q > 0$.
+
+\section{$\Delta$ criterion}
+
+Chong \textit{et al} (1990) \cite{chong1990} define a vortex core to be the region where $\nabla v$ has complex eigenvalues. In order to determine if the eigenvalues are complex, we examine the discriminant of the characteristic equation, considering the flow incompressible (P = 0).
 
 \begin{equation}
-Q = \frac{(\nabla . v)^2 - tr(\nabla v^2)}{2}
-\end{equation}
-and considering the flow incompressible $\nabla . v = 0$ we have:
-
-\begin{equation}
-Q = \frac{1}{2} (\norm{\Omega}^2 - \norm{S}^2)
-\end{equation}
-where $\norm{\Omega} = tr[\Omega \Omega^t]^{1/2}$ and $\norm{S} = tr[S S^t]^{1/2}$. $\Omega$ and $S$ are the symmetric and anti-symmetric components of $\nabla v$, defined by equations \ref{eq:S} and \ref{eq:Omega} respectively.
-
-\begin{equation}
-\label{eq:S}
-S = \frac{1}{2} (\nabla v + (\nabla v)^t)
+\Delta = \left(\frac{Q}{3}\right)^3 + \left(\frac{R}{2}\right)^2 > 0
 \end{equation}
 
-\begin{equation}
-\label{eq:Omega}
-\Omega = \frac{1}{2} (\nabla v + (\nabla v)^t)
-\end{equation}
-
-With these assumptions, Chakraborty \textit{et al}(2005) \cite{chakra2005} quoted "in an incompressible flow Q is a local measure of the excess
-rotation rate relative to the strain rate".
-
-
-\section{$\lambda_2$ criterion}
 
 \section{Swirling strength criterion}
 
-The swirling strength criterion ($\lambda_{ci}$) was developed by Zhou \textit{et al} (1999) \cite{zhou1999}. It defines a vortex core to be the region where $\nabla v$ has complex eigenvalues. 
+The swirling strength criterion ($\lambda_{ci}$) was developed by Zhou \textit{et al} (1999) \cite{zhou1999}. It defines a vortex core to be the region where $\nabla v$ has complex eigenvalues. It is based on the idea that the velocity gradient tensor in Cartesian coordinates can be decomposed as
 
+\begin{equation}
+\nabla u = [\bar{\nu_r} \bar{\nu_{cr}} \bar{\nu_{ci}}]^T
+\left[\begin{array}{ccc}
+\lambda_r & 0 & 0 \\
+0 & \lambda_{cr} & \lambda{ci} \\
+0 & -\lambda{ci} & \lambda{cr} \end{array}\right]
+[\bar{\nu_r} \bar{\nu_{cr}} \bar{\nu_{ci}}]^T
+\end{equation} 
+where $\lambda_r$ is the real eigenvalue, related to the eigenvector $\bar{\nu_r}$, and the complex conjugate pair of complex eigenvalues is $\lambda_{cr}  \pm i\lambda_{ci}$, related to the eigenvectors $\bar{\nu_r} \pm i\bar{\nu_{ci}}$. The strength of this swirling motion can be quantified by $\lambda_{ci}$ , called the local swirling strength of the vortex. The threshold for $\lambda_{ci}$ is not well-defined, but theoretically any value greater than zero should be considered a vortex. Experimental results \cite{zhou1999} shows that $\lambda_{ci} \geq \epsilon > 0$ give smoother results.
 \section{Finite difference methods}
 
 Second order central differencing scheme
@@ -126,16 +153,6 @@ right edge cells
 \begin{equation}
 F_x(i) = \frac{3F(i+1)+10F(i)-18F(i-1)+6F(i-2) -F(i-3)}{12 \Delta x}
 \end{equation}
-
-\section{Identification methods}
-
-\subsection{2D swirling strenght}
-
-\subsection{Q criterion}
-
-\subsection{$\lambda_2$ criterion}
-
-\subsection{$\Delta$ criterion}
 
 \section{Peak detection}
 o
