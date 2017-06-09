@@ -14,7 +14,7 @@ def velocity(x, y, coreR):
 def main():
     import matplotlib.pyplot as plt
 
-    dom = np.linspace(-0.02, 0.02, 16)
+    dom = np.linspace(-0.02, 0.02, 8)
     x, y = np.meshgrid(dom, dom)
     x_vel = x[::1, ::1] 
     y_vel = y[::1, ::1]

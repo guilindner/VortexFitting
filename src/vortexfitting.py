@@ -15,7 +15,7 @@ import fitting
 import plot
 #import detection
 import schemes
-import identification
+import detection
 from classes import VelocityField
 
 if __name__ == '__main__':
@@ -88,9 +88,9 @@ if __name__ == '__main__':
     #---- METHOD FOR DETECTION OF VORTICES ----#
     lap = time.time()
     if args.detect == 'Q':
-        swirling = identification.q_criterion(a)
+        swirling = detection.q_criterion(a)
     elif args.detect == 'swirling':
-        swirling = identification.calc_swirling(a)
+        swirling = detection.calc_swirling(a)
     #print(round(time.time() - lap,3), 'seconds')
 
     #swirling = tools.normalize(swirling,0) #normalization
@@ -114,9 +114,10 @@ if __name__ == '__main__':
             yCenter = peaks[1][i]
             if (244 > xCenter > 10) and (244 > yCenter > 10):
                 gamma = vorticity[xCenter,yCenter]
-                coreR, corr, dist = fitting.full_fit(a, xCenter, yCenter, gamma)
+                coreR, corr, dist, fxCenter, fyCenter = fitting.full_fit(a, xCenter, yCenter, gamma)
+                #print(a.dx[xCenter],fxCenter,'|',a.dy[yCenter],fyCenter)
                 if (corr > 0.75):
-                    vortices.append([xCenter,yCenter, gamma, coreR,corr,dist])
+                    vortices.append([xCenter,yCenter, gamma, coreR,corr,dist]) #not fitted to plot the center! 
     print('---- Accepted vortices ----')
     print('xCenter, yCenter, gamma, core Radius, correlation, mesh distance')
     for vortex in vortices:
@@ -134,7 +135,7 @@ if __name__ == '__main__':
         plot.plot_detection(dirL,dirR,swirling)
     elif args.plot_x == 'fields':
         plot.plot_fields(a,vorticity)
-    elif args.plot_x == 'quiver':
+    elif args.plot_x == 'quiverRuim':
         dist = 10
         for i in range(len(peaks[0])):
             xCenter = peaks[0][i]
@@ -144,7 +145,19 @@ if __name__ == '__main__':
             if (xCenter > dist) and (yCenter > dist):
                 print('x1:',xCenter,'x2:',yCenter, 'swirl:',peaks[2][i])
                 plot.plot_quiver(X, Y, Uw, Vw, swirlingw)
-    
+    elif args.plot_x == 'quiver':
+        for i in range(len(vortices)):
+            xCenter = vortices[i][0]
+            yCenter = vortices[i][1]
+            gamma = vortices[i][2]
+            coreR = vortices[i][3]
+            corr = vortices[i][4]
+            dist = vortices[i][5]
+            swirlingw = swirling[xCenter-dist:xCenter+dist,yCenter-dist:yCenter+dist]
+            X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
+            uMod, vMod = fitting.velocity_model(a, X, Y,xCenter,yCenter, gamma, coreR)
+            plot.plot_quiver(X, Y, Uw, Vw, swirlingw)
+                
     elif args.plot_x == 'fit':
         for i in range(len(vortices)):
             xCenter = vortices[i][0]
@@ -160,6 +173,3 @@ if __name__ == '__main__':
     
     else:
         print('no plot')
-
-
-  

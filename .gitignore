@@ -1,4 +1,11 @@
 data/
+*.aux
+*.bbl
+*.blg
+*.lof
+*.lot
+*.toc
+*.gz
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

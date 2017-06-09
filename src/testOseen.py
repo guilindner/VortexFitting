@@ -13,9 +13,8 @@ from scipy import optimize
 import tools
 import fitting
 import plot
-#import detection
 import schemes
-import identification
+import detection
 from classes import VelocityField
 
 if __name__ == '__main__':
@@ -26,68 +25,47 @@ if __name__ == '__main__':
                         default='../data/test_data.nc',
                         help='input NetCDF file', metavar='FILE')
                         
-    parser.add_argument('-o', '--output', dest='outfilename',
-                        help='output NetCDF file', metavar='FILE')
-    
-    parser.add_argument('-s', '--scheme', dest='scheme', type=int, default=2,
-                        help='Scheme for differencing\n'
-                             '2 = second order\n'
-                             '4 = fourth order')
-    
-    parser.add_argument('-T', '--time', dest='timestep', type=int,
-                        default=0,
-                        help='Timestep/Sample desired')
-                        
-    parser.add_argument('-d', '--detect', dest='detect',
-                        default='swirling',
-                        help='Detection method:\n'
-                             'Q = Q criterion\n'
-                             'swirling = 2D Swirling Strength')
-    
-    parser.add_argument('-t', '--threshold', dest='threshold',
-                        default=1.5, type=float,
-                        help='Threshold for detection, integer')
-
-    parser.add_argument('-b', '--boxsize', dest='boxsize',
-                        default=6, type=int,
-                        help='Box size for the detection')
-    
-    parser.add_argument('-p', '--plot', dest='plot_x',
-                        default='',
-                        help='Plot on screen:\n'
-                             'detect = Vortices position\n'
-                             'fields = Velocity fields\n'
-                             'quiver = Vector on specific position')
     
     args = parser.parse_args()
     
-    a = VelocityField(args.infilename,args.timestep)
+    a = VelocityField(args.infilename)
 
-    xCenter = 0
-    yCenter = 0
-    gamma = -100
-    coreR = 0.9
-    dist = 20
-
-    #X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
-    X = np.linspace(-1,1,dist)
-    Y = np.linspace(-1,1,dist)
-    a.dx = np.zeros(dist)
-    a.dy = np.zeros(dist)
-    X, Y = np.meshgrid(X,Y)   
-    uMod, vMod = fitting.velocity_model(a, X, Y,xCenter,yCenter, gamma, coreR)
-    Uw, Vw = fitting.velocity_model(a, X, Y,xCenter,yCenter, gamma, coreR)
-    u_conv = 0.0 #flipped with v, fix later
-    v_conv = 0.0
-    Uw = Uw + u_conv
-    Vw = Vw + v_conv
     
-    corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
-    print('correlation before fit:',corr)
-    coreR, gamma = fitting.fit(a, X, Y, xCenter, yCenter, Uw, Vw, u_conv, v_conv, gamma)
-    print('coreR:',coreR)
-    uMod, vMod = fitting.velocity_model(a, X, Y,xCenter,yCenter, gamma, coreR)
-    corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
-    print('correlation AFTER fit:',corr,'and gamma!',gamma)
-    plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr)
+    
+    def test_oseen(coreR, gamma, dist):
+        print('coreR:',coreR,'Gamma',gamma,'dist',dist)
+        X = np.linspace(-1,1,dist)
+        Y = np.linspace(-1,1,dist)
+        a.dx = np.zeros(dist)
+        a.dy = np.zeros(dist)
+        X, Y = np.meshgrid(X,Y)
+        xCenter = 0
+        yCenter = 0
+        xdrift = 0
+        ydrift = 0
+        coreRori = coreR
+        gammaori = gamma
+        Uw, Vw = fitting.velocity_model(a, X, Y,xCenter+xdrift,yCenter+ydrift, gamma, coreR)
+        u_conv = 0.0 #flipped with v, fix later
+        v_conv = 0.0
+        Uw = Uw + u_conv
+        Vw = Vw + v_conv
+        coreR, gamma = fitting.fit(a, X, Y, xCenter, yCenter, Uw, Vw, u_conv, v_conv, gamma)
+        print('coreR:',coreR,'error(%):',(1-(coreR)/coreRori)*100)
+        print('gamma:',gamma,'error(%):',(1-(gamma)/gammaori)*100)
+        #print('xCenter:', fxCenter)
+        #print('yCenter:',fyCenter)
+        uMod, vMod = fitting.velocity_model(a, X, Y,xCenter, yCenter, gamma, coreR)
+        corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
+        print('correlation:',corr)
+        print('---')
+        #plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr)
   
+    test_oseen(0.1,20,20)
+    test_oseen(0.2,20,20)
+    test_oseen(0.3,20,20)
+    test_oseen(0.4,20,20)
+    test_oseen(0.2,10,20)
+    test_oseen(0.2,20,20)
+    test_oseen(0.2,30,20)
+    test_oseen(0.2,40,20)
