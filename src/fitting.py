@@ -62,7 +62,7 @@ def full_fit(a, xCenter, yCenter, gamma):
         fxCenter = a.dx[xCenter]
         fyCenter = a.dy[yCenter]
         coreR, gamma = fit(a, X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma)
-        #coreR, gamma, fxCenter, fyCenter = fit(a, X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma)
+        #4coreR, gamma, fxCenter, fyCenter = fit4(a, X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma)
         uMod, vMod = velocity_model(a, X, Y,xCenter,yCenter, gamma, coreR)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
         dist += 1
@@ -71,7 +71,7 @@ def full_fit(a, xCenter, yCenter, gamma):
         #      'N Gamma',round(gamma,3),'O corr',round(corrOld,3),
         #      'N corr',round(corr,3))
         
-    return coreROld, corrOld, dist-2, fxCenter, fyCenter
+    return coreROld, corrOld, dist-2#4, fxCenter, fyCenter
         
   
 def fit(a, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma):
@@ -80,19 +80,36 @@ def fit(a, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma):
     Uw = Uw.ravel()
     Vw = Vw.ravel()
     
-    def fun(fitted): #fitted[0]=coreR, fitted[1]=gamma, fitted[2]=xCenter, fitted[3]=yCenter
-        #r = np.hypot(x-fitted[2], y-fitted[3])
+    def fun(fitted): #fitted[0]=coreR, fitted[1]=gamma
         r = np.hypot(x-fxCenter, y-fyCenter)
         expr2 = np.exp(-r**2/fitted[0]**2)
         z = fitted[1]/(2*np.pi*r) * (1 - expr2)
         z = np.nan_to_num(z)
         zx = (-z + u_conv)*(x-fxCenter) -Uw
         zy = (z + v_conv)*(y-fyCenter) -Vw
-        #zx = (-z + u_conv)*(x-fitted[2]) -Uw
-        #zy = (z + v_conv)*(y-fitted[3]) -Vw
         zt = np.append(zx,zy)
         return zt       
     
     sol = optimize.least_squares(fun, [0.5,gamma],method='lm')
-    #sol = optimize.least_squares(fun, [0.5,gamma,fxCenter,fyCenter],method='lm')
+    return sol.x
+    
+def fit4(a, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma):
+    x = x.ravel()
+    y = y.ravel()
+    Uw = Uw.ravel()
+    Vw = Vw.ravel()
+    
+    def fun(fitted): #fitted[0]=coreR, fitted[1]=gamma, fitted[2]=xCenter, fitted[3]=yCenter
+        r = np.hypot(x-fitted[2], y-fitted[3])
+        expr2 = np.exp(-r**2/fitted[0]**2)
+        z = fitted[1]/(2*np.pi*r) * (1 - expr2)
+        z = np.nan_to_num(z)
+        zx = (-z + u_conv)*(x-fitted[2]) -Uw
+        zy = (z + v_conv)*(y-fitted[3]) -Vw
+        zt = np.append(zx,zy)
+        return zt       
+    sol = optimize.least_squares(fun, [0.5,gamma,fxCenter,fyCenter],
+          bounds=(-50,50),method='dogbox')
+          #bounds=([[0.001,2.0],[-50,50],[fxCenter-fxCenter/2,fxCenter+fxCenter/2],
+          #        [fyCenter-fyCenter/2,fyCenter+fyCenter/2]]),method='dogbox')
     return sol.x

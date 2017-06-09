@@ -50,7 +50,8 @@ if __name__ == '__main__':
         v_conv = 0.0
         Uw = Uw + u_conv
         Vw = Vw + v_conv
-        coreR, gamma = fitting.fit(a, X, Y, xCenter, yCenter, Uw, Vw, u_conv, v_conv, gamma)
+        #coreR, gamma = fitting.fit(a, X, Y, xCenter, yCenter, Uw, Vw, u_conv, v_conv, gamma)
+        coreR, gamma, fxCenter, fyCenter = fitting.fit4(a, X, Y, xCenter, yCenter, Uw, Vw, u_conv, v_conv, gamma)
         print('coreR:',coreR,'error(%):',(1-(coreR)/coreRori)*100)
         print('gamma:',gamma,'error(%):',(1-(gamma)/gammaori)*100)
         #print('xCenter:', fxCenter)
