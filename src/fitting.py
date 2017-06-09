@@ -61,8 +61,8 @@ def full_fit(a, xCenter, yCenter, gamma):
         X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
         fxCenter = a.dx[xCenter]
         fyCenter = a.dy[yCenter]
-        coreR, gamma = fit(a, X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma)
-        #4coreR, gamma, fxCenter, fyCenter = fit4(a, X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma)
+        #2coreR, gamma = fit(a, X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma)
+        coreR, gamma, fxCenter, fyCenter = fit4(a, X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma)
         uMod, vMod = velocity_model(a, X, Y,xCenter,yCenter, gamma, coreR)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
         dist += 1
@@ -71,7 +71,8 @@ def full_fit(a, xCenter, yCenter, gamma):
         #      'N Gamma',round(gamma,3),'O corr',round(corrOld,3),
         #      'N corr',round(corr,3))
         
-    return coreROld, corrOld, dist-2#4, fxCenter, fyCenter
+    #2return coreROld, corrOld, dist-2    
+    return coreROld, corrOld, dist-2, fxCenter, fyCenter
         
   
 def fit(a, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma):
@@ -107,9 +108,9 @@ def fit4(a, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma):
         zx = (-z + u_conv)*(x-fitted[2]) -Uw
         zy = (z + v_conv)*(y-fitted[3]) -Vw
         zt = np.append(zx,zy)
-        return zt       
-    sol = optimize.least_squares(fun, [0.5,gamma,fxCenter,fyCenter],
-          bounds=(-50,50),method='dogbox')
-          #bounds=([[0.001,2.0],[-50,50],[fxCenter-fxCenter/2,fxCenter+fxCenter/2],
-          #        [fyCenter-fyCenter/2,fyCenter+fyCenter/2]]),method='dogbox')
+        return zt
+    bnds=([0.001,-50,fxCenter-0.3,fyCenter-0.3],[2.0,50,
+           fxCenter+0.3,fyCenter+0.3])
+    sol = optimize.least_squares(fun, [0.5,gamma,fxCenter,fyCenter],bounds=bnds)
+          
     return sol.x

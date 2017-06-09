@@ -32,8 +32,8 @@ if __name__ == '__main__':
 
     
     
-    def test_oseen(coreR, gamma, dist):
-        print('coreR:',coreR,'Gamma',gamma,'dist',dist)
+    def test_oseen(coreR, gamma, dist,xdrift,ydrift):
+        print('coreR:',coreR,'Gamma',gamma,'xdrift',xdrift,'ydrift',ydrift)
         X = np.linspace(-1,1,dist)
         Y = np.linspace(-1,1,dist)
         a.dx = np.zeros(dist)
@@ -41,11 +41,9 @@ if __name__ == '__main__':
         X, Y = np.meshgrid(X,Y)
         xCenter = 0
         yCenter = 0
-        xdrift = 0
-        ydrift = 0
         coreRori = coreR
         gammaori = gamma
-        Uw, Vw = fitting.velocity_model(a, X, Y,xCenter+xdrift,yCenter+ydrift, gamma, coreR)
+        Uw, Vw = fitting.velocity_model(a, X+xdrift, Y+ydrift,xCenter,yCenter, gamma, coreR)
         u_conv = 0.0 #flipped with v, fix later
         v_conv = 0.0
         Uw = Uw + u_conv
@@ -54,19 +52,22 @@ if __name__ == '__main__':
         coreR, gamma, fxCenter, fyCenter = fitting.fit4(a, X, Y, xCenter, yCenter, Uw, Vw, u_conv, v_conv, gamma)
         print('coreR:',coreR,'error(%):',(1-(coreR)/coreRori)*100)
         print('gamma:',gamma,'error(%):',(1-(gamma)/gammaori)*100)
+        print('xCenter:',fxCenter)
+        print('yCenter:',fyCenter)
         #print('xCenter:', fxCenter)
         #print('yCenter:',fyCenter)
-        uMod, vMod = fitting.velocity_model(a, X, Y,xCenter, yCenter, gamma, coreR)
+        #2uMod, vMod = fitting.velocity_model(a, X, Y,xCenter, yCenter, gamma, coreR)
+        uMod, vMod = fitting.velocity_modelf(a, X, Y,xCenter,yCenter, fxCenter, fyCenter, gamma, coreR)
         corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
         print('correlation:',corr)
         print('---')
-        #plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr)
+        plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr)
   
-    test_oseen(0.1,20,20)
-    test_oseen(0.2,20,20)
-    test_oseen(0.3,20,20)
-    test_oseen(0.4,20,20)
-    test_oseen(0.2,10,20)
-    test_oseen(0.2,20,20)
-    test_oseen(0.2,30,20)
-    test_oseen(0.2,40,20)
+    test_oseen(0.1,50,20,0.2,0.15)
+    #test_oseen(0.2,20,20)
+    #test_oseen(0.3,20,20)
+    #test_oseen(0.4,20,20)
+    #test_oseen(0.2,10,20)
+    #test_oseen(0.2,20,20)
+    #test_oseen(0.2,30,20)
+    #test_oseen(0.2,40,20)
