@@ -7,16 +7,13 @@ import sys
 import argparse
 import time
 import numpy as np
-import scipy
-from scipy import optimize
 
+from classes import VelocityField
 import tools
 import fitting
 import plot
-#import detection
 import schemes
 import detection
-from classes import VelocityField
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Optional app description',
@@ -51,6 +48,10 @@ if __name__ == '__main__':
     parser.add_argument('-b', '--boxsize', dest='boxsize',
                         default=6, type=int,
                         help='Box size for the detection')
+    
+    parser.add_argument('-f', '--flip', dest='flip',
+                        default=False, type=bool,
+                        help='Flip X and Y axis for plotting, 0 = False, 1 = True')
     
     parser.add_argument('-p', '--plot', dest='plot_x',
                         default='',
@@ -93,7 +94,7 @@ if __name__ == '__main__':
         swirling = detection.calc_swirling(a)
     #print(round(time.time() - lap,3), 'seconds')
 
-    #swirling = tools.normalize(swirling,0) #normalization
+    swirling = tools.normalize(swirling,0) #normalization
 
     #---- PEAK DETECTION ----#
     print("threshold=",args.threshold,"box size=",args.boxsize)
@@ -107,7 +108,6 @@ if __name__ == '__main__':
 
     #---- MODEL FITTING ----# SEE IN PLOT
     vortices = list()
-    #vortices.append(['xCenter','yCenter','coreR','correlation'])
     
     for i in range(len(peaks[0])):
             xCenter = peaks[0][i]
@@ -116,14 +116,15 @@ if __name__ == '__main__':
                 gamma = vorticity[xCenter,yCenter]
                 #2coreR, corr, dist = fitting.full_fit(a, xCenter, yCenter, gamma)
                 coreR, corr, dist, fxCenter, fyCenter = fitting.full_fit(a, xCenter, yCenter, gamma)
-                print(a.dx[xCenter],fxCenter,'|',a.dy[yCenter],fyCenter)
+                #print(a.dx[xCenter],fxCenter,'|',a.dy[yCenter],fyCenter)
                 if (corr > 0.75):
                     #2vortices.append([xCenter,yCenter, gamma, coreR,corr,dist])
                     vortices.append([xCenter,yCenter, gamma, coreR,corr,dist,fxCenter,fyCenter]) #not fitted to plot the center!  
     print('---- Accepted vortices ----')
-    print('xCenter, yCenter, gamma, core Radius, correlation, mesh distance')
-    for vortex in vortices:
-        print(vortex)
+    print(len(vortices))
+    #print('xCenter, yCenter, gamma, core Radius, correlation, mesh distance')
+    #for vortex in vortices:
+        #print(vortex)
 
     #---- SAVING OUTPUT FILE ----#
     if args.outfilename == None:
@@ -134,7 +135,7 @@ if __name__ == '__main__':
   
     #---- PLOTTING OPTIONS ----#
     if args.plot_x == 'detect':
-        plot.plot_detection(dirL,dirR,swirling)
+        plot.plot_detection(dirL,dirR,swirling,args.flip)
     elif args.plot_x == 'fields':
         plot.plot_fields(a,vorticity)
     elif args.plot_x == 'quiverRuim':

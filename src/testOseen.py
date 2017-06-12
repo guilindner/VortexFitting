@@ -33,7 +33,7 @@ if __name__ == '__main__':
     
     
     def test_oseen(coreR, gamma, dist,xdrift,ydrift):
-        print('coreR:',coreR,'Gamma',gamma,'xdrift',xdrift,'ydrift',ydrift)
+        print('|*|coreR:',coreR,'Gamma',gamma,'xdrift',xdrift,'ydrift',ydrift,'|*|')
         X = np.linspace(-1,1,dist)
         Y = np.linspace(-1,1,dist)
         a.dx = np.zeros(dist)
@@ -63,11 +63,6 @@ if __name__ == '__main__':
         print('---')
         plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr)
   
-    test_oseen(0.1,50,20,0.2,0.15)
-    #test_oseen(0.2,20,20)
-    #test_oseen(0.3,20,20)
-    #test_oseen(0.4,20,20)
-    #test_oseen(0.2,10,20)
-    #test_oseen(0.2,20,20)
-    #test_oseen(0.2,30,20)
-    #test_oseen(0.2,40,20)
+    test_oseen(0.5,-30,20,0.0,0.0)
+    test_oseen(0.5,-30,20,0.15,0.0)
+    test_oseen(0.5,-30,20,0.15,0.15)
