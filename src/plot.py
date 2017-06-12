@@ -24,7 +24,7 @@ def plot_fields(a,vorticity):
     plt.show()
     
 def plot_detection(dirL,dirR,field, *args):
-    print('flip',args[0])
+    plt.subplot()
     if (args[0] == True):
         field = field.T
         plt.scatter(dirL[0],dirL[1],s=dirL[2]*10,edgecolor='G',facecolor='none',label='left')
@@ -32,13 +32,14 @@ def plot_detection(dirL,dirR,field, *args):
     else:
         plt.scatter(dirL[1],dirL[0],s=dirL[2]*10,edgecolor='G',facecolor='none',label='left')
         plt.scatter(dirR[1],dirR[0],s=dirR[2]*10,edgecolor='Y',facecolor='none',label='right')
-    plt.subplot()
-    plt.title('detection')
-    #plt.contourf(field, cmap="Greys_r")
-    #field = field.T
-    plt.imshow(field, origin='lower', cmap="Greys_r")
     
-    plt.legend()
+    #plt.title('detection')
+    #plt.contourf(field, cmap="Greys_r")
+
+    plt.imshow(field, origin='lower', cmap="Greys_r")
+    plt.xlabel('x')
+    plt.ylabel('y')
+    #plt.legend()
     #plt.imshow(field, cmap="Greys_r",origin="lower")
     plt.tight_layout()
     

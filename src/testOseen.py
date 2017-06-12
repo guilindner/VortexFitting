@@ -48,6 +48,9 @@ if __name__ == '__main__':
         v_conv = 0.0
         Uw = Uw + u_conv
         Vw = Vw + v_conv
+        #print(Uw)
+        Uw = np.random.normal(Uw,np.max(Uw)*0.1)
+        Vw = np.random.normal(Vw,np.max(Vw)*0.1)
         #coreR, gamma = fitting.fit(a, X, Y, xCenter, yCenter, Uw, Vw, u_conv, v_conv, gamma)
         coreR, gamma, fxCenter, fyCenter = fitting.fit4(a, X, Y, xCenter, yCenter, Uw, Vw, u_conv, v_conv, gamma)
         print('coreR:',coreR,'error(%):',(1-(coreR)/coreRori)*100)
@@ -63,6 +66,7 @@ if __name__ == '__main__':
         print('---')
         plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr)
   
-    test_oseen(0.5,-30,20,0.0,0.0)
-    test_oseen(0.5,-30,20,0.15,0.0)
-    test_oseen(0.5,-30,20,0.15,0.15)
+    test_oseen(0.2,-10,10,0.0,0.0)
+    test_oseen(0.2,-10,10,0.2,0.2)
+    test_oseen(0.9,-40,10,0.0,0.0)
+    test_oseen(0.9,-40,10,0.2,0.2)

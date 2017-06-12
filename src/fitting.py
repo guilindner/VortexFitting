@@ -109,8 +109,8 @@ def fit4(a, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma):
         zy = (z + v_conv)*(y-fitted[3]) -Vw
         zt = np.append(zx,zy)
         return zt
-    bnds=([0.01,-50,fxCenter-0.2,fyCenter-0.2],[2.0,50,
-           fxCenter+0.2,fyCenter+0.2])
+    bnds=([0.01,-50,fxCenter-0.25,fyCenter-0.25],[2.0,50,
+           fxCenter+0.25,fyCenter+0.25])
     sol = optimize.least_squares(fun, [0.5,gamma,fxCenter,fyCenter],bounds=bnds,method='dogbox')
           
     return sol.x

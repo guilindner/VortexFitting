@@ -94,7 +94,8 @@ if __name__ == '__main__':
         swirling = detection.calc_swirling(a)
     #print(round(time.time() - lap,3), 'seconds')
 
-    swirling = tools.normalize(swirling,0) #normalization
+    if a.norm == True:
+        swirling = tools.normalize(swirling,a.normdir) #normalization
 
     #---- PEAK DETECTION ----#
     print("threshold=",args.threshold,"box size=",args.boxsize)

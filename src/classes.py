@@ -16,7 +16,8 @@ class VelocityField():
         self.path = path
         self.time = time
         grp1 = Dataset(path,'r') 
-
+        
+        #PIV DATA
         if 'velocity_s' in grp1.variables.keys():
             
             self.samples = grp1.variables['velocity_s'].shape[0]
@@ -34,7 +35,10 @@ class VelocityField():
             self.u = u[15]
             self.v = v[15]
             self.w = w[15]
-
+            self.norm = True
+            self.normdir = 0
+        
+        #DNS DATA  
         elif 'velocity_x' in grp1.variables.keys():
             self.samples = grp1.variables['velocity_x'].shape[0]
             self.dx = np.linspace(0,10,self.samples)
@@ -42,15 +46,14 @@ class VelocityField():
             u = np.array(grp1.variables['velocity_x'][:,:,:])
             v = np.array(grp1.variables['velocity_y'][:,:,:])
             w = np.array(grp1.variables['velocity_z'][:,:,:])
-            #u = u - np.mean(u,axis=(0,1))[None,None,:]
-            #v = v - np.mean(v,axis=(0,1))[None,None,:]
-            #w = w - np.mean(w,axis=(0,1))[None,None,:]
             self.u = u[0]
             self.v = v[0]
             self.w = w[0]
             self.u = np.einsum('ij->ji',self.u)
             self.v = np.einsum('ij->ji',self.v)
-                
+            self.norm = False
+            
+        # ILKAY DATA        
         elif 'U' in grp1.variables.keys():
             grp2 = Dataset('../data/DNS_example/vel_v_00000000.00400000.nc','r')
             grp3 = Dataset('../data/DNS_example/vel_w_00000000.00400000.nc','r')
@@ -63,10 +66,12 @@ class VelocityField():
             self.dx = np.array(grp4.variables['gridx'][0,0,:])
             self.dy = np.array(grp5.variables['gridy'][0,:,0])
             self.dz = np.array(grp6.variables['gridz'][:,0,0])
+            self.norm = False
 
         else:
             print('Netcdf file format not recognized')		
         
+        # GENERIC FOR ALL DATA
         self.derivative = {'dudx': np.zeros_like(self.u),
                            'dudy': np.zeros_like(self.u),
                            'dudz': np.zeros_like(self.u),

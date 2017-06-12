@@ -179,17 +179,19 @@ Then the local maxima of the detection can be identified. The normalization is n
 
 \begin{figure}[h]
 	\centering
-	\label{fig:normal}
-	\includegraphics[scale=0.5]{figure/dummy.png}
+	\includegraphics[trim=0 130 0 130 ,clip, width=\textwidth]{figure/PIVnonnormalized.pdf}
 	\caption{Original swirling strength field}
+	\label{fig:nonnorm}
 \end{figure}
 
 \begin{figure}[h]
 	\centering
-	\label{fig:normalized}
-	\includegraphics[scale=0.5]{figure/dummy.png}
+	\includegraphics[trim=0 130 0 130 , clip, width=\textwidth]{figure/PIVnormalized.pdf}
 	\caption{Normalized swirling strength field}
+	\label{fig:norm}
 \end{figure}
+
+In figure \ref{fig:nonnorm} we see the original swirling strength field, where 104 vortices were found mostly near the wall. In figure \ref{fig:norm} we show the normalized swirling strength field, now with 202 vortices found. 
 
 \section{Fitting of coherent structures}
 
@@ -217,8 +219,9 @@ In this work we are dealing with a time-independent flow, so we have no decaying
 \vec{u}(r,\theta) = \vec{u}_c + \frac{\Gamma}{2\pi r} \left( 1 - exp \left( -\left(\frac{r}{r_0}\right)^2\right)\right) \vec{e}_{\theta}
 \end{equation}
 
-\subsection{Levenberg Marquardt method}
+\subsection{Non-linear least squares}
 
+Levenberg Marquardt method
 \begin{equation}
 \chi^2 = \sum_{i=1}^N \left[ \frac{y_i - \sum_{k=1}^M a_k X_k (x_i)}{\sigma i} \right]^2
 \end{equation}
@@ -249,10 +252,11 @@ The following files are present on the code, allowing the easy implementation of
 
 \begin{itemize}
 	\item classes.py : definition of the data type, i.e. DNS, PIV, ...
-	\item fitting.py : performs the fit to oseen vortex
 	\item detection.py : detect the vortices by one of the methos (Q criterion, $\lambda_2$ criterion or swirling strenth)
+	\item fitting.py : performs the fit to oseen vortex
 	\item plot.py : plot the desired results, like scalar fiels, vectors, ...
 	\item schemes.py : differencing schemes (2nd and 4th order)
+	\item testoseen.py : tests for fitting performance
 	\item tools.py : normalization, vortex window definition, local maxima detection, ... 
 	\item vortexfitting.py : main program
 \end{itemize}
@@ -283,6 +287,91 @@ Here we will test the three detection methods, Q criterion, $\Delta$ criterion a
 
 \section{Fitting}
 
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_02_10.pdf}
+		\caption{r = 0.2, Gamma = 10}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_02_10_02.pdf}
+		\caption{r = 0.2, Gamma = 10, shift = 0.2}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_09_40.pdf}
+		\caption{r = 0.9, Gamma = 40}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_09_40_02.pdf}
+		\caption{r = 0.9, Gamma = 40, shift = 0.2}
+	\end{subfigure}
+	\caption{Fitting test}
+	\label{fig:fittingtests}
+\end{figure}
+
+\begin{table}[h]
+	\centering
+	\caption{Fitting test parameters}
+	\vspace{10px}
+	\label{tb:fittingtest}
+	\begin{tabular}{l|l|l|l|l}
+		            & 1      & 2 & 3 & 4 \\
+		\hline
+		radius      & 0.2284   & 0.2305 & 0.8965 & 0.9003  \\
+		gamma       & 11.3971 & 11.4534 & 42.0690 & 42.2732 \\
+		x shift     & 0.0000  & 0.1969 & 0.0000 & 0.1964 \\
+		y shift     & 0.0000  & 0.2021 & 0.0000 & 0.2033 \\ 
+		correlation & 0.9998   & 0.9998 & 0.9999 & 0.9999 \\
+	\end{tabular}
+\end{table}
+
+Now with noise:
+
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_02_10N.pdf}
+		\caption{r = 0.2, Gamma = 10}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_02_10_02N.pdf}
+		\caption{r = 0.2, Gamma = 10, shift = 0.2}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_09_40N.pdf}
+		\caption{r = 0.9, Gamma = 40}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_09_40_02N.pdf}
+		\caption{r = 0.9, Gamma = 40, shift = 0.2}
+	\end{subfigure}
+	\caption{Fitting test with random noise}
+	\label{fig:fittingtestsnoise}
+\end{figure}
+
+\begin{table}[h]
+	\centering
+	\caption{Fitting test parameters with noise}
+	\vspace{10px}
+	\label{tb:fittingtestnoise}
+	\begin{tabular}{l|l|l|l|l}
+		& 1      & 2 & 3 & 4 \\
+		\hline
+		radius      & 0.2503   & 0.2140 & 0.9071 & 0.8953  \\
+		gamma       & 11.658 & 11.2872 & 42.7391 & 42.4328 \\
+		x shift     & 0.0068  & 0.1977 & 0.0003 & 0.2017 \\
+		y shift     & 0.0077  & 0.2123 & 0.0134 & 0.2042 \\ 
+		correlation & 0.9889   & 0.9904 & 0.9873 & 0.9879 \\
+	\end{tabular}
+\end{table}
 
 
 \chapter{Results}
@@ -293,9 +382,9 @@ This case is an homogeneous isotropic turbulence (HIT) study. The data is genera
 
 \begin{figure}[h]
 	\centering
-	\label{fig:detectionDNS}
 	\includegraphics[scale=0.5]{figure/dummy.png}
 	\caption{Detected vortices from the DNS data}
+	\label{fig:detectionDNS}
 \end{figure}
 
 In figure \ref{fig:detectionDNS}, the yellow circles corresponds to the detected vortices rotating clockwise and the green circles for the counter-clockwise rotation.
