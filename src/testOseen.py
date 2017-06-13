@@ -39,34 +39,35 @@ if __name__ == '__main__':
         a.dx = np.zeros(dist)
         a.dy = np.zeros(dist)
         X, Y = np.meshgrid(X,Y)
-        xCenter = 0
-        yCenter = 0
+        fxCenter = 0.0
+        fyCenter = 0.0
         coreRori = coreR
         gammaori = gamma
-        Uw, Vw = fitting.velocity_model(a, X+xdrift, Y+ydrift,xCenter,yCenter, gamma, coreR)
-        u_conv = 0.0 #flipped with v, fix later
+        u_conv = 0.2 #flipped with v, fix later
         v_conv = 0.0
+        Uw, Vw = fitting.velocity_model(u_conv, v_conv, X+xdrift, Y+ydrift,fxCenter,fyCenter, gamma, coreR)
         Uw = Uw + u_conv
         Vw = Vw + v_conv
-        #print(Uw)
+        # NOISE
         Uw = np.random.normal(Uw,np.max(Uw)*0.1)
         Vw = np.random.normal(Vw,np.max(Vw)*0.1)
-        #coreR, gamma = fitting.fit(a, X, Y, xCenter, yCenter, Uw, Vw, u_conv, v_conv, gamma)
-        coreR, gamma, fxCenter, fyCenter = fitting.fit4(a, X, Y, xCenter, yCenter, Uw, Vw, u_conv, v_conv, gamma)
+        coreR, gamma, fxCenter, fyCenter, u_conv, v_conv = fitting.fit(a, X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma)
         print('coreR:',coreR,'error(%):',(1-(coreR)/coreRori)*100)
         print('gamma:',gamma,'error(%):',(1-(gamma)/gammaori)*100)
         print('xCenter:',fxCenter)
         print('yCenter:',fyCenter)
+        print('u_conv:',u_conv)
+        print('v_conv:',v_conv)
         #print('xCenter:', fxCenter)
         #print('yCenter:',fyCenter)
-        #2uMod, vMod = fitting.velocity_model(a, X, Y,xCenter, yCenter, gamma, coreR)
-        uMod, vMod = fitting.velocity_modelf(a, X, Y,xCenter,yCenter, fxCenter, fyCenter, gamma, coreR)
+        uMod, vMod = fitting.velocity_model(u_conv, v_conv, X, Y, fxCenter, fyCenter, gamma, coreR)
         corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
         print('correlation:',corr)
         print('---')
         plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr)
   
+    test_oseen(0.2,10,10,0.0,0.0)
     test_oseen(0.2,-10,10,0.0,0.0)
-    test_oseen(0.2,-10,10,0.2,0.2)
-    test_oseen(0.9,-40,10,0.0,0.0)
-    test_oseen(0.9,-40,10,0.2,0.2)
+    test_oseen(0.2,1,10,0.2,0.2)
+    test_oseen(0.9,40,10,0.0,0.0)
+    test_oseen(0.9,40,10,0.2,0.2)
