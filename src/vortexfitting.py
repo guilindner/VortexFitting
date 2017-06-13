@@ -115,16 +115,17 @@ if __name__ == '__main__':
             yCenter = peaks[1][i]
             if (244 > xCenter > 10) and (244 > yCenter > 10):
                 gamma = vorticity[xCenter,yCenter]
-                coreR, gamma, corr, dist, fxCenter, fyCenter, u_conv, v_conv = fitting.full_fit(a, xCenter, yCenter, gamma)
+                coreR = 0.01
+                coreR, gamma, corr, dist, fxCenter, fyCenter, u_conv, v_conv, dist = fitting.full_fit(coreR, gamma, a, xCenter, yCenter)
                 #print(a.dx[xCenter],fxCenter,'|',a.dy[yCenter],fyCenter)
                 if (corr > 0.75):
                     #2vortices.append([xCenter,yCenter, gamma, coreR,corr,dist])
-                    vortices.append([xCenter,yCenter, gamma, coreR,corr,dist,fxCenter,fyCenter,u_conv,v_conv]) #not fitted to plot the center!  
+                    vortices.append([xCenter,yCenter, gamma, coreR,corr,dist,fxCenter,fyCenter,u_conv,v_conv,dist]) #not fitted to plot the center!  
     print('---- Accepted vortices ----')
     print(len(vortices))
     #print('xCenter, yCenter, gamma, core Radius, correlation, mesh distance')
     #for vortex in vortices:
-        #print(vortex)
+    #    print(vortex)
 
     #---- SAVING OUTPUT FILE ----#
     if args.outfilename == None:
@@ -160,7 +161,7 @@ if __name__ == '__main__':
             v_conv = vortices[i][7]
             swirlingw = swirling[xCenter-dist:xCenter+dist,yCenter-dist:yCenter+dist]
             X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
-            uMod, vMod = fitting.velocity_model(u_conv, v_conv, X, Y,fxCenter,fyCenter, gamma, coreR)
+            uMod, vMod = fitting.velocity_model(coreR, gamma, fxCenter, fyCenter, u_conv, v_conv, X, Y)
             plot.plot_quiver(X, Y, Uw, Vw, swirlingw)
                 
     elif args.plot_x == 'fit':
@@ -179,17 +180,17 @@ if __name__ == '__main__':
             dy = a.dy[yCenter+1]-a.dx[yCenter]
             fshiftxCenter = (a.dx[xCenter] -fxCenter)/dx
             fshiftyCenter = (a.dy[yCenter] -fyCenter)/dy
-            shiftxCenter = int(fshiftxCenter)
-            shiftyCenter = int(fshiftyCenter)
-            print(xCenter, shiftxCenter)
-            print(a.dx[xCenter], fxCenter)
+            shiftxCenter = int(round(fshiftxCenter,0))
+            shiftyCenter = int(round(fshiftyCenter,0))
             xCenter = xCenter - shiftxCenter
             yCenter = yCenter - shiftyCenter
 
-            print('xC:',xCenter,'yC:',yCenter, 'vort:',gamma, 'mesh',dist, 'corr',corr, 'coreR',coreR)
+            print('xC:',fxCenter,'yC:',fyCenter, 'vort:',gamma, 'mesh',dist, 'corr',corr, 'coreR',coreR)
             X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
-            uMod, vMod = fitting.velocity_model(u_conv, v_conv, X, Y, fxCenter, fyCenter, gamma, coreR)
+            print(u_conv,v_conv)
+            uMod, vMod = fitting.velocity_model(coreR, gamma, fxCenter, fyCenter, u_conv, v_conv, X, Y)
             corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
+            print(corr)
             plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr)
     
     else:

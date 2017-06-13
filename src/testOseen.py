@@ -46,13 +46,13 @@ if __name__ == '__main__':
         fyCenter = 0.0
         u_conv = 0.0 #flipped with v, fix later
         v_conv = 0.0
-        Uw, Vw = fitting.velocity_model(u_conv, v_conv, X+xdrift, Y+ydrift,fxCenter,fyCenter, gamma, coreR)
+        Uw, Vw = fitting.velocity_model(coreR, gamma, fxCenter, fyCenter, u_conv, v_conv, X+xdrift, Y+ydrift)
         Uw = Uw + u_conv
         Vw = Vw + v_conv
         # NOISE
-        #Uw = np.random.normal(Uw,np.max(Uw)*0.1)
-        #Vw = np.random.normal(Vw,np.max(Vw)*0.1)
-        model = fitting.fit(X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma)
+        Uw = np.random.normal(Uw,np.max(Uw)*0.1)
+        Vw = np.random.normal(Vw,np.max(Vw)*0.1)
+        model = fitting.fit(coreR, gamma, X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv)
         print('coreR:',model[0],'error(%):',(1-(model[0])/coreRori)*100)
         print('gamma:',model[1],'error(%):',(1-(model[1])/gammaori)*100)
         print('fxCenter:',model[2])
@@ -61,14 +61,13 @@ if __name__ == '__main__':
         #print('v_conv:',model[5])
         #print('xCenter:', fxCenter)
         #print('yCenter:',fyCenter)
-        uMod, vMod = fitting.velocity_model(model[0], model[1], X, Y, model[2], model[3],u_conv,v_conv)#, model[4], model[5])
+        uMod, vMod = fitting.velocity_model(model[0], model[1], model[2], model[3],u_conv,v_conv, X, Y)#, model[4], model[5])
         corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
         print('correlation:',corr)
         print('---')
         #plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, model[0], corr)
   
     test_oseen(0.2,10,10,0.0,0.0)
-    test_oseen(0.2,-10,10,0.0,0.0)
-    test_oseen(0.2,1,10,0.2,0.2)
+    test_oseen(0.2,10,10,0.2,0.2)
     test_oseen(0.9,40,10,0.0,0.0)
     test_oseen(0.9,40,10,0.2,0.2)
