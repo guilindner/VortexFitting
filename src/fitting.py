@@ -22,7 +22,7 @@ def correlation_coef(Uw,Vw,u,v):
     
     return R2
 
-def velocity_model(u_conv, v_conv, x, y,fxCenter,fyCenter, gamma, coreR):
+def velocity_model(coreR, gamma, u_conv, v_conv,fxCenter,fyCenter,x,y):
     r = np.hypot(x-fxCenter, y-fyCenter)
     vel = (gamma/(2 * np.pi * r)) * (1 - np.exp(-(r**2)/(coreR)**2))
     vel = np.nan_to_num(vel)
@@ -54,33 +54,33 @@ def full_fit(a, xCenter, yCenter, gamma):
         xCenter = xCenter + newxCenter
         yCenter = yCenter + newyCenter
         X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
-        coreR, gamma, fxCenter, fyCenter, u_conv, v_conv = fit(a, X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma)
-        uMod, vMod = velocity_model(u_conv, v_conv, X, Y,fxCenter,fyCenter, gamma, coreR)
+        model = [[],[],[],[],[],[]]
+        model = fit(X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma)
+        uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], u_conv, v_conv,X,Y)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
         dist += 1
         #print('dist:',dist-1,'Radius',round(coreR,3),'Gamma',
         #      round(gamma,3),'corr',round(corr,3),'x',fxCenter,
         #      'y',fyCenter,'u_conv',u_conv,'v_conv',v_conv)
            
-    return coreROld, gamma, corrOld, dist-2, fxCenter, fyCenter, u_conv, v_conv
+    return coreROld, gammaOld, corrOld, dist-2, fxCenter, fyCenter, u_conv, v_conv
 
-def fit(a, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma):
+def fit(x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma):
     x = x.ravel()
     y = y.ravel()
     Uw = Uw.ravel()
     Vw = Vw.ravel()
     
-    def fun(fitted): #fitted[0]=coreR, fitted[1]=gamma, fitted[2]=xCenter, fitted[3]=yCenter, fitted[4]=u_conv, fitted[5]=v_conv
+    def fun(fitted): #fitted[0]=coreR, fitted[1]=gamma, fitted[2]=fxCenter, fitted[3]=fyCenter, fitted[4]=u_conv, fitted[5]=v_conv
         r = np.hypot(x-fitted[2], y-fitted[3])
         expr2 = np.exp(-r**2/fitted[0]**2)
         z = fitted[1]/(2*np.pi*r) * (1 - expr2)
         z = np.nan_to_num(z)
-        zx = (-z + fitted[4])*(x-fitted[2]) -Uw
-        zy = (z + fitted[5])*(y-fitted[3]) -Vw
+        zx = (-z + u_conv)*(x-fitted[2]) -Uw
+        zy = (z + v_conv)*(y-fitted[3]) -Vw
         zt = np.append(zx,zy)
         return zt
-    bnds=([0.01,-200,fxCenter-0.1,fyCenter-0.1,u_conv-0.5,v_conv-0.5],[2.0,200,
-           fxCenter+0.1,fyCenter+0.1,u_conv+0.5,v_conv+0.5])
-    sol = optimize.least_squares(fun, [0.05,gamma,fxCenter,fyCenter,u_conv,v_conv],bounds=bnds,method='dogbox')
-          
+    bnds=([0.01,-100,fxCenter-0.1,fyCenter-0.1],
+          [2.00,+100,fxCenter+0.1,fyCenter+0.1])
+    sol = optimize.least_squares(fun, [0.05,gamma,fxCenter,fyCenter],bounds=bnds,method='dogbox')     
     return sol.x

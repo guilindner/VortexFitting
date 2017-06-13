@@ -34,37 +34,38 @@ if __name__ == '__main__':
     
     def test_oseen(coreR, gamma, dist,xdrift,ydrift):
         print('|*|coreR:',coreR,'Gamma',gamma,'xdrift',xdrift,'ydrift',ydrift,'|*|')
+        model = [[],[],[],[],[],[]]
+        model[0] = coreR
+        model[1] = gamma
+        coreRori = model[0]
+        gammaori = model[1]
         X = np.linspace(-1,1,dist)
         Y = np.linspace(-1,1,dist)
-        a.dx = np.zeros(dist)
-        a.dy = np.zeros(dist)
         X, Y = np.meshgrid(X,Y)
         fxCenter = 0.0
         fyCenter = 0.0
-        coreRori = coreR
-        gammaori = gamma
-        u_conv = 0.2 #flipped with v, fix later
+        u_conv = 0.0 #flipped with v, fix later
         v_conv = 0.0
         Uw, Vw = fitting.velocity_model(u_conv, v_conv, X+xdrift, Y+ydrift,fxCenter,fyCenter, gamma, coreR)
         Uw = Uw + u_conv
         Vw = Vw + v_conv
         # NOISE
-        Uw = np.random.normal(Uw,np.max(Uw)*0.1)
-        Vw = np.random.normal(Vw,np.max(Vw)*0.1)
-        coreR, gamma, fxCenter, fyCenter, u_conv, v_conv = fitting.fit(a, X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma)
-        print('coreR:',coreR,'error(%):',(1-(coreR)/coreRori)*100)
-        print('gamma:',gamma,'error(%):',(1-(gamma)/gammaori)*100)
-        print('xCenter:',fxCenter)
-        print('yCenter:',fyCenter)
-        print('u_conv:',u_conv)
-        print('v_conv:',v_conv)
+        #Uw = np.random.normal(Uw,np.max(Uw)*0.1)
+        #Vw = np.random.normal(Vw,np.max(Vw)*0.1)
+        model = fitting.fit(X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, gamma)
+        print('coreR:',model[0],'error(%):',(1-(model[0])/coreRori)*100)
+        print('gamma:',model[1],'error(%):',(1-(model[1])/gammaori)*100)
+        print('fxCenter:',model[2])
+        print('fyCenter:',model[3])
+        #print('u_conv:',model[4])
+        #print('v_conv:',model[5])
         #print('xCenter:', fxCenter)
         #print('yCenter:',fyCenter)
-        uMod, vMod = fitting.velocity_model(u_conv, v_conv, X, Y, fxCenter, fyCenter, gamma, coreR)
+        uMod, vMod = fitting.velocity_model(model[0], model[1], X, Y, model[2], model[3],u_conv,v_conv)#, model[4], model[5])
         corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
         print('correlation:',corr)
         print('---')
-        plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr)
+        #plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, model[0], corr)
   
     test_oseen(0.2,10,10,0.0,0.0)
     test_oseen(0.2,-10,10,0.0,0.0)
