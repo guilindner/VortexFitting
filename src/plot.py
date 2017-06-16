@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
+from scipy.stats import norm
 
 import tools
 
@@ -68,3 +69,33 @@ def plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
     plt.legend()
     plt.title('core Radius = %s Correlation = %s' %(round(coreR,3),round(corr,3)))
     plt.show()
+    
+def plot_radius(vortices):
+    fig, ax = plt.subplots()
+    data = []
+    for i in range(len(vortices)):
+        print(vortices[i][3])
+        data.append(vortices[i][3])
+    data = np.array(data)
+    (mu, sigma) = norm.fit(data)
+    print(mu, sigma)
+    x = np.linspace(-sigma*3,sigma*3,data.size)
+    #x = np.linspace(min(data), max(data), 50)
+    y = norm.pdf(x,0.0,sigma)
+    ax.plot(x, y, 'r--', linewidth=2)
+    ax.set_xlim(-0.3,0.3)
+    
+    
+    #plt.figure()
+    #data = []
+    #for i in range(len(vortices)):
+    #    print(vortices[i][3])
+    #    data.append(vortices[i][3])
+    #data = np.array(data)
+    #print(data)
+    #bins = np.arange(min(data), max(data), 0.01)
+    #print(bins)
+    #plt.hist(data, bins=bins, alpha=0.5)
+    
+    plt.show()
+

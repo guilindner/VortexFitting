@@ -109,14 +109,16 @@ if __name__ == '__main__':
 
     #---- MODEL FITTING ----# SEE IN PLOT
     vortices = list()
+    #fitv = [[],[],[],[],[],[],[],[],[],[],[]]
     
     for i in range(len(peaks[0])):
             xCenter = peaks[0][i]
             yCenter = peaks[1][i]
             if (244 > xCenter > 10) and (244 > yCenter > 10):
                 gamma = vorticity[xCenter,yCenter]
-                coreR = 0.01
-                coreR, gamma, corr, dist, fxCenter, fyCenter, u_conv, v_conv, dist = fitting.full_fit(coreR, gamma, a, xCenter, yCenter)
+                coreR = 4*(a.dx[xCenter+1]-a.dx[xCenter])
+                coreR, gamma, corr, dist, fxCenter, fyCenter, u_conv, v_conv, xCenter, yCenter = fitting.full_fit(coreR, gamma, a, xCenter, yCenter)
+                fitted_vortices = fitting.full_fit(coreR, gamma, a, xCenter, yCenter)
                 #print(a.dx[xCenter],fxCenter,'|',a.dy[yCenter],fyCenter)
                 if (corr > 0.75):
                     #2vortices.append([xCenter,yCenter, gamma, coreR,corr,dist])
@@ -178,20 +180,15 @@ if __name__ == '__main__':
             v_conv = vortices[i][9]
             dx = a.dx[xCenter+1]-a.dx[xCenter]
             dy = a.dy[yCenter+1]-a.dx[yCenter]
-            fshiftxCenter = (a.dx[xCenter] -fxCenter)/dx
-            fshiftyCenter = (a.dy[yCenter] -fyCenter)/dy
-            shiftxCenter = int(round(fshiftxCenter,0))
-            shiftyCenter = int(round(fshiftyCenter,0))
-            xCenter = xCenter - shiftxCenter
-            yCenter = yCenter - shiftyCenter
 
-            print('xC:',fxCenter,'yC:',fyCenter, 'vort:',gamma, 'mesh',dist, 'corr',corr, 'coreR',coreR)
+            print('xC:',xCenter,'yC:',yCenter, 'vort:',gamma, 'mesh',dist, 'corr',corr, 'coreR',coreR)
             X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
-            print(u_conv,v_conv)
             uMod, vMod = fitting.velocity_model(coreR, gamma, fxCenter, fyCenter, u_conv, v_conv, X, Y)
             corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
             print(corr)
             plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr)
+    elif args.plot_x == 'radius':
+        plot.plot_radius(vortices)
     
     else:
         print('no plot')

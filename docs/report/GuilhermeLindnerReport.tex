@@ -221,7 +221,10 @@ In this work we are dealing with a time-independent flow, so we have no decaying
 
 \subsection{Non-linear least squares}
 
-Levenberg Marquardt method
+\subsubsection{Levenberg Marquardt method}
+
+The Levenberg–Marquardt algorithm, also known as the damped least-squares method, is used to solve non-linear least squares problems. These minimization problems arise especially in least squares curve fitting.
+
 \begin{equation}
 \chi^2 = \sum_{i=1}^N \left[ \frac{y_i - \sum_{k=1}^M a_k X_k (x_i)}{\sigma i} \right]^2
 \end{equation}
@@ -229,6 +232,10 @@ Levenberg Marquardt method
 \begin{equation}
 \alpha_{kl} = \sum_{i=1}^N \frac{1}{\sigma_i^2} \left[ \frac{\partial y(x_i;a)}{\partial a_k} \frac{\partial y(x_i;a)}{\partial a_l} \right]
 \end{equation}
+
+\subsubsection{Powell's dogleg method}
+
+The Powell's method is an algorithm for finding a local minimum of a function. This function doesn't need to be differentiable and no derivatives are taken. It does this using a combination of Newton's method and the steepest descent method. This is a so-called trust region method. This means that every step moves the current point to within a finite region. This makes the method more stable than Newton's method.
 
 \section{Programming}
 
@@ -329,7 +336,7 @@ Here we will test the three detection methods, Q criterion, $\Delta$ criterion a
 	\end{tabular}
 \end{table}
 
-Now with noise:
+Now we consider a noise of 10\% of the maximum value found on the original field:
 
 \begin{figure}[h!]
 	\centering
