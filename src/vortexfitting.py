@@ -92,6 +92,8 @@ if __name__ == '__main__':
         swirling = detection.q_criterion(a)
     elif args.detect == 'swirling':
         swirling = detection.calc_swirling(a)
+    elif args.detect == 'delta':
+        swirling = detection.delta_criterion(a)
     #print(round(time.time() - lap,3), 'seconds')
 
     if a.norm == True:
@@ -109,12 +111,11 @@ if __name__ == '__main__':
 
     #---- MODEL FITTING ----# SEE IN PLOT
     vortices = list()
-    #fitv = [[],[],[],[],[],[],[],[],[],[],[]]
-    
+
     for i in range(len(peaks[0])):
             xCenter = peaks[0][i]
             yCenter = peaks[1][i]
-            if (244 > xCenter > 10) and (244 > yCenter > 10):
+            if (len(a.dx)-10 > xCenter > 10) and (len(a.dy)-10 > yCenter > 10):
                 gamma = vorticity[xCenter,yCenter]
                 coreR = 4*(a.dx[xCenter+1]-a.dx[xCenter])
                 coreR, gamma, corr, dist, fxCenter, fyCenter, u_conv, v_conv, xCenter, yCenter = fitting.full_fit(coreR, gamma, a, xCenter, yCenter)

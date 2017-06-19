@@ -32,9 +32,9 @@ class VelocityField():
             u = u - np.mean(u,axis=(0,1))[None,None,:]
             v = v - np.mean(v,axis=(0,1))[None,None,:]
             w = w - np.mean(w,axis=(0,1))[None,None,:]
-            self.u = u[15]
-            self.v = v[15]
-            self.w = w[15]
+            self.u = u[0]
+            self.v = v[0]
+            self.w = w[0]
             self.norm = True
             self.normdir = 0
         

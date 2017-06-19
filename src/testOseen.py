@@ -50,8 +50,8 @@ if __name__ == '__main__':
         Uw = Uw + u_conv
         Vw = Vw + v_conv
         # NOISE
-        Uw = np.random.normal(Uw,np.max(Uw)*0.1)
-        Vw = np.random.normal(Vw,np.max(Vw)*0.1)
+        Uw = np.random.normal(Uw,0.3)
+        Vw = np.random.normal(Vw,0.3)
         model = fitting.fit(coreR, gamma, X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv)
         print('coreR:',model[0],'error(%):',(1-(model[0])/coreRori)*100)
         print('gamma:',model[1],'error(%):',(1-(model[1])/gammaori)*100)
@@ -65,7 +65,7 @@ if __name__ == '__main__':
         corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
         print('correlation:',corr)
         print('---')
-        #plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, model[0], corr)
+        plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, model[0], corr)
   
     test_oseen(0.2,10,10,0.0,0.0)
     test_oseen(0.2,10,10,0.2,0.2)

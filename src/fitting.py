@@ -42,11 +42,11 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
     model[0] = 0.05
     corrOld = 0.0
     corr = 0.001
-    dist = 5
+    dist = 3
     model[2] = fxCenter
     model[3] = fyCenter
     for i in range(20):
-        #print('iter',i)
+        print('iter',i)
         distOld = dist
         corrOld = corr
         u_conv = a.u[xCenter, yCenter]
@@ -55,10 +55,10 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, u_conv, v_conv)
         uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], u_conv, v_conv,X,Y)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
-        #print('dist:',dist,'Radius',round(model[0],3),'Gamma',
-        #      round(model[1],3),'corr',round(corr,3),'x',model[2],
-        #      'y',model[3],'u_conv',u_conv,'v_conv',v_conv,
-        #      'xC',xCenter,'yC',yCenter)
+        print('dist:',dist,'Radius',round(model[0],3),'Gamma',
+              round(model[1],3),'corr',round(corr,3),'x',model[2],
+              'y',model[3],'u_conv',u_conv,'v_conv',v_conv,
+              'xC',xCenter,'yC',yCenter)
         #print('x diff', model[2]- fxCenter)
         if (model[2]-fxCenter > dx):
             #print('reduce x!')
@@ -103,8 +103,8 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
         zy = (z + v_conv)*(y-fitted[3]) -Vw
         zt = np.append(zx,zy)
         return zt
-    bnds=([0.001,-100,fxCenter-0.05,fyCenter-0.05],
-          [2.00,+100,fxCenter+0.05,fyCenter+0.05])
+    bnds=([0.001,-100,fxCenter-0.25,fyCenter-0.25],
+          [2.00,+100,fxCenter+0.25,fyCenter+0.25])
     sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter],bounds=bnds,method='dogbox')     
     #Levenberg working!
     #sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter],method='lm')
