@@ -19,9 +19,28 @@ def plot_fields(a,vorticity):
     
     totalvel = np.sqrt(a.u**2 + a.v**2 + a.w**2)
     ax4.set_title('Total velocity (u, v and w)')
-    ax4.imshow(vorticity,origin="lower")#, cmap='seismic')
+    ax4.imshow(vorticity,origin="lower", cmap='seismic')
     plt.tight_layout()
     
+    plt.show()
+    
+def plot_fields2(a,vorticity):
+    plt.subplot()
+    plt.imshow(a.u, cmap='seismic',origin="lower")
+    #plt.title('Velocity u')
+    plt.show()
+    
+    plt.imshow(a.v, cmap='seismic',origin="lower")
+    #plt.title('Velocity v')
+    plt.show()
+    
+    plt.imshow(a.w, cmap='seismic',origin="lower")
+    #plt.title('Velocity w')
+    plt.show()
+    
+    totalvel = np.sqrt(a.u**2 + a.v**2 + a.w**2)
+    #plt.title('Total velocity (u, v and w)')
+    plt.imshow(vorticity,origin="lower", cmap='seismic')
     plt.show()
     
 def plot_detection(dirL,dirR,field, *args):
@@ -48,7 +67,7 @@ def plot_detection(dirL,dirR,field, *args):
 
 def plot_quiver(X, Y, Uw, Vw, field):
     plt.figure()
-    plt.title('Velocity vectors centered at max swirling strength')
+    #plt.title('Velocity vectors centered at max swirling strength')
     plt.contourf(field,
                  extent=[X[0][0], X[0][-1], Y[0][0], Y[-1][0]])
     s = 1

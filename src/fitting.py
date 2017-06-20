@@ -46,7 +46,7 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
     model[2] = fxCenter
     model[3] = fyCenter
     for i in range(20):
-        print('iter',i)
+        #print('iter',i)
         distOld = dist
         corrOld = corr
         u_conv = a.u[xCenter, yCenter]
@@ -55,10 +55,10 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, u_conv, v_conv)
         uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], u_conv, v_conv,X,Y)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
-        print('dist:',dist,'Radius',round(model[0],3),'Gamma',
-              round(model[1],3),'corr',round(corr,3),'x',model[2],
-              'y',model[3],'u_conv',u_conv,'v_conv',v_conv,
-              'xC',xCenter,'yC',yCenter)
+        #print('dist:',dist,'Radius',round(model[0],3),'Gamma',
+        #      round(model[1],3),'corr',round(corr,3),'x',model[2],
+        #      'y',model[3],'u_conv',u_conv,'v_conv',v_conv,
+        #      'xC',xCenter,'yC',yCenter)
         #print('x diff', model[2]- fxCenter)
         if (model[2]-fxCenter > dx):
             #print('reduce x!')
