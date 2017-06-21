@@ -2,6 +2,12 @@
 \usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
 \usepackage{listings}
 \usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{8} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{8}  % for normal
 \usepackage{algorithm2e}
 \usepackage[noend]{algpseudocode}
 %\usepackage{algpseudocode}
@@ -18,6 +24,7 @@
 \usepackage{hyperref} % links
 \usepackage{subcaption}
 \usepackage[section,above,below]{placeins} % floatbarrier em tudo?
+\usepackage{listings}
 %\usepackage{fancyhdr}
 %\pagestyle{fancy} 
 %\fancyhf{}
@@ -158,7 +165,6 @@ The swirling strength criterion ($\lambda_{ci}$) was developed by Zhou \textit{e
 where $\lambda_r$ is the real eigenvalue, related to the eigenvector $\bar{\nu_r}$, and the complex conjugate pair of complex eigenvalues is $\lambda_{cr}  \pm i\lambda_{ci}$, related to the eigenvectors $\bar{\nu_r} \pm i\bar{\nu_{ci}}$. The strength of this swirling motion can be quantified by $\lambda_{ci}$ , called the local swirling strength of the vortex. The threshold for $\lambda_{ci}$ is not well-defined, but theoretically any value greater than zero should be considered a vortex. Experimental results \cite{zhou1999} shows that $\lambda_{ci} \geq \epsilon > 0$ give smoother results.
 
 
-
 \section{Localization of the extrema}
 
 To have smooth results on the swirling strength, we apply a normalization of the field. The swirling strength is divided by the wall-normal profile of its RMS value:
@@ -172,24 +178,47 @@ Then the local maxima of the detection can be identified. The normalization is n
 \begin{figure}[h]
 	\centering
 	\includegraphics[trim=0 130 0 130 ,clip, width=\textwidth]{figure/PIVnonnormalized.pdf}
-	\caption{Original swirling strength field}
+	\caption{PIV data, swirling strength field}
 	\label{fig:nonnorm}
 \end{figure}
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[trim=0 130 0 130 , clip, width=\textwidth]{figure/PIVnormalized.pdf}
-	\caption{Normalized swirling strength field}
+	\caption{PIV data, normalized swirling strength field}
 	\label{fig:norm}
 \end{figure}
 
-In figure \ref{fig:nonnorm} we see the original swirling strength field, where 104 vortices were found mostly near the wall. In figure \ref{fig:norm} we show the normalized swirling strength field, now with 202 vortices found. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[trim=0 130 0 130 , clip, width=\textwidth]{figure/PIVbox12normalized.pdf}
+	\caption{PIV data, normalized swirling strength field, with bigger box size (12)}
+	\label{fig:boxnorm}
+\end{figure}
+
+In figure \ref{fig:nonnorm} we see the original swirling strength field, where 104 vortices were found, mostly near the wall, where the boundary layer plays an important role in increasing the swirling strengtht. The yellow circles corresponds to the vortices rotating clockwise and the green circles for the counter-clockwise rotation. 
+
+In figure \ref{fig:norm} we show the normalized swirling strength field, now with 202 vortices found, minimizing the wall influence over the detection.
+
+We can play with the distance between one detected vortex and another, by increasing the box size of the peak detection. In figure \ref{fig:boxnorm} we set the box size to 12, instead of box size 6 used in figures \ref{fig:nonnorm} and \ref{fig:norm}. With this setting we reduce the detected vortices to 154, by removing the overlapping ones.
+
+One interesting fact about the swirling strength (as well the other methods) is that the local maximum values does not always match the center of the vortex. We show in \ref{fig:quiverDNS1} one example of this mismatch between them.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{figure/dns_quiver1.pdf}
+	\caption{Sample of velocity vectors on top of the swirling strength field}
+	\label{fig:quiverDNS1}
+\end{figure} 
 
 \section{Fitting of coherent structures}
 
-The correlation coefficient between the fitted model and the velocity field is calculated according to equation.
+Using the peak of maximum swirling strength or identifying the places where the Q or $\Delta$ criterion are higher than 0 gives us a rough estimation of a possible vortex and its center. But even using a threshold on these methods, the presence of a real vortex is not always true. To improve this detection we use a Lamb-Oseen vortex model to be fitted on top of the actual detected peak to check if it is really a vortex. 
+
+The correlation coefficient between the fitted model and the velocity field is calculated according to equation \ref{eq:corr} and if it's higher than 0.75 we can consider it a vortex.
 
 \begin{equation}
+\label{eq:corr}
 R(model/data) = \left( \frac{\langle (\vec{u}_{data}-\vec{u}_c).(\vec{u}_{model}-\vec{u}_c)\rangle }
 {\sqrt{\langle (\vec{u}_{data}-\vec{u}_c)^2\rangle} \sqrt{\langle (\vec{u}_{model}-\vec{u}_c)^2\rangle}} \right)^{1/2}
 \end{equation}
@@ -251,6 +280,7 @@ The language chosen for developing the detection tools is Python 3.6 (Python Sof
 The following files are present on the code, allowing the easy implementation of new methods, tools or scheemes.
 
 \begin{itemize}
+	\item vortexfitting.py : main program
 	\item classes.py : definition of the data type, i.e. DNS, PIV, ...
 	\item detection.py : detect the vortices by one of the methos (Q criterion, $\lambda_2$ criterion or swirling strenth)
 	\item fitting.py : performs the fit to oseen vortex
@@ -258,7 +288,6 @@ The following files are present on the code, allowing the easy implementation of
 	\item schemes.py : differencing schemes (2nd and 4th order)
 	\item testoseen.py : tests for fitting performance
 	\item tools.py : normalization, vortex window definition, local maxima detection, ... 
-	\item vortexfitting.py : main program
 \end{itemize}
 
 The code uses the version control system Git, and it's hosted and fully available at \url{https://github.com/guilindner/VortexFitting}. 
@@ -300,7 +329,7 @@ The tested case is an Homogeneous Isotropic Turbulence (HIT) of a cube, obtained
 	\caption{Vortices found, detection X schemes}
 	\vspace{10px}
 	\label{tb:detection}
-	\begin{tabular}{l|l|l}
+	\begin{tabular}{l|c|c}
 		         & 2nd order      & 4th order  \\
 		\hline
 		Q criterion  & 403  & 398  \\
@@ -313,35 +342,29 @@ The tested case is an Homogeneous Isotropic Turbulence (HIT) of a cube, obtained
 
 In this section we will test the Oseen Vortex model fitting under different scenarios. For the first comparison a standard Oseen Vortex is created to be an exact match and for the second set of tests we add a noise to the original vortex field.
 
-Figures \ref{fig:fittingtests} and \ref{fig:fittingtestsnoise} shows 4 different cases:
-\begin{enumerate}[(a)]
-	\item core radius = 0.2, $\Gamma$ = 10, displacement x and y = 0.0
-	\item core radius = 0.2, $\Gamma$ = 10, displacement x and y = 0.2
-	\item core radius = 0.9, $\Gamma$ = 40, displacement x and y = 0.0
-	\item core radius = 0.9, $\Gamma$ = 40, displacement x and y = 0.2  
-\end{enumerate}
+Figures \ref{fig:fittingtests} and \ref{fig:fittingtestsnoise} shows 4 different cases, varying the core radius, $\Gamma$ and the distance of the center of vortex to the center of window (shift).
 
 \begin{figure}[h!]
 	\centering
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_02_10.pdf}
-		\caption{r = 0.2, Gamma = 10}
+		\caption{Initial values: r = 0.2, $\Gamma$ = 10}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_02_10_02.pdf}
-		\caption{r = 0.2, Gamma = 10, shift = 0.2}
+		\caption{r = 0.2, $\Gamma$ = 10, shift = 0.2}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_09_40.pdf}
-		\caption{r = 0.9, Gamma = 40}
+		\caption{Initial values: r = 0.9, $\Gamma$ = 40}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_09_40_02.pdf}
-		\caption{r = 0.9, Gamma = 40, shift = 0.2}
+		\caption{r = 0.9, $\Gamma$ = 40, shift = 0.2}
 	\end{subfigure}
 	\caption{Fitting test}
 	\label{fig:fittingtests}
@@ -352,11 +375,11 @@ Figures \ref{fig:fittingtests} and \ref{fig:fittingtestsnoise} shows 4 different
 	\caption{Fitting test results}
 	\vspace{10px}
 	\label{tb:fittingtest}
-	\begin{tabular}{l|l|l|l|l}
+	\begin{tabular}{l|c|c|c|c}
 		            & a      & b & c & d \\
 		\hline
 		radius      & 0.2000   & 0.2000 & 0.9000 & 0.8999  \\
-		gamma       & 10.0000 & 10.0000 & 40.0000 & 39.9999 \\
+		$\Gamma$       & 10.0000 & 10.0000 & 40.0000 & 39.9999 \\
 		x shift     & 0.0000  & 0.2000 & 0.0000 & 0.2000 \\
 		y shift     & 0.0000  & 0.2000 & 0.0000 & 0.2000 \\ 
 		correlation & 1.0000   & 1.0000 & 1.0000 & 1.0000 \\
@@ -372,22 +395,22 @@ Now we add a perturbation to the initial flow field. Considering a random noise 
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_02_10N.pdf}
-		\caption{r = 0.2, Gamma = 10}
+		\caption{Initial values: r = 0.2, $\Gamma$ = 10}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_02_10_02N.pdf}
-		\caption{r = 0.2, Gamma = 10, shift = 0.2}
+		\caption{r = 0.2, $\Gamma$ = 10, shift = 0.2}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_09_40N.pdf}
-		\caption{r = 0.9, Gamma = 40}
+		\caption{Initial values: r = 0.9, $\Gamma$ = 40}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
 		\centering
 		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_09_40_02N.pdf}
-		\caption{r = 0.9, Gamma = 40, shift = 0.2}
+		\caption{r = 0.9, $\Gamma$ = 40, shift = 0.2}
 	\end{subfigure}
 	\caption{Fitting test with random noise}
 	\label{fig:fittingtestsnoise}
@@ -398,11 +421,11 @@ Now we add a perturbation to the initial flow field. Considering a random noise 
 	\caption{Fitting test results with noise}
 	\vspace{10px}
 	\label{tb:fittingtestnoise}
-	\begin{tabular}{l|l|l|l|l}
+	\begin{tabular}{l|c|c|c|c}
 		            & a      & b & c & d \\
 		\hline
 		radius      & 0.1917   & 0.2427 & 0.9067 & 0.9169  \\
-		gamma       & 10.1863 & 9.9743 & 40.4885 & 40.5987 \\
+		$\Gamma$       & 10.1863 & 9.9743 & 40.4885 & 40.5987 \\
 		x shift     & 0.0035  & 0.1946 & -0.0098 & 0.1953 \\
 		y shift     & 0.0028  & 0.1918 & 0.0085 & 0.1995 \\ 
 		correlation & 0.9406   & 0.9153 & 0.9895 & 0.9869 \\
@@ -416,47 +439,19 @@ Here we show the results of the full fitting procedure of DNS data.
 \section{DNS data}
 This case is an homogeneous isotropic turbulence (HIT) study, generated by a DNS simulation. Since we have no walls and boundaries, no normalization of the velocity field or smoothing on the swirling field is needed. The scheme used is the second order central scheme and using the swirling strength criteria for detection.
 
-On figure \ref{fig:velocity_field} we show the velocity field of the HIT DNS data. The 3 components are shown, for the a slice in the middle of the box.
-
-\begin{figure}[h!]
-	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
-		\centering
-		\includegraphics[trim=80 20 80 20 ,clip,width=\textwidth]{figure/dns_u.pdf}
-		\caption{u velocity.}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\centering
-		\includegraphics[trim=80 20 80 20 ,clip,width=\textwidth]{figure/dns_v.pdf}
-		\caption{v velocity}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\centering
-		\includegraphics[trim=80 20 80 20 ,clip,width=\textwidth]{figure/dns_w.pdf}
-		\caption{w velocity}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\centering
-		\includegraphics[trim=80 20 80 20 ,clip,width=\textwidth]{figure/dns_total.pdf}
-		\caption{total velocity}
-	\end{subfigure}
-	\caption{Velocity field of a 3D HIT DNS}
-	\label{fig:velocity_field}
-\end{figure}
-
-We notice on figure \ref{fig:quiverDNS1} that the peak of swirling strength does not always match the center of the vortex. That's why we need to iterate over the center of vortex window to get the best correlation.
+The vorticity field, along with the velocity vectors are shown in figure \ref{fig:vorticity}.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.6]{figure/dns_quiver1.pdf}
-	\caption{Velocity vectors on top of the swirling strength field}
-	\label{fig:quiverDNS1}
+	\includegraphics[scale=0.6]{figure/dns_detect.pdf}
+	\caption{Vorticity field from the DNS data.}
+	\label{fig:vorticity}
 \end{figure}
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6]{figure/dns_detect.pdf}
-	\caption{Detected vortices from the DNS data}
+	\caption{Detected vortices from the DNS data.}
 	\label{fig:detectionDNS}
 \end{figure}
 
@@ -495,8 +490,8 @@ Figure \ref{fig:vorticesDNS} shows 4 random fitted vortices from the DNS, and ta
 	\caption{DNS vortices characteristics}
 	\vspace{10px}
 	\label{tb:DNSvortices}
-	\begin{tabular}{l|l|l|l|l|l}
-		Vortex         & Center(x,y) & core radius    & $\Gamma$   & correlation & mesh window \\
+	\begin{tabular}{l|c|c|c|c|c}
+		Vortex         & Center(x,y) & Radius    & $\Gamma$   & Correlation & Box window \\
 		\hline
 		a    & 37, 50   & 0.1226  & 6.0498   & 0.7818 & 6 \\
 		b    & 93, 79   & 0.0745  & 7.9175   & 0.8590 & 4 \\
@@ -557,6 +552,27 @@ right edge cells:
 \begin{equation}
 F_x(i) = \frac{3F(i+1)+10F(i)-18F(i-1)+6F(i-2) -F(i-3)}{12 \Delta x}
 \end{equation}
+
+\chapter{Python Code}
+Here we have the main parts of the program developed in Python, vortexFitting, detection and fitting.
+
+\section{vortexFitting.py}
+
+\lstinputlisting[language=Python,basicstyle=\ttm,otherkeywords={self},keywordstyle=\ttb\color{deepblue},
+emph={__init__},emphstyle=\ttb\color{deepred},stringstyle=\color{deepgreen},frame=tb,showstringspaces=false]
+{/home/guilherme/Documents/VortexFitting/src/vortexfitting.py}
+
+\section{detection.py}
+
+\lstinputlisting[language=Python,basicstyle=\ttm,otherkeywords={self},keywordstyle=\ttb\color{deepblue},
+emph={__init__},emphstyle=\ttb\color{deepred},stringstyle=\color{deepgreen},frame=tb,showstringspaces=false]
+{/home/guilherme/Documents/VortexFitting/src/detection.py}
+
+\section{fitting.py}
+
+\lstinputlisting[language=Python,basicstyle=\ttm,otherkeywords={self},keywordstyle=\ttb\color{deepblue},
+emph={__init__},emphstyle=\ttb\color{deepred},stringstyle=\color{deepgreen},frame=tb,showstringspaces=false]
+{/home/guilherme/Documents/VortexFitting/src/fitting.py}
 
 
 \end{document}
