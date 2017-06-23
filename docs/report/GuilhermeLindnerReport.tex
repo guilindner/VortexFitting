@@ -54,7 +54,7 @@ minimum height=2em]
 	\normalsize  \vspace*{5\baselineskip}}
 
 
-\date{\vfill May - 2017}
+\date{\vfill June - 2017}
 
 \author{
 	\Large Guilherme Lindner \\ [1.0cm]
@@ -71,8 +71,8 @@ minimum height=2em]
 	\let\cleardoublepage\clearpage
 	\frontmatter
 	\begin{abstract}
-		In this project, a tool is developed in Python to detect and evaluate the coherent structures of a velocity field. The workflow is based on the thesis of Sophie Herpin \cite{herpin2009} pubished in 2009.
-		This tool comprehends the reading of NetCDF files and applying a method for detecting the vortices, like swirling strength of Q criterion. After this, all the vortices found are fitted to the Lamb-Oseen vortex using a non-linear least squares method and the correlation between the model and original data is evaluated. If the correlation is higher than 0.75, the vortex is accepted, otherwise is reject. The analyzed data can come from Direct Numerical Simulation (DNS) or Particle Image Velocimetry (PIV).
+		In this project, a tool is developed in Python to detect and evaluate the vortices of a velocity field from both numerical and experimental data. The workflow is from the thesis of Sophie Herpin \cite{herpin2009}, 2009.
+		This tool comprehends the reading of NetCDF files and applying a method for detecting the vortices, like swirling strength of Q criterion. After this, all the vortices found are fitted to the Lamb-Oseen vortex using a non-linear least squares method and the correlation between the model and original data is evaluated. If the correlation is higher than 0.75, the vortex is accepted, otherwise is reject.
 	\end{abstract}
 	\newpage
 	\tableofcontents
@@ -91,7 +91,7 @@ Coherent structures and vortices sometimes are misunderstood for not having a cl
 	\textit{"It is generally accepted that flows with general time dependence admit emergent patterns which influence the transport of tracers, those structures are often generically refered to as Coherent Structures"}
 \end{quote}
 
-In short we can say that vortices are coherent structures, but the inverse is most of the times true, but not a rule.
+In short we can say that vortices are one of the specific definition for coherent structures.
 
 
 
@@ -175,32 +175,35 @@ To have smooth results on the swirling strength, we apply a normalization of the
 
 Then the local maxima of the detection can be identified. The normalization is not required for the HIT cases, it is only used when we have an non-homogeneous direction.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
-	\includegraphics[trim=0 130 0 130 ,clip, width=\textwidth]{figure/PIVnonnormalized.pdf}
-	\caption{PIV data, swirling strength field}
-	\label{fig:nonnorm}
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+	\includegraphics[trim=0 140 0 150 ,clip, width=\textwidth]{figure/PIVnonnormalized.pdf}
+	\caption{}
+	\label{fig:nonnorm2}
+	\end{subfigure}
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+	\includegraphics[trim=0 140 0 150 , clip, width=\textwidth]{figure/PIVnormalized.pdf}
+	\caption{}
+	\label{fig:norm2}
+	\end{subfigure}
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+	\includegraphics[trim=0 130 0 150 , clip, width=\textwidth]{figure/PIVbox12normalized.pdf}
+	\caption{}
+	\label{fig:boxnorm2}
+	\end{subfigure}
+	\caption{PIV swirling strength field, (a) original, (b) normalized field, (c) normalized field with boxsize=12 }
+	\label{fig:PIVcomparison}
 \end{figure}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[trim=0 130 0 130 , clip, width=\textwidth]{figure/PIVnormalized.pdf}
-	\caption{PIV data, normalized swirling strength field}
-	\label{fig:norm}
-\end{figure}
+In figure \ref{fig:nonnorm2} we see the original swirling strength field, where 104 vortices were found, mostly near the wall, where the boundary layer plays an important role in increasing the swirling strengtht. The yellow circles corresponds to the vortices rotating clockwise and the green circles for the counter-clockwise rotation. 
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[trim=0 130 0 130 , clip, width=\textwidth]{figure/PIVbox12normalized.pdf}
-	\caption{PIV data, normalized swirling strength field, with bigger box size (12)}
-	\label{fig:boxnorm}
-\end{figure}
+In figure \ref{fig:norm2} we show the normalized swirling strength field, now with 202 vortices found, minimizing the wall influence over the detection.
 
-In figure \ref{fig:nonnorm} we see the original swirling strength field, where 104 vortices were found, mostly near the wall, where the boundary layer plays an important role in increasing the swirling strengtht. The yellow circles corresponds to the vortices rotating clockwise and the green circles for the counter-clockwise rotation. 
-
-In figure \ref{fig:norm} we show the normalized swirling strength field, now with 202 vortices found, minimizing the wall influence over the detection.
-
-We can play with the distance between one detected vortex and another, by increasing the box size of the peak detection. In figure \ref{fig:boxnorm} we set the box size to 12, instead of box size 6 used in figures \ref{fig:nonnorm} and \ref{fig:norm}. With this setting we reduce the detected vortices to 154, by removing the overlapping ones.
+We can play with the distance between one detected vortex and another, by increasing the box size of the peak detection. In figure \ref{fig:boxnorm2} we set the box size to 12, instead of box size 6 used in figures \ref{fig:nonnorm2} and \ref{fig:norm2}. With this setting we reduce the detected vortices to 154, by removing the overlapping ones.
 
 One interesting fact about the swirling strength (as well the other methods) is that the local maximum values does not always match the center of the vortex. We show in \ref{fig:quiverDNS1} one example of this mismatch between them.
 
@@ -262,15 +265,15 @@ The Powell's method is an algorithm for finding a local minimum of a function. T
 
 The language chosen for developing the detection tools is Python 3.6 (Python Software Foundation, https://www.python.org/). This choice was made for the following reasons:
 \begin{itemize}
-	\item Readability \\
+	\item \textbf{Readability} \\
 	Python's syntax is easy to read, very close to pseudocode itself.
-	\item Access to low level programming languages \\
+	\item \textbf{Access to low level programming languages} \\
 	We can easily add C or Fortran code o be run inside Python's code, reusing some useful libraries and tools.
-	\item Language interoperability \\
+	\item \textbf{Language interoperability} \\
 	MATLAB functions can be called from Python through the MATLAB engine and even other languages.
-	\item Documentation system \\
+	\item \textbf{Documentation system} \\
 	One helpful feature for scientific programming is the ability to put LaTeX equations and plots directly in code documentation, by using the docstrings.
-	\item Available libraries \\
+	\item \textbf{Available libraries} \\
 	Python has an impressive standard library packaged with Python. For scientific uses, the most well known are NumPy and SciPy.
 \end{itemize} 
 
@@ -372,7 +375,7 @@ Figures \ref{fig:fittingtests} and \ref{fig:fittingtestsnoise} shows 4 different
 
 \begin{table}[h]
 	\centering
-	\caption{Fitting test results}
+	\caption{Velocity vectors of the fitting test}
 	\vspace{10px}
 	\label{tb:fittingtest}
 	\begin{tabular}{l|c|c|c|c}
@@ -388,7 +391,7 @@ Figures \ref{fig:fittingtests} and \ref{fig:fittingtestsnoise} shows 4 different
 
 We can see in table \ref{tb:fittingtest} that the guess is exact for all the cases, as the vectors totally overlaps themselves (figure \ref{fig:fittingtests}).
 
-Now we add a perturbation to the initial flow field. Considering a random noise of 30\% on the original field we have the following performance of the fitting presented on table \ref{tb:fittingtestnoise} in respect to the figures \ref{fig:fittingtestsnoise}.
+Now we add a perturbation to the initial flow field. Considering a random noise of magnitude 0.3 on the on the velocity field, we have the following performance of the fitting presented on table \ref{tb:fittingtestnoise} in respect to the figures \ref{fig:fittingtestsnoise}. The magnitude of the noise is the same on all cases, and since cases c and d have bigger radius and $\Gamma$ (stronger vortices), they are less affected by the noise.
 
 \begin{figure}[h!]
 	\centering
@@ -412,7 +415,7 @@ Now we add a perturbation to the initial flow field. Considering a random noise 
 		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/test_09_40_02N.pdf}
 		\caption{r = 0.9, $\Gamma$ = 40, shift = 0.2}
 	\end{subfigure}
-	\caption{Fitting test with random noise}
+	\caption{Velocity vectors of the fitting test with random noise added}
 	\label{fig:fittingtestsnoise}
 \end{figure}
 
@@ -479,7 +482,7 @@ After applying the local maxima detection, we see that in figure \ref{fig:detect
 		\includegraphics[trim=40 20 40 20 ,clip, width=\textwidth]{figure/dns_fit6.pdf}
 		\caption{}
 	\end{subfigure}
-	\caption{Fitted vortices}
+	\caption{Velocity vectors of fitted vortices from HIT DNS data}
 	\label{fig:vorticesDNS}
 \end{figure}
 
@@ -487,16 +490,16 @@ Figure \ref{fig:vorticesDNS} shows 4 random fitted vortices from the DNS, and ta
 
 \begin{table}[h!]
 	\centering
-	\caption{DNS vortices characteristics}
+	\caption{Characteristics of 4 random vortices from HIT DNS data}
 	\vspace{10px}
 	\label{tb:DNSvortices}
-	\begin{tabular}{l|c|c|c|c|c}
-		Vortex         & Center(x,y) & Radius    & $\Gamma$   & Correlation & Box window \\
+	\begin{tabular}{c|c|c|c|c}
+		 Center(x,y) & Radius    & $\Gamma$   & Correlation & Box window \\
 		\hline
-		a    & 37, 50   & 0.1226  & 6.0498   & 0.7818 & 6 \\
-		b    & 93, 79   & 0.0745  & 7.9175   & 0.8590 & 4 \\
-		c    & 130, 36  & 0.0844  & -11.3036 & 0.9305 & 4\\
-		d    & 227, 124 & 0.11727 & -13.6144 & 0.9309 & 6
+		 37, 50   & 0.1226  & 6.0498   & 0.7818 & 6 \\
+		 93, 79   & 0.0745  & 7.9175   & 0.8590 & 4 \\
+		 130, 36  & 0.0844  & -11.3036 & 0.9305 & 4\\
+		 227, 124 & 0.11727 & -13.6144 & 0.9309 & 6
 	\end{tabular}
 \end{table}
 
@@ -506,7 +509,7 @@ In this project we have developed a program capable of detecting and fitting vor
 
 The detection methods, Q criterion, $\Delta$ criterion and Swirling Strength perform about the same on our procedure. The small difference is on the quantity of initially detected vortices, but after the fitting this small difference disappears as false-positive vortices.
 
-The Levenberg Marquardt method and Powell's dogleg method tend to fit correctly the accepted vortices. One strength of the Powell's method is that we have a trusted region, that allows us to set bounds on the fitting procedure, that prevents some bizarre results.
+The Levenberg Marquardt method and Powell's dogleg method tend to fit correctly the accepted vortices. One strength of the Powell's method is that we have a trusted region, that allows us to set bounds on the fitting procedure, preventing some unreal results where some parameters can increase more than four orders of magnitude.
 
 Currently we have a well tuned program for the HIT case, and as a future work a better approach to the PIV data will be added.   
 
@@ -569,19 +572,19 @@ Here we have the main parts of the program developed in Python, vortexFitting, d
 
 \lstinputlisting[language=Python,basicstyle=\ttm,otherkeywords={self},keywordstyle=\ttb\color{deepblue},
 emph={__init__},emphstyle=\ttb\color{deepred},stringstyle=\color{deepgreen},frame=tb,showstringspaces=false]
-{/home/guilherme/Documents/VortexFitting/src/vortexfitting.py}
+{/home/guilherme/Documents/VortexFitting/docs/report/vortexfitting.py}
 
 \section{detection.py}
 
 \lstinputlisting[language=Python,basicstyle=\ttm,otherkeywords={self},keywordstyle=\ttb\color{deepblue},
 emph={__init__},emphstyle=\ttb\color{deepred},stringstyle=\color{deepgreen},frame=tb,showstringspaces=false]
-{/home/guilherme/Documents/VortexFitting/src/detection.py}
+{/home/guilherme/Documents/VortexFitting/docs/report/detection.py}
 
 \section{fitting.py}
 
 \lstinputlisting[language=Python,basicstyle=\ttm,otherkeywords={self},keywordstyle=\ttb\color{deepblue},
 emph={__init__},emphstyle=\ttb\color{deepred},stringstyle=\color{deepgreen},frame=tb,showstringspaces=false]
-{/home/guilherme/Documents/VortexFitting/src/fitting.py}
+{/home/guilherme/Documents/VortexFitting/docs/report/fitting.py}
 
 
 \end{document}
