@@ -101,7 +101,7 @@ if __name__ == '__main__':
     #print(round(time.time() - lap,3), 'seconds')
 
     if a.norm == True:
-        swirling = tools.decomposition(swirling,a.normdir) #normalization
+        swirling = tools.normalize(swirling,a.normdir) #normalization
 
     #---- PEAK DETECTION ----#
     print("threshold=",args.threshold,"box size=",args.boxsize)
