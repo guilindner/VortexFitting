@@ -52,6 +52,10 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--flip', dest='flip',
                         default=False, type=bool,
                         help='Flip X and Y axis for plotting, 0 = False, 1 = True')
+                        
+    parser.add_argument('--nofit', dest='nofit',
+                        default=False, type=bool,
+                        help='Disables fitting procedure')
     
     parser.add_argument('-p', '--plot', dest='plot_x',
                         default='',
@@ -97,7 +101,7 @@ if __name__ == '__main__':
     #print(round(time.time() - lap,3), 'seconds')
 
     if a.norm == True:
-        swirling = tools.normalize(swirling,a.normdir) #normalization
+        swirling = tools.decomposition(swirling,a.normdir) #normalization
 
     #---- PEAK DETECTION ----#
     print("threshold=",args.threshold,"box size=",args.boxsize)
@@ -111,21 +115,12 @@ if __name__ == '__main__':
 
     #---- MODEL FITTING ----# SEE IN PLOT
     vortices = list()
-
-    for i in range(len(peaks[0])):
-            xCenter = peaks[0][i]
-            yCenter = peaks[1][i]
-            if (len(a.dx)-10 > xCenter > 10) and (len(a.dy)-10 > yCenter > 10):
-                gamma = vorticity[xCenter,yCenter]
-                coreR = 4*(a.dx[xCenter+1]-a.dx[xCenter])
-                coreR, gamma, corr, dist, fxCenter, fyCenter, u_conv, v_conv, xCenter, yCenter = fitting.full_fit(coreR, gamma, a, xCenter, yCenter)
-                fitted_vortices = fitting.full_fit(coreR, gamma, a, xCenter, yCenter)
-                #print(a.dx[xCenter],fxCenter,'|',a.dy[yCenter],fyCenter)
-                if (corr > 0.75):
-                    #2vortices.append([xCenter,yCenter, gamma, coreR,corr,dist])
-                    vortices.append([xCenter,yCenter, gamma, coreR,corr,dist,fxCenter,fyCenter,u_conv,v_conv,dist]) #not fitted to plot the center!  
-    print('---- Accepted vortices ----')
-    print(len(vortices))
+    if (args.nofit == True):
+        print("No fitting")
+    else:
+        vortices = fitting.temporary(a,peaks,vorticity)
+        print('---- Accepted vortices ----')
+        print(len(vortices))
     #print('xCenter, yCenter, gamma, core Radius, correlation, mesh distance')
     #for vortex in vortices:
     #    print(vortex)
@@ -162,8 +157,8 @@ if __name__ == '__main__':
             coreR = vortices[i][3]
             corr = vortices[i][4]
             dist = vortices[i][5]
-            u_conv = vortices[i][6]
-            v_conv = vortices[i][7]
+            u_conv = vortices[i][8]
+            v_conv = vortices[i][9]
             swirlingw = swirling[xCenter-dist:xCenter+dist,yCenter-dist:yCenter+dist]
             X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
             uMod, vMod = fitting.velocity_model(coreR, gamma, fxCenter, fyCenter, u_conv, v_conv, X, Y)
@@ -188,7 +183,6 @@ if __name__ == '__main__':
             X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
             uMod, vMod = fitting.velocity_model(coreR, gamma, fxCenter, fyCenter, u_conv, v_conv, X, Y)
             corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
-            print(corr)
             plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr)
     elif args.plot_x == 'radius':
         plot.plot_radius(vortices)

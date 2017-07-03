@@ -7,20 +7,11 @@ import tools
 import plot
 
 def correlation_coef(Uw,Vw,u,v):
-    #corr = (np.mean(np.dot(vec1,vec2))/(np.sqrt(np.mean(vec1**2)*np.sqrt(np.mean(vec2**2)))))**0.5
-    #corr_x = (np.mean(Uw*u)/(np.sqrt(np.mean(Uw**2))*np.sqrt(np.mean(u**2))))**0.5
-    #corr_y = (np.mean(Vw*v)/(np.sqrt(np.mean(Vw**2))*np.sqrt(np.mean(v**2))))**0.5
-    #R = corr_x*corr_y
-    Uw2 = Uw.ravel()
-    u2 = u.ravel()
-    Vw2 = Vw.ravel()
-    v2 = v.ravel()
-    R2x = pearsonr(Uw2,u2)
-    R2y = pearsonr(Vw2,v2)
-    R2 = R2x[0]*R2y[0]
-    #print(R2)
+    Rx = pearsonr(Uw.ravel(),u.ravel())
+    Ry = pearsonr(Vw.ravel(),v.ravel())
+    R = Rx[0]*Ry[0]
     
-    return R2
+    return R
 
 def velocity_model(coreR, gamma, fxCenter,fyCenter, u_conv, v_conv,x,y):
     r = np.hypot(x-fxCenter, y-fyCenter)
@@ -30,62 +21,69 @@ def velocity_model(coreR, gamma, fxCenter,fyCenter, u_conv, v_conv,x,y):
     vely = (vel + v_conv)*(y-fyCenter)
     return velx, vely
 
+def temporary(a,peaks,vorticity):
+    #b = [[],[],[],[],[],[],[],[],[],[]]
+    vortices = list()
+    for i in range(len(peaks[0])):
+        print("Processing Vortex:",i)
+        xCenter = peaks[0][i]
+        yCenter = peaks[1][i]
+        if (len(a.dx)-10 > xCenter > 10) and (len(a.dy)-10 > yCenter > 10):
+            gamma = vorticity[xCenter,yCenter]
+            coreR = 4*(a.dx[xCenter+1]-a.dx[xCenter])
+            #b = full_fit(coreR, gamma, a, xCenter, yCenter)
+            coreR, gamma, corr, dist, fxCenter, fyCenter, u_conv, v_conv, xCenter, yCenter = full_fit(coreR, gamma, a, xCenter, yCenter)
+            if (corr > 0.75):
+                print("Accepted!")
+                vortices.append([xCenter,yCenter, gamma, coreR,corr,dist,fxCenter,fyCenter,u_conv,v_conv]) #not fitted to plot the center!
+    
+    return vortices
+
 def full_fit(coreR, gamma, a, xCenter, yCenter):
     model = [[],[],[],[],[],[]]
-    model[1] = gamma
     fxCenter = a.dx[xCenter]
     fyCenter = a.dy[yCenter]
+    fxCenterOld = fxCenter
+    fyCenterOld = fyCenter
+    model[0] = coreR
+    model[1] = gamma
     model[2] = fxCenter
     model[3] = fyCenter
     dx = a.dx[xCenter+1]-a.dx[xCenter]
     dy = a.dy[yCenter+1]-a.dx[yCenter]
-    model[0] = 0.05
     corrOld = 0.0
     corr = 0.001
-    dist = 3
-    model[2] = fxCenter
-    model[3] = fyCenter
-    for i in range(20):
-        #print('iter',i)
-        distOld = dist
-        corrOld = corr
+    distOld = 0
+    dist = int(round(model[0]/dx,0)) + 1
+    #dist = 4
+
+    u_conv = a.u[xCenter, yCenter]
+    v_conv = a.v[xCenter, yCenter]
+    X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
+    model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, u_conv, v_conv)
+    uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], u_conv, v_conv,X,Y)
+    corr = correlation_coef(Uw,Vw,uMod,vMod)
+
+    print(xCenter)        
+    xCenter = int(model[2]/dx)
+    print(xCenter)
+    yCenter = int(model[3]/dy)
+
+    if (corr > 0.75):
+        dist = int(round(2*model[0]/dx,0))
         u_conv = a.u[xCenter, yCenter]
         v_conv = a.v[xCenter, yCenter]
         X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
         model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, u_conv, v_conv)
         uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], u_conv, v_conv,X,Y)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
-        #print('dist:',dist,'Radius',round(model[0],3),'Gamma',
-        #      round(model[1],3),'corr',round(corr,3),'x',model[2],
-        #      'y',model[3],'u_conv',u_conv,'v_conv',v_conv,
-        #      'xC',xCenter,'yC',yCenter)
-        #print('x diff', model[2]- fxCenter)
-        if (model[2]-fxCenter > dx):
-            #print('reduce x!')
-            xCenter = xCenter -1
-        elif (model[2]-fxCenter < -dx):
-            #print('increase x')
-            xCenter = xCenter +1
-        fxCenter = model[2]
-        #print('y diff',model[3]- fyCenter)
-        if (model[3]-fyCenter > dy):
-            #print('reduce y!')
-            yCenter = yCenter -1
-        elif (model[3]-fyCenter < -dy):
-            #print('increase y!')
-            yCenter = yCenter +1
-        fxCenterOld = model[2]
-        fyCenterOld = model[3]
-        errorCorr = corr/corrOld -1
-        if (corr < 0.3):
-            break
-        #plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, model[0], corr)
-        if (abs(errorCorr) < 0.0001): #if its stable, change the mesh
-            #print('resize')
-            dist = int(round(2*model[0]/dx,0))#dist - 1
-            if (distOld == dist):
-                break
-        
+        print('dist:',dist,'Radius',round(model[0],3),'Gamma',
+              round(model[1],3),'corr',round(corr,3),'x',model[2],
+              'y',model[3],'u_conv',u_conv,'v_conv',v_conv,
+              'xC',xCenter,'yC',yCenter)
+        #plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, model[0], corr) 
+
+            
     return model[0],model[1], corr, dist, model[2], model[3], u_conv, v_conv, xCenter, yCenter
 
 def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
@@ -103,8 +101,8 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
         zy = (z + v_conv)*(y-fitted[3]) -Vw
         zt = np.append(zx,zy)
         return zt
-    bnds=([0.001,-100,fxCenter-0.25,fyCenter-0.25],
-          [2.00,+100,fxCenter+0.25,fyCenter+0.25])
+    bnds=([0.001,-100,fxCenter-0.03,fyCenter-0.03],
+          [2.0,100,fxCenter+0.03,fyCenter+0.03])
     sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter],bounds=bnds,method='dogbox')     
     #Levenberg working!
     #sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter],method='lm')

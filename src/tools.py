@@ -12,7 +12,7 @@ def sub_mean(x, hom_axis):
         x = x - mean[:,None]
     return x
       
-def normalize(x, hom_axis):
+def decomposition(x, hom_axis):
     mean = np.mean(x**2, axis=hom_axis)
     x = x/np.sqrt(mean)
     return x
