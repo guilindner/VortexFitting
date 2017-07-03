@@ -22,51 +22,38 @@ def velocity_model(coreR, gamma, fxCenter,fyCenter, u_conv, v_conv,x,y):
     return velx, vely
 
 def temporary(a,peaks,vorticity):
-    #b = [[],[],[],[],[],[],[],[],[],[]]
+    b = list()
     vortices = list()
     for i in range(len(peaks[0])):
         print("Processing Vortex:",i)
         xCenter = peaks[0][i]
         yCenter = peaks[1][i]
-        if (len(a.dx)-10 > xCenter > 10) and (len(a.dy)-10 > yCenter > 10):
+        if (len(a.dx)-10 > xCenter > 10) and (len(a.dy)-10 > yCenter > 10): #skip near wall
             gamma = vorticity[xCenter,yCenter]
             coreR = 4*(a.dx[xCenter+1]-a.dx[xCenter])
-            #b = full_fit(coreR, gamma, a, xCenter, yCenter)
-            coreR, gamma, corr, dist, fxCenter, fyCenter, u_conv, v_conv, xCenter, yCenter = full_fit(coreR, gamma, a, xCenter, yCenter)
-            if (corr > 0.75):
+            b = full_fit(coreR, gamma, a, xCenter, yCenter)
+            if (b[4] > 0.75):
                 print("Accepted!")
-                vortices.append([xCenter,yCenter, gamma, coreR,corr,dist,fxCenter,fyCenter,u_conv,v_conv]) #not fitted to plot the center!
-    
+                vortices.append(b)
     return vortices
 
 def full_fit(coreR, gamma, a, xCenter, yCenter):
     model = [[],[],[],[],[],[]]
-    fxCenter = a.dx[xCenter]
-    fyCenter = a.dy[yCenter]
-    fxCenterOld = fxCenter
-    fyCenterOld = fyCenter
     model[0] = coreR
     model[1] = gamma
-    model[2] = fxCenter
-    model[3] = fyCenter
+    model[2] = a.dx[xCenter]
+    model[3] = a.dy[yCenter]
     dx = a.dx[xCenter+1]-a.dx[xCenter]
     dy = a.dy[yCenter+1]-a.dx[yCenter]
-    corrOld = 0.0
-    corr = 0.001
-    distOld = 0
     dist = int(round(model[0]/dx,0)) + 1
-    #dist = 4
-
     u_conv = a.u[xCenter, yCenter]
     v_conv = a.v[xCenter, yCenter]
     X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
     model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, u_conv, v_conv)
     uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], u_conv, v_conv,X,Y)
     corr = correlation_coef(Uw,Vw,uMod,vMod)
-
-    print(xCenter)        
+       
     xCenter = int(model[2]/dx)
-    print(xCenter)
     yCenter = int(model[3]/dy)
 
     if (corr > 0.75):
@@ -77,14 +64,11 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, u_conv, v_conv)
         uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], u_conv, v_conv,X,Y)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
-        print('dist:',dist,'Radius',round(model[0],3),'Gamma',
-              round(model[1],3),'corr',round(corr,3),'x',model[2],
-              'y',model[3],'u_conv',u_conv,'v_conv',v_conv,
-              'xC',xCenter,'yC',yCenter)
-        #plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, model[0], corr) 
-
-            
-    return model[0],model[1], corr, dist, model[2], model[3], u_conv, v_conv, xCenter, yCenter
+        #print('dist:',dist,'Radius',round(model[0],3),'Gamma',
+        #      round(model[1],3),'corr',round(corr,3),'x',model[2],
+        #      'y',model[3],'u_conv',u_conv,'v_conv',v_conv,
+        #      'xC',xCenter,'yC',yCenter)
+    return xCenter, yCenter, model[1], model[0], corr, dist, model[2], model[3], u_conv, v_conv
 
 def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
     x = x.ravel()
