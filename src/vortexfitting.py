@@ -39,6 +39,7 @@ if __name__ == '__main__':
                         default='swirling',
                         help='Detection method:\n'
                              'Q = Q criterion\n'
+                             'delta = delta criterion\n'
                              'swirling = 2D Swirling Strength')
     
     parser.add_argument('-t', '--threshold', dest='threshold',

@@ -33,8 +33,8 @@ def q_criterion(a):
     Q = np.zeros((a.u[0].size,a.u[0].size))
     for i in range(a.u[0].size):
         for j in range(a.u[0].size):
-            Q[i,j] = -(a.derivative['dudx'][i,j]**2
-            + a.derivative['dudy'][i,j]*a.derivative['dvdx'][i,j])
+            Q[i,j] = -0.5*(a.derivative['dudx'][i,j]**2 + a.derivative['dvdy'][i,j]**2) \
+            - a.derivative['dudy'][i,j] * a.derivative['dvdx'][i,j]
     return Q
 
 def delta_criterion(a):
@@ -42,8 +42,14 @@ def delta_criterion(a):
     Delta Criterion
     """
     print("Detection method: Delta criterion")
+    Q = np.zeros((a.u[0].size,a.u[0].size))
+    R = np.zeros((a.u[0].size,a.u[0].size))
     delta = np.zeros((a.u[0].size,a.u[0].size))
     for i in range(a.u[0].size):
         for j in range(a.u[0].size):
-            delta[i,j] = a.derivative['dudx'][i,j]*a.derivative['dvdy'][i,j] + a.derivative['dudy'][i,j]*a.derivative['dvdx'][i,j]
+            Q[i,j] = -0.5*(a.derivative['dudx'][i,j]**2 + a.derivative['dvdy'][i,j]**2) \
+            - a.derivative['dudy'][i,j] * a.derivative['dvdx'][i,j]
+            R[i,j] = a.derivative['dudx'][i,j]*a.derivative['dvdy'][i,j] \
+            - a.derivative['dvdx'][i,j]*a.derivative['dudy'][i,j]
+            delta[i,j] = (Q[i,j]/3)**3 + (R[i,j]/2)**2
     return delta
