@@ -29,6 +29,7 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--scheme', dest='scheme', type=int, default=2,
                         help='Scheme for differencing\n'
                              '2 = second order\n'
+                             '22 = least-square filter'
                              '4 = fourth order')
     
     parser.add_argument('-T', '--time', dest='timestep', type=int,
@@ -82,6 +83,8 @@ if __name__ == '__main__':
         a.derivative = schemes.fourth_order_diff(a)
     elif args.scheme == 2:
         a.derivative = schemes.second_order_diff(a)
+    elif args.scheme == 22:
+        a.derivative = schemes.least_square_diff(a)
     else:
         print('No scheme', args.scheme, 'found. Exitting!')
         sys.exit()
