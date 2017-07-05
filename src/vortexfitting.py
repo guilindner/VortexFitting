@@ -142,7 +142,7 @@ if __name__ == '__main__':
     elif args.plot_x == 'fields':
         plot.plot_fields(a,vorticity)
     elif args.plot_x == 'fields2':
-        plot.plot_fields2(a,vorticity)
+        plot.plot_fields2(a,vorticity,args.flip)
     elif args.plot_x == 'quiverRuim':
         dist = 10
         for i in range(len(peaks[0])):

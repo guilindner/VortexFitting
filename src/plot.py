@@ -24,8 +24,13 @@ def plot_fields(a,vorticity):
     
     plt.show()
     
-def plot_fields2(a,vorticity):
+def plot_fields2(a,vorticity, *args):
     plt.subplot()
+    if (args[0] == True):
+        a.u = a.u.T
+        a.v = a.v.T
+        a.w = a.w.T
+        vorticity = vorticity.T
     plt.imshow(a.u, cmap='seismic',origin="lower")
     #plt.title('Velocity u')
     plt.show()

@@ -52,11 +52,15 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
     model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, u_conv, v_conv)
     uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], u_conv, v_conv,X,Y)
     corr = correlation_coef(Uw,Vw,uMod,vMod)
-    #plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, model[0], corr)  
-    xCenter = int(model[2]/dx)
-    yCenter = int(model[3]/dy)
+    #plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, model[0], corr)
+    
+    if (xCenter > len(a.u[0])):
+        xCenter = len(a.u[0])
+    if (yCenter > len(a.v[0])):
+        yCenter = len(a.v[0])        
 
     if (corr > 0.75):
+        plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, model[0], corr)
         dist = int(round(2*model[0]/dx,0))
         u_conv = a.u[xCenter, yCenter]
         v_conv = a.v[xCenter, yCenter]
@@ -64,6 +68,7 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, u_conv, v_conv)
         uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], u_conv, v_conv,X,Y)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
+        
         #print('dist:',dist,'Radius',round(model[0],3),'Gamma',
         #      round(model[1],3),'corr',round(corr,3),'x',model[2],
         #      'y',model[3],'u_conv',u_conv,'v_conv',v_conv,
