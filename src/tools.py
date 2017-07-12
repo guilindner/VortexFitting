@@ -18,10 +18,26 @@ def normalize(x, hom_axis):
     return x
 
 def window(a,xCenter,yCenter,dist):
-    X, Y = np.meshgrid(a.dx[xCenter-dist:xCenter+dist],
-                       a.dy[yCenter-dist:yCenter+dist])
-    Uw = a.u[xCenter-dist:xCenter+dist,yCenter-dist:yCenter+dist]
-    Vw = a.v[xCenter-dist:xCenter+dist,yCenter-dist:yCenter+dist]
+    if (xCenter-dist >= 0):
+        x1 = xCenter -dist
+    else:
+        x1 = 0
+    if (yCenter-dist >= 0):
+        y1 = yCenter -dist
+    else:
+        y1 = 0
+    if (xCenter+dist <= len(a.u[0]-1)):
+        x2 = xCenter+dist
+    else:
+        x2 = len(a.u[0]-1)
+    if (yCenter+dist <= len(a.v[0]-1)):
+        y2 = yCenter+dist
+    else:
+        y2 = len(a.v[0]-1)
+    X, Y = np.meshgrid(a.dx[x1:x2],
+                       a.dy[y1:y2],indexing='xy')
+    Uw = a.u[x1:x2,y1:y2]
+    Vw = a.v[x1:x2,y1:y2]
     return X, Y, Uw, Vw
 
 def find_peaks(data, threshold, box_size):
