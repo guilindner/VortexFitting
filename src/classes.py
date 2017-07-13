@@ -49,8 +49,8 @@ class VelocityField():
             self.u = u[0]
             self.v = v[0]
             self.w = w[0]
-            self.u = np.einsum('ij->ji',self.u)
-            self.v = np.einsum('ij->ji',self.v)
+            #self.u = np.einsum('ij->ji',self.u)
+            #self.v = np.einsum('ij->ji',self.v)
             self.norm = True
             self.normdir = 0
         # ILKAY DATA        

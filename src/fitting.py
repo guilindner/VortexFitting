@@ -17,10 +17,10 @@ def velocity_model(coreR, gamma, fxCenter,fyCenter, u_conv, v_conv,x,y):
     r = np.hypot(x-fxCenter, y-fyCenter)
     vel = (gamma/(2 * np.pi * r)) * (1 - np.exp(-(r**2)/(coreR)**2))
     vel = np.nan_to_num(vel)
-    velx = u_conv -vel*(x-fxCenter)/r #wrong equation
-    vely = v_conv +vel*(y-fyCenter)/r #wrong equation
-    #velx = u_conv -vel*(y-fyCenter)/r
-    #vely = v_conv +vel*(x-fxCenter)/r
+    #velx = u_conv -vel*(x-fxCenter)/r #wrong equation
+    #vely = v_conv +vel*(y-fyCenter)/r #wrong equation
+    velx = u_conv -vel*(y-fyCenter)/r
+    vely = v_conv +vel*(x-fxCenter)/r
     velx = np.nan_to_num(velx)
     vely = np.nan_to_num(vely)
     return velx, vely
@@ -65,7 +65,7 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
     plot.plot_debug(X, Y, Uw, Vw, uMod, vMod, model[0], corr)
 
     if (corr > 0.75):
-        #plot.plot_debug(X, Y, Uw, Vw, uMod, vMod, model[0], corr)
+        plot.plot_debug(X, Y, Uw, Vw, uMod, vMod, model[0], corr)
         xCenter = int(round(model[2]/dx,0))
         yCenter = int(round(model[3]/dy,0))
         dist = int(round(2*model[0]/dx,0))
@@ -94,21 +94,21 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
         expr2 = np.exp(-r**2/fitted[0]**2)
         z = fitted[1]/(2*np.pi*r) * (1 - expr2)
         z = np.nan_to_num(z)
-        zx = u_conv -z*(x-fitted[2])/r -Uw # wrong equation
-        zy = v_conv +z*(y-fitted[3])/r -Vw # wrong equation
-        #zx = u_conv -z*(y-fitted[3])/r -Uw
-        #zy = v_conv +z*(x-fitted[2])/r -Vw
+        #zx = u_conv -z*(x-fitted[2])/r -Uw # wrong equation
+        #zy = v_conv +z*(y-fitted[3])/r -Vw # wrong equation
+        zx = u_conv -z*(y-fitted[3])/r -Uw
+        zy = v_conv +z*(x-fitted[2])/r -Vw
         zx = np.nan_to_num(zx)
         zy = np.nan_to_num(zy)
         zt = np.append(zx,zy)
         return zt
 
     if (gamma<0):
-        bnds=([coreR/10,gamma*10,fxCenter-3*dx,fyCenter-3*dy],
-          [coreR*10,gamma/10,fxCenter+3*dx,fyCenter+3*dy])
+        bnds=([coreR/10,gamma*10,fxCenter-20*dx,fyCenter-20*dy],
+          [coreR*10,gamma/10,fxCenter+20*dx,fyCenter+20*dy])
     if (gamma>0):
-        bnds=([coreR/10,gamma/10,fxCenter-3*dx,fyCenter-3*dy],
-          [coreR*10,gamma*10,fxCenter+3*dx,fyCenter+3*dy])
+        bnds=([coreR/10,gamma/10,fxCenter-20*dx,fyCenter-20*dy],
+          [coreR*10,gamma*10,fxCenter+20*dx,fyCenter+20*dy])
     #print(x)
     #print(coreR, gamma, fxCenter, fyCenter)
 

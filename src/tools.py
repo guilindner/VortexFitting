@@ -81,7 +81,6 @@ def find_peaks(data, threshold, box_size):
     peak_goodmask = np.logical_and(peak_goodmask, (data > threshold))
     x_peaks, y_peaks = peak_goodmask.nonzero()
     peak_values = data[x_peaks, y_peaks]
-
     peaks = (x_peaks, y_peaks, peak_values)
     return peaks
 

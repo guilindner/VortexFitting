@@ -5,7 +5,7 @@ from scipy.stats import norm
 
 import tools
 
-def plot_fields(a,vorticity):
+def plot_fields(a,field):
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2)#, sharex='col', sharey='row')
     ax1.imshow(a.u, cmap='seismic',origin="lower")
     ax1.set_title('Velocity u (velocity_s)')
@@ -19,7 +19,7 @@ def plot_fields(a,vorticity):
     
     totalvel = np.sqrt(a.u**2 + a.v**2 + a.w**2)
     ax4.set_title('Total velocity (u, v and w)')
-    ax4.imshow(vorticity,origin="lower", cmap='seismic')
+    ax4.imshow(field,origin="lower", cmap='seismic')
     plt.tight_layout()
     
     plt.show()
@@ -100,10 +100,10 @@ def plot_debug(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
     s = 1
     if (X.size > 400):
         s = 2
-    plt.quiver(X[::s,::s], Y[::s,::s], Vw[::s,::s],Uw[::s,::s],
-               color='r',label='data')
-    plt.quiver(X[::s,::s], Y[::s,::s], vMod[::s,::s], uMod[::s,::s],
-               color='b',label='model')
+    plt.quiver(X[::s,::s], Y[::s,::s], Uw[::s,::s],Vw[::s,::s],
+               color='r',label='data',scale=100)
+    plt.quiver(X[::s,::s], Y[::s,::s], uMod[::s,::s], vMod[::s,::s],
+               color='b',label='model',scale=100)
     plt.legend()
     plt.show()
 
