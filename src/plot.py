@@ -93,7 +93,20 @@ def plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
     plt.legend()
     plt.title('core Radius = %s Correlation = %s' %(round(coreR,3),round(corr,3)))
     plt.show()
-    
+
+def plot_debug(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
+    plt.figure()
+    plt.title('Correlation')
+    s = 1
+    if (X.size > 400):
+        s = 2
+    plt.quiver(X[::s,::s], Y[::s,::s], Vw[::s,::s],Uw[::s,::s],
+               color='r',label='data')
+    plt.quiver(X[::s,::s], Y[::s,::s], vMod[::s,::s], uMod[::s,::s],
+               color='b',label='model')
+    plt.legend()
+    plt.show()
+
 def plot_radius(vortices):
     fig, ax = plt.subplots()
     data = []

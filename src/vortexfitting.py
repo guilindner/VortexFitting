@@ -113,7 +113,7 @@ if __name__ == '__main__':
     peaks = tools.find_peaks(swirling, args.threshold, args.boxsize)
 
     print("Vortices found:",len(peaks[0]))
-
+    print(peaks)
     #---- PEAKS DIRECTION OF ROTATION ----#
     dirL, dirR = tools.direction_rotation(vorticity,peaks)
 
@@ -122,7 +122,7 @@ if __name__ == '__main__':
     if (args.nofit == True):
         print("No fitting")
     else:
-        vortices = fitting.temporary(a,peaks,vorticity)
+        vortices = fitting.get_vortices(a,peaks,vorticity)
         print('---- Accepted vortices ----')
         print(len(vortices))
     #print('xCenter, yCenter, gamma, core Radius, correlation, mesh distance')
