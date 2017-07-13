@@ -86,7 +86,7 @@ def plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
     s = 1
     if (X.size > 400):
         s = 2
-    plt.quiver(X[::s,::s], Y[::s,::s], Vw[::s,::s],Uw[::s,::s],
+    plt.quiver(X[::s,::s], Y[::s,::s], Uw[::s,::s],Vw[::s,::s],
                color='r',label='data')
     plt.quiver(X[::s,::s], Y[::s,::s], uMod[::s,::s], vMod[::s,::s],
                color='b',label='model')
@@ -101,9 +101,9 @@ def plot_debug(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
     if (X.size > 400):
         s = 2
     plt.quiver(X[::s,::s], Y[::s,::s], Uw[::s,::s],Vw[::s,::s],
-               color='r',label='data',scale=100)
+               color='r',label='data',scale=50)
     plt.quiver(X[::s,::s], Y[::s,::s], uMod[::s,::s], vMod[::s,::s],
-               color='b',label='model',scale=100)
+               color='b',label='model',scale=50)
     plt.legend()
     plt.show()
 

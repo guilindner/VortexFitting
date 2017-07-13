@@ -34,7 +34,6 @@ def get_vortices(a,peaks,vorticity):
         print("Processing Vortex:",i,"at (x,y)",xCenter,yCenter)
         coreR = 4*(a.dx[5]-a.dx[4]) #ugly change someday
         gamma = vorticity[xCenter,yCenter]*np.pi*coreR**2
-        print('gamma',gamma,xCenter,yCenter)
         b = full_fit(coreR, gamma, a, xCenter, yCenter)
         print("initial coreR:",coreR,"circ",gamma)
         print("final coreR:",b[3],"circ",b[2],"corr",b[4])
@@ -51,7 +50,7 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
     model[3] = a.dy[yCenter]
     dx = a.dx[5]-a.dx[4] #ugly
     dy = a.dy[5]-a.dy[4]
-    dist = int(round(model[0]/dx,0)) + 2
+    dist = int(round(model[0]/dx,0)) + 1
     u_conv = a.u[xCenter, yCenter]
     v_conv = a.v[xCenter, yCenter]
     X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
@@ -62,10 +61,10 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
           round(model[1],3),'corr',round(corr,3),'x',model[2],
           'y',model[3],'u_conv',u_conv,'v_conv',v_conv,
           'xC',xCenter,'yC',yCenter)
-    plot.plot_debug(X, Y, Uw, Vw, uMod, vMod, model[0], corr)
+    #plot.plot_debug(X, Y, Uw, Vw, uMod, vMod, model[0], corr)
 
     if (corr > 0.75):
-        plot.plot_debug(X, Y, Uw, Vw, uMod, vMod, model[0], corr)
+        #plot.plot_debug(X, Y, Uw, Vw, uMod, vMod, model[0], corr)
         xCenter = int(round(model[2]/dx,0))
         yCenter = int(round(model[3]/dy,0))
         dist = int(round(2*model[0]/dx,0))

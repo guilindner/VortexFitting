@@ -20,8 +20,8 @@ def second_order_diff(a):
     dx = a.dx[1]-a.dx[0] #only for homogeneous mesh
     dy = a.dy[1]-a.dy[0] #only for homogeneous mesh
     #print('dx,dy',dx,dy)
-    a.derivative['dudx'], a.derivative['dudy'] = np.gradient(a.u,dx)
-    a.derivative['dvdx'], a.derivative['dvdy'] = np.gradient(a.v,dy)
+    a.derivative['dudy'], a.derivative['dudx'] = np.gradient(a.u,dx)
+    a.derivative['dvdy'], a.derivative['dvdx'] = np.gradient(a.v,dy)
     return a.derivative
 
 def least_square_diff(a): #there is a problem on the boundary
@@ -41,6 +41,7 @@ def least_square_diff(a): #there is a problem on the boundary
     print("Difference scheme: least-square filter")
     dx = a.dx[1]-a.dx[0] #only for homogeneous mesh
     dy = a.dy[1]-a.dy[0] #only for homogeneous mesh
+    ### INVERT AXIS!!! ###
     a.derivative['dudx'][2:-2,:] = (-2*a.u[0:-4,:] - a.u[1:-3,:] + a.u[3:-1,:] + 2*a.u[4:,:])/(10*dx)
     a.derivative['dudy'][:,2:-2] = (-2*a.u[:, 0:-4] - a.u[:,1:-3]+ a.u[:, 3:-1] + 2*a.u[:,4:])/(10*dy)
     a.derivative['dvdx'][2:-2,:] = (-2*a.v[0:-4,:] - a.v[1:-3,:] + a.v[3:-1,:] + 2*a.v[4:,:])/(10*dx)
