@@ -17,8 +17,10 @@ def velocity_model(coreR, gamma, fxCenter,fyCenter, u_conv, v_conv,x,y):
     r = np.hypot(x-fxCenter, y-fyCenter)
     vel = (gamma/(2 * np.pi * r)) * (1 - np.exp(-(r**2)/(coreR)**2))
     vel = np.nan_to_num(vel)
-    velx = u_conv +vel*(-x+fxCenter)
-    vely = v_conv +vel*(y-fyCenter)
+    velx = u_conv +vel*(-x+fxCenter)/r
+    vely = v_conv +vel*(y-fyCenter)/r
+    velx = np.nan_to_num(velx)
+    vely = np.nan_to_num(vely)
     return velx, vely
 
 def get_vortices(a,peaks,vorticity):
@@ -87,8 +89,10 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
         expr2 = np.exp(-r**2/fitted[0]**2)
         z = fitted[1]/(2*np.pi*r) * (1 - expr2)
         z = np.nan_to_num(z)
-        zx = u_conv -z*(x-fitted[2]) -Uw
-        zy = v_conv +z*(y-fitted[3]) -Vw
+        zx = u_conv -z*(x-fitted[2])/r -Uw
+        zy = v_conv +z*(y-fitted[3])/r -Vw
+        zx = np.nan_to_num(zx)
+        zy = np.nan_to_num(zy)
         zt = np.append(zx,zy)
         return zt
     if (gamma<0):

@@ -41,8 +41,8 @@ class VelocityField():
         #DNS DATA  
         elif 'velocity_x' in grp1.variables.keys():
             self.samples = grp1.variables['velocity_x'].shape[0]
-            self.dx = np.linspace(0,100,self.samples)
-            self.dy = np.linspace(0,100,self.samples)
+            self.dx = np.linspace(0,self.samples,self.samples)
+            self.dy = np.linspace(0,self.samples,self.samples)
             u = np.array(grp1.variables['velocity_x'][:,:,:])
             v = np.array(grp1.variables['velocity_y'][:,:,:])
             w = np.array(grp1.variables['velocity_z'][:,:,:])
