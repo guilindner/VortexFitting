@@ -113,7 +113,6 @@ if __name__ == '__main__':
     peaks = tools.find_peaks(swirling, args.threshold, args.boxsize)
 
     print("Vortices found:",len(peaks[0]))
-    print(peaks)
     #---- PEAKS DIRECTION OF ROTATION ----#
     dirL, dirR = tools.direction_rotation(vorticity,peaks)
 

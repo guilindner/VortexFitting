@@ -40,7 +40,7 @@ class VelocityField():
         
         #DNS DATA  
         elif 'velocity_x' in grp1.variables.keys():
-            self.samples = grp1.variables['velocity_x'].shape[0]
+            self.samples = grp1.variables['velocity_x'].shape[1]
             self.dx = np.linspace(0,self.samples,self.samples)
             self.dy = np.linspace(0,self.samples,self.samples)
             u = np.array(grp1.variables['velocity_x'][:,:,:])
@@ -53,7 +53,6 @@ class VelocityField():
             self.v = np.einsum('ij->ji',self.v)
             self.norm = True
             self.normdir = 0
-            
         # ILKAY DATA        
         elif 'U' in grp1.variables.keys():
             grp2 = Dataset('../data/DNS_example/vel_v_00000000.00400000.nc','r')

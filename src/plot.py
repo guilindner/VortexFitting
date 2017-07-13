@@ -88,7 +88,7 @@ def plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
         s = 2
     plt.quiver(X[::s,::s], Y[::s,::s], Vw[::s,::s],Uw[::s,::s],
                color='r',label='data')
-    plt.quiver(X[::s,::s], Y[::s,::s], vMod[::s,::s], uMod[::s,::s],
+    plt.quiver(X[::s,::s], Y[::s,::s], uMod[::s,::s], vMod[::s,::s],
                color='b',label='model')
     plt.legend()
     plt.title('core Radius = %s Correlation = %s' %(round(coreR,3),round(corr,3)))
