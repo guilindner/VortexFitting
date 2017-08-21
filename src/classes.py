@@ -52,7 +52,7 @@ class VelocityField():
             #self.u = np.einsum('ij->ji',self.u)
             #self.v = np.einsum('ij->ji',self.v)
             self.norm = True
-            self.normdir = 0
+            self.normdir = 1
         # ILKAY DATA        
         elif 'U' in grp1.variables.keys():
             grp2 = Dataset('../data/DNS_example/vel_v_00000000.00400000.nc','r')
