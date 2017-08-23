@@ -145,8 +145,8 @@ if __name__ == '__main__':
     elif args.plot_x == 'quiverRuim':
         dist = 10
         for i in range(len(peaks[0])):
-            xCenter = peaks[0][i]
-            yCenter = peaks[1][i]
+            xCenter = peaks[1][i]
+            yCenter = peaks[0][i]
             X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
             swirlingw = swirling[xCenter-dist:xCenter+dist,yCenter-dist:yCenter+dist] #reuse window function?
             if (xCenter > dist) and (yCenter > dist):

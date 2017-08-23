@@ -17,8 +17,6 @@ def velocity_model(coreR, gamma, fxCenter,fyCenter, u_conv, v_conv,x,y):
     r = np.hypot(x-fxCenter, y-fyCenter)
     vel = (gamma/(2 * np.pi * r)) * (1 - np.exp(-(r**2)/(coreR)**2))
     vel = np.nan_to_num(vel)
-    #velx = u_conv -vel*(x-fxCenter)/r #wrong equation
-    #vely = v_conv +vel*(y-fyCenter)/r #wrong equation
     velx = u_conv -vel*(y-fyCenter)/r
     vely = v_conv +vel*(x-fxCenter)/r
     velx = np.nan_to_num(velx)
@@ -29,11 +27,11 @@ def get_vortices(a,peaks,vorticity):
     b = list()
     vortices = list()
     for i in range(len(peaks[0])):
-        xCenter = peaks[0][i]
-        yCenter = peaks[1][i]
+        xCenter = peaks[1][i]
+        yCenter = peaks[0][i]
         print("Processing Vortex:",i,"at (x,y)",xCenter,yCenter)
         coreR = 4*(a.dx[5]-a.dx[4]) #ugly change someday
-        gamma = vorticity[xCenter,yCenter]*np.pi*coreR**2
+        gamma = vorticity[yCenter,xCenter]*np.pi*coreR**2
         b = full_fit(coreR, gamma, a, xCenter, yCenter)
         print("initial coreR:",coreR,"circ",gamma)
         print("final coreR:",b[3],"circ",b[2],"corr",b[4])
@@ -51,8 +49,8 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
     dx = a.dx[5]-a.dx[4] #ugly
     dy = a.dy[5]-a.dy[4]
     dist = int(round(model[0]/dx,0)) + 1
-    u_conv = a.u[xCenter, yCenter]
-    v_conv = a.v[xCenter, yCenter]
+    u_conv = a.u[yCenter, xCenter]
+    v_conv = a.v[yCenter, xCenter]
     X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
     model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, u_conv, v_conv)
     uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], u_conv, v_conv,X,Y)
@@ -68,8 +66,8 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         xCenter = int(round(model[2]/dx,0))
         yCenter = int(round(model[3]/dy,0))
         dist = int(round(2*model[0]/dx,0))
-        u_conv = a.u[xCenter, yCenter]
-        v_conv = a.v[xCenter, yCenter]
+        u_conv = a.u[yCenter, xCenter]
+        v_conv = a.v[yCenter, xCenter]
         X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
         model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, u_conv, v_conv)
         uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], u_conv, v_conv,X,Y)
@@ -93,8 +91,6 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
         expr2 = np.exp(-r**2/fitted[0]**2)
         z = fitted[1]/(2*np.pi*r) * (1 - expr2)
         z = np.nan_to_num(z)
-        #zx = u_conv -z*(x-fitted[2])/r -Uw # wrong equation
-        #zy = v_conv +z*(y-fitted[3])/r -Vw # wrong equation
         zx = u_conv -z*(y-fitted[3])/r -Uw
         zy = v_conv +z*(x-fitted[2])/r -Vw
         zx = np.nan_to_num(zx)

@@ -36,8 +36,8 @@ def window(a,xCenter,yCenter,dist):
         y2 = len(a.v[0]-3)
     X, Y = np.meshgrid(a.dx[int(x1):int(x2)],
                        a.dy[int(y1):int(y2)],indexing='xy')
-    Uw = a.u[int(x1):int(x2),int(y1):int(y2)]
-    Vw = a.v[int(x1):int(x2),int(y1):int(y2)]
+    Uw = a.u[int(y1):int(y2),int(x1):int(x2)]
+    Vw = a.v[int(y1):int(y2),int(x1):int(x2)]
     return X, Y, Uw, Vw
 
 def find_peaks(data, threshold, box_size):
@@ -79,9 +79,9 @@ def find_peaks(data, threshold, box_size):
     peak_goodmask = (data == data_max)    # good pixels are True
 
     peak_goodmask = np.logical_and(peak_goodmask, (data > threshold))
-    x_peaks, y_peaks = peak_goodmask.nonzero()
-    peak_values = data[x_peaks, y_peaks]
-    peaks = (x_peaks, y_peaks, peak_values)
+    y_peaks, x_peaks = peak_goodmask.nonzero()
+    peak_values = data[y_peaks, x_peaks]
+    peaks = (y_peaks, x_peaks, peak_values)
     return peaks
 
 def direction_rotation(vorticity,peaks):
