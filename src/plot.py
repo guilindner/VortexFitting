@@ -80,19 +80,24 @@ def plot_quiver(X, Y, Uw, Vw, field):
     
     plt.show()
     
-def plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
+#def plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
+def plot_corr(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, corr,i):
     plt.figure()
-    plt.title('Correlation')
     s = 1
     if (X.size > 400):
-        s = 2
+        s = 1
     plt.quiver(X[::s,::s], Y[::s,::s], Uw[::s,::s],Vw[::s,::s],
                color='r',label='data')
     plt.quiver(X[::s,::s], Y[::s,::s], uMod[::s,::s], vMod[::s,::s],
-               color='b',label='model')
+               color='b',label='model', alpha=0.5)
+    circle1=plt.Circle((xc,yc),coreR,color='r',alpha=0.05)
+    plt.gca().add_artist(circle1)
     plt.legend()
-    plt.title('core Radius = %s Correlation = %s' %(round(coreR,3),round(corr,3)))
-    plt.show()
+    plt.grid()
+    plt.axes().set_aspect('equal')
+    plt.title('Radius = %s Gamma = %s Corr = %s' %(round(coreR,3),round(gamma,3),round(corr,3)))
+    plt.savefig('../results/vortex%i' % i,format='png')
+    plt.close('all')
 
 def plot_debug(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
     plt.figure()
@@ -123,16 +128,6 @@ def plot_radius(vortices):
     ax.set_xlim(-0.3,0.3)
     
     
-    #plt.figure()
-    #data = []
-    #for i in range(len(vortices)):
-    #    print(vortices[i][3])
-    #    data.append(vortices[i][3])
-    #data = np.array(data)
-    #print(data)
-    #bins = np.arange(min(data), max(data), 0.01)
-    #print(bins)
-    #plt.hist(data, bins=bins, alpha=0.5)
     
     plt.show()
 

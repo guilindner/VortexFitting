@@ -22,7 +22,7 @@ class VelocityField():
         u = np.array(grp1.variables['velocity_x'][:,:,:])
         v = np.array(grp1.variables['velocity_y'][:,:,:])
         w = np.array(grp1.variables['velocity_z'][:,:,:])
-        self.samples = u.shape[0]
+        self.samples = u.shape[1]
         self.dx = np.linspace(0,self.samples,self.samples)
         self.dy = np.linspace(0,self.samples,self.samples)
         self.u = u[0]
