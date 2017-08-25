@@ -76,11 +76,10 @@ def plot_quiver(X, Y, Uw, Vw, field):
     plt.contourf(field,
                  extent=[X[0][0], X[0][-1], Y[0][0], Y[-1][0]])
     s = 1
-    plt.quiver(X[::s,::s],Y[::s,::s],Vw[::s,::s],Uw[::s,::s])
+    plt.quiver(X[::s,::s],Y[::s,::s],Uw[::s,::s],Vw[::s,::s])
     
     plt.show()
     
-#def plot_corr(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
 def plot_corr(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, corr,i):
     plt.figure()
     s = 1
@@ -111,23 +110,3 @@ def plot_debug(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
                color='b',label='model',scale=50)
     plt.legend()
     plt.show()
-
-def plot_radius(vortices):
-    fig, ax = plt.subplots()
-    data = []
-    for i in range(len(vortices)):
-        print(vortices[i][3])
-        data.append(vortices[i][3])
-    data = np.array(data)
-    (mu, sigma) = norm.fit(data)
-    print(mu, sigma)
-    x = np.linspace(-sigma*3,sigma*3,data.size)
-    #x = np.linspace(min(data), max(data), 50)
-    y = norm.pdf(x,0.0,sigma)
-    ax.plot(x, y, 'r--', linewidth=2)
-    ax.set_xlim(-0.3,0.3)
-    
-    
-    
-    plt.show()
-

@@ -142,23 +142,11 @@ if __name__ == '__main__':
         plot.plot_fields(a,vorticity)
     elif args.plot_x == 'fields2':
         plot.plot_fields2(a,vorticity,args.flip)
-    elif args.plot_x == 'quiverRuim':
-        dist = 10
-        for i in range(len(peaks[0])):
-            xCenter = peaks[1][i]
-            yCenter = peaks[0][i]
-            X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
-            swirlingw = swirling[xCenter-dist:xCenter+dist,yCenter-dist:yCenter+dist] #reuse window function?
-            if (xCenter > dist) and (yCenter > dist):
-                print('x1:',xCenter,'x2:',yCenter, 'swirl:',peaks[2][i])
-                plot.plot_quiver(X, Y, Uw, Vw, swirlingw)
     elif args.plot_x == 'quiver':
         for i in range(len(vortices)):
-            swirlingw = swirling[vortices[i][0]-vortices[i][5]:vortices[i][0]+vortices[i][5],
-              vortices[i][1]-vortices[i][5]:vortices[i][1]+vortices[i][5]]
+            swirlingw = swirling[vortices[i][1]-vortices[i][5]:vortices[i][1]+vortices[i][5],
+              vortices[i][0]-vortices[i][5]:vortices[i][0]+vortices[i][5]]
             X, Y, Uw, Vw = tools.window(a,vortices[i][0],vortices[i][1],vortices[i][5])
-            uMod, vMod = fitting.velocity_model(vortices[i][3], vortices[i][2],
-             vortices[i][6], vortices[i][7], vortices[i][8], vortices[i][9], X, Y)
             plot.plot_quiver(X, Y, Uw, Vw, swirlingw)
                 
     elif args.plot_x == 'fit':
@@ -175,8 +163,6 @@ if __name__ == '__main__':
             corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
             plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, vortices[i][6],
                        vortices[i][7], vortices[i][3], vortices[i][2], vortices[i][4],i)
-    elif args.plot_x == 'radius':
-        plot.plot_radius(vortices)
     
     else:
         print('no plot')
