@@ -29,7 +29,7 @@ def get_vortices(a,peaks,vorticity):
     for i in range(len(peaks[0])):
         xCenter = peaks[1][i]
         yCenter = peaks[0][i]
-        print("Processing Vortex:",i,"at (x,y)",xCenter,yCenter)
+        print(i," Processing detected swirling at (x,y)",xCenter,yCenter)
         coreR = 2*(a.dx[5]-a.dx[4]) #ugly change someday
         gamma = vorticity[yCenter,xCenter]#*np.pi*coreR**2
         b = full_fit(coreR, gamma, a, xCenter, yCenter)
@@ -76,7 +76,12 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, u_conv, v_conv)
         uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], u_conv, v_conv,X,Y)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
+        stdX = abs(np.std(Uw)/np.mean(Uw))
+        stdY = abs(np.std(Vw)/np.mean(Vw))
         
+        if (stdX < 0.5 or stdY < 0.5):
+            corr = 0.0
+            #print("Std Dev: (x, y) ", stdX,stdY)
         #print('##### dist:',dist,'Radius',round(model[0],3),'Gamma',
         #      round(model[1],3),'corr',round(corr,3),'x',model[2],
         #      'y',model[3],'u_conv',u_conv,'v_conv',v_conv,
@@ -103,11 +108,11 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
         return zt
     #improve the boundary for convection velocity
     if (gamma<0):
-        bnds=([coreR/100,gamma*100,fxCenter-2*dx,fyCenter-2*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
-          [coreR*3,gamma/100,fxCenter+2*dx,fyCenter+2*dy,u_conv+abs(u_conv),v_conv+abs(v_conv)])
+        bnds=([coreR/100,gamma*100,fxCenter-4*dx,fyCenter-4*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
+          [coreR*3,gamma/100,fxCenter+4*dx,fyCenter+4*dy,u_conv+abs(u_conv),v_conv+abs(v_conv)])
     if (gamma>0):
-        bnds=([coreR/100,gamma/100,fxCenter-2*dx,fyCenter-2*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
-          [coreR*3,gamma*100,fxCenter+2*dx,fyCenter+2*dy,u_conv+abs(u_conv),v_conv+abs(u_conv)])
+        bnds=([coreR/100,gamma/100,fxCenter-4*dx,fyCenter-4*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
+          [coreR*3,gamma*100,fxCenter+4*dx,fyCenter+4*dy,u_conv+abs(u_conv),v_conv+abs(u_conv)])
     sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter,u_conv,v_conv],bounds=bnds)     
     #Levenberg
     #sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter],method='lm')
