@@ -44,7 +44,7 @@ if __name__ == '__main__':
                              'swirling = 2D Swirling Strength')
     
     parser.add_argument('-t', '--threshold', dest='threshold',
-                        default=1.5, type=float,
+                        default=0.0, type=float,
                         help='Threshold for detection, integer')
 
     parser.add_argument('-b', '--boxsize', dest='boxsize',
@@ -150,6 +150,7 @@ if __name__ == '__main__':
             plot.plot_quiver(X, Y, Uw, Vw, swirlingw)
                 
     elif args.plot_x == 'fit':
+        plot.plot_accepted(vortices,swirling)
         outfile = open('../results/vortices.dat','w')
         outfile.write('X Y gamma radius corr mesh x y u_c v_c \n')
         for line in vortices:
@@ -157,12 +158,12 @@ if __name__ == '__main__':
         for i in range(len(vortices)):
             print('xC:',vortices[i][0],'yC:',vortices[i][1], 'gamma:',vortices[i][2],
              'mesh',vortices[i][5], 'corr',vortices[i][4], 'coreR',vortices[i][3])
-            X, Y, Uw, Vw = tools.window(a,vortices[i][0],vortices[i][1],vortices[i][5])
+            X, Y, Uw, Vw = tools.window(a,vortices[i][0],vortices[i][1],vortices[i][5]*2)
             uMod, vMod = fitting.velocity_model(vortices[i][3], vortices[i][2],
              vortices[i][6], vortices[i][7], vortices[i][8], vortices[i][9], X, Y)
             corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
-            plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, vortices[i][6],
+            plot.plot_fit(X, Y, Uw, Vw, uMod, vMod, vortices[i][6],
                        vortices[i][7], vortices[i][3], vortices[i][2], vortices[i][4],i)
-    
+        
     else:
         print('no plot')

@@ -30,8 +30,8 @@ def get_vortices(a,peaks,vorticity):
         xCenter = peaks[1][i]
         yCenter = peaks[0][i]
         print("Processing Vortex:",i,"at (x,y)",xCenter,yCenter)
-        coreR = 4*(a.dx[5]-a.dx[4]) #ugly change someday
-        gamma = vorticity[yCenter,xCenter]*np.pi*coreR**2
+        coreR = 2*(a.dx[5]-a.dx[4]) #ugly change someday
+        gamma = vorticity[yCenter,xCenter]#*np.pi*coreR**2
         b = full_fit(coreR, gamma, a, xCenter, yCenter)
         print("initial coreR:",coreR,"circ",gamma)
         print("final coreR:",b[3],"circ",b[2],"corr",b[4])
@@ -65,7 +65,7 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         #plot.plot_debug(X, Y, Uw, Vw, uMod, vMod, model[0], corr)
         xCenter = int(round(model[2]/dx,0))
         yCenter = int(round(model[3]/dy,0))
-        dist = int(round(2*model[0]/dx,0))
+        dist = int(round(model[0]/dx,0))
         u_conv = a.u[yCenter, xCenter]
         v_conv = a.v[yCenter, xCenter]
         X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
@@ -73,7 +73,7 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], u_conv, v_conv,X,Y)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
         
-        #print('dist:',dist,'Radius',round(model[0],3),'Gamma',
+        #print('##### dist:',dist,'Radius',round(model[0],3),'Gamma',
         #      round(model[1],3),'corr',round(corr,3),'x',model[2],
         #      'y',model[3],'u_conv',u_conv,'v_conv',v_conv,
         #      'xC',xCenter,'yC',yCenter) 
@@ -99,14 +99,11 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
         return zt
 
     if (gamma<0):
-        bnds=([coreR/10,gamma*10,fxCenter-20*dx,fyCenter-20*dy],
-          [coreR*10,gamma/10,fxCenter+20*dx,fyCenter+20*dy])
+        bnds=([coreR/10,gamma*100,fxCenter-2*dx,fyCenter-2*dy],
+          [coreR*2,gamma/100,fxCenter+2*dx,fyCenter+2*dy])
     if (gamma>0):
-        bnds=([coreR/10,gamma/10,fxCenter-20*dx,fyCenter-20*dy],
-          [coreR*10,gamma*10,fxCenter+20*dx,fyCenter+20*dy])
-    #print(x)
-    #print(coreR, gamma, fxCenter, fyCenter)
-
+        bnds=([coreR/10,gamma/100,fxCenter-2*dx,fyCenter-2*dy],
+          [coreR*2,gamma*100,fxCenter+2*dx,fyCenter+2*dy])
     sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter],bounds=bnds,method='dogbox')     
     #Levenberg working!
     #sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter],method='lm')

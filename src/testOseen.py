@@ -65,7 +65,7 @@ if __name__ == '__main__':
         corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
         print('correlation:',corr)
         print('---')
-        plot.plot_corr(X, Y, Uw, Vw, uMod, vMod, model[2], model[3], model[0], model[1], corr, 0)
+        plot.plot_fit(X, Y, Uw, Vw, uMod, vMod, model[2], model[3], model[0], model[1], corr, 0)
   
     test_oseen(0.2,10,10,0.0,0.0)
     test_oseen(0.2,10,10,0.2,0.2)

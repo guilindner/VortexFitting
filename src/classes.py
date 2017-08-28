@@ -28,7 +28,7 @@ class VelocityField():
         self.u = u[0]
         self.v = v[0]
         self.w = w[0]
-        self.norm = True
+        self.norm = False
         self.normdir = 1
         self.derivative = {'dudx': np.zeros_like(self.u),
                            'dudy': np.zeros_like(self.u),

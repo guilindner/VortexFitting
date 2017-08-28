@@ -80,7 +80,7 @@ def plot_quiver(X, Y, Uw, Vw, field):
     
     plt.show()
     
-def plot_corr(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, corr,i):
+def plot_fit(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, corr,i):
     plt.figure()
     s = 1
     if (X.size > 400):
@@ -97,7 +97,40 @@ def plot_corr(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, corr,i):
     plt.title('Radius = %s Gamma = %s Corr = %s' %(round(coreR,3),round(gamma,3),round(corr,3)))
     plt.savefig('../results/vortex%i' % i,format='png')
     plt.close('all')
-
+    
+def plot_accepted(vortices,field):
+    plt.subplot()
+    plt.imshow(field, origin='lower', cmap="Greys_r")
+    plt.xlabel('x')
+    plt.ylabel('y')
+    for i in range(len(vortices)):
+        if vortices[i][2] > 0:
+            orient = 'Y'
+        else:
+            orient = 'Y'
+        circle1=plt.Circle((vortices[i][0],vortices[i][1]),
+                            vortices[i][3],edgecolor=orient,facecolor='none')
+        plt.gca().add_artist(circle1)
+        
+    fileIn = open('../data/dazin.dat', 'r')
+    
+    for line in fileIn:
+        xComp = int(float(line.split()[1]))
+        yComp = int(float(line.split()[2]))
+        gammaComp = float(line.split()[3])
+        rComp = float(line.split()[4])
+        if gammaComp > 0:
+            orient = 'R'
+        else:
+            orient = 'R'
+        circle2=plt.Circle((xComp,yComp),rComp,edgecolor=orient,facecolor='none')
+        plt.gca().add_artist(circle2)       
+                
+    #plt.legend()
+    plt.tight_layout()
+    plt.savefig('../results/accepted', format='png')
+    #plt.show()
+    
 def plot_debug(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
     plt.figure()
     plt.title('Correlation')
