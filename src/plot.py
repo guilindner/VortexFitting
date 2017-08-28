@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from scipy.stats import norm
+import re
 
 import tools
 
@@ -95,7 +96,7 @@ def plot_fit(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, corr,i):
     plt.grid()
     plt.axes().set_aspect('equal')
     plt.title('Radius = %s Gamma = %s Corr = %s' %(round(coreR,3),round(gamma,3),round(corr,3)))
-    plt.savefig('../results/vortex%i' % i,format='png')
+    plt.savefig('../results/vortex%i.png' % i,format='png')
     plt.close('all')
     
 def plot_accepted(vortices,field):
@@ -109,7 +110,7 @@ def plot_accepted(vortices,field):
         else:
             orient = 'Y'
         circle1=plt.Circle((vortices[i][0],vortices[i][1]),
-                            vortices[i][3],edgecolor=orient,facecolor='none')
+                            vortices[i][3],edgecolor=orient,facecolor='none',gid='vortex%i' % i)
         plt.gca().add_artist(circle1)
         
     fileIn = open('../data/dazin.dat', 'r')
@@ -128,7 +129,8 @@ def plot_accepted(vortices,field):
                 
     #plt.legend()
     plt.tight_layout()
-    plt.savefig('../results/accepted', format='png')
+    plt.savefig('../results/accepted.svg', format='svg')
+    create_links('../results/accepted.svg',vortices)
     #plt.show()
     
 def plot_debug(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
@@ -143,3 +145,27 @@ def plot_debug(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
                color='b',label='model',scale=50)
     plt.legend()
     plt.show()
+    
+def create_links(path,vortices):
+    fileIn = open("../results/accepted.svg","r")
+    fileOut = open("../results/linked.svg","w")
+    i = 0
+    vortex_found = False
+    for line in fileIn:
+        if "</g>" in line:
+            if vortex_found == True:
+                fileOut.write(line)
+                fileOut.write('   </a>\n')
+                vortex_found = False
+            else:
+                fileOut.write(line)
+        elif "vortex" in line:
+            fileOut.write('   <a href="vortex%i.png">\n' % i)
+            fileOut.write(line)
+            fileOut.write('   <title>Vortex %i: r = %s gamma = %s</title>\n' % (i,round(vortices[i][3],3),round(vortices[i][2],3)) )
+            i = i + 1
+            vortex_found = True
+        else:
+            fileOut.write(line)
+         
+    

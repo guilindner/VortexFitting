@@ -66,6 +66,11 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         xCenter = int(round(model[2]/dx,0))
         yCenter = int(round(model[3]/dy,0))
         dist = int(round(model[0]/dx,0))
+        print(xCenter,yCenter)
+        if xCenter >= len(a.dx):
+            xCenter = len(a.dx)-1
+        if yCenter >= len(a.dy):
+            yCenter = len(a.dy)-1
         u_conv = a.u[yCenter, xCenter]
         v_conv = a.v[yCenter, xCenter]
         X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
@@ -91,20 +96,20 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
         expr2 = np.exp(-r**2/fitted[0]**2)
         z = fitted[1]/(2*np.pi*r) * (1 - expr2)
         z = np.nan_to_num(z)
-        zx = u_conv -z*(y-fitted[3])/r -Uw
-        zy = v_conv +z*(x-fitted[2])/r -Vw
+        zx = fitted[4] -z*(y-fitted[3])/r -Uw
+        zy = fitted[5] +z*(x-fitted[2])/r -Vw
         zx = np.nan_to_num(zx)
         zy = np.nan_to_num(zy)
         zt = np.append(zx,zy)
         return zt
-
+    #improve the boundary for convection velocity
     if (gamma<0):
-        bnds=([coreR/100,gamma*100,fxCenter-3*dx,fyCenter-3*dy],
-          [coreR*3,gamma/100,fxCenter+3*dx,fyCenter+3*dy])
+        bnds=([coreR/100,gamma*100,fxCenter-2*dx,fyCenter-2*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
+          [coreR*3,gamma/100,fxCenter+2*dx,fyCenter+2*dy,u_conv+abs(u_conv),v_conv+abs(v_conv)])
     if (gamma>0):
-        bnds=([coreR/100,gamma/100,fxCenter-3*dx,fyCenter-3*dy],
-          [coreR*3,gamma*100,fxCenter+3*dx,fyCenter+3*dy])
-    sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter],bounds=bnds)     
+        bnds=([coreR/100,gamma/100,fxCenter-2*dx,fyCenter-2*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
+          [coreR*3,gamma*100,fxCenter+2*dx,fyCenter+2*dy,u_conv+abs(u_conv),v_conv+abs(u_conv)])
+    sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter,u_conv,v_conv],bounds=bnds)     
     #Levenberg
     #sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter],method='lm')
     return sol.x
