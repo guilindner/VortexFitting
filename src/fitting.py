@@ -66,7 +66,6 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         xCenter = int(round(model[2]/dx,0))
         yCenter = int(round(model[3]/dy,0))
         dist = int(round(model[0]/dx,0))
-        print(xCenter,yCenter)
         if xCenter >= len(a.dx):
             xCenter = len(a.dx)-1
         if yCenter >= len(a.dy):
