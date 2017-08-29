@@ -18,48 +18,23 @@ def plot_fields(a,field):
     ax3.imshow(a.w, cmap='seismic',origin="lower")
     ax3.set_title('Velocity w (velocity_z)')
     
-    totalvel = np.sqrt(a.u**2 + a.v**2 + a.w**2)
-    ax4.set_title('Total velocity (u, v and w)')
+    ax4.set_title('Vorticity')
     ax4.imshow(field,origin="lower", cmap='seismic')
     plt.tight_layout()
     
     plt.show()
     
-def plot_fields2(a,vorticity, *args):
-    plt.subplot()
-    if (args[0] == True):
-        a.u = a.u.T
-        a.v = a.v.T
-        a.w = a.w.T
-        vorticity = vorticity.T
-    plt.imshow(a.u, cmap='seismic',origin="lower")
-    #plt.title('Velocity u')
-    plt.show()
-    
-    plt.imshow(a.v, cmap='seismic',origin="lower")
-    #plt.title('Velocity v')
-    plt.show()
-    
-    plt.imshow(a.w, cmap='seismic',origin="lower")
-    #plt.title('Velocity w')
-    plt.show()
-    
-    totalvel = np.sqrt(a.u**2 + a.v**2 + a.w**2)
-    #plt.title('Total velocity (u, v and w)')
-    plt.imshow(vorticity,origin="lower", cmap='seismic')
-    plt.show()
-    
-def plot_detection(dirL,dirR,field, *args):
+def plot_detect(dirL,dirR,field, *args):
     plt.subplot()
     if (args[0] == True):
         field = field.T
-        plt.scatter(dirL[0],dirL[1],s=dirL[2]*10,edgecolor='G',facecolor='none',label='left')
-        plt.scatter(dirR[0],dirR[1],s=dirR[2]*10,edgecolor='Y',facecolor='none',label='right')
+        plt.scatter(dirL[0],dirL[1],edgecolor='G',facecolor='G',label='left')
+        plt.scatter(dirR[0],dirR[1],edgecolor='Y',facecolor='Y',label='right')
     else:
-        plt.scatter(dirL[1],dirL[0],s=dirL[2]*10,edgecolor='G',facecolor='none',label='left')
-        plt.scatter(dirR[1],dirR[0],s=dirR[2]*10,edgecolor='Y',facecolor='none',label='right')
+        plt.scatter(dirL[1],dirL[0],edgecolor='G',facecolor='G',label='left')
+        plt.scatter(dirR[1],dirR[0],edgecolor='Y',facecolor='Y',label='right')
     
-    #plt.title('detection')
+    plt.title('Detected possible vortices')
     #plt.contourf(field, cmap="Greys_r")
 
     plt.imshow(field, origin='lower', cmap="Greys_r")
@@ -71,14 +46,13 @@ def plot_detection(dirL,dirR,field, *args):
     
     plt.show()
 
-def plot_quiver(X, Y, Uw, Vw, field):
+def plot_quiver(X,Y,Uw,Vw,field):
     plt.figure()
     #plt.title('Velocity vectors centered at max swirling strength')
     plt.contourf(field,
                  extent=[X[0][0], X[0][-1], Y[0][0], Y[-1][0]])
     s = 1
     plt.quiver(X[::s,::s],Y[::s,::s],Uw[::s,::s],Vw[::s,::s])
-    
     plt.show()
     
 def plot_fit(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, corr,i):

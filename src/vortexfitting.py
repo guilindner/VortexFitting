@@ -22,9 +22,6 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--input', dest='infilename',
                         default='../data/test_data.nc',
                         help='input NetCDF file', metavar='FILE')
-                        
-    parser.add_argument('-o', '--output', dest='outfilename',
-                        help='output NetCDF file', metavar='FILE')
     
     parser.add_argument('-s', '--scheme', dest='scheme', type=int, default=2,
                         help='Scheme for differencing\n'
@@ -34,7 +31,7 @@ if __name__ == '__main__':
     
     parser.add_argument('-T', '--time', dest='timestep', type=int,
                         default=0,
-                        help='Timestep/Sample desired')
+                        help='Timestep/Sample/Z position desired')
                         
     parser.add_argument('-d', '--detect', dest='detect',
                         default='swirling',
@@ -44,7 +41,7 @@ if __name__ == '__main__':
                              'swirling = 2D Swirling Strength')
     
     parser.add_argument('-t', '--threshold', dest='threshold',
-                        default=0.0, type=float,
+                        default=0.1, type=float,
                         help='Threshold for detection, integer')
 
     parser.add_argument('-b', '--boxsize', dest='boxsize',
@@ -54,17 +51,14 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--flip', dest='flip',
                         default=False, type=bool,
                         help='Flip X and Y axis for plotting, 0 = False, 1 = True')
-                        
-    parser.add_argument('--nofit', dest='nofit',
-                        default=False, type=bool,
-                        help='Disables fitting procedure')
     
     parser.add_argument('-p', '--plot', dest='plot_x',
-                        default='',
+                        default='fit',
                         help='Plot on screen:\n'
-                             'detect = Vortices position\n'
-                             'fields = Velocity fields\n'
-                             'quiver = Vector on specific position')
+                             'fit    = Detection and fitting, saves images (default)\n'
+                             'detect = Possible vortices (no fitting)\n'
+                             'fields = Velocity fields and vorticity\n')
+    parser.add_argument('-xy', '--xy', nargs=2, dest='xy', default=[0,0])
     
     args = parser.parse_args()
     
@@ -118,7 +112,7 @@ if __name__ == '__main__':
 
     #---- MODEL FITTING ----# SEE IN PLOT
     vortices = list()
-    if (args.nofit == True):
+    if (args.plot_x != 'fit') or (args.xy != [0,0]):
         print("No fitting")
     else:
         vortices = fitting.get_vortices(a,peaks,vorticity)
@@ -126,29 +120,19 @@ if __name__ == '__main__':
         print(len(vortices))
     #print('xCenter, yCenter, gamma, core Radius, correlation, mesh distance')
     #for vortex in vortices:
-    #    print(vortex)
-
-    #---- SAVING OUTPUT FILE ----#
-    if args.outfilename == None:
-        pass
-    else:
-        print("saving file",args.outfilename)
-    
+    #    print(vortex)    
   
     #---- PLOTTING OPTIONS ----#
-    if args.plot_x == 'detect':
-        plot.plot_detection(dirL,dirR,swirling,args.flip)
+    if args.xy != [0,0]:
+        x = int(args.xy[0])
+        y = int(args.xy[1])
+        swirlingw = swirling[y-10:y+10,x-10:x+10]
+        X, Y, Uw, Vw = tools.window(a,x,y,10)
+        plot.plot_quiver(X, Y, Uw, Vw, swirlingw)
+    elif args.plot_x == 'detect':
+        plot.plot_detect(dirL,dirR,swirling,args.flip)
     elif args.plot_x == 'fields':
         plot.plot_fields(a,vorticity)
-    elif args.plot_x == 'fields2':
-        plot.plot_fields2(a,vorticity,args.flip)
-    elif args.plot_x == 'quiver':
-        for i in range(len(vortices)):
-            swirlingw = swirling[vortices[i][1]-vortices[i][5]:vortices[i][1]+vortices[i][5],
-              vortices[i][0]-vortices[i][5]:vortices[i][0]+vortices[i][5]]
-            X, Y, Uw, Vw = tools.window(a,vortices[i][0],vortices[i][1],vortices[i][5])
-            plot.plot_quiver(X, Y, Uw, Vw, swirlingw)
-                
     elif args.plot_x == 'fit':
         plot.plot_accepted(vortices,swirling)
         outfile = open('../results/vortices.dat','w')
@@ -156,7 +140,7 @@ if __name__ == '__main__':
         for line in vortices:
             outfile.write("%s %s %s %s %s %s %s %s %s %s \n" % line)
         for i in range(len(vortices)):
-            print('xC:',vortices[i][0],'yC:',vortices[i][1], 'gamma:',vortices[i][2],
+            print('x:',vortices[i][0],'y:',vortices[i][1], 'gamma:',vortices[i][2],
              'mesh',vortices[i][5], 'corr',vortices[i][4], 'coreR',vortices[i][3])
             X, Y, Uw, Vw = tools.window(a,vortices[i][0],vortices[i][1],vortices[i][5]*2)
             uMod, vMod = fitting.velocity_model(vortices[i][3], vortices[i][2],

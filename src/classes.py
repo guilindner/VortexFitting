@@ -9,39 +9,24 @@ class VelocityField():
     Loads the input file with the NetCFD (.nc) format and
     initialize the variables.
     
-    TODO: Detect PIV or DNS data.
-    
     """
     def __init__(self,path="/",time=0):
         self.path = path
         self.time = time
         grp1 = Dataset(path,'r') 
         
-        #self.samples = grp1.variables['velocity_x'].shape[1]
-
         u = np.array(grp1.variables['velocity_x'][:,:,:])
         v = np.array(grp1.variables['velocity_y'][:,:,:])
         w = np.array(grp1.variables['velocity_z'][:,:,:])
         self.samples = u.shape[1]
         self.dx = np.linspace(0,self.samples,self.samples)
         self.dy = np.linspace(0,self.samples,self.samples)
-        self.u = u[0]
-        self.v = v[0]
-        self.w = w[0]
+        self.u = u[time]
+        self.v = v[time]
+        self.w = w[time]
         self.norm = False
         self.normdir = 1
-        self.derivative = {'dudx': np.zeros_like(self.u),
-                           'dudy': np.zeros_like(self.u),
-                           'dudz': np.zeros_like(self.u),
-                           'dvdx': np.zeros_like(self.u),
-                           'dvdy': np.zeros_like(self.u),
-                           'dvdz': np.zeros_like(self.u),
-                           'dwdx': np.zeros_like(self.u),
-                           'dwdy': np.zeros_like(self.u),
-                           'dwdz': np.zeros_like(self.u)}
-        
-        
-        
+
         ##EXAMPLES
         #PIV DATA
             
@@ -88,3 +73,13 @@ class VelocityField():
         #self.dy = np.array(grp5.variables['gridy'][0,:,0])
         #self.dz = np.array(grp6.variables['gridz'][:,0,0])
         #self.norm = False
+        
+        self.derivative = {'dudx': np.zeros_like(self.u),
+                           'dudy': np.zeros_like(self.u),
+                           'dudz': np.zeros_like(self.u),
+                           'dvdx': np.zeros_like(self.u),
+                           'dvdy': np.zeros_like(self.u),
+                           'dvdz': np.zeros_like(self.u),
+                           'dwdx': np.zeros_like(self.u),
+                           'dwdy': np.zeros_like(self.u),
+                           'dwdz': np.zeros_like(self.u)}
