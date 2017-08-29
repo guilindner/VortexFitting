@@ -86,9 +86,9 @@ def plot_accepted(vortices,field):
         circle1=plt.Circle((vortices[i][0],vortices[i][1]),
                             vortices[i][3],edgecolor=orient,facecolor='none',gid='vortex%i' % i)
         plt.gca().add_artist(circle1)
-        
-    fileIn = open('../data/dazin.dat', 'r')
     
+    #Comparing data    
+    fileIn = open('../data/dazin.dat', 'r')
     for line in fileIn:
         xComp = int(float(line.split()[1]))
         yComp = int(float(line.split()[2]))

@@ -66,12 +66,13 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         xCenter = int(round(model[2]/dx,0))
         yCenter = int(round(model[3]/dy,0))
         dist = int(round(model[0]/dx,0))
-        if xCenter >= len(a.dx):
-            xCenter = len(a.dx)-1
-        if yCenter >= len(a.dy):
-            yCenter = len(a.dy)-1
+        if xCenter >= a.u.shape[1]:
+            xCenter = a.u.shape[1]-1
+        if yCenter >= a.v.shape[0]:
+            yCenter = a.v.shape[0]-1
         u_conv = a.u[yCenter, xCenter]
         v_conv = a.v[yCenter, xCenter]
+        #print(xCenter,yCenter,dist)
         X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
         model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, u_conv, v_conv)
         uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], u_conv, v_conv,X,Y)

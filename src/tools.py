@@ -26,14 +26,14 @@ def window(a,xCenter,yCenter,dist):
         y1 = yCenter -dist
     else:
         y1 = 0
-    if (xCenter+dist <= len(a.u[0]-1)):
+    if (xCenter+dist <= a.u.shape[1]):
         x2 = xCenter+dist
     else:
-        x2 = len(a.u[0]-3)
-    if (yCenter+dist <= len(a.v[0]-1)):
+        x2 = a.u.shape[1]
+    if (yCenter+dist <= a.v.shape[0]):
         y2 = yCenter+dist
     else:
-        y2 = len(a.v[0]-3)
+        y2 = a.v.shape[0]
     X, Y = np.meshgrid(a.dx[int(x1):int(x2)],
                        a.dy[int(y1):int(y2)],indexing='xy')
     Uw = a.u[int(y1):int(y2),int(x1):int(x2)]

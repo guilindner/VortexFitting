@@ -15,49 +15,38 @@ class VelocityField():
         self.time = time
         grp1 = Dataset(path,'r') 
         
-        u = np.array(grp1.variables['velocity_x'][:,:,:])
-        v = np.array(grp1.variables['velocity_y'][:,:,:])
-        w = np.array(grp1.variables['velocity_z'][:,:,:])
-        self.samples = u.shape[1]
+        self.u = np.array(grp1.variables['velocity_x'][time,:,:])
+        self.v = np.array(grp1.variables['velocity_y'][time,:,:])
+        self.w = np.array(grp1.variables['velocity_z'][time,:,:])
+        self.samples = self.u.shape[1]
         self.dx = np.linspace(0,self.samples,self.samples)
         self.dy = np.linspace(0,self.samples,self.samples)
-        self.u = u[time]
-        self.v = v[time]
-        self.w = w[time]
         self.norm = False
         self.normdir = 1
 
         ##EXAMPLES
-        #PIV DATA
-            
-        #self.dx = np.array(grp1.variables['grid_z'])
-        #self.dy = np.array(grp1.variables['grid_n'])
-        #self.u = np.zeros((self.dx.size,self.dy.size))
-        #self.v = np.zeros((self.dx.size,self.dy.size))
-        #self.z = np.zeros((self.dx.size,self.dy.size))
-        #u = np.array(grp1.variables['velocity_s'][:,:,:])
-        #v = np.array(grp1.variables['velocity_n'][:,:,:])
-        #w = np.array(grp1.variables['velocity_z'][:,:,:])
-        #u = u - np.mean(u,axis=(0,1))[None,None,:]
-        #v = v - np.mean(v,axis=(0,1))[None,None,:]
-        #w = w - np.mean(w,axis=(0,1))[None,None,:]
-        #self.u = u[0]
-        #self.v = v[0]
-        #self.w = w[0]
+        #PIV DATA   
+        #self.u = np.array(grp1.variables['velocity_n'][time,:,:])
+        #self.v = np.array(grp1.variables['velocity_s'][time,:,:])
+        #self.w = np.array(grp1.variables['velocity_z'][time,:,:])
+        #self.dx = np.array(grp1.variables['grid_n'])
+        #self.dy = np.array(grp1.variables['grid_z'])
+        #self.dy = self.dy - self.dy[0] #it does not start at 0
+        #self.u = self.u - np.mean(self.u,1)[:,None]
+        #self.v = self.v - np.mean(self.v,1)[:,None]
+        #self.w = self.w - np.mean(self.w,1)[:,None]
         #self.norm = True
         #self.normdir = 0
+        #self.samples = self.u.shape[1]
         
         #DNS DATA  
-        #u = np.array(grp1.variables['velocity_x'][:,:,:])
-        #v = np.array(grp1.variables['velocity_y'][:,:,:])
-        #w = np.array(grp1.variables['velocity_z'][:,:,:])
-        #self.samples = u.shape[0]
+        #self.u = np.array(grp1.variables['velocity_x'][time,:,:])
+        #self.v = np.array(grp1.variables['velocity_y'][time,:,:])
+        #self.w = np.array(grp1.variables['velocity_z'][time,:,:])
+        #self.samples = self.u.shape[1]
         #self.dx = np.linspace(0,self.samples,self.samples)
         #self.dy = np.linspace(0,self.samples,self.samples)
-        #self.u = u[0]
-        #self.v = v[0]
-        #self.w = w[0]
-        #self.norm = True
+        #self.norm = False
         #self.normdir = 1
         
         # ILKAY DATA        
@@ -73,6 +62,7 @@ class VelocityField():
         #self.dy = np.array(grp5.variables['gridy'][0,:,0])
         #self.dz = np.array(grp6.variables['gridz'][:,0,0])
         #self.norm = False
+        
         
         self.derivative = {'dudx': np.zeros_like(self.u),
                            'dudy': np.zeros_like(self.u),
