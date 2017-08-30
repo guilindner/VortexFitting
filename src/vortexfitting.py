@@ -23,7 +23,7 @@ if __name__ == '__main__':
                         default='../data/test_data.nc',
                         help='input NetCDF file', metavar='FILE')
     
-    parser.add_argument('-s', '--scheme', dest='scheme', type=int, default=2,
+    parser.add_argument('-s', '--scheme', dest='scheme', type=int, default=22,
                         help='Scheme for differencing\n'
                              '2 = second order\n'
                              '22 = least-square filter'
@@ -41,7 +41,7 @@ if __name__ == '__main__':
                              'swirling = 2D Swirling Strength')
     
     parser.add_argument('-t', '--threshold', dest='threshold',
-                        default=0.1, type=float,
+                        default=0.0, type=float,
                         help='Threshold for detection, integer')
 
     parser.add_argument('-b', '--boxsize', dest='boxsize',

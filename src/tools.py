@@ -18,11 +18,11 @@ def normalize(x, hom_axis):
     return x
 
 def window(a,xCenter,yCenter,dist):
-    if (xCenter-dist >= 0):
+    if (xCenter-dist > 0):
         x1 = xCenter -dist
     else:
         x1 = 0
-    if (yCenter-dist >= 0):
+    if (yCenter-dist > 0):
         y1 = yCenter -dist
     else:
         y1 = 0

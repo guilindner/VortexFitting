@@ -31,7 +31,7 @@ def get_vortices(a,peaks,vorticity):
         yCenter = peaks[0][i]
         print(i," Processing detected swirling at (x,y)",xCenter,yCenter)
         coreR = 2*(a.dx[5]-a.dx[4]) #ugly change someday
-        gamma = vorticity[yCenter,xCenter]#*np.pi*coreR**2
+        gamma = vorticity[yCenter,xCenter]*np.pi*coreR**2
         b = full_fit(coreR, gamma, a, xCenter, yCenter)
         #print("initial coreR:",coreR,"circ",gamma)
         #print("final coreR:",b[3],"circ",b[2],"corr",b[4])
@@ -80,7 +80,7 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         stdX = abs(np.std(Uw)/np.mean(Uw))
         stdY = abs(np.std(Vw)/np.mean(Vw))
         
-        if (stdX < 0.5 or stdY < 0.5):
+        if (stdX < 0.0 or stdY < 0.0):
             corr = 0.0
             #print("Std Dev: (x, y) ", stdX,stdY)
         #print('##### dist:',dist,'Radius',round(model[0],3),'Gamma',
@@ -109,12 +109,12 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
         return zt
     #improve the boundary for convection velocity
     if (gamma<0):
-        bnds=([coreR/100,gamma*100,fxCenter-4*dx,fyCenter-4*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
-          [coreR*3,gamma/100,fxCenter+4*dx,fyCenter+4*dy,u_conv+abs(u_conv),v_conv+abs(v_conv)])
+        bnds=([coreR/100,gamma*100,fxCenter-40*dx,fyCenter-40*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
+          [coreR*10,gamma/100,fxCenter+40*dx,fyCenter+40*dy,u_conv+abs(u_conv),v_conv+abs(v_conv)])
     if (gamma>0):
-        bnds=([coreR/100,gamma/100,fxCenter-4*dx,fyCenter-4*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
-          [coreR*3,gamma*100,fxCenter+4*dx,fyCenter+4*dy,u_conv+abs(u_conv),v_conv+abs(u_conv)])
+        bnds=([coreR/100,gamma/100,fxCenter-40*dx,fyCenter-40*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
+          [coreR*10,gamma*100,fxCenter+40*dx,fyCenter+40*dy,u_conv+abs(u_conv),v_conv+abs(u_conv)])
     sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter,u_conv,v_conv],bounds=bnds)     
     #Levenberg
-    #sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter],method='lm')
+    #sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter,u_conv,v_conv],method='lm')
     return sol.x
