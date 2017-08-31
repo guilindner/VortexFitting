@@ -64,8 +64,9 @@ def plot_fit(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, corr,i):
                color='r',label='data')
     plt.quiver(X[::s,::s], Y[::s,::s], uMod[::s,::s], vMod[::s,::s],
                color='b',label='model', alpha=0.5)
-    circle1=plt.Circle((xc,yc),coreR,color='r',alpha=0.05)
+    circle1=plt.Circle((xc,yc),coreR,color='k',alpha=0.05)
     plt.gca().add_artist(circle1)
+    plt.gca().scatter([xc], [yc], marker='+', color='k', s=100)
     plt.legend()
     plt.grid()
     plt.axes().set_aspect('equal')
