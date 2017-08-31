@@ -110,17 +110,14 @@ if __name__ == '__main__':
     #---- PEAKS DIRECTION OF ROTATION ----#
     dirL, dirR = tools.direction_rotation(vorticity,peaks)
 
-    #---- MODEL FITTING ----# SEE IN PLOT
+    #---- MODEL FITTING ----#
     vortices = list()
     if (args.plot_x != 'fit') or (args.xy != [0,0]):
         print("No fitting")
     else:
         vortices = fitting.get_vortices(a,peaks,vorticity)
         print('---- Accepted vortices ----')
-        print(len(vortices))
-    #print('xCenter, yCenter, gamma, core Radius, correlation, mesh distance')
-    #for vortex in vortices:
-    #    print(vortex)    
+        print(len(vortices))  
   
     #---- PLOTTING OPTIONS ----#
     if args.xy != [0,0]:
@@ -136,20 +133,20 @@ if __name__ == '__main__':
     elif args.plot_x == 'fit':
         plot.plot_accepted(vortices,swirling)
         outfile = open('../results/vortices.dat','w')
-        outfile.write('X Y gamma radius corr mesh x y u_c v_c \n')
+        outfile.write('X Y gamma radius corr mesh u_c v_c \n')
         for line in vortices:
-            outfile.write("%s %s %s %s %s %s %s %s %s %s \n" % line)
+            outfile.write("%s %s %s %s %s %s %s %s \n" % line)
         for i in range(len(vortices)):
             print('x:',vortices[i][0],'y:',vortices[i][1], 'gamma:',vortices[i][2],
-             'mesh',vortices[i][5], 'corr',vortices[i][4], 'coreR',vortices[i][3])
+             'mesh',vortices[i][5], 'corr',vortices[i][4], 'r',vortices[i][3])
             X, Y, Uw, Vw = tools.window(a,vortices[i][0],vortices[i][1],vortices[i][5]*2)
             uMod, vMod = fitting.velocity_model(vortices[i][3], vortices[i][2],
-             vortices[i][6], vortices[i][7], vortices[i][8], vortices[i][9], X, Y)
+             vortices[i][0], vortices[i][1], vortices[i][6], vortices[i][7], X, Y)
             corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
-            plot.plot_fit(X, Y, Uw, Vw, uMod, vMod, vortices[i][6],
-                       vortices[i][7], vortices[i][3], vortices[i][2], vortices[i][4],i*10)
-            plot.plot_fit(X, Y, Uw-vortices[i][8], Vw-vortices[i][9], uMod-vortices[i][8], vMod-vortices[i][9], vortices[i][6],
-                       vortices[i][7], vortices[i][3], vortices[i][2], vortices[i][4],i*10+1)
+            plot.plot_fit(X, Y, Uw, Vw, uMod, vMod, vortices[i][0],
+                       vortices[i][1], vortices[i][3], vortices[i][2], vortices[i][4],i*10)
+            plot.plot_fit(X, Y, Uw-vortices[i][6], Vw-vortices[i][7], uMod-vortices[i][6], vMod-vortices[i][7], vortices[i][0],
+                       vortices[i][1], vortices[i][3], vortices[i][2], vortices[i][4],i*10+1)
         
     else:
         print('no plot')
