@@ -52,9 +52,10 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
     model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, model[4], model[5])
     uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], model[4], model[5],X,Y)
     corr = correlation_coef(Uw,Vw,uMod,vMod)
-
+    xCenter = int(round(model[2]/dx))
+    yCenter = int(round(model[3]/dy))
     if (corr > 0.75):
-        dist = int(round(model[0]/dx,0))
+        dist = int(round(model[0]/dx,0)) +1
         if xCenter >= a.u.shape[1]:
             xCenter = a.u.shape[1]-1
         if yCenter >= a.v.shape[0]:
@@ -62,7 +63,7 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         model[4] = a.u[yCenter, xCenter]
         model[5] = a.v[yCenter, xCenter]
         X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
-        model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, model[4], model[5])
+        model = fit(model[0], model[1], X, Y, xCenter, yCenter, Uw, Vw, model[4], model[5])
         uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], model[4], model[5],X,Y)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
     return model[2], model[3], model[1], model[0], corr, dist, model[4], model[5]
@@ -74,6 +75,7 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
     Vw = Vw.ravel()
     dx = x[1]-x[0]
     dy = dx
+    print(dx)
     def fun(fitted): #fitted[0]=coreR, fitted[1]=gamma, fitted[2]=fxCenter, fitted[3]=fyCenter, fitted[4]=u_conv, fitted[5]=v_conv
         r = np.hypot(x-fitted[2], y-fitted[3])
         expr2 = np.exp(-r**2/fitted[0]**2)
@@ -87,11 +89,12 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
         return zt
     #improve the boundary for convection velocity
     if (gamma<0):
-        bnds=([coreR/100,gamma*100,fxCenter-40*dx,fyCenter-40*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
-          [coreR*10,gamma/100,fxCenter+40*dx,fyCenter+40*dy,u_conv+abs(u_conv),v_conv+abs(v_conv)])
+        bnds=([coreR/100,gamma*100,fxCenter-5*dx,fyCenter-5*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
+          [coreR*10,gamma/100,fxCenter+5*dx,fyCenter+5*dy,u_conv+abs(u_conv),v_conv+abs(v_conv)])
     if (gamma>0):
-        bnds=([coreR/100,gamma/100,fxCenter-40*dx,fyCenter-40*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
-          [coreR*10,gamma*100,fxCenter+40*dx,fyCenter+40*dy,u_conv+abs(u_conv),v_conv+abs(u_conv)])
+        bnds=([coreR/100,gamma/100,fxCenter-5*dx,fyCenter-5*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
+          [coreR*10,gamma*100,fxCenter+5*dx,fyCenter+5*dy,u_conv+abs(u_conv),v_conv+abs(u_conv)])
+    #print(bnds)
     sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter,u_conv,v_conv],bounds=bnds)     
     #Levenberg
     #sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter,u_conv,v_conv],method='lm')
