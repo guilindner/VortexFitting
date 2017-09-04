@@ -55,7 +55,7 @@ def plot_quiver(X,Y,Uw,Vw,field):
     plt.quiver(X[::s,::s],Y[::s,::s],Uw[::s,::s],Vw[::s,::s])
     plt.show()
     
-def plot_fit(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, corr,i):
+def plot_fit(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, u_conv, v_conv, corr,i,j):
     plt.figure()
     s = 1
     if (X.size > 400):
@@ -70,8 +70,8 @@ def plot_fit(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, corr,i):
     plt.legend()
     plt.grid()
     plt.axes().set_aspect('equal')
-    plt.title('Radius = %s Gamma = %s Corr = %s' %(round(coreR,3),round(gamma,3),round(corr,3)))
-    plt.savefig('../results/vortex%i.png' % i,format='png')
+    plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' %(round(coreR,1),round(gamma,1),round(u_conv,1),round(v_conv,1),round(corr,1)))
+    plt.savefig('../results/vortex%i_%i.png' %(i,j),format='png')
     plt.close('all')
     
 def plot_accepted(vortices,field):
@@ -135,9 +135,9 @@ def create_links(path,vortices):
             else:
                 fileOut.write(line)
         elif "vortex" in line:
-            fileOut.write('   <a href="vortex%i.png">\n' % i*10)
+            fileOut.write('   <a href="vortex%i_1.png">\n' % i)
             fileOut.write(line)
-            fileOut.write('   <title>Vortex %i: r = %s gamma = %s</title>\n' % (i,round(vortices[i][3],3),round(vortices[i][2],3)) )
+            fileOut.write('   <title>Vortex %i: r = %s gamma = %s</title>\n' % (i,round(vortices[i][3],1),round(vortices[i][2],1)) )
             i = i + 1
             vortex_found = True
         else:

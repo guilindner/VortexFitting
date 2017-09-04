@@ -141,14 +141,15 @@ if __name__ == '__main__':
              'mesh',vortices[i][5], 'corr',vortices[i][4], 'r',vortices[i][3])
             dx = a.dx[5]-a.dx[4]
             dy = a.dy[5]-a.dy[4]
-            X, Y, Uw, Vw = tools.window(a,vortices[i][0]/dx,vortices[i][1]/dy,vortices[i][5]+1)
+            X, Y, Uw, Vw = tools.window(a,vortices[i][0]/dx,vortices[i][1]/dy,vortices[i][5])
             uMod, vMod = fitting.velocity_model(vortices[i][3], vortices[i][2],
              vortices[i][0], vortices[i][1], vortices[i][6], vortices[i][7], X, Y)
             corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
             plot.plot_fit(X, Y, Uw, Vw, uMod, vMod, vortices[i][0],
-                       vortices[i][1], vortices[i][3], vortices[i][2], vortices[i][4],i*10)
+                       vortices[i][1], vortices[i][3], vortices[i][2], vortices[i][6], vortices[i][7], corr,i,1)
+            corr = fitting.correlation_coef(Uw-vortices[i][6],Vw-vortices[i][7],uMod-vortices[i][6],vMod-vortices[i][7])
             plot.plot_fit(X, Y, Uw-vortices[i][6], Vw-vortices[i][7], uMod-vortices[i][6], vMod-vortices[i][7], vortices[i][0],
-                       vortices[i][1], vortices[i][3], vortices[i][2], vortices[i][4],i*10+1)
+                       vortices[i][1], vortices[i][3], vortices[i][2], vortices[i][6], vortices[i][6], corr,i,2)
         
     else:
         print('no plot')

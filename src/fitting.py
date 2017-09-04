@@ -7,10 +7,24 @@ import tools
 import plot
 
 def correlation_coef(Uw,Vw,u,v):
-    Rx = pearsonr(Uw.ravel(),u.ravel())
-    Ry = pearsonr(Vw.ravel(),v.ravel())
-    R = Rx[0]*Ry[0]
-    return R
+    Uw = Uw.ravel()
+    Vw = Vw.ravel()
+    u = u.ravel()
+    v = v.ravel()
+    N = Uw.size
+    prod_PIV_mod = 0.0
+    prod_PIV = 0.0
+    prod_mod = 0.0
+    for i in range(N):
+        prod_PIV_mod += (Uw[i]*u[i]+Vw[i]*v[i])/N
+        prod_PIV += (u[i]*u[i]+v[i]*v[i])/N
+        prod_mod += (Uw[i]*Uw[i]+Vw[i]*Vw[i])/N
+    print(prod_PIV_mod,prod_PIV,prod_mod)
+    upper = prod_PIV_mod
+    lower = np.sqrt(prod_PIV)*np.sqrt(prod_mod)
+    corr = np.sqrt(upper/lower)
+
+    return corr
 
 def velocity_model(coreR, gamma, fxCenter,fyCenter, u_conv, v_conv,x,y):
     r = np.hypot(x-fxCenter, y-fyCenter)
@@ -54,6 +68,9 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
     corr = correlation_coef(Uw,Vw,uMod,vMod)
     xCenter = int(round(model[2]/dx))
     yCenter = int(round(model[3]/dy))
+    r1 = model[0]
+    x1 = model[2]
+    y1 = model[3]
     if (corr > 0.75):
         dist = int(round(model[0]/dx,0)) +1
         if xCenter >= a.u.shape[1]:
@@ -66,6 +83,15 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         model = fit(model[0], model[1], X, Y, xCenter, yCenter, Uw, Vw, model[4], model[5])
         uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], model[4], model[5],X,Y)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
+
+        if ((model[2]-x1)/r1) > 0.1:
+            print((model[2]-x1)/r1)
+            print("shall be removed! x")
+            corr = 0.0
+        if ((model[3]-y1)/r1) > 0.1:
+            print((model[3]-y1)/r1)
+            print("shall be removed! y")
+            corr = 0.0
     return model[2], model[3], model[1], model[0], corr, dist, model[4], model[5]
 
 def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
@@ -75,7 +101,6 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
     Vw = Vw.ravel()
     dx = x[1]-x[0]
     dy = dx
-    print(dx)
     def fun(fitted): #fitted[0]=coreR, fitted[1]=gamma, fitted[2]=fxCenter, fitted[3]=fyCenter, fitted[4]=u_conv, fitted[5]=v_conv
         r = np.hypot(x-fitted[2], y-fitted[3])
         expr2 = np.exp(-r**2/fitted[0]**2)
