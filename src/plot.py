@@ -70,7 +70,9 @@ def plot_fit(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, u_conv, v_conv, cor
     plt.legend()
     plt.grid()
     plt.axes().set_aspect('equal')
-    plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' %(round(coreR,1),round(gamma,1),round(u_conv,1),round(v_conv,1),round(corr,1)))
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' %(round(coreR,1),round(gamma,1),round(u_conv,1),round(v_conv,1),round(corr,2)))
     plt.savefig('../results/vortex%i_%i.png' %(i,j),format='png')
     plt.close('all')
     
