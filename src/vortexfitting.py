@@ -138,10 +138,10 @@ if __name__ == '__main__':
             outfile.write("%s %s %s %s %s %s %s %s \n" % line)
         for i in range(len(vortices)):
             print('x:',vortices[i][0],'y:',vortices[i][1], 'gamma:',vortices[i][2],
-             'mesh',vortices[i][5], 'corr',vortices[i][4], 'r',vortices[i][3])
+             'r',vortices[i][3],'corr',vortices[i][4],'mesh',vortices[i][5] )
             dx = a.dx[5]-a.dx[4]
             dy = a.dy[5]-a.dy[4]
-            X, Y, Uw, Vw = tools.window(a,vortices[i][0]/dx,vortices[i][1]/dy,vortices[i][5])
+            X, Y, Uw, Vw = tools.window(a,round(vortices[i][0]/dx,0),round(vortices[i][1]/dy,0),vortices[i][5])
             uMod, vMod = fitting.velocity_model(vortices[i][3], vortices[i][2],
              vortices[i][0], vortices[i][1], vortices[i][6], vortices[i][7], X, Y)
             corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)

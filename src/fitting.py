@@ -46,11 +46,12 @@ def get_vortices(a,peaks,vorticity):
         gamma = vorticity[yCenter,xCenter]*np.pi*coreR**2
         b = full_fit(coreR, gamma, a, xCenter, yCenter)
         if (b[4] > 0.90):
-            print("Accepted!")
+            print("Accepted! corr = %s" %b[4])
             vortices.append(b)
     return vortices
 
 def full_fit(coreR, gamma, a, xCenter, yCenter):
+    store = []
     model = [[],[],[],[],[],[]]
     model[0] = coreR
     model[1] = gamma
@@ -59,31 +60,40 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
     dx = a.dx[5]-a.dx[4] #ugly
     dy = a.dy[5]-a.dy[4]
     corr = 0.0
-    for i in range(5):
-        rOld = model[0]
+
+    for i in range(2):
+        xCenter = int(round(model[2]/dx))
+        yCenter = int(round(model[3]/dy))
+        r1 = model[0]
+        x1 = model[2]
+        y1 = model[3]
         dist = int(round(model[0]/dx,0)) + 1
         model[4] = a.u[yCenter, xCenter] #u_conv
         model[5] = a.v[yCenter, xCenter] #v_conv
         X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
         model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, model[4], model[5])
-        if abs(model[0]/rOld -1) < 0.10:
-            break
         uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], model[4], model[5],X,Y)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
-        xCenter = int(round(model[2]/dx))
-        yCenter = int(round(model[3]/dy))
-        if xCenter >= a.u.shape[1]:
-            xCenter = a.u.shape[1]-1
-        if yCenter >= a.v.shape[0]:
-            yCenter = a.v.shape[0]-1
-            #if ((model[2]-x1)/r1) > 0.1:
-                #print((model[2]-x1)/r1)
-                #print("shall be removed! x")
-                #corr = 0.0
-            #if ((model[3]-y1)/r1) > 0.1:
-                #print((model[3]-y1)/r1)
-                #print("shall be removed! y")
-                #corr = 0.0
+        #if abs(model[0]/r1 -1) < 0.001:
+            #print("stop?")
+            #break
+
+        #if xCenter >= a.u.shape[1]:
+        #    xCenter = a.u.shape[1]-1
+        #if yCenter >= a.v.shape[0]:
+        #    yCenter = a.v.shape[0]-1
+        if abs((model[2]-x1)) > dist*dx:
+            #print(model[2],x1,abs((model[2]-x1)))
+            corr = 0.0
+            print("removed! x")
+            break
+        if abs((model[3]-y1)) > dist*dy:
+            #print(abs((model[3]-y1)))
+            corr = 0.0
+            print("removed! y")
+            break
+        store.append([model,dist,corr])
+        #print(i,store[i])  
     return model[2], model[3], model[1], model[0], corr, dist, model[4], model[5]
 
 def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
@@ -106,11 +116,11 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
         return zt
     #improve the boundary for convection velocity
     if (gamma<0):
-        bnds=([coreR/10,gamma*50,fxCenter-2*dx,fyCenter-2*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
-          [coreR*5,gamma/100,fxCenter+2*dx,fyCenter+2*dy,u_conv+abs(u_conv),v_conv+abs(v_conv)])
+        bnds=([coreR/5,gamma*10,fxCenter-20*dx,fyCenter-20*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
+          [coreR*5,gamma/10,fxCenter+20*dx,fyCenter+20*dy,u_conv+abs(u_conv),v_conv+abs(v_conv)])
     if (gamma>0):
-        bnds=([coreR/10,gamma/50,fxCenter-2*dx,fyCenter-2*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
-          [coreR*5,gamma*100,fxCenter+2*dx,fyCenter+2*dy,u_conv+abs(u_conv),v_conv+abs(u_conv)])
+        bnds=([coreR/5,gamma/10,fxCenter-20*dx,fyCenter-20*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
+          [coreR*5,gamma*10,fxCenter+20*dx,fyCenter+20*dy,u_conv+abs(u_conv),v_conv+abs(u_conv)])
     #print(bnds)
     sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter,u_conv,v_conv],bounds=bnds)     
     #Levenberg
