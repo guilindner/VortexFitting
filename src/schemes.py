@@ -16,10 +16,10 @@ def second_order_diff(a):
         For example:
         a.derivative['dudx']
     """
+    print("Difference scheme: Second Order Scheme")
     x, y = np.meshgrid(a.dx,a.dy)
     dx = a.dx[1]-a.dx[0] #only for homogeneous mesh
     dy = a.dy[1]-a.dy[0] #only for homogeneous mesh
-    #print('dx,dy',dx,dy)
     a.derivative['dudy'], a.derivative['dudx'] = np.gradient(a.u,dx)
     a.derivative['dvdy'], a.derivative['dvdx'] = np.gradient(a.v,dy)
     return a.derivative
@@ -63,7 +63,7 @@ def fourth_order_diff(a):
         For example:
         a.derivative['dudx']
     """
-    print("Beginning differenciation with Fourth Order Scheme")
+    print("Difference scheme: Fourth Order Scheme")
     dx = a.dx[1]-a.dx[0] #only for homogeneous mesh
     dy = a.dy[1]-a.dy[0] #only for homogeneous mesh
     a.derivative['dudx'][:,2:-2] = (a.u[:, 0:-4] -8*a.u[:,1:-3]+ 8*a.u[:, 3:-1] - a.u[:,4:])/(12*dy)

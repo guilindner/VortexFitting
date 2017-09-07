@@ -107,8 +107,10 @@ def plot_accepted(vortices,field):
     #plt.legend()
     plt.tight_layout()
     plt.savefig('../results/accepted.svg', format='svg')
+    plt.savefig('../results/tk.png', format='png')
     create_links('../results/accepted.svg',vortices)
     #plt.show()
+    
     
 def plot_debug(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
     plt.figure()
