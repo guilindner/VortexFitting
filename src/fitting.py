@@ -53,7 +53,6 @@ def get_vortices(a,peaks,vorticity):
     return vortices
 
 def full_fit(coreR, gamma, a, xCenter, yCenter):
-    #store = []
     model = [[],[],[],[],[],[]]
     model[0] = coreR
     model[1] = gamma
@@ -77,19 +76,21 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         model[4] = a.u[yCenter, xCenter] #u_conv
         model[5] = a.v[yCenter, xCenter] #v_conv
         X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
-        model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, model[4], model[5])
+        model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, model[4], model[5],i)
         uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], model[4], model[5],X,Y)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
-        if abs(model[0]/r1 -1) < 0.01:
-            break
-        if (abs((model[2]-x1)) > dist*dx) or (abs((model[3]-y1)) > dist*dy):
-            corr = 0.0
-            break
-        #store.append([model,dist,corr])
-        #print(i,store[i])  
+        print(i,model)
+        if i > 0:
+            if abs(model[0]/r1 -1) < 0.1:
+                if (abs((model[2]/x1 -1)) < 0.1) or (abs((model[3]/y1 -1)) < 0.01):
+                    print("break")
+                    break
+            if (abs((model[2]-x1)) > dist*dx) or (abs((model[3]-y1)) > dist*dy):
+                corr = 0.0
+                break 
     return model[2], model[3], model[1], model[0], corr, dist, model[4], model[5]
 
-def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
+def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv,i):
     x = x.ravel()
     y = y.ravel()
     Uw = Uw.ravel()
@@ -108,13 +109,13 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv):
         zt = np.append(zx,zy)
         return zt
     #improve the boundary for convection velocity
-    if (gamma<0):
-        bnds=([coreR/2,gamma*10,fxCenter-20*dx,fyCenter-20*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
-          [coreR*2,gamma/10,fxCenter+20*dx,fyCenter+20*dy,u_conv+abs(u_conv),v_conv+abs(v_conv)])
-    if (gamma>0):
-        bnds=([coreR/2,gamma/10,fxCenter-20*dx,fyCenter-20*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
-          [coreR*2,gamma*10,fxCenter+20*dx,fyCenter+20*dy,u_conv+abs(u_conv),v_conv+abs(u_conv)])
-    #print(bnds)
+    if i > 0:
+        m = 1.0
+    else:
+        m = 4.0
+    bnds=([coreR-coreR*m,gamma-abs(gamma)*m/2,fxCenter-m*dx,fyCenter-m*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
+          [coreR+coreR*m,gamma+abs(gamma)*m/2,fxCenter+m*dx,fyCenter+m*dy,u_conv+abs(u_conv),v_conv+abs(v_conv)])
+
     sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter,u_conv,v_conv],bounds=bnds)     
     #Levenberg
     #sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter,u_conv,v_conv],method='lm')

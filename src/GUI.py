@@ -7,9 +7,12 @@ import os
 
 import vortexfitting
 
+
+
 class VortexDetection:
 
     def __init__(self, master):
+        
         self.master = master
         master.title("Vortex Detection")
 
