@@ -149,7 +149,7 @@ if __name__ == '__main__':
                        vortices[i][1], vortices[i][3], vortices[i][2], vortices[i][6], vortices[i][7], corr,i,1)
             corr = fitting.correlation_coef(Uw-vortices[i][6],Vw-vortices[i][7],uMod-vortices[i][6],vMod-vortices[i][7])
             plot.plot_fit(X, Y, Uw-vortices[i][6], Vw-vortices[i][7], uMod-vortices[i][6], vMod-vortices[i][7], vortices[i][0],
-                       vortices[i][1], vortices[i][3], vortices[i][2], vortices[i][6], vortices[i][6], corr,i,2)
+                       vortices[i][1], vortices[i][3], vortices[i][2], vortices[i][6], vortices[i][7], corr,i,2)
         
     else:
         print('no plot')

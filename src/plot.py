@@ -72,7 +72,7 @@ def plot_fit(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, u_conv, v_conv, cor
     plt.axes().set_aspect('equal')
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' %(round(coreR,1),round(gamma,1),round(u_conv,1),round(v_conv,1),round(corr,2)))
+    plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' %(round(coreR,2),round(gamma,2),round(u_conv,2),round(v_conv,2),round(corr,2)))
     plt.savefig('../results/vortex%i_%i.png' %(i,j),format='png')
     plt.close('all')
     
@@ -90,19 +90,19 @@ def plot_accepted(vortices,field):
                             vortices[i][3],edgecolor=orient,facecolor='none',gid='vortex%i' % i)
         plt.gca().add_artist(circle1)
     
-    #Comparing data    
-    fileIn = open('../data/dazin.dat', 'r')
-    for line in fileIn:
-        xComp = int(float(line.split()[1]))
-        yComp = int(float(line.split()[2]))
-        gammaComp = float(line.split()[3])
-        rComp = float(line.split()[4])
-        if gammaComp > 0:
-            orient = 'R'
-        else:
-            orient = 'R'
-        circle2=plt.Circle((xComp,yComp),rComp,edgecolor=orient,facecolor='none')
-        plt.gca().add_artist(circle2)       
+    ##Comparing data    
+    #fileIn = open('../data/dazin.dat', 'r')
+    #for line in fileIn:
+        #xComp = int(float(line.split()[1]))
+        #yComp = int(float(line.split()[2]))
+        #gammaComp = float(line.split()[3])
+        #rComp = float(line.split()[4])
+        #if gammaComp > 0:
+            #orient = 'R'
+        #else:
+            #orient = 'R'
+        #circle2=plt.Circle((xComp,yComp),rComp,edgecolor=orient,facecolor='none')
+        #plt.gca().add_artist(circle2)       
                 
     #plt.legend()
     plt.tight_layout()
