@@ -107,7 +107,7 @@ def plot_accepted(vortices,field):
     #plt.legend()
     plt.tight_layout()
     plt.savefig('../results/accepted.svg', format='svg')
-    plt.savefig('../results/tk.png', format='png')
+    plt.savefig('../results/tk.png', format='png', transparent=True)
     create_links('../results/accepted.svg',vortices)
     #plt.show()
     
