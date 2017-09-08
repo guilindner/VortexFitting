@@ -5,6 +5,7 @@ from scipy.stats import norm
 import re
 
 import tools
+import fitting
 
 def plot_fields(a,field):
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2)#, sharex='col', sharey='row')
@@ -81,14 +82,13 @@ def plot_accepted(vortices,field):
     plt.imshow(field, origin='lower', cmap="Greys_r")
     plt.xlabel('x')
     plt.ylabel('y')
-    for i in range(len(vortices)):
-        #print(vortices[i])
+    for i,line in enumerate(vortices):
         if vortices[i][1] > 0:
             orient = 'Y'
         else:
             orient = 'Y'
-        circle1=plt.Circle((vortices[i][2],vortices[i][3]),
-                            vortices[i][0],edgecolor=orient,facecolor='none',gid='vortex%i' % i)
+        circle1=plt.Circle((line[2],line[3]),line[0],
+                            edgecolor=orient,facecolor='none',gid='vortex%i' % i)
         plt.gca().add_artist(circle1)
     
     ##Comparing data    
@@ -111,20 +111,24 @@ def plot_accepted(vortices,field):
     plt.savefig('../results/tk.png', format='png', transparent=True)
     create_links('../results/accepted.svg',vortices)
     #plt.show()
-    
-    
-def plot_debug(X, Y, Uw, Vw, uMod, vMod, coreR, corr):
-    plt.figure()
-    plt.title('Correlation')
-    s = 1
-    if (X.size > 400):
-        s = 2
-    plt.quiver(X[::s,::s], Y[::s,::s], Uw[::s,::s],Vw[::s,::s],
-               color='r',label='data',scale=50)
-    plt.quiver(X[::s,::s], Y[::s,::s], uMod[::s,::s], vMod[::s,::s],
-               color='b',label='model',scale=50)
-    plt.legend()
-    plt.show()
+
+def plot_vortex(a,vortices):
+    outfile = open('../results/vortices.dat','w')
+    outfile.write('radius gamma X Y u_c v_c corr mesh\n')
+    for i,line in enumerate(vortices):
+        outfile.write("%s %s %s %s %s %s %s %s \n" % line)
+        print('r:',line[0],'gamma:',line[1], 'x:',line[2],
+         'y',line[3],'corr',line[6],'mesh',line[7])
+        dx = a.dx[5]-a.dx[4]
+        dy = a.dy[5]-a.dy[4]
+        X, Y, Uw, Vw = tools.window(a,round(line[2]/dx,0),round(line[3]/dy,0),line[7])
+        uMod, vMod = fitting.velocity_model(line[0], line[1],
+         line[2], line[3], line[4], line[5], X, Y)
+        corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
+        plot_fit(X, Y, Uw, Vw, uMod, vMod, line[2],line[3], line[0], line[1], line[4], line[5], corr,i,1)
+        corr = fitting.correlation_coef(Uw-line[4],Vw-line[5],uMod-line[4],vMod-line[5])
+        plot_fit(X, Y, Uw-line[4], Vw-line[5], uMod-line[4], vMod-line[5], line[2],
+                   line[3], line[0], line[1], line[4], line[5], corr,i,2)
     
 def create_links(path,vortices):
     fileIn = open("../results/accepted.svg","r")

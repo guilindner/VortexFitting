@@ -132,21 +132,6 @@ if __name__ == '__main__':
         plot.plot_fields(a,vorticity)
     elif args.plot_x == 'fit':
         plot.plot_accepted(vortices,swirling)
-        outfile = open('../results/vortices.dat','w')
-        outfile.write('X Y gamma radius corr mesh u_c v_c \n')
-        for i,line in enumerate(vortices):
-            outfile.write("%s %s %s %s %s %s %s %s \n" % line)
-            print('r:',line[0],'gamma:',line[1], 'x:',line[2],
-             'y',line[3],'corr',line[6],'mesh',line[7] )
-            dx = a.dx[5]-a.dx[4]
-            dy = a.dy[5]-a.dy[4]
-            X, Y, Uw, Vw = tools.window(a,round(line[2]/dx,0),round(line[3]/dy,0),line[7])
-            uMod, vMod = fitting.velocity_model(line[0], line[1],
-             line[2], line[3], line[4], line[5], X, Y)
-            corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
-            plot.plot_fit(X, Y, Uw, Vw, uMod, vMod, line[2],line[3], line[0], line[1], line[4], line[5], corr,i,1)
-            corr = fitting.correlation_coef(Uw-line[4],Vw-line[5],uMod-line[4],vMod-line[5])
-            plot.plot_fit(X, Y, Uw-line[4], Vw-line[5], uMod-line[4], vMod-line[5], line[2],
-                       line[3], line[0], line[1], line[4], line[5], corr,i,2)
+        plot.plot_vortex(a,vortices)
     else:
         print('no plot')
