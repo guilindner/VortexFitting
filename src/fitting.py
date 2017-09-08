@@ -46,50 +46,53 @@ def get_vortices(a,peaks,vorticity):
         coreR = 2*(a.dx[5]-a.dx[4]) #ugly change someday
         gamma = vorticity[yCenter,xCenter]*np.pi*coreR**2
         b = full_fit(coreR, gamma, a, xCenter, yCenter)
-        if (b[4] > 0.90):
-            print("Accepted! corr = %s (vortex %s)" %(b[4],j))
+        #move here the checking
+        #X, Y, Uw, Vw = tools.window(a,b[0],b[1],dist)
+        #uMod, vMod = velocity_model(b[2], b[3], model[2], b[0], b[1], model[5],X,Y)
+        #corr = correlation_coef(Uw,Vw,uMod,vMod)
+        if (b[6] > 0.90):
+            print("Accepted! corr = %s (vortex %s)" %(b[6],j))
             vortices.append(b)
-            j += 1
+        #    j += 1
     return vortices
 
 def full_fit(coreR, gamma, a, xCenter, yCenter):
-    model = [[],[],[],[],[],[]]
-    model[0] = coreR
-    model[1] = gamma
-    model[2] = a.dx[xCenter]
-    model[3] = a.dy[yCenter]
+    fitted = [[],[],[],[],[],[]]
+    fitted[0] = coreR
+    fitted[1] = gamma
+    fitted[2] = a.dx[xCenter]
+    fitted[3] = a.dy[yCenter]
     dx = a.dx[5]-a.dx[4] #ugly
     dy = a.dy[5]-a.dy[4]
     corr = 0.0
 
     for i in range(10):
-        xCenter = int(round(model[2]/dx))
-        yCenter = int(round(model[3]/dy))
+        xCenter = int(round(fitted[2]/dx))
+        yCenter = int(round(fitted[3]/dy))
         if xCenter >= a.u.shape[1]:
             xCenter = a.u.shape[1]-1
         if yCenter >= a.v.shape[0]:
             yCenter = a.v.shape[0]-1
-        r1 = model[0]
-        x1 = model[2]
-        y1 = model[3]
-        dist = int(round(model[0]/dx,0)) + 1
-        model[4] = a.u[yCenter, xCenter] #u_conv
-        model[5] = a.v[yCenter, xCenter] #v_conv
+        r1 = fitted[0]
+        x1 = fitted[2]
+        y1 = fitted[3]
+        dist = int(round(fitted[0]/dx,0)) + 1
+        fitted[4] = a.u[yCenter, xCenter] #u_conv
+        fitted[5] = a.v[yCenter, xCenter] #v_conv
         X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
-        model = fit(model[0], model[1], X, Y, model[2], model[3], Uw, Vw, model[4], model[5],i)
-        uMod, vMod = velocity_model(model[0], model[1], model[2], model[3], model[4], model[5],X,Y)
+        fitted = fit(fitted[0], fitted[1], X, Y, fitted[2], fitted[3], Uw, Vw, fitted[4], fitted[5],i)
+        uMod, vMod = velocity_model(fitted[0], fitted[1], fitted[2], fitted[3], fitted[4], fitted[5],X,Y)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
-        print(i,model)
         if i > 0:
-            if abs(model[0]/r1 -1) < 0.1:
-                if (abs((model[2]/x1 -1)) < 0.1) or (abs((model[3]/y1 -1)) < 0.01):
-                    print("break")
+            if abs(fitted[0]/r1 -1) < 0.1:
+                if (abs((fitted[2]/x1 -1)) < 0.1) or (abs((fitted[3]/y1 -1)) < 0.01):
+                    #print("break")
                     break
-            if (abs((model[2]-x1)) > dist*dx) or (abs((model[3]-y1)) > dist*dy):
+            if (abs((fitted[2]-x1)) > dist*dx) or (abs((fitted[3]-y1)) > dist*dy):
                 corr = 0.0
                 break 
-    return model[2], model[3], model[1], model[0], corr, dist, model[4], model[5]
-
+    #return fitted[2], fitted[3], fitted[1], fitted[0], corr, dist, fitted[4], fitted[5]
+    return fitted[0], fitted[1], fitted[2], fitted[3], fitted[4], fitted[5], corr, dist
 def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv,i):
     x = x.ravel()
     y = y.ravel()
@@ -108,7 +111,6 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv,i):
         zy = np.nan_to_num(zy)
         zt = np.append(zx,zy)
         return zt
-    #improve the boundary for convection velocity
     if i > 0:
         m = 1.0
     else:

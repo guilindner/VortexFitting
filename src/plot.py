@@ -82,12 +82,13 @@ def plot_accepted(vortices,field):
     plt.xlabel('x')
     plt.ylabel('y')
     for i in range(len(vortices)):
-        if vortices[i][2] > 0:
+        #print(vortices[i])
+        if vortices[i][1] > 0:
             orient = 'Y'
         else:
             orient = 'Y'
-        circle1=plt.Circle((vortices[i][0],vortices[i][1]),
-                            vortices[i][3],edgecolor=orient,facecolor='none',gid='vortex%i' % i)
+        circle1=plt.Circle((vortices[i][2],vortices[i][3]),
+                            vortices[i][0],edgecolor=orient,facecolor='none',gid='vortex%i' % i)
         plt.gca().add_artist(circle1)
     
     ##Comparing data    

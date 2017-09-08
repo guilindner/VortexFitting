@@ -134,22 +134,19 @@ if __name__ == '__main__':
         plot.plot_accepted(vortices,swirling)
         outfile = open('../results/vortices.dat','w')
         outfile.write('X Y gamma radius corr mesh u_c v_c \n')
-        for line in vortices:
+        for i,line in enumerate(vortices):
             outfile.write("%s %s %s %s %s %s %s %s \n" % line)
-        for i in range(len(vortices)):
-            print('x:',vortices[i][0],'y:',vortices[i][1], 'gamma:',vortices[i][2],
-             'r',vortices[i][3],'corr',vortices[i][4],'mesh',vortices[i][5] )
+            print('r:',line[0],'gamma:',line[1], 'x:',line[2],
+             'y',line[3],'corr',line[6],'mesh',line[7] )
             dx = a.dx[5]-a.dx[4]
             dy = a.dy[5]-a.dy[4]
-            X, Y, Uw, Vw = tools.window(a,round(vortices[i][0]/dx,0),round(vortices[i][1]/dy,0),vortices[i][5])
-            uMod, vMod = fitting.velocity_model(vortices[i][3], vortices[i][2],
-             vortices[i][0], vortices[i][1], vortices[i][6], vortices[i][7], X, Y)
+            X, Y, Uw, Vw = tools.window(a,round(line[2]/dx,0),round(line[3]/dy,0),line[7])
+            uMod, vMod = fitting.velocity_model(line[0], line[1],
+             line[2], line[3], line[4], line[5], X, Y)
             corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
-            plot.plot_fit(X, Y, Uw, Vw, uMod, vMod, vortices[i][0],
-                       vortices[i][1], vortices[i][3], vortices[i][2], vortices[i][6], vortices[i][7], corr,i,1)
-            corr = fitting.correlation_coef(Uw-vortices[i][6],Vw-vortices[i][7],uMod-vortices[i][6],vMod-vortices[i][7])
-            plot.plot_fit(X, Y, Uw-vortices[i][6], Vw-vortices[i][7], uMod-vortices[i][6], vMod-vortices[i][7], vortices[i][0],
-                       vortices[i][1], vortices[i][3], vortices[i][2], vortices[i][6], vortices[i][7], corr,i,2)
-        
+            plot.plot_fit(X, Y, Uw, Vw, uMod, vMod, line[2],line[3], line[0], line[1], line[4], line[5], corr,i,1)
+            corr = fitting.correlation_coef(Uw-line[4],Vw-line[5],uMod-line[4],vMod-line[5])
+            plot.plot_fit(X, Y, Uw-line[4], Vw-line[5], uMod-line[4], vMod-line[5], line[2],
+                       line[3], line[0], line[1], line[4], line[5], corr,i,2)
     else:
         print('no plot')
