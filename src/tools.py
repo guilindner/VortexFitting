@@ -5,6 +5,9 @@ from scipy import ndimage
 np.seterr(divide='ignore', invalid='ignore')
 
 def sub_mean(x, hom_axis):
+    """
+    Used when you have a convective velocity along one axis
+    """
     mean = np.mean(x, axis=hom_axis)
     if (hom_axis == 0):
         x = x - mean

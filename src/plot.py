@@ -114,14 +114,15 @@ def plot_accepted(vortices,field):
 
 def plot_vortex(a,vortices):
     outfile = open('../results/vortices.dat','w')
-    outfile.write('radius gamma X Y u_c v_c corr mesh\n')
+    outfile.write('radius gamma X Y u_c v_c dist corr\n')
     for i,line in enumerate(vortices):
-        outfile.write("%s %s %s %s %s %s %s %s \n" % line)
+        #print(line)
+        outfile.write("{0} {1} {2} {3} {4} {5} {6} {7} \n".format(line[0],line[1],line[2],line[3],line[4],line[5],line[6],line[7]))
         print('r:',line[0],'gamma:',line[1], 'x:',line[2],
-         'y',line[3],'corr',line[6],'mesh',line[7])
+         'y',line[3],'dist',line[6],'corr',line[7])
         dx = a.dx[5]-a.dx[4]
         dy = a.dy[5]-a.dy[4]
-        X, Y, Uw, Vw = tools.window(a,round(line[2]/dx,0),round(line[3]/dy,0),line[7])
+        X, Y, Uw, Vw = tools.window(a,round(line[2]/dx,0),round(line[3]/dy,0),line[6])
         uMod, vMod = fitting.velocity_model(line[0], line[1],
          line[2], line[3], line[4], line[5], X, Y)
         corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
