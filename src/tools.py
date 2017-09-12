@@ -57,24 +57,14 @@ def find_peaks(data, threshold, box_size):
     "box_size" defines the local region around each pixel
     as a square box.
 
-    Parameters
-    ----------
-    data : array_like
-        The 2D array of the image.
-
-    threshold : float or array-like
-        The data value or pixel-wise data values to be used for the
+    :param data: The 2D array of the image/data.
+    :param threshold: The data value or pixel-wise data values to be used for the
         detection threshold.  A 2D "threshold" must have the same
         shape as "data".
+    :param box_size: The size of the local region to search for peaks at every point
 
-    box_size : scalar or tuple, optional
-        The size of the local region to search for peaks at every point
-
-    Returns
-    -------
-    output :
-        An array containing the x and y pixel location of the peaks and
-        their values.
+    :returns: An array containing the x and y pixel location of the peaks and their values.
+    :rtype: list
     """
 
     if np.all(data == data.flat[0]):

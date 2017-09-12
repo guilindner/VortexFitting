@@ -24,16 +24,14 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--input', dest='infilename',
                         default='../data/test_data.nc',
                         help='input NetCDF file', metavar='FILE')
-                        
     
     args = parser.parse_args()
     
     a = VelocityField(args.infilename)
-
     
-    
-    def test_oseen(coreR, gamma, dist,xdrift,ydrift):
-        print('|*|coreR:',coreR,'Gamma',gamma,'xdrift',xdrift,'ydrift',ydrift,'|*|')
+    def test_oseen(coreR, gamma, dist,xdrift,ydrift,u_conv,v_conv):
+        print('coreR:',coreR,'Gamma',gamma,'xdrift',xdrift,
+              'ydrift',ydrift,'u_conv',u_conv,'v_conv',v_conv)
         model = [[],[],[],[],[],[]]
         model[0] = coreR
         model[1] = gamma
@@ -44,30 +42,26 @@ if __name__ == '__main__':
         X, Y = np.meshgrid(X,Y)
         fxCenter = 0.0
         fyCenter = 0.0
-        u_conv = 0.0 #flipped with v, fix later
-        v_conv = 0.0
+        model[4] = u_conv
+        model[5] = v_conv
         Uw, Vw = fitting.velocity_model(coreR, gamma, fxCenter, fyCenter, u_conv, v_conv, X+xdrift, Y+ydrift)
         Uw = Uw + u_conv
         Vw = Vw + v_conv
         # NOISE
         Uw = np.random.normal(Uw,0.3)
         Vw = np.random.normal(Vw,0.3)
-        model = fitting.fit(coreR, gamma, X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv)
+        model = fitting.fit(coreR, gamma, X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv,0)
         print('coreR:',model[0],'error(%):',(1-(model[0])/coreRori)*100)
         print('gamma:',model[1],'error(%):',(1-(model[1])/gammaori)*100)
         print('fxCenter:',model[2])
         print('fyCenter:',model[3])
-        #print('u_conv:',model[4])
-        #print('v_conv:',model[5])
-        #print('xCenter:', fxCenter)
-        #print('yCenter:',fyCenter)
-        uMod, vMod = fitting.velocity_model(model[0], model[1], model[2], model[3],u_conv,v_conv, X, Y)#, model[4], model[5])
+        uMod, vMod = fitting.velocity_model(model[0], model[1], model[2], model[3],model[4],model[5],X,Y)
         corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
         print('correlation:',corr)
         print('---')
-        plot.plot_fit(X, Y, Uw, Vw, uMod, vMod, model[2], model[3], model[0], model[1], corr, 0)
+        plot.plot_fit_test(X, Y, Uw, Vw, uMod, vMod, model[2], model[3], model[0], model[1], model[4],model[5], corr)
   
-    test_oseen(0.2,10,10,0.0,0.0)
-    test_oseen(0.2,10,10,0.2,0.2)
-    test_oseen(0.9,40,10,0.0,0.0)
-    test_oseen(0.9,40,10,0.2,0.2)
+    test_oseen(0.2,10,10,0.0,0.0,0.01,0.01)
+    test_oseen(0.2,10,10,0.2,0.2,0.01,0.01)
+    test_oseen(0.9,40,10,0.0,0.0,0.01,0.01)
+    test_oseen(0.9,40,10,0.2,0.2,0.01,0.01)

@@ -13,6 +13,10 @@ def correlation_coef(Uw,Vw,u,v):
     :param Vw: velocity v from the data at the proposed window
     :param u: velocity u from the calculated model
     :param v: velocity v from the calculated model
+    :type Uw: float
+    :type Vw: float
+    :type u: float
+    :type v: float
     :returns: corr
     :rtype: float    
     """
@@ -101,6 +105,11 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
     :param a: data from the input file
     :param xCenter: x index of the vortex center
     :param yCenter: y index of the vortex center
+    :type coreR: float
+    :type gamma: float
+    :type a: class
+    :type xCenter: int
+    :type yCenter: int
     :returns: fitted[i],dist
     :rtype: list
     """
@@ -148,6 +157,12 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv,i):
     :param y: y position
     :param fxCenter: x position of the vortex center
     :param fyCenter: y position of the vortex center
+    :type coreR: float
+    :type gamma: float
+    :type x: float
+    :type y: float
+    :type fxCenter: float
+    :type fyCenter: float
     :returns: sol.x
     :rtype: float 
     """
@@ -178,7 +193,7 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv,i):
         m = 4.0
     bnds=([coreR-coreR*m,gamma-abs(gamma)*m/2,fxCenter-m*dx,fyCenter-m*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
           [coreR+coreR*m,gamma+abs(gamma)*m/2,fxCenter+m*dx,fyCenter+m*dy,u_conv+abs(u_conv),v_conv+abs(v_conv)])
-
+    print(bnds)
     sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter,u_conv,v_conv],bounds=bnds)     
     #Levenberg
     #sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter,u_conv,v_conv],method='lm')

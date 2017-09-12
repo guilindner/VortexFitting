@@ -76,6 +76,26 @@ def plot_fit(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, u_conv, v_conv, cor
     plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' %(round(coreR,2),round(gamma,2),round(u_conv,2),round(v_conv,2),round(corr,2)))
     plt.savefig('../results/vortex%i_%i.png' %(i,j),format='png')
     plt.close('all')
+
+def plot_fit_test(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, u_conv, v_conv, corr):
+    plt.figure()
+    s = 1
+    if (X.size > 400):
+        s = 1
+    plt.quiver(X[::s,::s], Y[::s,::s], Uw[::s,::s],Vw[::s,::s],
+               color='r',label='data')
+    plt.quiver(X[::s,::s], Y[::s,::s], uMod[::s,::s], vMod[::s,::s],
+               color='b',label='model', alpha=0.5)
+    circle1=plt.Circle((xc,yc),coreR,color='k',alpha=0.05)
+    plt.gca().add_artist(circle1)
+    plt.gca().scatter([xc], [yc], marker='+', color='k', s=100)
+    plt.legend()
+    plt.grid()
+    plt.axes().set_aspect('equal')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' %(round(coreR,2),round(gamma,2),round(u_conv,2),round(v_conv,2),round(corr,2)))
+    plt.show()
     
 def plot_accepted(vortices,field):
     plt.subplot()

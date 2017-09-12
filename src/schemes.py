@@ -1,20 +1,14 @@
-"""Finite differences schemes
-"""
-
 import numpy as np
 
 def second_order_diff(a):
     """Second order accurate finite difference scheme.
     
-    Scheme 1:0:-1
+    .. note:: Scheme 1:0:-1
     
-    Args:
-        a: 2D array of the velocity field, containing u and v
-    
-    Returns:
-        All the spatial derivatives, dudx, dudy, dvdx and dvdy
-        For example:
-        a.derivative['dudx']
+    :params a: 2D array of the velocity field, containing u and v
+    :type a: float
+    :returns: derivative
+    :rtype: float
     """
     print("Difference scheme: Second Order Scheme")
     x, y = np.meshgrid(a.dx,a.dy)
@@ -26,17 +20,15 @@ def second_order_diff(a):
 
 def least_square_diff(a): #there is a problem on the boundary
     """Fourth order accurate finite difference scheme.
+    
     Least-square filter (Raffel 1998)
     
-    Scheme -2:-1:0:1:2
+    .. note:: Scheme -2:-1:0:1:2
     
-    Args:
-        a: 2D array of the velocity field, containing u and v
-    
-    Returns:
-        All the spatial derivatives, dudx, dudy, dvdx and dvdy
-        For example:
-        a.derivative['dudx']
+    :params a: 2D array of the velocity field, containing u and v
+    :type a: float
+    :returns: derivative 
+    :rtype: float
     """
     print("Difference scheme: least-square filter")
     dx = a.dx[1]-a.dx[0] #only for homogeneous mesh
@@ -53,15 +45,12 @@ def least_square_diff(a): #there is a problem on the boundary
 def fourth_order_diff(a):
     """Fourth order accurate finite difference scheme.
     
-    Scheme: 1:-8:0:8:-1
+    .. note:: Scheme: 1:-8:0:8:-1
     
-    Args:
-        a: 2D array of the velocity field, containing u and v
-    
-    Returns:
-        All the spatial derivatives, dudx, dudy, dvdx and dvdy
-        For example:
-        a.derivative['dudx']
+    :params a: 2D array of the velocity field, containing u and v
+    :type a: float
+    :returns: derivative
+    :rtype: float
     """
     print("Difference scheme: Fourth Order Scheme")
     dx = a.dx[1]-a.dx[0] #only for homogeneous mesh
