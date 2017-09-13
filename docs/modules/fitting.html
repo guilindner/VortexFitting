@@ -1,0 +1,259 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>fitting.py &#8212; VortexFitting 1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="plot.py" href="plot.html" />
+    <link rel="prev" title="detection.py" href="detection.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plot.html" title="plot.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="detection.html" title="detection.py"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Modules</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="detection.html"
+                        title="previous chapter">detection.py</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="plot.html"
+                        title="next chapter">plot.py</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/fitting.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-fitting">
+<span id="fitting-py"></span><h1>fitting.py<a class="headerlink" href="#module-fitting" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="fitting.correlation_coef">
+<code class="descclassname">fitting.</code><code class="descname">correlation_coef</code><span class="sig-paren">(</span><em>Uw</em>, <em>Vw</em>, <em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.correlation_coef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the correlation coefficient between two 2D arrays</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>Uw</strong> (<em>float</em>) &#8211; velocity u from the data at the proposed window</li>
+<li><strong>Vw</strong> (<em>float</em>) &#8211; velocity v from the data at the proposed window</li>
+<li><strong>u</strong> (<em>float</em>) &#8211; velocity u from the calculated model</li>
+<li><strong>v</strong> (<em>float</em>) &#8211; velocity v from the calculated model</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">corr</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="fitting.fit">
+<code class="descclassname">fitting.</code><code class="descname">fit</code><span class="sig-paren">(</span><em>coreR</em>, <em>gamma</em>, <em>x</em>, <em>y</em>, <em>fxCenter</em>, <em>fyCenter</em>, <em>Uw</em>, <em>Vw</em>, <em>u_conv</em>, <em>v_conv</em>, <em>i</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fitting  of the Lamb-Oseen Vortex</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>coreR</strong> (<em>float</em>) &#8211; core radius of the vortex</li>
+<li><strong>gamma</strong> (<em>float</em>) &#8211; circulation contained in the vortex</li>
+<li><strong>x</strong> (<em>float</em>) &#8211; x position</li>
+<li><strong>y</strong> (<em>float</em>) &#8211; y position</li>
+<li><strong>fxCenter</strong> (<em>float</em>) &#8211; x position of the vortex center</li>
+<li><strong>fyCenter</strong> (<em>float</em>) &#8211; y position of the vortex center</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">sol.x</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="fitting.full_fit">
+<code class="descclassname">fitting.</code><code class="descname">full_fit</code><span class="sig-paren">(</span><em>coreR</em>, <em>gamma</em>, <em>a</em>, <em>xCenter</em>, <em>yCenter</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.full_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Full fitting procedure</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>coreR</strong> (<em>float</em>) &#8211; core radius of the vortex</li>
+<li><strong>gamma</strong> (<em>float</em>) &#8211; circulation contained in the vortex</li>
+<li><strong>a</strong> (<em>class</em>) &#8211; data from the input file</li>
+<li><strong>xCenter</strong> (<em>int</em>) &#8211; x index of the vortex center</li>
+<li><strong>yCenter</strong> (<em>int</em>) &#8211; y index of the vortex center</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">fitted[i],dist</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="fitting.get_vortices">
+<code class="descclassname">fitting.</code><code class="descname">get_vortices</code><span class="sig-paren">(</span><em>a</em>, <em>peaks</em>, <em>vorticity</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.get_vortices" title="Permalink to this definition">¶</a></dt>
+<dd><p>General routine to check if the detected vortex is a real vortex</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a</strong> (<em>int</em><em>, </em><em>float</em><em>,</em><em>..</em>) &#8211; data from the input file</li>
+<li><strong>peaks</strong> (<em>list</em>) &#8211; list of vortices</li>
+<li><strong>vorticity</strong> (<em>array</em>) &#8211; calculated field</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">vortices</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="fitting.velocity_model">
+<code class="descclassname">fitting.</code><code class="descname">velocity_model</code><span class="sig-paren">(</span><em>coreR</em>, <em>gamma</em>, <em>fxCenter</em>, <em>fyCenter</em>, <em>u_conv</em>, <em>v_conv</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.velocity_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the Lamb-Oseen vortex velocity array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>coreR</strong> (<em>float</em>) &#8211; core radius of the vortex</li>
+<li><strong>gamma</strong> (<em>float</em>) &#8211; circulation contained in the vortex</li>
+<li><strong>fxCenter</strong> (<em>float</em>) &#8211; relative x position of the vortex center</li>
+<li><strong>fyCenter</strong> (<em>float</em>) &#8211; relative y position of the vortex center</li>
+<li><strong>u_conv</strong> (<em>float</em>) &#8211; u convective velocity at the center</li>
+<li><strong>v_conv</strong> (<em>float</em>) &#8211; v convective velocity at the center</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">velx, vely</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plot.html" title="plot.py"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="detection.html" title="detection.py"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >Modules</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Guilherme Lindner.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>
