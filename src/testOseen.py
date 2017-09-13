@@ -22,7 +22,7 @@ if __name__ == '__main__':
                                      formatter_class=argparse.RawTextHelpFormatter)
     
     parser.add_argument('-i', '--input', dest='infilename',
-                        default='../data/test_data.nc',
+                        default='../data/test_dataHIT.nc',
                         help='input NetCDF file', metavar='FILE')
     
     args = parser.parse_args()

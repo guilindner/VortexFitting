@@ -18,9 +18,9 @@ class VortexDetection:
 
         self.button0 = Button(master, text="Choose file", command=lambda: self.OpenFile())
         self.button0.grid(columns=1, sticky=W)
-        self.name = "../data/test_data.nc"
+        self.name = "../data/test_dataHIT.nc"
         self.label0 = Label(master, text=self.name).grid(row=0, column=1, sticky=W)
-        #self.var0 = StringVar(master, value="../data/test_data.nc")
+        #self.var0 = StringVar(master, value="../data/test_dataHIT.nc")
         #self.entry0 = Entry(master, width=40, textvariable=self.var0)
         #self.entry0.grid(row=0, column=1,sticky=W)
 

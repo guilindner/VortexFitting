@@ -1,7 +1,7 @@
 import numpy as np
 from netCDF4 import Dataset
 
-infile = "../data/test_data.nc"
+infile = "../data/test_dataHIT.nc"
 grp1 = Dataset(infile,'r') 
 
 u = np.array(grp1.variables['velocity_x'][:,:,:])
