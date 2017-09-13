@@ -5,6 +5,40 @@ DNS case
 --------
 DNS simulation of an Homogeneous Isotropic Turbulence (HIT) case.
 
+Using default input file *test_caseHIT.nc*, default scheme *second order* and
+default detection *swirling strength* we test here two cases:
+
+* Case 1: Threshold on swirling strength = 0.2
+* Case 2: Threshold on swirling strength = 0.4
+
+Case 1
+``````
+.. code-block:: bash
+   
+   $ python3 vortexfitting.py -t 0.2
+
+.. image:: images/HIT_02.svg
+   :width: 360px
+   :height: 270px
+   :align: center
+   :alt: HIT case with 0.2 threshold on swirling strength
+
+58 vortices were accepted.
+
+Case 2
+``````
+
+.. code-block:: bash
+   
+   $ python3 vortexfitting.py -t 0.4
+
+.. image:: images/HIT_04.svg
+   :width: 360px
+   :height: 270px
+   :align: center
+   :alt: HIT case with 0.4 threshold on swirling strength
+
+9 vortices were accepted.
 
 PIV case
 --------

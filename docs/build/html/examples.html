@@ -59,7 +59,11 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Examples</a><ul>
-<li><a class="reference internal" href="#dns-case">DNS case</a></li>
+<li><a class="reference internal" href="#dns-case">DNS case</a><ul>
+<li><a class="reference internal" href="#case-1">Case 1</a></li>
+<li><a class="reference internal" href="#case-2">Case 2</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#piv-case">PIV case</a></li>
 </ul>
 </li>
@@ -101,6 +105,30 @@
 <div class="section" id="dns-case">
 <h2>DNS case<a class="headerlink" href="#dns-case" title="Permalink to this headline">¶</a></h2>
 <p>DNS simulation of an Homogeneous Isotropic Turbulence (HIT) case.</p>
+<p>Using default input file <em>test_caseHIT.nc</em>, default scheme <em>second order</em> and
+default detection <em>swirling strength</em> we test here two cases:</p>
+<ul class="simple">
+<li>Case 1: Threshold on swirling strength = 0.2</li>
+<li>Case 2: Threshold on swirling strength = 0.4</li>
+</ul>
+<div class="section" id="case-1">
+<h3>Case 1<a class="headerlink" href="#case-1" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.2
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/HIT_02.svg"><div align="center" class="align-center"><img alt="HIT case with 0.2 threshold on swirling strength" height="270px" src="_images/HIT_02.svg" width="360px" /></div>
+</a>
+<p>58 vortices were accepted.</p>
+</div>
+<div class="section" id="case-2">
+<h3>Case 2<a class="headerlink" href="#case-2" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.4
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/HIT_04.svg"><div align="center" class="align-center"><img alt="HIT case with 0.4 threshold on swirling strength" height="270px" src="_images/HIT_04.svg" width="360px" /></div>
+</a>
+<p>9 vortices were accepted.</p>
+</div>
 </div>
 <div class="section" id="piv-case">
 <h2>PIV case<a class="headerlink" href="#piv-case" title="Permalink to this headline">¶</a></h2>
