@@ -90,7 +90,7 @@ def get_vortices(a,peaks,vorticity):
         X, Y, Uw, Vw = tools.window(a,b[2],b[3],b[6])
         uMod, vMod = velocity_model(b[0], b[1], b[2], b[3], b[4], b[5],X,Y)
         corr = correlation_coef(Uw,Vw,uMod,vMod)
-        print(corr)
+        #print(corr)
         if (corr > 0.90):
             print("Accepted! corr = %s (vortex %s)" %(corr,j))
             vortices.append([b[0],b[1],b[2],b[3],b[4],b[5],b[6],corr])
@@ -193,8 +193,5 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv,i):
         m = 4.0
     bnds=([coreR-coreR*m,gamma-abs(gamma)*m/2,fxCenter-m*dx,fyCenter-m*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
           [coreR+coreR*m,gamma+abs(gamma)*m/2,fxCenter+m*dx,fyCenter+m*dy,u_conv+abs(u_conv),v_conv+abs(v_conv)])
-    print(bnds)
     sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter,u_conv,v_conv],bounds=bnds)     
-    #Levenberg
-    #sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter,u_conv,v_conv],method='lm')
     return sol.x

@@ -62,6 +62,8 @@
 <li><a class="reference internal" href="#requirements">Requirements</a></li>
 <li><a class="reference internal" href="#data-input">Data input</a></li>
 <li><a class="reference internal" href="#using-the-code">Using the code</a></li>
+<li><a class="reference internal" href="#generating-a-custom-vortex">Generating a custom Vortex</a></li>
+<li><a class="reference internal" href="#converting-nc-to-ascii">Converting NC to ASCII</a></li>
 </ul>
 </li>
 </ul>
@@ -108,6 +110,7 @@
 <li>Matplotlib</li>
 <li>netCDF4</li>
 </ul>
+<p>In order to generate the documentation you need the <strong>sphinx</strong> package.</p>
 </div>
 <div class="section" id="data-input">
 <h2>Data input<a class="headerlink" href="#data-input" title="Permalink to this headline">¶</a></h2>
@@ -115,6 +118,23 @@
 components are ordered like z, y, x, where z can also be the number of
 samples in a 2D field.</p>
 <p>The variable names should be changed in the <strong>class.py</strong> file</p>
+<p>In this example we have the DNS HIT format used in this tutorial:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_x&#39;</span><span class="p">][</span><span class="n">time</span><span class="p">,:,:])</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_y&#39;</span><span class="p">][</span><span class="n">time</span><span class="p">,:,:])</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_z&#39;</span><span class="p">][</span><span class="n">time</span><span class="p">,:,:])</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">dy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">norm</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">normdir</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Here the names of the variables <em>velocity_x</em>, <em>velocity_y</em> and <em>velocity_z</em> are
+defined and an equally spaced mesh is created using <em>np.linspace</em>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">No normalization is required for this case due to its homogeneity.</p>
+</div>
 </div>
 <div class="section" id="using-the-code">
 <h2>Using the code<a class="headerlink" href="#using-the-code" title="Permalink to this headline">¶</a></h2>
@@ -155,6 +175,36 @@ the <em>-s</em> argument, like this:</p>
 <li>delta - Delta criterion</li>
 </ul>
 </div>
+</div>
+<div class="section" id="generating-a-custom-vortex">
+<h2>Generating a custom Vortex<a class="headerlink" href="#generating-a-custom-vortex" title="Permalink to this headline">¶</a></h2>
+<p>It&#8217;s possible to generate a custom vortex using the <strong>generateNetCDF.py</strong> module.
+It will create a netCDF4 file with the same characteristics as the DNS HIT file.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 generateNetCDF.py
+</pre></div>
+</div>
+<p>This command will create a file <em>generatedField.nc</em> at the data folder.</p>
+<p>You can tune the characteristics and position of the vortex by changing the
+following values directly on <em>generatedField.nc</em>:</p>
+<ul class="simple">
+<li>coreR;</li>
+<li>gamma;</li>
+<li>fxCenter;</li>
+<li>u_conv;</li>
+<li>v_conv.</li>
+</ul>
+<p>The size of the domain can also be changed on the <em>ndim</em> variable.</p>
+</div>
+<div class="section" id="converting-nc-to-ascii">
+<h2>Converting NC to ASCII<a class="headerlink" href="#converting-nc-to-ascii" title="Permalink to this headline">¶</a></h2>
+<p>If for any reason you need to convert the NC file to a text format (ASCII), the
+module <strong>convertToASCII.py</strong> can do the job. It will open the <em>infile</em> and save
+all z planes (or time) into separeted files.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 convertToASCII.py -i input.nc -o output
+</pre></div>
+</div>
+<p>Depending on the file you need to change the variable names like <em>velocity_x</em>
+and such for the corresponding variable.</p>
 </div>
 </div>
 
