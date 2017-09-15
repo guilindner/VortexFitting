@@ -1,0 +1,346 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Methodology &#8212; VortexFitting 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorial" href="tutorial.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">VortexFitting 1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table Of Contents</a></h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Methodology</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#detection-methods">Detection methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-criterion">Q criterion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#criterion"><img class="math" src="_images/math/4d26a3c646f81ab56cceb818c7801dd1f3cfaaf3.png" alt="\Delta"/> criterion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#swirling-strength-criterion">Swirling strength criterion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#localization-of-the-extrema">Localization of the extrema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fitting-of-coherent-structures">Fitting of coherent structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lamb-oseen-vortex">Lamb-Oseen vortex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#non-linear-least-squares">Non-linear least squares</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Modules</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/methodology.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="methodology">
+<h1>Methodology<a class="headerlink" href="#methodology" title="Permalink to this headline">¶</a></h1>
+<p>The methodology used in this work to characterize the coherent structures are
+divided in three main steps: the calculation of a local function to detect the
+vortex; the localization of the maxima of this function; and the adjustment
+(fitting) of this field to the proposed model.</p>
+<div class="section" id="detection-methods">
+<h2>Detection methods<a class="headerlink" href="#detection-methods" title="Permalink to this headline">¶</a></h2>
+<p>In this section, the detection methods implemented in the code for vortex
+identification are presented. These methods are based on the velocity gradient
+tensor, <img class="math" src="_images/math/06282858f9fa69319d9381c2043f8d89f1de25a3.png" alt="\overline{D}"/>, that can be written as:</p>
+<div class="math">
+<p><img src="_images/math/37d331872bccce71ceb318ca290950c681187cb4.png" alt="D_{ij} = \frac{\partial u_i}{\partial x_j}"/></p>
+</div><p>As this is a second order tensor, it can be decomposed into a symmetric and
+anti-symmetric part, <img class="math" src="_images/math/53bb978c28a4fca1d2e5711bf3152e65f182884f.png" alt="D_{ij} = S_{ij} + \Omega_{ij}"/> where:</p>
+<div class="math">
+<p><img src="_images/math/0d9d1bf51babbf25b68a5fce448ee23f82e3082f.png" alt="S_{ij} = \frac{1}{2} \left(\frac{\partial u_i}{\partial x_j} +
+\frac{\partial u_j}{\partial x_i}\right)"/></p>
+</div><div class="math">
+<p><img src="_images/math/b527d3e4d6589c8a96c282b6615c83a831bf7179.png" alt="\Omega_{ij} = \frac{1}{2} \left(\frac{\partial u_i}{\partial x_j} -
+\frac{\partial u_j}{\partial x_i}\right)"/></p>
+</div><p><img class="math" src="_images/math/f9aefa6e6dd9b26a90b378c77e493a0fe7db79ff.png" alt="S_{ij}"/> is known as the rate-of-strain tensor and <img class="math" src="_images/math/a77d8f7f396d4c1d9e610005aaf150bbd020048a.png" alt="\Omega_{ij}"/> is the
+vorticity tensor.</p>
+<p>The characteristic equation for <img class="math" src="_images/math/2128d4325d76e6f3e161b93c6b2357522ade5388.png" alt="\nabla u"/> is given by</p>
+<div class="math">
+<p><img src="_images/math/a3f2adb46197c15367a9a3b8db89e0020989f251.png" alt="\lambda^3 + P \lambda^2 + Q \lambda + R = 0"/></p>
+</div><p>where P, Q and R are the three invariants of the velocity gradient tensor. Using
+the decomposition into symmetric and anti-symmetric parts, these invariants
+can be expressed as:</p>
+<div class="math">
+<p><img src="_images/math/8cf54edeb14d31849024a87a40d956a787b79109.png" alt="P = -tr(\bar{D})"/></p>
+</div><div class="math">
+<p><img src="_images/math/a69f36fb7823eb935addff55f9d59dab484298b1.png" alt="Q = \frac{1}{2} (tr(\bar{D})^2 -tr(\bar{D}^2)) = \frac{1}{2} (\|\Omega\|^2 -\|S\|^2)"/></p>
+</div><div class="math">
+<p><img src="_images/math/b98fddf0781eb412543cbd6b46a9343b0560d4a1.png" alt="R = -det(\bar{D})"/></p>
+</div></div>
+<div class="section" id="q-criterion">
+<h2>Q criterion<a class="headerlink" href="#q-criterion" title="Permalink to this headline">¶</a></h2>
+<p>The Q criterion proposed by Hunt <em>et al</em> (1988) <a class="reference internal" href="#hunt1988" id="id1">[HUNT1988]</a> identifies the vortices
+as flow regions with positive second invariant of $nabla u$. An additional
+condition is that the pressure in the eddy region should to be lower than the
+ambient pressure. Chakraborty <em>et al</em> (2005) <a class="reference internal" href="#chakra2005" id="id2">[CHAKRA2005]</a> quoted &#8220;in
+an incompressible flow Q is a local measure of the excess rotation rate relative
+to the strain rate&#8221;.</p>
+<p>In practical terms, the vortex is detected in case of the second invariant  <img class="math" src="_images/math/97ce8490384510232af439974e12cd5336841e7c.png" alt="Q &gt; 0"/>.</p>
+</div>
+<div class="section" id="criterion">
+<h2><img class="math" src="_images/math/4d26a3c646f81ab56cceb818c7801dd1f3cfaaf3.png" alt="\Delta"/> criterion<a class="headerlink" href="#criterion" title="Permalink to this headline">¶</a></h2>
+<p>Chong <em>et al</em> (1990) <a class="reference internal" href="#chong1990" id="id3">[CHONG1990]</a> define a vortex core to be the region where
+<img class="math" src="_images/math/86618d947a94eaaaf4ef96bfa62c43186b3301b9.png" alt="\nabla v"/> has complex eigenvalues. In order to determine if the eigenvalues
+are complex, we examine the discriminant of the characteristic equation, considering
+the flow incompressible (P = 0).</p>
+<div class="math">
+<p><img src="_images/math/eca23fb19395340d7b4467a697d88862e05ae6b8.png" alt="\Delta = \left(\frac{Q}{3}\right)^3 + \left(\frac{R}{2}\right)^2 &gt; 0"/></p>
+</div></div>
+<div class="section" id="swirling-strength-criterion">
+<h2>Swirling strength criterion<a class="headerlink" href="#swirling-strength-criterion" title="Permalink to this headline">¶</a></h2>
+<p>The swirling strength criterion (<img class="math" src="_images/math/edf63edf19b49aa39ec3005de91eff83ef1bbbe5.png" alt="\lambda_{ci}"/>) was developed by Zhou
+<em>et al</em> (1999) <a class="reference internal" href="#zhou1999" id="id4">[ZHOU1999]</a>. It defines a vortex core to be the region where
+<img class="math" src="_images/math/86618d947a94eaaaf4ef96bfa62c43186b3301b9.png" alt="\nabla v"/> has complex eigenvalues. It is based on the idea that the
+velocity gradient tensor in Cartesian coordinates can be decomposed as:</p>
+<div class="math">
+<p><img src="_images/math/87cc8f2cb5da678b00fdd3a9942b419da71d0665.png" alt="\nabla u = [\bar{\nu_r} \bar{\nu_{cr}} \bar{\nu_{ci}}]^T
+\left[\begin{array}{ccc}
+\lambda_r &amp; 0 &amp; 0 \\
+0 &amp; \lambda_{cr} &amp; \lambda{ci} \\
+0 &amp; -\lambda{ci} &amp; \lambda{cr} \end{array}\right]
+[\bar{\nu_r} \bar{\nu_{cr}} \bar{\nu_{ci}}]^T"/></p>
+</div><p>where <img class="math" src="_images/math/af198cc9e8f5cd01bbefe2e68060d3fca18bd490.png" alt="\lambda_r"/> is the real eigenvalue, related to the eigenvector
+<img class="math" src="_images/math/b78394d00b424394921b457b7153b8af07fc939c.png" alt="\bar{\nu_r}"/>, and the complex conjugate pair of complex eigenvalues is
+<img class="math" src="_images/math/8a221894ca9b7abb34efd05f787ec33073be4187.png" alt="\lambda_{cr}  \pm i\lambda_{ci}"/>, related to the eigenvectors
+<img class="math" src="_images/math/a6552654d8248cb3119190570d8a244eed0ecc9b.png" alt="\bar{\nu_r} \pm i\bar{\nu_{ci}}"/>. The strength of this swirling motion can
+be quantified by <img class="math" src="_images/math/edf63edf19b49aa39ec3005de91eff83ef1bbbe5.png" alt="\lambda_{ci}"/>, called the local swirling strength of the
+vortex. The threshold for <img class="math" src="_images/math/edf63edf19b49aa39ec3005de91eff83ef1bbbe5.png" alt="\lambda_{ci}"/> is not well-defined, but theoretically
+any value greater than zero should be considered a vortex. Experimental results
+<a class="reference internal" href="#zhou1999" id="id5">[ZHOU1999]</a> shows that <img class="math" src="_images/math/09a0032b49d6ee37826d2c7832939925f295a150.png" alt="\lambda_{ci} \geq \epsilon &gt; 1.5"/> give smoother results.</p>
+</div>
+<div class="section" id="localization-of-the-extrema">
+<h2>Localization of the extrema<a class="headerlink" href="#localization-of-the-extrema" title="Permalink to this headline">¶</a></h2>
+<p>To have smooth results on the swirling strength, we apply a normalization of the
+field. The swirling strength is divided by the wall-normal profile of its RMS value:</p>
+<div class="math">
+<p><img src="_images/math/a432f4bc897a07a74d2b2d20747b3d8b769d2de4.png" alt="\bar{\lambda}_{ci}(x_{1/3},x_2) = \frac{\lambda_{ci}(x_{1/3},x_2)}{\lambda_{ci,RMS}(x_2)}"/></p>
+</div><p>Then the local maxima of the detection can be identified. The normalization is
+not required for the HIT cases, it is only used when we have an non-homogeneous
+direction.</p>
+<p>In figure <a class="reference internal" href="#nonnorm2"><span class="std std-numref">Fig. 1</span></a> we see the original swirling strength field, where
+104 vortices were found, mostly near the wall, where the boundary layer plays an
+important role in increasing the swirling strengtht. The yellow circles corresponds
+to the vortices rotating clockwise and the green circles for the counter-clockwise
+rotation.</p>
+<div class="figure align-center" id="nonnorm2">
+<img alt="_images/PIVnonnormalized.png" src="_images/PIVnonnormalized.png" />
+</div>
+<p>In figure <a class="reference internal" href="#norm2"><span class="std std-numref">Fig. 2</span></a> we show the fluctuation of the swirling strength field,
+by applying the Reynolds decomposition, now with 202 vortices found, minimizing
+the wall influence over the detection.</p>
+<div class="figure align-center" id="norm2">
+<img alt="_images/PIVnormalized.png" src="_images/PIVnormalized.png" />
+</div>
+<p>We can play with the distance between one detected vortex and another, by increasing
+the box size of the peak detection. In figure <a class="reference internal" href="#boxnorm2"><span class="std std-numref">Fig. 3</span></a> we set the box size
+to 12, instead of box size 6 used in figures <a class="reference internal" href="#nonnorm2"><span class="std std-numref">Fig. 1</span></a> and <a class="reference internal" href="#norm2"><span class="std std-numref">Fig. 2</span></a>.
+With this setting we reduce the detected vortices to 154, by removing the overlapping
+ones.</p>
+<div class="figure align-center" id="boxnorm2">
+<img alt="_images/PIVbox12normalized.png" src="_images/PIVbox12normalized.png" />
+</div>
+<p>One interesting fact about the swirling strength (as well the other methods) is
+that the local maximum values does not always match the center of the vortex. We
+show in <a class="reference internal" href="#quiverdns1"><span class="std std-numref">Fig. 4</span></a> one example of this mismatch between them.</p>
+<div class="figure align-center" id="quiverdns1">
+<img alt="_images/dns_quiver1.png" src="_images/dns_quiver1.png" />
+</div>
+</div>
+<div class="section" id="fitting-of-coherent-structures">
+<h2>Fitting of coherent structures<a class="headerlink" href="#fitting-of-coherent-structures" title="Permalink to this headline">¶</a></h2>
+<p>Using the peak of maximum swirling strength or identifying the places where the
+Q or $Delta$ criterion are higher than 0 gives us a rough estimation of a possible
+vortex and its center. But even using a threshold on these methods, the presence
+of a real vortex is not always true. To improve this detection we use a Lamb-Oseen
+vortex model to be fitted on top of the actual detected peak to check if it is
+really a vortex.</p>
+<p>The correlation coefficient between the fitted model and the velocity field is calculated according to equation ref{eq:corr} and if it&#8217;s higher than 0.75 we can consider it a vortex.</p>
+<div class="math">
+<p><img src="_images/math/0a224fe2b9dc9ecd1db1026be04320b36212cd0f.png" alt="\label{eq:corr}
+R(model/data) = \left( \frac{\langle (\vec{u}_{data}-\vec{u}_c).(\vec{u}_{model}
+-\vec{u}_c)\rangle }{\sqrt{\langle (\vec{u}_{data}-\vec{u}_c)^2\rangle}
+\sqrt{\langle (\vec{u}_{model}-\vec{u}_c)^2\rangle}} \right)^{1/2}"/></p>
+</div></div>
+<div class="section" id="lamb-oseen-vortex">
+<h2>Lamb-Oseen vortex<a class="headerlink" href="#lamb-oseen-vortex" title="Permalink to this headline">¶</a></h2>
+<p>The Lamb-Oseen vortex is a mathematical model for the flow velocity in the
+circumferential direction ($theta$), shown in equation ref{eq:oseenDecay}. It
+models a line vortex that decays due to viscosity.</p>
+<div class="math">
+<p><img src="_images/math/e5fafa36c515181a1fd8bc7b1ba0c44faeabe4f4.png" alt="\label{eq:oseenDecay}
+\vec{u}_\theta(r,t) = \frac{\Gamma}{2\pi r} \left( 1 - exp \left(
+-\left(\frac{r}{r_0(t)}\right)^2\right)\right) \vec{e}_{\theta}"/></p>
+</div><p>where $r$ is the radius, $r_0 = sqrt{4 nu t}$ is the core radius of vortex,
+$nu$ is the viscosity and $Gamma$ is the circulation contained in the vortex.</p>
+<p>In this work we are dealing with a time-independent flow, so we have no decaying
+due to viscosity. And since the coherent structures are in movement, we add the
+convective velocity to the Lamb-Oseen vortex model shown in equation ref{eq:oseen}.</p>
+<div class="math">
+<p><img src="_images/math/dbce97688e276bfb719b2e65988a5d1cb17eb1a5.png" alt="\label{eq:oseen}
+\vec{u}(r,\theta) = \vec{u}_c + \frac{\Gamma}{2\pi r} \left( 1 - exp \left(
+-\left(\frac{r}{r_0}\right)^2\right)\right) \vec{e}_{\theta}"/></p>
+</div></div>
+<div class="section" id="non-linear-least-squares">
+<h2>Non-linear least squares<a class="headerlink" href="#non-linear-least-squares" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="levenberg-marquardt-method">
+<h3>Levenberg Marquardt method<a class="headerlink" href="#levenberg-marquardt-method" title="Permalink to this headline">¶</a></h3>
+<p>The Levenberg–Marquardt algorithm, also known as the damped least-squares method,
+is used to solve non-linear least squares problems. These minimization problems
+arise especially in least squares curve fitting.</p>
+<div class="math">
+<p><img src="_images/math/0ac5fbb61b3d037658b7fb6cb587ed0a8c8807be.png" alt="\chi^2 = \sum_{i=1}^N \left[ \frac{y_i - \sum_{k=1}^M a_k X_k (x_i)}{\sigma i} \right]^2"/></p>
+</div><div class="math">
+<p><img src="_images/math/92f3adf08bed8246a0f9221af961292467dee08a.png" alt="\alpha_{kl} = \sum_{i=1}^N \frac{1}{\sigma_i^2} \left[ \frac{\partial y(x_i;a)}{\partial a_k} \frac{\partial y(x_i;a)}{\partial a_l} \right]"/></p>
+</div></div>
+<div class="section" id="powell-s-dogleg-method">
+<h3>Powell&#8217;s dogleg method<a class="headerlink" href="#powell-s-dogleg-method" title="Permalink to this headline">¶</a></h3>
+<p>The Powell&#8217;s method is an algorithm for finding a local minimum of a function.
+This function doesn&#8217;t need to be differentiable and no derivatives are taken. It
+does this using a combination of Newton&#8217;s method and the steepest descent method.
+This is a so-called trust region method. This means that every step moves the
+current point to within a finite region. This makes the method more stable than
+Newton&#8217;s method.</p>
+<table class="docutils citation" frame="void" id="herpin2009" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[HERPIN2009]</td><td>Sophie Herpin.
+<em>Étude de linfluence du nombre de Reynolds sur lorganisation de la turbulence
+de paroi.</em> PhD thesis, Ecole Centrale de Lille, 2009.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="zhou1999" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[ZHOU1999]</td><td><em>(<a class="fn-backref" href="#id4">1</a>, <a class="fn-backref" href="#id5">2</a>)</em> Zhou J., Adrian R. J., Balachandar S., and Kendall T. M.
+<em>Mechanisms for generating coherent packets of hairpin vortices in channel flow.</em>
+J. Fluid Mech., 387:353–396, 1999.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="chakra2005" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[CHAKRA2005]</a></td><td>Chakraborty P., Balachandar S., and Adrian R. J.
+<em>On the relationships between local vortex identification schemes.</em>
+J. Fluid Mech., 535:189–214, 2005.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="chong1990" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[CHONG1990]</a></td><td>Chong M. S., Perry A. E., and Cantwell B. J.
+<em>A general classification of three-dimensional flow fields.</em>
+Phys. Fluids, 2:765–777, 1990.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="hunt1988" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[HUNT1988]</a></td><td>Hunt, J. C. R., Wray, A. A. &amp; Moin, P.
+<em>Eddies, stream, and convergence zones in turbulent flows.</em>
+Center for Turbulence Research Report, CTR-S88, 1988</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">VortexFitting 1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Guilherme Lindner.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

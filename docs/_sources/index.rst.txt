@@ -18,7 +18,9 @@ The code is hosted at https://github.com/guilindner/VortexFitting
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-   
+
+   introduction
+   methodology
    tutorial
    examples
    modules/modules

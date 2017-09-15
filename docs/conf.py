@@ -85,6 +85,8 @@ todo_include_todos = True
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
+#html_theme_path = ["sphinx_readable_theme"]
+#html_theme = 'readable'
 html_theme = 'bizstyle'
 
 # Theme options are theme-specific and customize the look and feel of a theme
@@ -155,5 +157,5 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
-
-
+html_sidebars = {'**': ['globaltoc.html','sourcelink.html', 'searchbox.html']}
+numfig = True
