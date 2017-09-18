@@ -9,7 +9,7 @@ The difficulty on identifying these vortices it's in the fact that is not so
 clear to measure the extension of the vortex from its center of rotation.
 All of this becomes more complicated when we have the interaction between
 multiples coherent structures. According to Shawn *et al* (2005) [SHAWN2005]_
-the definition is::
+the definition is:
 
    "It is generally accepted that flows with general time dependence admit
    emergent patterns which influence the transport of tracers, those structures

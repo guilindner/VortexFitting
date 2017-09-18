@@ -12,8 +12,13 @@ You need the following **Python 3** libraries:
 
 In order to generate the documentation you need the **sphinx** package.
 
+
+Using the code
+--------------
+
 Data input
-----------
+``````````
+
 The data used must be in the netCDF4 format. The axis of the velocity
 components are ordered like z, y, x, where z can also be the number of
 samples in a 2D field.
@@ -38,8 +43,9 @@ defined and an equally spaced mesh is created using *np.linspace*.
 
 .. note:: No normalization is required for this case due to its homogeneity.
 
-Using the code
---------------
+
+Parameters
+``````````
 
 The code comes with a default test case for the HIT, located in *../data/test_data.nc*.
 The default configuration os **class.py** is set to handle the HIT case.
@@ -80,6 +86,20 @@ We can as well change the detection method with the *-d* argument
           * Q - Q criterion
           * swirling - Swirling Strenght (default)
           * delta - Delta criterion
+
+Data output
+```````````
+
+The results will be written to the *../results/* folder with the following files:
+
+* accepted.svg: The location and size of the accepted vortices
+* linked.svg: same as *accepted.svg* but can be open on the web browser with
+  clickable vortices
+* vortex#_1.png: Comparison of the velocity field of the vortex and the model
+* vortex#_2.png: Comparison of the velocity field of the vortex and the model,
+  subtracting the convection velocity
+* vortices.dat: parameters of all the vortices
+
 
 Generating a custom Vortex
 --------------------------

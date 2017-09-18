@@ -1,5 +1,6 @@
 data/
 results/
+docs/_sources/
 *.aux
 *.bbl
 *.blg
@@ -7,6 +8,7 @@ results/
 *.lot
 *.toc
 *.gz
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

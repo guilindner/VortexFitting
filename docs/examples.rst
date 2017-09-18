@@ -13,6 +13,8 @@ default detection *swirling strength* we test here two cases:
 * Case 3: Threshold on swirling strength = 0.2
 * Case 4: Threshold on swirling strength = 0.4
 
+The maximum value of swirling strength
+
 Case 1
 ``````
 .. code-block:: bash
@@ -22,12 +24,10 @@ Case 1
 .. image:: _images/HIT_00.svg
    :width: 360px
    :height: 270px
-   :align: center
-   :alt: HIT case with 0.0 threshold on swirling strength
 
 361 vortices detected with 141 accepted.
 
-case 2
+Case 2
 ``````
 .. code-block:: bash
    
@@ -36,12 +36,10 @@ case 2
 .. image:: _images/HIT_01.svg
    :width: 360px
    :height: 270px
-   :align: center
-   :alt: hit case with 0.1 threshold on swirling strength
 
 162 vortices detected with 108 accepted.
 
-case 3
+Case 3
 ``````
 .. code-block:: bash
    
@@ -50,8 +48,6 @@ case 3
 .. image:: _images/HIT_02.svg
    :width: 360px
    :height: 270px
-   :align: center
-   :alt: hit case with 0.2 threshold on swirling strength
 
 58 vortices detected with 51 accepted.
 
@@ -65,8 +61,6 @@ Case 4
 .. image:: _images/HIT_04.svg
    :width: 360px
    :height: 270px
-   :align: center
-   :alt: HIT case with 0.4 threshold on swirling strength
 
 9 vortices detected with 8 accepted.
 

@@ -63,7 +63,6 @@
 <li class="toctree-l1"><a class="reference internal" href="methodology.html">Methodology</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#data-input">Data input</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#using-the-code">Using the code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#generating-a-custom-vortex">Generating a custom Vortex</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#converting-nc-to-ascii">Converting NC to ASCII</a></li>
@@ -73,13 +72,6 @@
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Modules</a></li>
 </ul>
 
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/tutorial.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
@@ -111,8 +103,10 @@
 </ul>
 <p>In order to generate the documentation you need the <strong>sphinx</strong> package.</p>
 </div>
+<div class="section" id="using-the-code">
+<h2>Using the code<a class="headerlink" href="#using-the-code" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="data-input">
-<h2>Data input<a class="headerlink" href="#data-input" title="Permalink to this headline">¶</a></h2>
+<h3>Data input<a class="headerlink" href="#data-input" title="Permalink to this headline">¶</a></h3>
 <p>The data used must be in the netCDF4 format. The axis of the velocity
 components are ordered like z, y, x, where z can also be the number of
 samples in a 2D field.</p>
@@ -135,8 +129,8 @@ defined and an equally spaced mesh is created using <em>np.linspace</em>.</p>
 <p class="last">No normalization is required for this case due to its homogeneity.</p>
 </div>
 </div>
-<div class="section" id="using-the-code">
-<h2>Using the code<a class="headerlink" href="#using-the-code" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h3>
 <p>The code comes with a default test case for the HIT, located in <em>../data/test_data.nc</em>.
 The default configuration os <strong>class.py</strong> is set to handle the HIT case.</p>
 <p>If no input file with the <em>-i</em> argument has been specified, the <em>test_data.nc</em> will be used.</p>
@@ -172,6 +166,20 @@ the <em>-s</em> argument, like this:</p>
 <li>Q - Q criterion</li>
 <li>swirling - Swirling Strenght (default)</li>
 <li>delta - Delta criterion</li>
+</ul>
+</div>
+</div>
+<div class="section" id="data-output">
+<h3>Data output<a class="headerlink" href="#data-output" title="Permalink to this headline">¶</a></h3>
+<p>The results will be written to the <em>../results/</em> folder with the following files:</p>
+<ul class="simple">
+<li>accepted.svg: The location and size of the accepted vortices</li>
+<li>linked.svg: same as <em>accepted.svg</em> but can be open on the web browser with
+clickable vortices</li>
+<li>vortex#_1.png: Comparison of the velocity field of the vortex and the model</li>
+<li>vortex#_2.png: Comparison of the velocity field of the vortex and the model,
+subtracting the convection velocity</li>
+<li>vortices.dat: parameters of all the vortices</li>
 </ul>
 </div>
 </div>

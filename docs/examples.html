@@ -70,13 +70,6 @@
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Modules</a></li>
 </ul>
 
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/examples.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
@@ -103,34 +96,34 @@
 <p>Using default input file <em>test_caseHIT.nc</em>, default scheme <em>second order</em> and
 default detection <em>swirling strength</em> we test here two cases:</p>
 <ul class="simple">
-<li>Case 1: Threshold on swirling strength = 0.2</li>
-<li>Case 2: Threshold on swirling strength = 0.4</li>
+<li>Case 1: Threshold on swirling strength = 0.0</li>
+<li>Case 2: Threshold on swirling strength = 0.1</li>
+<li>Case 3: Threshold on swirling strength = 0.2</li>
+<li>Case 4: Threshold on swirling strength = 0.4</li>
 </ul>
+<p>The maximum value of swirling strength</p>
 <div class="section" id="case-1">
 <h3>Case 1<a class="headerlink" href="#case-1" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.0
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/HIT_00.svg"><div align="center" class="align-center"><img alt="HIT case with 0.0 threshold on swirling strength" height="270px" src="_images/HIT_00.svg" width="360px" /></div>
-</a>
+<a class="reference internal image-reference" href="_images/HIT_00.svg"><img alt="_images/HIT_00.svg" height="270px" src="_images/HIT_00.svg" width="360px" /></a>
 <p>361 vortices detected with 141 accepted.</p>
 </div>
 <div class="section" id="case-2">
-<h3>case 2<a class="headerlink" href="#case-2" title="Permalink to this headline">¶</a></h3>
+<h3>Case 2<a class="headerlink" href="#case-2" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.1
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/HIT_01.svg"><div align="center" class="align-center"><img alt="hit case with 0.1 threshold on swirling strength" height="270px" src="_images/HIT_01.svg" width="360px" /></div>
-</a>
+<a class="reference internal image-reference" href="_images/HIT_01.svg"><img alt="_images/HIT_01.svg" height="270px" src="_images/HIT_01.svg" width="360px" /></a>
 <p>162 vortices detected with 108 accepted.</p>
 </div>
 <div class="section" id="case-3">
-<h3>case 3<a class="headerlink" href="#case-3" title="Permalink to this headline">¶</a></h3>
+<h3>Case 3<a class="headerlink" href="#case-3" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.2
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/HIT_02.svg"><div align="center" class="align-center"><img alt="hit case with 0.2 threshold on swirling strength" height="270px" src="_images/HIT_02.svg" width="360px" /></div>
-</a>
+<a class="reference internal image-reference" href="_images/HIT_02.svg"><img alt="_images/HIT_02.svg" height="270px" src="_images/HIT_02.svg" width="360px" /></a>
 <p>58 vortices detected with 51 accepted.</p>
 </div>
 <div class="section" id="case-4">
@@ -138,8 +131,7 @@ default detection <em>swirling strength</em> we test here two cases:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.4
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/HIT_04.svg"><div align="center" class="align-center"><img alt="HIT case with 0.4 threshold on swirling strength" height="270px" src="_images/HIT_04.svg" width="360px" /></div>
-</a>
+<a class="reference internal image-reference" href="_images/HIT_04.svg"><img alt="_images/HIT_04.svg" height="270px" src="_images/HIT_04.svg" width="360px" /></a>
 <p>9 vortices detected with 8 accepted.</p>
 <table border="1" class="docutils">
 <colgroup>
