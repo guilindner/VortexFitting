@@ -8,8 +8,10 @@ DNS simulation of an Homogeneous Isotropic Turbulence (HIT) case.
 Using default input file *test_caseHIT.nc*, default scheme *second order* and
 default detection *swirling strength* we test here two cases:
 
-* Case 1: Threshold on swirling strength = 0.2
-* Case 2: Threshold on swirling strength = 0.4
+* Case 1: Threshold on swirling strength = 0.0
+* Case 2: Threshold on swirling strength = 0.1
+* Case 3: Threshold on swirling strength = 0.2
+* Case 4: Threshold on swirling strength = 0.4
 
 Case 1
 ``````

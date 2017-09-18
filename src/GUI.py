@@ -43,7 +43,7 @@ class VortexDetection:
         
         self.label4 = Label(master, text="Detection").grid(row=4, column=0, sticky=W)
         self.var4 = StringVar(master)
-        self.methods = ("Q criterion","Delta criterion", "Swirling Strenght")
+        self.methods = ("Q criterion","Delta criterion", "Swirling Strength")
         self.var4.set(self.methods[2])
         self.list4 = OptionMenu(master,self.var4, *self.methods)
         self.list4.grid(row=4, column=1,sticky=W)
@@ -83,7 +83,7 @@ class VortexDetection:
             method = "Q"
         if (self.var4.get()) == "Delta criterion":
             method = "delta" 
-        if (self.var4.get()) == "Swirling Strenght":
+        if (self.var4.get()) == "Swirling Strength":
             method = "swirling"
         print("python3 vortexfitting.py -i %s -b %s -t %s -s %s -d %s" %(self.name,self.int1.get(),self.double2.get(),scheme,method))
         os.system("python3 vortexfitting.py -i %s -b %s -t %s -s %s -d %s" %(self.name,self.int1.get(),self.double2.get(),scheme,method))

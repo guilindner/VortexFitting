@@ -7,9 +7,9 @@ import tools
 
 def calc_swirling(a):
     """
-    2D Swirling strenght
+    2D Swirling strength
     """
-    print("Detection method: 2D swirling strenght")
+    print("Detection method: 2D swirling strength")
     A = np.zeros((a.u.size,3,3))
     A = np.array(
            [[a.derivative['dudx'].ravel(),a.derivative['dudy'].ravel(),
