@@ -108,21 +108,76 @@ default detection <em>swirling strength</em> we test here two cases:</p>
 </ul>
 <div class="section" id="case-1">
 <h3>Case 1<a class="headerlink" href="#case-1" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.0
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/HIT_00.svg"><div align="center" class="align-center"><img alt="HIT case with 0.0 threshold on swirling strength" height="270px" src="_images/HIT_00.svg" width="360px" /></div>
+</a>
+<p>361 vortices detected with 141 accepted.</p>
+</div>
+<div class="section" id="case-2">
+<h3>case 2<a class="headerlink" href="#case-2" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.1
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/HIT_01.svg"><div align="center" class="align-center"><img alt="hit case with 0.1 threshold on swirling strength" height="270px" src="_images/HIT_01.svg" width="360px" /></div>
+</a>
+<p>162 vortices detected with 108 accepted.</p>
+</div>
+<div class="section" id="case-3">
+<h3>case 3<a class="headerlink" href="#case-3" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.2
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/HIT_02.svg"><div align="center" class="align-center"><img alt="HIT case with 0.2 threshold on swirling strength" height="270px" src="_images/HIT_02.svg" width="360px" /></div>
+<a class="reference internal image-reference" href="_images/HIT_02.svg"><div align="center" class="align-center"><img alt="hit case with 0.2 threshold on swirling strength" height="270px" src="_images/HIT_02.svg" width="360px" /></div>
 </a>
-<p>58 vortices were accepted.</p>
+<p>58 vortices detected with 51 accepted.</p>
 </div>
-<div class="section" id="case-2">
-<h3>Case 2<a class="headerlink" href="#case-2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="case-4">
+<h3>Case 4<a class="headerlink" href="#case-4" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.4
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/HIT_04.svg"><div align="center" class="align-center"><img alt="HIT case with 0.4 threshold on swirling strength" height="270px" src="_images/HIT_04.svg" width="360px" /></div>
 </a>
-<p>9 vortices were accepted.</p>
+<p>9 vortices detected with 8 accepted.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="31%" />
+<col width="28%" />
+<col width="28%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Case</th>
+<th class="head">Threshold</th>
+<th class="head">Detected</th>
+<th class="head">Accepted</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>0.0</td>
+<td>361</td>
+<td>141</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>0.1</td>
+<td>162</td>
+<td>108</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>0.2</td>
+<td>58</td>
+<td>51</td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>0.4</td>
+<td>9</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section" id="piv-case">

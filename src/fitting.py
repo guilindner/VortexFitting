@@ -89,8 +89,7 @@ def get_vortices(a,peaks,vorticity):
         b = full_fit(coreR, gamma, a, xCenter, yCenter)
         X, Y, Uw, Vw = tools.window(a,b[2],b[3],b[6])
         uMod, vMod = velocity_model(b[0], b[1], b[2], b[3], b[4], b[5],X,Y)
-        corr = correlation_coef(Uw,Vw,uMod,vMod)
-        #print(corr)
+        corr = correlation_coef(Uw-b[4],Vw-b[5],uMod-b[4],vMod-b[5])
         if (corr > 0.90):
             print("Accepted! corr = %s (vortex %s)" %(corr,j))
             vortices.append([b[0],b[1],b[2],b[3],b[4],b[5],b[6],corr])
@@ -139,10 +138,11 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
         fitted = fit(fitted[0], fitted[1], X, Y, fitted[2], fitted[3], Uw, Vw, fitted[4], fitted[5],i)
         if i > 0:
-            if abs(fitted[0]/r1 -1) < 0.1:
+            # break if radius variation is less than 10% and accepts
+            if abs(fitted[0]/r1 -1) < 0.1: 
                 if (abs((fitted[2]/x1 -1)) < 0.1) or (abs((fitted[3]/y1 -1)) < 0.01):
-                    #print("break")
                     break
+            # break if x or y position is out of the window and discards
             if (abs((fitted[2]-x1)) > dist*dx) or (abs((fitted[3]-y1)) > dist*dy):
                 corr = 0.0
                 break 
@@ -191,7 +191,7 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv,i):
         m = 1.0
     else:
         m = 4.0
-    bnds=([coreR-coreR*m,gamma-abs(gamma)*m/2,fxCenter-m*dx,fyCenter-m*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
+    bnds=([0.0,gamma-abs(gamma)*m/2,fxCenter-m*dx,fyCenter-m*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
           [coreR+coreR*m,gamma+abs(gamma)*m/2,fxCenter+m*dx,fyCenter+m*dy,u_conv+abs(u_conv),v_conv+abs(v_conv)])
     sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter,u_conv,v_conv],bounds=bnds)     
     return sol.x
