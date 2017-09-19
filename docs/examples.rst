@@ -22,8 +22,7 @@ Case 1
    $ python3 vortexfitting.py -t 0.0
 
 .. image:: _images/HIT_00.svg
-   :width: 360px
-   :height: 270px
+   :width: 90%
 
 361 vortices detected with 141 accepted.
 
@@ -34,8 +33,7 @@ Case 2
    $ python3 vortexfitting.py -t 0.1
 
 .. image:: _images/HIT_01.svg
-   :width: 360px
-   :height: 270px
+   :width: 90%
 
 162 vortices detected with 108 accepted.
 
@@ -46,8 +44,7 @@ Case 3
    $ python3 vortexfitting.py -t 0.2
 
 .. image:: _images/HIT_02.svg
-   :width: 360px
-   :height: 270px
+   :width: 90%
 
 58 vortices detected with 51 accepted.
 
@@ -59,10 +56,22 @@ Case 4
    $ python3 vortexfitting.py -t 0.4
 
 .. image:: _images/HIT_04.svg
-   :width: 360px
-   :height: 270px
+   :width: 90%
 
 9 vortices detected with 8 accepted.
+
+Below two vortices are displayed, where in the left we have the normal field
+and to the right we have the convection velocity subtracted.
+
+.. image:: _images/DNSvortex0_1.png
+   :width: 45 %
+.. image:: _images/DNSvortex0_2.png
+   :width: 45 %
+
+.. image:: _images/DNSvortex1_1.png
+   :width: 45 %
+.. image:: _images/DNSvortex1_2.png
+   :width: 45 %
 
 +----+---------+--------+--------+
 |Case|Threshold|Detected|Accepted|
@@ -76,6 +85,48 @@ Case 4
 |4   |0.4      |9       |8       |
 +----+---------+--------+--------+
 
-
 PIV case
 --------
+
+For PIV data we need to change the *classes.py* to match the NetCDF file:
+
+.. code-block:: python
+
+   self.u = np.array(grp1.variables['velocity_n'][time,:,:])
+   self.v = np.array(grp1.variables['velocity_s'][time,:,:])
+   self.w = np.array(grp1.variables['velocity_z'][time,:,:])
+   self.dx = np.array(grp1.variables['grid_n'])
+   self.dy = np.array(grp1.variables['grid_z'])
+   self.dy = self.dy - self.dy[0] #it does not start at 0
+   self.u = self.u - np.mean(self.u,1)[:,None]
+   self.v = self.v - np.mean(self.v,1)[:,None]
+   self.w = self.w - np.mean(self.w,1)[:,None]
+   self.norm = True
+   self.normdir = 0
+   self.samples = self.u.shape[1]
+
+Here since we have a convection velocity, we have to set the *self.norm = True*
+and the *self.normdir = 0* (for the y direction)
+
+.. code-block:: bash
+   
+   $ python3 vortexfitting.py -i ../data/test_dataPIV -t 1.5
+
+.. image:: _images/piv_15.svg
+   :width: 90 %
+
+203 vortices detected with 44 accepted.
+
+Below two vortices are displayed, where in the left we have the normal field
+and to the right we have the convection velocity subtracted.
+
+.. image:: _images/PIVvortex0_1.png
+   :width: 45 %
+.. image:: _images/PIVvortex0_2.png
+   :width: 45 %
+
+.. image:: _images/PIVvortex1_1.png
+   :width: 45 %
+.. image:: _images/PIVvortex1_2.png
+   :width: 45 %
+

@@ -97,17 +97,19 @@ def plot_fit_test(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, u_conv, v_conv
     plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' %(round(coreR,2),round(gamma,2),round(u_conv,2),round(v_conv,2),round(corr,2)))
     plt.show()
     
-def plot_accepted(vortices,field):
+def plot_accepted(a,vortices,field):
     plt.subplot()
     plt.imshow(field, origin='lower', cmap="Greys_r")
     plt.xlabel('x')
     plt.ylabel('y')
+    dx = a.dx[5]-a.dx[4]
+    dy = a.dy[5]-a.dy[4]
     for i,line in enumerate(vortices):
         if vortices[i][1] > 0:
             orient = 'Y'
         else:
             orient = 'Y'
-        circle1=plt.Circle((line[2],line[3]),line[0],
+        circle1=plt.Circle((line[2]/dx,line[3]/dy),line[0]/dx,
                             edgecolor=orient,facecolor='none',gid='vortex%i' % i)
         plt.gca().add_artist(circle1)
     

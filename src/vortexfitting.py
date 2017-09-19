@@ -131,7 +131,7 @@ if __name__ == '__main__':
     elif args.plot_x == 'fields':
         plot.plot_fields(a,vorticity)
     elif args.plot_x == 'fit':
-        plot.plot_accepted(vortices,swirling)
+        plot.plot_accepted(a,vortices,swirling)
         plot.plot_vortex(a,vortices)
     else:
         print('no plot')

@@ -107,7 +107,7 @@ default detection <em>swirling strength</em> we test here two cases:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.0
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/HIT_00.svg"><img alt="_images/HIT_00.svg" height="270px" src="_images/HIT_00.svg" width="360px" /></a>
+<a class="reference internal image-reference" href="_images/HIT_00.svg"><img alt="_images/HIT_00.svg" src="_images/HIT_00.svg" width="90%" /></a>
 <p>361 vortices detected with 141 accepted.</p>
 </div>
 <div class="section" id="case-2">
@@ -115,7 +115,7 @@ default detection <em>swirling strength</em> we test here two cases:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.1
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/HIT_01.svg"><img alt="_images/HIT_01.svg" height="270px" src="_images/HIT_01.svg" width="360px" /></a>
+<a class="reference internal image-reference" href="_images/HIT_01.svg"><img alt="_images/HIT_01.svg" src="_images/HIT_01.svg" width="90%" /></a>
 <p>162 vortices detected with 108 accepted.</p>
 </div>
 <div class="section" id="case-3">
@@ -123,7 +123,7 @@ default detection <em>swirling strength</em> we test here two cases:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.2
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/HIT_02.svg"><img alt="_images/HIT_02.svg" height="270px" src="_images/HIT_02.svg" width="360px" /></a>
+<a class="reference internal image-reference" href="_images/HIT_02.svg"><img alt="_images/HIT_02.svg" src="_images/HIT_02.svg" width="90%" /></a>
 <p>58 vortices detected with 51 accepted.</p>
 </div>
 <div class="section" id="case-4">
@@ -131,8 +131,14 @@ default detection <em>swirling strength</em> we test here two cases:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.4
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/HIT_04.svg"><img alt="_images/HIT_04.svg" height="270px" src="_images/HIT_04.svg" width="360px" /></a>
+<a class="reference internal image-reference" href="_images/HIT_04.svg"><img alt="_images/HIT_04.svg" src="_images/HIT_04.svg" width="90%" /></a>
 <p>9 vortices detected with 8 accepted.</p>
+<p>Below two vortices are displayed, where in the left we have the normal field
+and to the right we have the convection velocity subtracted.</p>
+<a class="reference internal image-reference" href="_images/DNSvortex0_1.png"><img alt="_images/DNSvortex0_1.png" src="_images/DNSvortex0_1.png" style="width: 45%;" /></a>
+<a class="reference internal image-reference" href="_images/DNSvortex0_2.png"><img alt="_images/DNSvortex0_2.png" src="_images/DNSvortex0_2.png" style="width: 45%;" /></a>
+<a class="reference internal image-reference" href="_images/DNSvortex1_1.png"><img alt="_images/DNSvortex1_1.png" src="_images/DNSvortex1_1.png" style="width: 45%;" /></a>
+<a class="reference internal image-reference" href="_images/DNSvortex1_2.png"><img alt="_images/DNSvortex1_2.png" src="_images/DNSvortex1_2.png" style="width: 45%;" /></a>
 <table border="1" class="docutils">
 <colgroup>
 <col width="14%" />
@@ -174,6 +180,34 @@ default detection <em>swirling strength</em> we test here two cases:</p>
 </div>
 <div class="section" id="piv-case">
 <h2>PIV case<a class="headerlink" href="#piv-case" title="Permalink to this headline">¶</a></h2>
+<p>For PIV data we need to change the <em>classes.py</em> to match the NetCDF file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_n&#39;</span><span class="p">][</span><span class="n">time</span><span class="p">,:,:])</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_s&#39;</span><span class="p">][</span><span class="n">time</span><span class="p">,:,:])</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_z&#39;</span><span class="p">][</span><span class="n">time</span><span class="p">,:,:])</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;grid_n&#39;</span><span class="p">])</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">dy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;grid_z&#39;</span><span class="p">])</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">dy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">#it does not start at 0</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">u</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">,</span><span class="mi">1</span><span class="p">)[:,</span><span class="bp">None</span><span class="p">]</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">,</span><span class="mi">1</span><span class="p">)[:,</span><span class="bp">None</span><span class="p">]</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">,</span><span class="mi">1</span><span class="p">)[:,</span><span class="bp">None</span><span class="p">]</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">norm</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">normdir</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Here since we have a convection velocity, we have to set the <em>self.norm = True</em>
+and the <em>self.normdir = 0</em> (for the y direction)</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -i ../data/test_dataPIV -t 1.5
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/piv_15.svg"><img alt="_images/piv_15.svg" src="_images/piv_15.svg" width="90%" /></a>
+<p>203 vortices detected with 44 accepted.</p>
+<p>Below two vortices are displayed, where in the left we have the normal field
+and to the right we have the convection velocity subtracted.</p>
+<a class="reference internal image-reference" href="_images/PIVvortex0_1.png"><img alt="_images/PIVvortex0_1.png" src="_images/PIVvortex0_1.png" style="width: 45%;" /></a>
+<a class="reference internal image-reference" href="_images/PIVvortex0_2.png"><img alt="_images/PIVvortex0_2.png" src="_images/PIVvortex0_2.png" style="width: 45%;" /></a>
+<a class="reference internal image-reference" href="_images/PIVvortex1_1.png"><img alt="_images/PIVvortex1_1.png" src="_images/PIVvortex1_1.png" style="width: 45%;" /></a>
+<a class="reference internal image-reference" href="_images/PIVvortex1_2.png"><img alt="_images/PIVvortex1_2.png" src="_images/PIVvortex1_2.png" style="width: 45%;" /></a>
 </div>
 </div>
 

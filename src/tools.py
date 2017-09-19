@@ -37,10 +37,6 @@ def window(a,xCenter,yCenter,dist):
         y2 = yCenter+dist
     else:
         y2 = a.v.shape[0]
-    x1 = x1+1 #CHECK AGAIN!
-    x2 = x2+1
-    y1 = y1+1
-    y2 = y2+1
     X, Y = np.meshgrid(a.dx[int(x1):int(x2)],
                        a.dy[int(y1):int(y2)],indexing='xy')
     Uw = a.u[int(y1):int(y2),int(x1):int(x2)]

@@ -80,6 +80,8 @@ def get_vortices(a,peaks,vorticity):
     b = list()
     vortices = list()
     j = 0
+    dx = a.dx[5]-a.dx[4] #ugly
+    dy = a.dy[5]-a.dy[4]
     for i in range(len(peaks[0])):
         xCenter = peaks[1][i]
         yCenter = peaks[0][i]
@@ -87,7 +89,7 @@ def get_vortices(a,peaks,vorticity):
         coreR = 2*(a.dx[5]-a.dx[4]) #ugly change someday
         gamma = vorticity[yCenter,xCenter]*np.pi*coreR**2
         b = full_fit(coreR, gamma, a, xCenter, yCenter)
-        X, Y, Uw, Vw = tools.window(a,b[2],b[3],b[6])
+        X, Y, Uw, Vw = tools.window(a,round(b[2]/dx,0),round(b[3]/dy,0),b[6])
         uMod, vMod = velocity_model(b[0], b[1], b[2], b[3], b[4], b[5],X,Y)
         corr = correlation_coef(Uw-b[4],Vw-b[5],uMod-b[4],vMod-b[5])
         if (corr > 0.90):
@@ -122,7 +124,7 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
     dy = a.dy[5]-a.dy[4]
     corr = 0.0
 
-    for i in range(10):
+    for i in range(5):
         xCenter = int(round(fitted[2]/dx))
         yCenter = int(round(fitted[3]/dy))
         if xCenter >= a.u.shape[1]:
