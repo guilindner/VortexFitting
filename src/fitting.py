@@ -6,9 +6,9 @@ from scipy.stats import pearsonr
 import tools
 import plot
 
-def correlation_coef(Uw,Vw,u,v):
+def correlation_coef(Uw, Vw, u, v):
     """Calculates the correlation coefficient between two 2D arrays
-    
+
     :param Uw: velocity u from the data at the proposed window
     :param Vw: velocity v from the data at the proposed window
     :param u: velocity u from the calculated model
@@ -18,7 +18,7 @@ def correlation_coef(Uw,Vw,u,v):
     :type u: float
     :type v: float
     :returns: corr
-    :rtype: float    
+    :rtype: float
     """
     Uw = Uw.ravel()
     Vw = Vw.ravel()
@@ -38,9 +38,9 @@ def correlation_coef(Uw,Vw,u,v):
 
     return corr
 
-def velocity_model(coreR, gamma, fxCenter,fyCenter, u_conv, v_conv,x,y):
+def velocity_model(coreR, gamma, fxCenter, fyCenter, u_conv, v_conv, x, y):
     """Generates the Lamb-Oseen vortex velocity array
-    
+
     :param coreR: core radius of the vortex
     :param gamma: circulation contained in the vortex
     :param fxCenter: relative x position of the vortex center
@@ -65,13 +65,13 @@ def velocity_model(coreR, gamma, fxCenter,fyCenter, u_conv, v_conv,x,y):
     vely = np.nan_to_num(vely)
     return velx, vely
 
-def get_vortices(a,peaks,vorticity):
+def get_vortices(a, peaks, vorticity):
     """General routine to check if the detected vortex is a real vortex
-    
+
     :param a: data from the input file
     :param peaks: list of vortices
     :param vorticity: calculated field
-    :type a: int, float,...
+    :type a: int, float, ...
     :type peaks: list
     :type vorticity: array
     :returns: vortices
@@ -85,22 +85,25 @@ def get_vortices(a,peaks,vorticity):
     for i in range(len(peaks[0])):
         xCenter = peaks[1][i]
         yCenter = peaks[0][i]
-        print(i," Processing detected swirling at (x,y)",xCenter,yCenter)
+        print(i, " Processing detected swirling at (x, y)", xCenter, yCenter)
         coreR = 2*(a.dx[5]-a.dx[4]) #ugly change someday
-        gamma = vorticity[yCenter,xCenter]*np.pi*coreR**2
+        gamma = vorticity[yCenter, xCenter]*np.pi*coreR**2
         b = full_fit(coreR, gamma, a, xCenter, yCenter)
-        X, Y, Uw, Vw = tools.window(a,round(b[2]/dx,0),round(b[3]/dy,0),b[6])
-        uMod, vMod = velocity_model(b[0], b[1], b[2], b[3], b[4], b[5],X,Y)
-        corr = correlation_coef(Uw-b[4],Vw-b[5],uMod-b[4],vMod-b[5])
-        if (corr > 0.90):
-            print("Accepted! corr = %s (vortex %s)" %(corr,j))
-            vortices.append([b[0],b[1],b[2],b[3],b[4],b[5],b[6],corr])
+        if b[6] < 2:
+            corr = 0
+        else:
+            X, Y, Uw, Vw = tools.window(a, round(b[2]/dx, 0), round(b[3]/dy, 0), b[6])
+            uMod, vMod = velocity_model(b[0], b[1], b[2], b[3], b[4], b[5], X, Y)
+            corr = correlation_coef(Uw-b[4], Vw-b[5], uMod-b[4], vMod-b[5])
+        if corr > 0.90:
+            print("Accepted! corr = %s (vortex %s)" %(corr, j))
+            vortices.append([b[0], b[1], b[2], b[3], b[4], b[5], b[6], corr])
             j += 1
     return vortices
 
 def full_fit(coreR, gamma, a, xCenter, yCenter):
     """Full fitting procedure
-    
+
     :param coreR: core radius of the vortex
     :param gamma: circulation contained in the vortex
     :param a: data from the input file
@@ -111,11 +114,11 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
     :type a: class
     :type xCenter: int
     :type yCenter: int
-    :returns: fitted[i],dist
+    :returns: fitted[i], dist
     :rtype: list
     """
 
-    fitted = [[],[],[],[],[],[]]
+    fitted = [[], [], [], [], [], []]
     fitted[0] = coreR
     fitted[1] = gamma
     fitted[2] = a.dx[xCenter]
@@ -123,7 +126,6 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
     dx = a.dx[5]-a.dx[4] #ugly
     dy = a.dy[5]-a.dy[4]
     corr = 0.0
-
     for i in range(5):
         xCenter = int(round(fitted[2]/dx))
         yCenter = int(round(fitted[3]/dy))
@@ -134,25 +136,28 @@ def full_fit(coreR, gamma, a, xCenter, yCenter):
         r1 = fitted[0]
         x1 = fitted[2]
         y1 = fitted[3]
-        dist = int(round(fitted[0]/dx,0)) + 1
+        dist = int(round(fitted[0]/dx, 0)) + 1
+        if fitted[0] < 2*dx:
+            break
         fitted[4] = a.u[yCenter, xCenter] #u_conv
         fitted[5] = a.v[yCenter, xCenter] #v_conv
-        X, Y, Uw, Vw = tools.window(a,xCenter,yCenter,dist)
-        fitted = fit(fitted[0], fitted[1], X, Y, fitted[2], fitted[3], Uw, Vw, fitted[4], fitted[5],i)
+        X, Y, Uw, Vw = tools.window(a, xCenter, yCenter, dist)
+        fitted = fit(fitted[0], fitted[1], X, Y, fitted[2], fitted[3], Uw, Vw,
+                     fitted[4], fitted[5], i)
         if i > 0:
             # break if radius variation is less than 10% and accepts
-            if abs(fitted[0]/r1 -1) < 0.1: 
-                if (abs((fitted[2]/x1 -1)) < 0.1) or (abs((fitted[3]/y1 -1)) < 0.01):
+            if abs(fitted[0]/r1 -1) < 0.1:
+                if (abs((fitted[2]/x1 -1)) < 0.1) or (abs((fitted[3]/y1 -1)) < 0.1):
                     break
             # break if x or y position is out of the window and discards
             if (abs((fitted[2]-x1)) > dist*dx) or (abs((fitted[3]-y1)) > dist*dy):
-                corr = 0.0
-                break 
+                dist = 0
+                break
     return fitted[0], fitted[1], fitted[2], fitted[3], fitted[4], fitted[5], dist
-def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv,i):
+def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv, i):
     """
     Fitting  of the Lamb-Oseen Vortex
-    
+
     :param coreR: core radius of the vortex
     :param gamma: circulation contained in the vortex
     :param x: x position
@@ -166,7 +171,7 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv,i):
     :type fxCenter: float
     :type fyCenter: float
     :returns: sol.x
-    :rtype: float 
+    :rtype: float
     """
 
     x = x.ravel()
@@ -175,7 +180,7 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv,i):
     Vw = Vw.ravel()
     dx = x[1]-x[0]
     dy = dx
-    def fun(fitted): #fitted[0]=coreR, fitted[1]=gamma, fitted[2]=fxCenter, fitted[3]=fyCenter, fitted[4]=u_conv, fitted[5]=v_conv
+    def fun(fitted):
         """
         Lamb-Ossen velocity model used for the nonlinear fitting
         """
@@ -187,13 +192,16 @@ def fit(coreR, gamma, x, y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv,i):
         zy = fitted[5] +z*(x-fitted[2])/r -Vw
         zx = np.nan_to_num(zx)
         zy = np.nan_to_num(zy)
-        zt = np.append(zx,zy)
+        zt = np.append(zx, zy)
         return zt
     if i > 0:
         m = 1.0
     else:
         m = 4.0
-    bnds=([0.0,gamma-abs(gamma)*m/2,fxCenter-m*dx,fyCenter-m*dy,u_conv-abs(u_conv),v_conv-abs(v_conv)],
-          [coreR+coreR*m,gamma+abs(gamma)*m/2,fxCenter+m*dx,fyCenter+m*dy,u_conv+abs(u_conv),v_conv+abs(v_conv)])
-    sol = optimize.least_squares(fun, [coreR,gamma,fxCenter,fyCenter,u_conv,v_conv],bounds=bnds)     
+    bnds = ([0.0, gamma-abs(gamma)*m/2, fxCenter-m*dx, fyCenter-m*dy,
+             u_conv-abs(u_conv), v_conv-abs(v_conv)],
+            [coreR+coreR*m, gamma+abs(gamma)*m/2, fxCenter+m*dx, fyCenter+m*dy,
+             u_conv+abs(u_conv), v_conv+abs(v_conv)])
+    sol = optimize.least_squares(fun, [coreR, gamma, fxCenter, fyCenter, u_conv,
+                                       v_conv], bounds=bnds)
     return sol.x

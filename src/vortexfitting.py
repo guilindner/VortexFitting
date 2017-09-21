@@ -18,28 +18,28 @@ import detection
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Optional app description',
                                      formatter_class=argparse.RawTextHelpFormatter)
-    
+
     parser.add_argument('-i', '--input', dest='infilename',
                         default='../data/test_dataHIT.nc',
                         help='input NetCDF file', metavar='FILE')
-    
+
     parser.add_argument('-s', '--scheme', dest='scheme', type=int, default=22,
                         help='Scheme for differencing\n'
                              '2 = second order\n'
                              '22 = least-square filter'
                              '4 = fourth order')
-    
+
     parser.add_argument('-T', '--time', dest='timestep', type=int,
                         default=0,
                         help='Timestep/Sample/Z position desired')
-                        
+
     parser.add_argument('-d', '--detect', dest='detect',
                         default='swirling',
                         help='Detection method:\n'
                              'Q = Q criterion\n'
                              'delta = delta criterion\n'
                              'swirling = 2D Swirling Strength')
-    
+
     parser.add_argument('-t', '--threshold', dest='threshold',
                         default=0.0, type=float,
                         help='Threshold for detection, integer')
@@ -47,11 +47,11 @@ if __name__ == '__main__':
     parser.add_argument('-b', '--boxsize', dest='boxsize',
                         default=6, type=int,
                         help='Box size for the detection')
-    
+
     parser.add_argument('-f', '--flip', dest='flip',
                         default=False, type=bool,
                         help='Flip X and Y axis for plotting, 0 = False, 1 = True')
-    
+
     parser.add_argument('-p', '--plot', dest='plot_x',
                         default='fit',
                         help='Plot on screen:\n'
@@ -59,19 +59,19 @@ if __name__ == '__main__':
                              'detect = Possible vortices (no fitting)\n'
                              'fields = Velocity fields and vorticity\n')
     parser.add_argument('-xy', '--xy', nargs=2, dest='xy', default=[0,0])
-    
+
     args = parser.parse_args()
-    
+
     start = time.time()
     #---- LOAD DATA ----#
     print("Opening file:",args.infilename)
 
     #print("Sample target: (todo)", args.timestep)
-    
+
     a = VelocityField(args.infilename,args.timestep)
     print("Samples:", a.samples)
 
-    #---- DIFFERENCE APPROXIMATION ----# 
+    #---- DIFFERENCE APPROXIMATION ----#
     lap = time.time()
     if args.scheme == 4:
         a.derivative = schemes.fourth_order_diff(a)
@@ -82,8 +82,8 @@ if __name__ == '__main__':
     else:
         print('No scheme', args.scheme, 'found. Exitting!')
         sys.exit()
-    #print(round(time.time() - lap,3), 'seconds') 
-    
+    #print(round(time.time() - lap,3), 'seconds')
+
     #---- VORTICITY ----#
 
     vorticity = a.derivative['dvdx'] - a.derivative['dudy']
@@ -117,8 +117,8 @@ if __name__ == '__main__':
     else:
         vortices = fitting.get_vortices(a,peaks,vorticity)
         print('---- Accepted vortices ----')
-        print(len(vortices))  
-  
+        print(len(vortices))
+
     #---- PLOTTING OPTIONS ----#
     if args.xy != [0,0]:
         x = int(args.xy[0])

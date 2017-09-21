@@ -2,7 +2,7 @@
 #
 
 # You can set these variables from the command line.
-SPHINXOPTS    =
+SPHINXOPTS    = -D graphviz_dot=/usr/bin/dot 
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = VortexFitting
 SOURCEDIR     = .

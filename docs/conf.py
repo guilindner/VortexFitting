@@ -33,7 +33,8 @@ sys.path.insert(0, os.path.abspath('../src'))
 # ones.
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.todo',
-              'sphinx.ext.imgmath']
+              'sphinx.ext.imgmath',
+              'sphinx.ext.graphviz']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -159,3 +160,4 @@ texinfo_documents = [
 
 html_sidebars = {'**': ['globaltoc.html','searchbox.html']}
 numfig = True
+graphviz_dot='neato'

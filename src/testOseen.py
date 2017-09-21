@@ -20,15 +20,15 @@ from classes import VelocityField
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Optional app description',
                                      formatter_class=argparse.RawTextHelpFormatter)
-    
+
     parser.add_argument('-i', '--input', dest='infilename',
                         default='../data/test_dataHIT.nc',
                         help='input NetCDF file', metavar='FILE')
-    
+
     args = parser.parse_args()
-    
+
     a = VelocityField(args.infilename)
-    
+
     def test_oseen(coreR, gamma, dist,xdrift,ydrift,u_conv,v_conv):
         print('coreR:',coreR,'Gamma',gamma,'xdrift',xdrift,
               'ydrift',ydrift,'u_conv',u_conv,'v_conv',v_conv)
@@ -60,7 +60,7 @@ if __name__ == '__main__':
         print('correlation:',corr)
         print('---')
         plot.plot_fit_test(X, Y, Uw, Vw, uMod, vMod, model[2], model[3], model[0], model[1], model[4],model[5], corr)
-  
+
     test_oseen(0.2,10,10,0.0,0.0,0.01,0.01)
     test_oseen(0.2,10,10,0.2,0.2,0.01,0.01)
     test_oseen(0.9,40,10,0.0,0.0,0.01,0.01)

@@ -2,9 +2,9 @@ import numpy as np
 
 def second_order_diff(a):
     """Second order accurate finite difference scheme.
-    
+
     .. note:: Scheme 1:0:-1
-    
+
     :params a: 2D array of the velocity field, containing u and v
     :type a: float
     :returns: derivative
@@ -20,14 +20,14 @@ def second_order_diff(a):
 
 def least_square_diff(a): #there is a problem on the boundary
     """Fourth order accurate finite difference scheme.
-    
+
     Least-square filter (Raffel 1998)
-    
+
     .. note:: Scheme -2:-1:0:1:2
-    
+
     :params a: 2D array of the velocity field, containing u and v
     :type a: float
-    :returns: derivative 
+    :returns: derivative
     :rtype: float
     """
     print("Difference scheme: least-square filter")
@@ -40,13 +40,13 @@ def least_square_diff(a): #there is a problem on the boundary
     a.derivative['dvdy'][2:-2,:] = (-2*a.v[0:-4,:] - a.v[1:-3,:] + a.v[3:-1,:] + 2*a.v[4:,:])/(10*dx)
 
     return a.derivative
-    
+
 
 def fourth_order_diff(a):
     """Fourth order accurate finite difference scheme.
-    
+
     .. note:: Scheme: 1:-8:0:8:-1
-    
+
     :params a: 2D array of the velocity field, containing u and v
     :type a: float
     :returns: derivative
