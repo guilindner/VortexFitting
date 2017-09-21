@@ -20,28 +20,28 @@ def normalize(x, hom_axis):
     x = x/np.sqrt(mean)
     return x
 
-def window(a,xCenter,yCenter,dist):
-    if (xCenter-dist > 0):
-        x1 = xCenter -dist
+def window(a,x_center_index,y_center_index,dist):
+    if (x_center_index-dist > 0):
+        x1 = x_center_index -dist
     else:
         x1 = 0
-    if (yCenter-dist > 0):
-        y1 = yCenter -dist
+    if (y_center_index-dist > 0):
+        y1 = y_center_index -dist
     else:
         y1 = 0
-    if (xCenter+dist <= a.u.shape[1]):
-        x2 = xCenter+dist
+    if (x_center_index+dist <= a.u.shape[1]):
+        x2 = x_center_index+dist
     else:
         x2 = a.u.shape[1]
-    if (yCenter+dist <= a.v.shape[0]):
-        y2 = yCenter+dist
+    if (y_center_index+dist <= a.v.shape[0]):
+        y2 = y_center_index+dist
     else:
         y2 = a.v.shape[0]
-    X, Y = np.meshgrid(a.dx[int(x1):int(x2)],
+    x_index, y_index = np.meshgrid(a.dx[int(x1):int(x2)],
                        a.dy[int(y1):int(y2)],indexing='xy')
-    Uw = a.u[int(y1):int(y2),int(x1):int(x2)]
-    Vw = a.v[int(y1):int(y2),int(x1):int(x2)]
-    return X, Y, Uw, Vw
+    u_data = a.u[int(y1):int(y2),int(x1):int(x2)]
+    v_data = a.v[int(y1):int(y2),int(x1):int(x2)]
+    return x_index, y_index, u_data, v_data
 
 def find_peaks(data, threshold, box_size):
     """

@@ -47,23 +47,23 @@ def plot_detect(dirL,dirR,field, *args):
 
     plt.show()
 
-def plot_quiver(X,Y,Uw,Vw,field):
+def plot_quiver(x_index, y_index, u_data, v_data, field):
     plt.figure()
     #plt.title('Velocity vectors centered at max swirling strength')
     plt.contourf(field,
-                 extent=[X[0][0], X[0][-1], Y[0][0], Y[-1][0]])
+                 extent=[x_index[0][0], x_index[0][-1], y_index[0][0], y_index[-1][0]])
     s = 1
-    plt.quiver(X[::s,::s],Y[::s,::s],Uw[::s,::s],Vw[::s,::s])
+    plt.quiver(x_index[::s,::s],y_index[::s,::s],u_data[::s,::s],v_data[::s,::s])
     plt.show()
 
-def plot_fit(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, u_conv, v_conv, corr,i,j):
+def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, coreR, gamma, u_conv, v_conv, corr,i,j):
     plt.figure()
     s = 1
-    if (X.size > 400):
+    if (x_index.size > 400):
         s = 1
-    plt.quiver(X[::s,::s], Y[::s,::s], Uw[::s,::s],Vw[::s,::s],
+    plt.quiver(x_index[::s,::s], y_index[::s,::s], u_data[::s,::s],v_data[::s,::s],
                color='r',label='data')
-    plt.quiver(X[::s,::s], Y[::s,::s], uMod[::s,::s], vMod[::s,::s],
+    plt.quiver(x_index[::s,::s], y_index[::s,::s], u_model[::s,::s], v_model[::s,::s],
                color='b',label='model', alpha=0.5)
     circle1=plt.Circle((xc,yc),coreR,color='k',alpha=0.05)
     plt.gca().add_artist(circle1)
@@ -77,14 +77,14 @@ def plot_fit(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, u_conv, v_conv, cor
     plt.savefig('../results/vortex%i_%i.png' %(i,j),format='png')
     plt.close('all')
 
-def plot_fit_test(X, Y, Uw, Vw, uMod, vMod, xc, yc, coreR, gamma, u_conv, v_conv, corr):
+def plot_fit_test(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, coreR, gamma, u_conv, v_conv, corr):
     plt.figure()
     s = 1
-    if (X.size > 400):
+    if (x_index.size > 400):
         s = 1
-    plt.quiver(X[::s,::s], Y[::s,::s], Uw[::s,::s],Vw[::s,::s],
+    plt.quiver(x_index[::s,::s], y_index[::s,::s], u_data[::s,::s],v_data[::s,::s],
                color='r',label='data')
-    plt.quiver(X[::s,::s], Y[::s,::s], uMod[::s,::s], vMod[::s,::s],
+    plt.quiver(x_index[::s,::s], y_index[::s,::s], u_model[::s,::s], v_model[::s,::s],
                color='b',label='model', alpha=0.5)
     circle1=plt.Circle((xc,yc),coreR,color='k',alpha=0.05)
     plt.gca().add_artist(circle1)
@@ -136,7 +136,7 @@ def plot_accepted(a,vortices,field):
 
 def plot_vortex(a,vortices):
     outfile = open('../results/vortices.dat','w')
-    outfile.write('radius gamma X Y u_c v_c dist corr\n')
+    outfile.write('radius gamma x_index y_index u_c v_c dist corr\n')
     for i,line in enumerate(vortices):
         #print(line)
         outfile.write("{0} {1} {2} {3} {4} {5} {6} {7} \n".format(line[0],line[1],line[2],line[3],line[4],line[5],line[6],line[7]))
@@ -144,13 +144,13 @@ def plot_vortex(a,vortices):
          'y',line[3],'dist',line[6],'corr',line[7])
         dx = a.dx[5]-a.dx[4]
         dy = a.dy[5]-a.dy[4]
-        X, Y, Uw, Vw = tools.window(a,round(line[2]/dx,0),round(line[3]/dy,0),line[6])
-        uMod, vMod = fitting.velocity_model(line[0], line[1],
-         line[2], line[3], line[4], line[5], X, Y)
-        corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
-        plot_fit(X, Y, Uw, Vw, uMod, vMod, line[2],line[3], line[0], line[1], line[4], line[5], corr,i,1)
-        corr = fitting.correlation_coef(Uw-line[4],Vw-line[5],uMod-line[4],vMod-line[5])
-        plot_fit(X, Y, Uw-line[4], Vw-line[5], uMod-line[4], vMod-line[5], line[2],
+        x_index, y_index, u_data, v_data = tools.window(a,round(line[2]/dx,0),round(line[3]/dy,0),line[6])
+        u_model, v_model = fitting.velocity_model(line[0], line[1],
+         line[2], line[3], line[4], line[5], x_index, y_index)
+        corr = fitting.correlation_coef(u_data,v_data,u_model,v_model)
+        plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, line[2],line[3], line[0], line[1], line[4], line[5], corr,i,1)
+        corr = fitting.correlation_coef(u_data-line[4],v_data-line[5],u_model-line[4],v_model-line[5])
+        plot_fit(x_index, y_index, u_data-line[4], v_data-line[5], u_model-line[4], v_model-line[5], line[2],
                    line[3], line[0], line[1], line[4], line[5], corr,i,2)
 
 def create_links(path,vortices):

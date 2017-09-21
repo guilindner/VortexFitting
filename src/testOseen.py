@@ -37,29 +37,31 @@ if __name__ == '__main__':
         model[1] = gamma
         coreRori = model[0]
         gammaori = model[1]
-        X = np.linspace(-1,1,dist)
-        Y = np.linspace(-1,1,dist)
-        X, Y = np.meshgrid(X,Y)
-        fxCenter = 0.0
-        fyCenter = 0.0
+        x_index = np.linspace(-1,1,dist)
+        y_index = np.linspace(-1,1,dist)
+        x_index, y_index = np.meshgrid(x_index, y_index)
+        x_real = 0.0
+        y_real = 0.0
         model[4] = u_conv
         model[5] = v_conv
-        Uw, Vw = fitting.velocity_model(coreR, gamma, fxCenter, fyCenter, u_conv, v_conv, X+xdrift, Y+ydrift)
-        Uw = Uw + u_conv
-        Vw = Vw + v_conv
+        u_data, v_data = fitting.velocity_model(coreR, gamma, x_real, y_real,
+                                                u_conv, v_conv, x_index+xdrift, y_index+ydrift)
+        u_data = u_data + u_conv
+        v_data = v_data + v_conv
         # NOISE
-        Uw = np.random.normal(Uw,0.3)
-        Vw = np.random.normal(Vw,0.3)
-        model = fitting.fit(coreR, gamma, X, Y, fxCenter, fyCenter, Uw, Vw, u_conv, v_conv,0)
+        u_data = np.random.normal(u_data,0.3)
+        v_data = np.random.normal(v_data,0.3)
+        model = fitting.fit(coreR, gamma, x_index, y_index, x_real, y_real, u_data, v_data, u_conv, v_conv,0)
         print('coreR:',model[0],'error(%):',(1-(model[0])/coreRori)*100)
         print('gamma:',model[1],'error(%):',(1-(model[1])/gammaori)*100)
-        print('fxCenter:',model[2])
-        print('fyCenter:',model[3])
-        uMod, vMod = fitting.velocity_model(model[0], model[1], model[2], model[3],model[4],model[5],X,Y)
-        corr = fitting.correlation_coef(Uw,Vw,uMod,vMod)
+        print('x_real:',model[2])
+        print('y_real:',model[3])
+        u_model, v_model = fitting.velocity_model(model[0], model[1], model[2], model[3],
+                                                  model[4],model[5], x_index, y_index)
+        corr = fitting.correlation_coef(u_data,v_data,u_model,v_model)
         print('correlation:',corr)
         print('---')
-        plot.plot_fit_test(X, Y, Uw, Vw, uMod, vMod, model[2], model[3], model[0], model[1], model[4],model[5], corr)
+        plot.plot_fit_test(x_index, y_index, u_data, v_data, u_model, v_model, model[2], model[3], model[0], model[1], model[4],model[5], corr)
 
     test_oseen(0.2,10,10,0.0,0.0,0.01,0.01)
     test_oseen(0.2,10,10,0.2,0.2,0.01,0.01)

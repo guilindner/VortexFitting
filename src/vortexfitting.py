@@ -124,8 +124,8 @@ if __name__ == '__main__':
         x = int(args.xy[0])
         y = int(args.xy[1])
         swirlingw = swirling[y-10:y+10,x-10:x+10]
-        X, Y, Uw, Vw = tools.window(a,x,y,10)
-        plot.plot_quiver(X, Y, Uw, Vw, swirlingw)
+        x_index, y_index, u_data, v_data = tools.window(a,x,y,10)
+        plot.plot_quiver(x_index, y_index, u_data, v_data, swirlingw)
     elif args.plot_x == 'detect':
         plot.plot_detect(dirL,dirR,swirling,args.flip)
     elif args.plot_x == 'fields':
