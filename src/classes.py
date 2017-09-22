@@ -3,6 +3,7 @@
 import numpy as np
 from netCDF4 import Dataset
 
+
 class VelocityField():
     """NetCDF file
 
@@ -13,16 +14,41 @@ class VelocityField():
     def __init__(self, path="/", time=0):
         self.path = path
         self.time = time
+        
         grp1 = Dataset(path, 'r')
 
+        ## To read data
+        #grp1 = Dataset(path, 'r')
+        #self.u = np.array(grp1.variables['velocity_x'][time, :, :])
+        #self.v = np.array(grp1.variables['velocity_y'][time, :, :])
+        #self.w = np.array(grp1.variables['velocity_z'][time, :, :])
+
+        ## To read statistics
+        #grp1 = Dataset('statistics.nc', 'r')
+        #self.mean = np.array(grp1.variables['um'][time, :, :])
+        #grp1.close()
+
+        ## Create a mesh
+        #self.samples = self.u.shape[1]
+        #self.dx = np.linspace(0, self.u.shape[1], self.u.shape[1])
+        #self.dy = np.linspace(0, self.u.shape[0], self.u.shape[0])
+
+        ## True to normalize
+        #self.ifnorm = False
+        #if self.ifnorm:
+        #    self.normdir = False
+        
+        #DNS DATA
         self.u = np.array(grp1.variables['velocity_x'][time, :, :])
         self.v = np.array(grp1.variables['velocity_y'][time, :, :])
         self.w = np.array(grp1.variables['velocity_z'][time, :, :])
         self.samples = self.u.shape[1]
-        self.dx = np.linspace(0, self.u.shape[1], self.u.shape[1])
-        self.dy = np.linspace(0, self.u.shape[0], self.u.shape[0])
+        self.dx = np.linspace(0, self.samples, self.samples)
+        self.dy = np.linspace(0, self.samples, self.samples)
         self.norm = False
-        self.normdir = 0
+        self.normdir = False
+
+    
 
         ##EXAMPLES
         #PIV DATA
@@ -36,7 +62,7 @@ class VelocityField():
         #self.v = self.v - np.mean(self.v, 1)[:, None]
         #self.w = self.w - np.mean(self.w, 1)[:, None]
         #self.norm = True
-        #self.normdir = 0
+        #self.normdir = 'y'
         #self.samples = self.u.shape[1]
 
         #ANAND PIV
@@ -51,7 +77,7 @@ class VelocityField():
         #self.dx = np.linspace(0, self.samples, self.samples)
         #self.dy = np.linspace(0, self.samples, self.samples)
         #self.norm = False
-        #self.normdir = 1
+        #self.normdir = False
 
         # ILKAY DATA
         #grp2 = Dataset('../data/DNS_example/vel_v_00000000.00400000.nc', 'r')
@@ -77,3 +103,5 @@ class VelocityField():
                            'dwdx': np.zeros_like(self.u),
                            'dwdy': np.zeros_like(self.u),
                            'dwdz': np.zeros_like(self.u)}
+
+        grp1.close()

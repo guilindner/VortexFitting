@@ -1,23 +1,37 @@
+import sys
 import numpy as np
-from classes import VelocityField
 from scipy import ndimage
 
 np.seterr(divide='ignore', invalid='ignore')
 
-def sub_mean(x, hom_axis):
+
+def get_fluc(x, mean, hom_axis):
     """
-    Used when you have a convective velocity along one axis
+    Used when you have a convective vnnelocity along one axis
     """
-    mean = np.mean(x, axis=hom_axis)
-    if hom_axis == 0:
+    if hom_axis is None:
         x = x - mean
-    else:
+    elif hom_axis == 'x':
         x = x - mean[:, None]
+    elif hom_axis == 'y':
+        x = x - mean[None, :]
+    else:
+        sys.exit("Invalid homogenity axis.")
     return x
 
+
 def normalize(x, hom_axis):
-    mean = np.mean(x**2, axis=hom_axis)
-    x = x/np.sqrt(mean)
+    """
+    Normalize with swirling strength
+    """
+    if hom_axis is None:
+        x = x/np.sqrt(np.mean(x**2))
+    elif hom_axis == 'x':
+        x = x/np.sqrt(np.mean(x**2, axis=1))
+    elif hom_axis == 'y':
+        x = x/np.sqrt(np.mean(x**2, axis=0))
+    else:
+        sys.exit("Invalid homogenity axis.")
     return x
 
 def window(a,x_center_index,y_center_index,dist):

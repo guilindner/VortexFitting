@@ -28,13 +28,15 @@ def correlation_coef(u_data, v_data, u, v):
     prod_PIV_mod = 0.0
     prod_PIV = 0.0
     prod_mod = 0.0
-    for i in range(N):
-        prod_PIV_mod += (u_data[i]*u[i]+v_data[i]*v[i])/N
-        prod_PIV += (u[i]*u[i]+v[i]*v[i])/N
-        prod_mod += (u_data[i]*u_data[i]+v_data[i]*v_data[i])/N
-    upper = prod_PIV_mod
-    lower = np.sqrt(prod_PIV)*np.sqrt(prod_mod)
-    corr = np.sqrt(upper/lower)
+
+    prod_PIV_mod = np.mean(u_data*u + v_data*v)
+    prod_PIV     = np.mean(u*u      + v*v)
+    prod_mod     = np.mean(u_data*u_data + v_data*v_data)
+#    prod_mod     = max(np.mean(u_data*u_data), np.mean(v_data*v_data))
+    
+    #corr = np.sqrt(prod_PIV_mod/(np.sqrt(prod_PIV)*np.sqrt(prod_mod)))
+    corr = prod_PIV_mod/(max(prod_PIV,prod_mod))
+
 
     return corr
 
