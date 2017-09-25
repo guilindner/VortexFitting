@@ -25,18 +25,11 @@ def correlation_coef(u_data, v_data, u, v):
     u = u.ravel()
     v = v.ravel()
     N = u_data.size
-    prod_PIV_mod = 0.0
-    prod_PIV = 0.0
-    prod_mod = 0.0
 
     prod_PIV_mod = np.mean(u_data*u + v_data*v)
     prod_PIV     = np.mean(u*u      + v*v)
     prod_mod     = np.mean(u_data*u_data + v_data*v_data)
-#    prod_mod     = max(np.mean(u_data*u_data), np.mean(v_data*v_data))
-    
-    #corr = np.sqrt(prod_PIV_mod/(np.sqrt(prod_PIV)*np.sqrt(prod_mod)))
     corr = prod_PIV_mod/(max(prod_PIV,prod_mod))
-
 
     return corr
 
@@ -97,7 +90,7 @@ def get_vortices(a, peaks, vorticity):
             x_index, y_index, u_data, v_data = tools.window(a, round(b[2]/dx, 0), round(b[3]/dy, 0), b[6])
             u_model, v_model = velocity_model(b[0], b[1], b[2], b[3], b[4], b[5], x_index, y_index)
             corr = correlation_coef(u_data-b[4], v_data-b[5], u_model-b[4], v_model-b[5])
-        if corr > 0.90:
+        if corr > 0.75:
             print("Accepted! corr = %s (vortex %s)" %(corr, j))
             vortices.append([b[0], b[1], b[2], b[3], b[4], b[5], b[6], corr])
             j += 1
