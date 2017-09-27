@@ -98,15 +98,15 @@
 <span id="fitting-py"></span><h1>fitting.py<a class="headerlink" href="#module-fitting" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="fitting.correlation_coef">
-<code class="descclassname">fitting.</code><code class="descname">correlation_coef</code><span class="sig-paren">(</span><em>Uw</em>, <em>Vw</em>, <em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.correlation_coef" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fitting.</code><code class="descname">correlation_coef</code><span class="sig-paren">(</span><em>u_data</em>, <em>v_data</em>, <em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.correlation_coef" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the correlation coefficient between two 2D arrays</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>Uw</strong> (<em>float</em>) &#8211; velocity u from the data at the proposed window</li>
-<li><strong>Vw</strong> (<em>float</em>) &#8211; velocity v from the data at the proposed window</li>
+<li><strong>u_data</strong> (<em>float</em>) &#8211; velocity u from the data at the proposed window</li>
+<li><strong>v_data</strong> (<em>float</em>) &#8211; velocity v from the data at the proposed window</li>
 <li><strong>u</strong> (<em>float</em>) &#8211; velocity u from the calculated model</li>
 <li><strong>v</strong> (<em>float</em>) &#8211; velocity v from the calculated model</li>
 </ul>
@@ -124,7 +124,7 @@
 
 <dl class="function">
 <dt id="fitting.fit">
-<code class="descclassname">fitting.</code><code class="descname">fit</code><span class="sig-paren">(</span><em>coreR</em>, <em>gamma</em>, <em>x</em>, <em>y</em>, <em>fxCenter</em>, <em>fyCenter</em>, <em>Uw</em>, <em>Vw</em>, <em>u_conv</em>, <em>v_conv</em>, <em>i</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fitting.</code><code class="descname">fit</code><span class="sig-paren">(</span><em>coreR</em>, <em>gamma</em>, <em>x</em>, <em>y</em>, <em>x_real</em>, <em>y_real</em>, <em>u_data</em>, <em>v_data</em>, <em>u_conv</em>, <em>v_conv</em>, <em>i</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fitting  of the Lamb-Oseen Vortex</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -135,8 +135,8 @@
 <li><strong>gamma</strong> (<em>float</em>) &#8211; circulation contained in the vortex</li>
 <li><strong>x</strong> (<em>float</em>) &#8211; x position</li>
 <li><strong>y</strong> (<em>float</em>) &#8211; y position</li>
-<li><strong>fxCenter</strong> (<em>float</em>) &#8211; x position of the vortex center</li>
-<li><strong>fyCenter</strong> (<em>float</em>) &#8211; y position of the vortex center</li>
+<li><strong>x_real</strong> (<em>float</em>) &#8211; x position of the vortex center</li>
+<li><strong>y_real</strong> (<em>float</em>) &#8211; y position of the vortex center</li>
 </ul>
 </td>
 </tr>
@@ -152,7 +152,7 @@
 
 <dl class="function">
 <dt id="fitting.full_fit">
-<code class="descclassname">fitting.</code><code class="descname">full_fit</code><span class="sig-paren">(</span><em>coreR</em>, <em>gamma</em>, <em>a</em>, <em>xCenter</em>, <em>yCenter</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.full_fit" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fitting.</code><code class="descname">full_fit</code><span class="sig-paren">(</span><em>coreR</em>, <em>gamma</em>, <em>a</em>, <em>x_center_index</em>, <em>y_center_index</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.full_fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Full fitting procedure</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -162,12 +162,12 @@
 <li><strong>coreR</strong> (<em>float</em>) &#8211; core radius of the vortex</li>
 <li><strong>gamma</strong> (<em>float</em>) &#8211; circulation contained in the vortex</li>
 <li><strong>a</strong> (<em>class</em>) &#8211; data from the input file</li>
-<li><strong>xCenter</strong> (<em>int</em>) &#8211; x index of the vortex center</li>
-<li><strong>yCenter</strong> (<em>int</em>) &#8211; y index of the vortex center</li>
+<li><strong>x_center_index</strong> (<em>int</em>) &#8211; x index of the vortex center</li>
+<li><strong>y_center_index</strong> (<em>int</em>) &#8211; y index of the vortex center</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">fitted[i],dist</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">fitted[i], dist</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
@@ -186,7 +186,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>a</strong> (<em>int</em><em>, </em><em>float</em><em>,</em><em>..</em>) &#8211; data from the input file</li>
+<li><strong>a</strong> (<em>int</em><em>, </em><em>float</em><em>, </em><em>..</em>) &#8211; data from the input file</li>
 <li><strong>peaks</strong> (<em>list</em>) &#8211; list of vortices</li>
 <li><strong>vorticity</strong> (<em>array</em>) &#8211; calculated field</li>
 </ul>
@@ -204,7 +204,7 @@
 
 <dl class="function">
 <dt id="fitting.velocity_model">
-<code class="descclassname">fitting.</code><code class="descname">velocity_model</code><span class="sig-paren">(</span><em>coreR</em>, <em>gamma</em>, <em>fxCenter</em>, <em>fyCenter</em>, <em>u_conv</em>, <em>v_conv</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.velocity_model" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fitting.</code><code class="descname">velocity_model</code><span class="sig-paren">(</span><em>coreR</em>, <em>gamma</em>, <em>x_real</em>, <em>y_real</em>, <em>u_conv</em>, <em>v_conv</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.velocity_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates the Lamb-Oseen vortex velocity array</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -213,8 +213,8 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>coreR</strong> (<em>float</em>) &#8211; core radius of the vortex</li>
 <li><strong>gamma</strong> (<em>float</em>) &#8211; circulation contained in the vortex</li>
-<li><strong>fxCenter</strong> (<em>float</em>) &#8211; relative x position of the vortex center</li>
-<li><strong>fyCenter</strong> (<em>float</em>) &#8211; relative y position of the vortex center</li>
+<li><strong>x_real</strong> (<em>float</em>) &#8211; relative x position of the vortex center</li>
+<li><strong>y_real</strong> (<em>float</em>) &#8211; relative y position of the vortex center</li>
 <li><strong>u_conv</strong> (<em>float</em>) &#8211; u convective velocity at the center</li>
 <li><strong>v_conv</strong> (<em>float</em>) &#8211; v convective velocity at the center</li>
 </ul>

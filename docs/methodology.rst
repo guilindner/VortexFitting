@@ -152,7 +152,7 @@ Fitting of coherent structures
 ------------------------------
 
 Using the peak of maximum swirling strength or identifying the places where the
-Q or $\Delta$ criterion are higher than 0 gives us a rough estimation of a possible
+Q or :math:`\Delta` criterion are higher than 0 gives us a rough estimation of a possible
 vortex and its center. But even using a threshold on these methods, the presence
 of a real vortex is not always true. To improve this detection we use a Lamb-Oseen
 vortex model to be fitted on top of the actual detected peak to check if it is
@@ -161,7 +161,13 @@ really a vortex.
 The correlation coefficient between the fitted model and the velocity field is calculated according to equation \ref{eq:corr} and if it's higher than 0.75 we can consider it a vortex.
 
 .. math::
-   \label{eq:corr}
+   R(model/data) = \frac{\langle u_{model} \cdot u_{data} \rangle +
+                         \langle u_{model} \cdot u_{data} \rangle}
+                        {MAX(\langle u_{model} \cdot u_{model} +
+                              v_{model} \cdot v_{model}  \rangle, 
+                             \langle u_{data} \cdot u_{data} +
+                              v_{data} \cdot v_{data}\rangle)}
+..   \label{eq:corr}
    R(model/data) = \left( \frac{\langle (\vec{u}_{data}-\vec{u}_c).(\vec{u}_{model}
    -\vec{u}_c)\rangle }{\sqrt{\langle (\vec{u}_{data}-\vec{u}_c)^2\rangle}
    \sqrt{\langle (\vec{u}_{model}-\vec{u}_c)^2\rangle}} \right)^{1/2}
