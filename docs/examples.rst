@@ -24,7 +24,7 @@ Case 1
 .. image:: _images/HIT_00.svg
    :width: 90%
 
-361 vortices detected with 141 accepted.
+361 vortices detected with 88 accepted.
 
 Case 2
 ``````
@@ -35,7 +35,7 @@ Case 2
 .. image:: _images/HIT_01.svg
    :width: 90%
 
-162 vortices detected with 108 accepted.
+162 vortices detected with 75 accepted.
 
 Case 3
 ``````
@@ -46,7 +46,7 @@ Case 3
 .. image:: _images/HIT_02.svg
    :width: 90%
 
-58 vortices detected with 51 accepted.
+58 vortices detected with 42 accepted.
 
 Case 4
 ``````
@@ -76,11 +76,11 @@ and to the right we have the convection velocity subtracted.
 +----+---------+--------+--------+
 |Case|Threshold|Detected|Accepted|
 +====+=========+========+========+
-|1   |0.0      |361     |141     |
+|1   |0.0      |361     |88      |
 +----+---------+--------+--------+
-|2   |0.1      |162     |108     |
+|2   |0.1      |162     |75      |
 +----+---------+--------+--------+
-|3   |0.2      |58      |51      |
+|3   |0.2      |58      |42      |
 +----+---------+--------+--------+
 |4   |0.4      |9       |8       |
 +----+---------+--------+--------+
@@ -115,7 +115,7 @@ and the *self.normdir = 0* (for the y direction)
 .. image:: _images/piv_15.svg
    :width: 90 %
 
-203 vortices detected with 44 accepted.
+203 vortices detected with 29 accepted.
 
 Below two vortices are displayed, where in the left we have the normal field
 and to the right we have the convection velocity subtracted.
