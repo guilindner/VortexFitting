@@ -13,7 +13,9 @@ default detection *swirling strength* we test here two cases:
 * Case 3: Threshold on swirling strength = 0.2
 * Case 4: Threshold on swirling strength = 0.4
 
-The maximum value of swirling strength
+if you set **self.norm = True** on the classes.py module, the value of swirling
+strength will be normalized. The values of the threshold must be set to avoid
+unnecessary noise.
 
 Case 1
 ``````

@@ -101,7 +101,9 @@ default detection <em>swirling strength</em> we test here two cases:</p>
 <li>Case 3: Threshold on swirling strength = 0.2</li>
 <li>Case 4: Threshold on swirling strength = 0.4</li>
 </ul>
-<p>The maximum value of swirling strength</p>
+<p>if you set <strong>self.norm = True</strong> on the classes.py module, the value of swirling
+strength will be normalized. The values of the threshold must be set to avoid
+unnecessary noise.</p>
 <div class="section" id="case-1">
 <h3>Case 1<a class="headerlink" href="#case-1" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.0

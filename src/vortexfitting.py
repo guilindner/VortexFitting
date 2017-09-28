@@ -25,32 +25,34 @@ if __name__ == '__main__':
 
     parser.add_argument('-s', '--scheme', dest='scheme', type=int, default=22,
                         help='Scheme for differencing\n'
-                             '2 = second order\n'
+                             '2 = second order (default)\n'
                              '22 = least-square filter\n'
                              '4 = fourth order')
 
     parser.add_argument('-T', '--time', dest='timestep', type=int,
                         default=0,
-                        help='Timestep/Sample/Z position desired')
+                        help='Timestep/Sample/Z position desired (default=0)')
 
     parser.add_argument('-d', '--detect', dest='detect',
                         default='swirling',
                         help='Detection method:\n'
                              'Q = Q criterion\n'
                              'delta = delta criterion\n'
-                             'swirling = 2D Swirling Strength')
+                             'swirling = 2D Swirling Strength (default)')
 
     parser.add_argument('-t', '--threshold', dest='threshold',
                         default=0.0, type=float,
-                        help='Threshold for detection, integer')
+                        help='Threshold for detection (default=0.0)')
 
     parser.add_argument('-b', '--boxsize', dest='boxsize',
                         default=6, type=int,
-                        help='Box size for the detection')
+                        help='Box size for the detection (default=6)')
 
     parser.add_argument('-f', '--flip', dest='flip',
                         default=False, type=bool,
-                        help='Flip X and Y axis for plotting, 0 = False, 1 = True')
+                        help='Flip X and Y axis for plotting:\n'
+                              '0 = False (default)\n'
+                              '1 = True')
 
     parser.add_argument('-p', '--plot', dest='plot_x',
                         default='fit',
@@ -58,7 +60,8 @@ if __name__ == '__main__':
                              'fit    = Detection and fitting, saves images (default)\n'
                              'detect = Possible vortices (no fitting)\n'
                              'fields = Velocity fields and vorticity\n')
-    parser.add_argument('-xy', '--xy', nargs=2, dest='xy', default=[0,0])
+    parser.add_argument('-xy', '--xy', nargs=2, dest='xy', default=[50,50],
+                        help='specify a location to see the data. ex: -xy 80 60')
 
     args = parser.parse_args()
 

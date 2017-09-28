@@ -66,6 +66,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#using-the-code">Using the code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#generating-a-custom-vortex">Generating a custom Vortex</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#converting-nc-to-ascii">Converting NC to ASCII</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
@@ -212,6 +213,17 @@ all z planes (or time) into separeted files.</p>
 </div>
 <p>Depending on the file you need to change the variable names like <em>velocity_x</em>
 and such for the corresponding variable.</p>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>To perform changes on the documentation, you should modify directly the <em>.rst</em>
+files, located in the <em>docs</em> folder. After modifying the desired files, run the
+script <em>update_docs.sh</em>:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ sh update_docs.sh
+</pre></div>
+</div>
+<p>After this, the html files will be generated in the same folder. All files in
+the doc folder should be commited to github.com to appear online.</p>
 </div>
 </div>
 

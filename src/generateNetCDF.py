@@ -20,9 +20,9 @@ velocity_y = grp1.createVariable('velocity_y', 'f4', ('resolution_z','resolution
 velocity_z = grp1.createVariable('velocity_z', 'f4', ('resolution_z','resolution_y','resolution_x'))
 
 # data
-velocity_x[:] = np.random.random((1,ndim,ndim))/1
-velocity_y[:] = np.random.random((1,ndim,ndim))/1
-velocity_z[:] = np.random.random((1,ndim,ndim))/1
+velocity_x[:] = np.random.random((1,ndim,ndim))/10
+velocity_y[:] = np.random.random((1,ndim,ndim))/10
+velocity_z[:] = np.random.random((1,ndim,ndim))/10
 
 # grid
 x = np.linspace(0,ndim,ndim)
@@ -36,8 +36,8 @@ coreR = 5.0
 gamma = 30
 x_real = 64
 y_real = 192
-u_conv = 0.5
-v_conv = 0.0
+u_conv = 0.0
+v_conv = 0.3
 u_data, v_data = fitting.velocity_model(coreR, gamma, x_real, y_real, u_conv, v_conv, xx, yy)
 u_data = u_data + u_conv
 v_data = v_data + v_conv

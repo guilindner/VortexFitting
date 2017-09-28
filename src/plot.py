@@ -1,3 +1,7 @@
+#!/usr/bin/env/ python
+"""Plotting routines and image generation
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
