@@ -26,7 +26,7 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--scheme', dest='scheme', type=int, default=22,
                         help='Scheme for differencing\n'
                              '2 = second order\n'
-                             '22 = least-square filter'
+                             '22 = least-square filter\n'
                              '4 = fourth order')
 
     parser.add_argument('-T', '--time', dest='timestep', type=int,
