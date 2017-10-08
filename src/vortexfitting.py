@@ -60,7 +60,7 @@ if __name__ == '__main__':
                              'fit    = Detection and fitting, saves images (default)\n'
                              'detect = Possible vortices (no fitting)\n'
                              'fields = Velocity fields and vorticity\n')
-    parser.add_argument('-xy', '--xy', nargs=2, dest='xy', default=[50,50],
+    parser.add_argument('-xy', '--xy', nargs=2, dest='xy', default=[0,0],
                         help='specify a location to see the data. ex: -xy 80 60')
 
     args = parser.parse_args()
@@ -115,12 +115,12 @@ if __name__ == '__main__':
 
     #---- MODEL FITTING ----#
     vortices = list()
-    if (args.plot_x != 'fit') or (args.xy != [0,0]):
-        print("No fitting")
-    else:
+    if (args.plot_x == 'fit' ) and (args.xy == [0, 0]):
         vortices = fitting.get_vortices(a,peaks,vorticity)
         print('---- Accepted vortices ----')
         print(len(vortices))
+    else:
+        print("No fitting")
 
     #---- PLOTTING OPTIONS ----#
     if args.xy != [0,0]:
@@ -129,12 +129,10 @@ if __name__ == '__main__':
         swirlingw = swirling[y-10:y+10,x-10:x+10]
         x_index, y_index, u_data, v_data = tools.window(a,x,y,10)
         plot.plot_quiver(x_index, y_index, u_data, v_data, swirlingw)
-    elif args.plot_x == 'detect':
+    if args.plot_x == 'detect':
         plot.plot_detect(dirL,dirR,swirling,args.flip)
-    elif args.plot_x == 'fields':
+    if args.plot_x == 'fields':
         plot.plot_fields(a,vorticity)
-    elif args.plot_x == 'fit':
+    if args.plot_x == 'fit':
         plot.plot_accepted(a,vortices,swirling)
         plot.plot_vortex(a,vortices)
-    else:
-        print('no plot')
