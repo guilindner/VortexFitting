@@ -82,6 +82,7 @@ def get_vortices(a, peaks, vorticity):
         y_center_index = peaks[0][i]
         print(i, " Processing detected swirling at (x, y)", x_center_index, y_center_index)
         coreR = 2*(a.dx[5]-a.dx[4]) #ugly change someday
+        #coreR = 15 #guess on the starting vortex radius
         gamma = vorticity[y_center_index, x_center_index]*np.pi*coreR**2
         b = full_fit(coreR, gamma, a, x_center_index, y_center_index)
         if b[6] < 2:
@@ -90,7 +91,7 @@ def get_vortices(a, peaks, vorticity):
             x_index, y_index, u_data, v_data = tools.window(a, round(b[2]/dx, 0), round(b[3]/dy, 0), b[6])
             u_model, v_model = velocity_model(b[0], b[1], b[2], b[3], b[4], b[5], x_index, y_index)
             corr = correlation_coef(u_data-b[4], v_data-b[5], u_model-b[4], v_model-b[5])
-        if corr > 0.75:
+        if corr > 0.75: #if the vortex is too big, its better to decrease this value
             print("Accepted! corr = %s (vortex %s)" %(corr, j))
             vortices.append([b[0], b[1], b[2], b[3], b[4], b[5], b[6], corr])
             j += 1
@@ -126,6 +127,8 @@ def full_fit(coreR, gamma, a, x_center_index, y_center_index):
         y_center_index = int(round(fitted[3]/dy))
         if x_center_index >= a.u.shape[1]:
             x_center_index = a.u.shape[1]-1
+        if x_center_index <= 2:
+            x_center_index = 3
         if y_center_index >= a.v.shape[0]:
             y_center_index = a.v.shape[0]-1
         r1 = fitted[0]
