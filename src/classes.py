@@ -114,6 +114,7 @@ class VelocityField():
                     self.sizey=i;
                     break;
             self.sizex=np.int(dx_tmp.shape[0]/self.sizey); #determiner la taille du domaine
+
             self.u  = np.array(grp1[:,index_u]).reshape(self.sizex,self.sizey)
             self.v  = np.array(grp1[:,index_v]).reshape(self.sizex,self.sizey)
 
@@ -127,9 +128,12 @@ class VelocityField():
 
             self.samples = self.u.shape[1]
 
-            self.dx = np.linspace(0, 96.0232, self.u.shape[1])
-            self.dy = np.linspace(0, 148.6804, self.u.shape[0])
-            
+            tmp_x  = np.array(grp1[:,index_x]).reshape(self.sizex,self.sizey)
+            tmp_y  = np.array(grp1[:,index_y]).reshape(self.sizex,self.sizey)
+
+            self.dx = np.linspace(0, np.max(tmp_x)-np.min(tmp_x), self.u.shape[1])
+            self.dy = np.linspace(0, np.max(tmp_y)-np.min(tmp_y), self.u.shape[0])
+
             self.step_dx=round((np.max(self.dx)-np.min(self.dx)) / (np.size(self.dx)-1) ,6)
             self.step_dy=round((np.max(self.dy)-np.min(self.dy)) / (np.size(self.dy)-1) ,6)
 
