@@ -11,11 +11,11 @@ class VelocityField():
     initialize the variables.
 
     """
-    def __init__(self, path="/", time=0):
+    def __init__(self, path="/", time=0, meanfilepath="/"):
         self.path = path
         self.time = time
-          
-        filetype = 'dns' #change here to the desired format
+        self.meanfilepath = meanfilepath
+        filetype = 'tecplot' #change here to the desired format
         
         ## To read data
         #grp1 = Dataset(path, 'r')
@@ -107,7 +107,6 @@ class VelocityField():
                         index_w=j                 
     
             grp1=np.loadtxt(path,delimiter=" ",dtype=float,skiprows=3) #skip header, default is 3 lines
-            grp2=np.loadtxt('../data/mean.dat',delimiter=" ",dtype=float,skiprows=3) #mean data
             dx_tmp = np.array(grp1[:,0])
         
             for i in range(1,dx_tmp.shape[0]):
@@ -117,10 +116,14 @@ class VelocityField():
             self.sizex=np.int(dx_tmp.shape[0]/self.sizey); #determiner la taille du domaine
             self.u  = np.array(grp1[:,index_u]).reshape(self.sizex,self.sizey)
             self.v  = np.array(grp1[:,index_v]).reshape(self.sizex,self.sizey)
-            self.uMean  = np.array(grp2[:,index_u]).reshape(self.sizex,self.sizey)
-            self.vMean  = np.array(grp2[:,index_v]).reshape(self.sizex,self.sizey)
-            self.u = self.u - self.uMean
-            self.v = self.v - self.vMean
+
+            if (self.meanfilepath != '/' ):
+                print("subtracting mean file")
+                grp2=np.loadtxt(meanfilepath,delimiter=" ",dtype=float,skiprows=3) #mean data
+                self.uMean  = np.array(grp2[:,index_u]).reshape(self.sizex,self.sizey)
+                self.vMean  = np.array(grp2[:,index_v]).reshape(self.sizex,self.sizey)
+                self.u = self.u - self.uMean
+                self.v = self.v - self.vMean
 
             self.samples = self.u.shape[1]
 
