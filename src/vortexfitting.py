@@ -54,6 +54,10 @@ if __name__ == '__main__':
                               '0 = False (default)\n'
                               '1 = True')
 
+    parser.add_argument('-mf', '--meanfilename', dest='meanfilename',
+                        default='/', 
+                        help='INSERT HELP')
+
     parser.add_argument('-p', '--plot', dest='plot_x',
                         default='fit',
                         help='Plot on screen:\n'
@@ -67,11 +71,13 @@ if __name__ == '__main__':
 
     start = time.time()
     #---- LOAD DATA ----#
-    print("Opening file:",args.infilename)
+
+
+    print("Opening file:",args.infilename,args.meanfilename)
+    a = VelocityField(args.infilename,args.timestep,args.meanfilename)
 
     #print("Sample target: (todo)", args.timestep)
 
-    a = VelocityField(args.infilename,args.timestep)
     print("Samples:", a.samples)
 
     #---- DIFFERENCE APPROXIMATION ----#
