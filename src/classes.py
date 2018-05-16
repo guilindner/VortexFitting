@@ -107,7 +107,7 @@ class VelocityField():
                         index_w=j                 
     
             grp1=np.loadtxt(path,delimiter=" ",dtype=float,skiprows=3) #skip header, default is 3 lines
-        
+            grp2=np.loadtxt('../data/mean.dat',delimiter=" ",dtype=float,skiprows=3) #mean data
             dx_tmp = np.array(grp1[:,0])
         
             for i in range(1,dx_tmp.shape[0]):
@@ -115,27 +115,24 @@ class VelocityField():
                     self.sizey=i;
                     break;
             self.sizex=np.int(dx_tmp.shape[0]/self.sizey); #determiner la taille du domaine
-    
-            self.mat_dx,self.mat_dy = np.meshgrid(np.arange(0,self.sizey,1),np.arange(0,self.sizex,1))
             self.u  = np.array(grp1[:,index_u]).reshape(self.sizex,self.sizey)
             self.v  = np.array(grp1[:,index_v]).reshape(self.sizex,self.sizey)
-            if ( (index_z != 0) & (index_w != 0) ):
-                print("Velocity with 3D")
-                mat_dz = np.array(grp1[:,index_z]).reshape(self.sizex,self.sizey)
-                self.dz = mat_dz[0,0]
-                self.w  = np.array(grp1[:,index_w]).reshape(self.sizex,self.sizey)
-            self.dx = self.mat_dx[0,:]
-            self.dy = self.mat_dy[:,0]            
+            self.uMean  = np.array(grp2[:,index_u]).reshape(self.sizex,self.sizey)
+            self.vMean  = np.array(grp2[:,index_v]).reshape(self.sizex,self.sizey)
+            self.u = self.u - self.uMean
+            self.v = self.v - self.vMean
+
             self.samples = self.u.shape[1]
-    
+
+            self.dx = np.linspace(0, 96.0232, self.u.shape[1])
+            self.dy = np.linspace(0, 148.6804, self.u.shape[0])
+            
             self.step_dx=round((np.max(self.dx)-np.min(self.dx)) / (np.size(self.dx)-1) ,6)
             self.step_dy=round((np.max(self.dy)-np.min(self.dy)) / (np.size(self.dy)-1) ,6)
-    
+
             self.norm = False
             self.normdir = 'x'
-
-
-
+            
         #COMMON TO ALL DATA
         self.derivative = {'dudx': np.zeros_like(self.u),
                            'dudy': np.zeros_like(self.u),

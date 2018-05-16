@@ -93,7 +93,8 @@ def get_vortices(a, peaks, vorticity):
             corr = correlation_coef(u_data-b[4], v_data-b[5], u_model-b[4], v_model-b[5])
         if corr > 0.75: #if the vortex is too big, its better to decrease this value
             print("Accepted! corr = %s (vortex %s)" %(corr, j))
-            vortices.append([b[0], b[1], b[2], b[3], b[4], b[5], b[6], corr])
+            velT = (b[1]/(2 * np.pi * b[0])) * (1 - np.exp(-1))
+            vortices.append([b[0], b[1], b[2], b[3], b[4], b[5], b[6], corr, velT])
             j += 1
     return vortices
 
