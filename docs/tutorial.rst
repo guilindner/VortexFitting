@@ -87,6 +87,27 @@ We can as well change the detection method with the *-d* argument
           * swirling - Swirling Strenght (default)
           * delta - Delta criterion
 
+An initial radius can be set with *-rmax* argument. 
+
+.. code-block:: bash
+
+   $ python3 vortexfitting.py -rmax 15
+
+An output directory can be specified with *-o* / *--output* argument. 
+
+.. code-block:: bash
+
+   $ python3 vortexfitting.py -o ../results/MY_DIRECTORY
+
+Use arguments *-first*, *-last* and *-step* to analyze a set of images. Default for *-step* is 1.
+
+For example, if you want to compute from image #10 to #20, each 2 images, enter:
+
+.. code-block:: bash
+
+   $ python3 vortexfitting.py -first 10 -last 20 -step 2
+
+
 Data output
 ```````````
 

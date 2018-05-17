@@ -2,16 +2,12 @@
 
 <!doctype html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>fitting.py &#8212; VortexFitting 1 documentation</title>
-    
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -35,7 +31,7 @@
     <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -105,10 +101,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>u_data</strong> (<em>float</em>) &#8211; velocity u from the data at the proposed window</li>
-<li><strong>v_data</strong> (<em>float</em>) &#8211; velocity v from the data at the proposed window</li>
-<li><strong>u</strong> (<em>float</em>) &#8211; velocity u from the calculated model</li>
-<li><strong>v</strong> (<em>float</em>) &#8211; velocity v from the calculated model</li>
+<li><strong>u_data</strong> (<em>float</em>) – velocity u from the data at the proposed window</li>
+<li><strong>v_data</strong> (<em>float</em>) – velocity v from the data at the proposed window</li>
+<li><strong>u</strong> (<em>float</em>) – velocity u from the calculated model</li>
+<li><strong>v</strong> (<em>float</em>) – velocity v from the calculated model</li>
 </ul>
 </td>
 </tr>
@@ -131,12 +127,12 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>coreR</strong> (<em>float</em>) &#8211; core radius of the vortex</li>
-<li><strong>gamma</strong> (<em>float</em>) &#8211; circulation contained in the vortex</li>
-<li><strong>x</strong> (<em>float</em>) &#8211; x position</li>
-<li><strong>y</strong> (<em>float</em>) &#8211; y position</li>
-<li><strong>x_real</strong> (<em>float</em>) &#8211; x position of the vortex center</li>
-<li><strong>y_real</strong> (<em>float</em>) &#8211; y position of the vortex center</li>
+<li><strong>coreR</strong> (<em>float</em>) – core radius of the vortex</li>
+<li><strong>gamma</strong> (<em>float</em>) – circulation contained in the vortex</li>
+<li><strong>x</strong> (<em>float</em>) – x position</li>
+<li><strong>y</strong> (<em>float</em>) – y position</li>
+<li><strong>x_real</strong> (<em>float</em>) – x position of the vortex center</li>
+<li><strong>y_real</strong> (<em>float</em>) – y position of the vortex center</li>
 </ul>
 </td>
 </tr>
@@ -159,11 +155,11 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>coreR</strong> (<em>float</em>) &#8211; core radius of the vortex</li>
-<li><strong>gamma</strong> (<em>float</em>) &#8211; circulation contained in the vortex</li>
-<li><strong>a</strong> (<em>class</em>) &#8211; data from the input file</li>
-<li><strong>x_center_index</strong> (<em>int</em>) &#8211; x index of the vortex center</li>
-<li><strong>y_center_index</strong> (<em>int</em>) &#8211; y index of the vortex center</li>
+<li><strong>coreR</strong> (<em>float</em>) – core radius of the vortex</li>
+<li><strong>gamma</strong> (<em>float</em>) – circulation contained in the vortex</li>
+<li><strong>a</strong> (<em>class</em>) – data from the input file</li>
+<li><strong>x_center_index</strong> (<em>int</em>) – x index of the vortex center</li>
+<li><strong>y_center_index</strong> (<em>int</em>) – y index of the vortex center</li>
 </ul>
 </td>
 </tr>
@@ -179,16 +175,16 @@
 
 <dl class="function">
 <dt id="fitting.get_vortices">
-<code class="descclassname">fitting.</code><code class="descname">get_vortices</code><span class="sig-paren">(</span><em>a</em>, <em>peaks</em>, <em>vorticity</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.get_vortices" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fitting.</code><code class="descname">get_vortices</code><span class="sig-paren">(</span><em>a</em>, <em>peaks</em>, <em>vorticity</em>, <em>rmax</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.get_vortices" title="Permalink to this definition">¶</a></dt>
 <dd><p>General routine to check if the detected vortex is a real vortex</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>a</strong> (<em>int</em><em>, </em><em>float</em><em>, </em><em>..</em>) &#8211; data from the input file</li>
-<li><strong>peaks</strong> (<em>list</em>) &#8211; list of vortices</li>
-<li><strong>vorticity</strong> (<em>array</em>) &#8211; calculated field</li>
+<li><strong>a</strong> (<em>int</em><em>, </em><em>float</em><em>, </em><em>..</em>) – data from the input file</li>
+<li><strong>peaks</strong> (<em>list</em>) – list of vortices</li>
+<li><strong>vorticity</strong> (<em>array</em>) – calculated field</li>
 </ul>
 </td>
 </tr>
@@ -211,12 +207,12 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>coreR</strong> (<em>float</em>) &#8211; core radius of the vortex</li>
-<li><strong>gamma</strong> (<em>float</em>) &#8211; circulation contained in the vortex</li>
-<li><strong>x_real</strong> (<em>float</em>) &#8211; relative x position of the vortex center</li>
-<li><strong>y_real</strong> (<em>float</em>) &#8211; relative y position of the vortex center</li>
-<li><strong>u_conv</strong> (<em>float</em>) &#8211; u convective velocity at the center</li>
-<li><strong>v_conv</strong> (<em>float</em>) &#8211; v convective velocity at the center</li>
+<li><strong>coreR</strong> (<em>float</em>) – core radius of the vortex</li>
+<li><strong>gamma</strong> (<em>float</em>) – circulation contained in the vortex</li>
+<li><strong>x_real</strong> (<em>float</em>) – relative x position of the vortex center</li>
+<li><strong>y_real</strong> (<em>float</em>) – relative y position of the vortex center</li>
+<li><strong>u_conv</strong> (<em>float</em>) – u convective velocity at the center</li>
+<li><strong>v_conv</strong> (<em>float</em>) – v convective velocity at the center</li>
 </ul>
 </td>
 </tr>
@@ -259,7 +255,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>

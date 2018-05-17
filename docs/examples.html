@@ -2,16 +2,12 @@
 
 <!doctype html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Examples &#8212; VortexFitting 1 documentation</title>
-    
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
@@ -35,7 +31,7 @@
     <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -65,6 +61,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#dns-case">DNS case</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#piv-case">PIV case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#piv-case-tecplot-file">PIV case - Tecplot file</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Modules</a></li>
@@ -106,7 +103,7 @@ strength will be normalized. The values of the threshold must be set to avoid
 unnecessary noise.</p>
 <div class="section" id="case-1">
 <h3>Case 1<a class="headerlink" href="#case-1" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.0
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t <span class="m">0</span>.0
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/HIT_00.svg"><img alt="_images/HIT_00.svg" src="_images/HIT_00.svg" width="90%" /></a>
@@ -114,7 +111,7 @@ unnecessary noise.</p>
 </div>
 <div class="section" id="case-2">
 <h3>Case 2<a class="headerlink" href="#case-2" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.1
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t <span class="m">0</span>.1
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/HIT_01.svg"><img alt="_images/HIT_01.svg" src="_images/HIT_01.svg" width="90%" /></a>
@@ -122,7 +119,7 @@ unnecessary noise.</p>
 </div>
 <div class="section" id="case-3">
 <h3>Case 3<a class="headerlink" href="#case-3" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.2
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t <span class="m">0</span>.2
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/HIT_02.svg"><img alt="_images/HIT_02.svg" src="_images/HIT_02.svg" width="90%" /></a>
@@ -130,7 +127,7 @@ unnecessary noise.</p>
 </div>
 <div class="section" id="case-4">
 <h3>Case 4<a class="headerlink" href="#case-4" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.4
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t <span class="m">0</span>.4
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/HIT_04.svg"><img alt="_images/HIT_04.svg" src="_images/HIT_04.svg" width="90%" /></a>
@@ -199,7 +196,7 @@ and to the right we have the convection velocity subtracted.</p>
 </div>
 <p>Here since we have a convection velocity, we have to set the <em>self.norm = True</em>
 and the <em>self.normdir = 0</em> (for the y direction)</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -i ../data/test_dataPIV -t 1.5
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -i ../data/test_dataPIV -t <span class="m">1</span>.5
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/piv_15.svg"><img alt="_images/piv_15.svg" src="_images/piv_15.svg" width="90%" /></a>
@@ -210,6 +207,19 @@ and to the right we have the convection velocity subtracted.</p>
 <a class="reference internal image-reference" href="_images/PIVvortex0_2.png"><img alt="_images/PIVvortex0_2.png" src="_images/PIVvortex0_2.png" style="width: 45%;" /></a>
 <a class="reference internal image-reference" href="_images/PIVvortex1_1.png"><img alt="_images/PIVvortex1_1.png" src="_images/PIVvortex1_1.png" style="width: 45%;" /></a>
 <a class="reference internal image-reference" href="_images/PIVvortex1_2.png"><img alt="_images/PIVvortex1_2.png" src="_images/PIVvortex1_2.png" style="width: 45%;" /></a>
+</div>
+<div class="section" id="piv-case-tecplot-file">
+<h2>PIV case - Tecplot file<a class="headerlink" href="#piv-case-tecplot-file" title="Permalink to this headline">¶</a></h2>
+<p>For PIV data we need to change the <em>classes.py</em> to match Tecplot file.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -i ../data/adim_vel_000010.dat -t <span class="m">300</span>
+</pre></div>
+</div>
+<p>A mean file can be subtracted, using <em>-mf</em> argument.</p>
+<p>If you want to analyze a set of images, use arguments <em>-first</em>, <em>-last</em> and <em>-step</em>.</p>
+<p>(please modify data input to format the image number: <em>dim_vel_{:06d}.dat</em> with <em>-first 10</em> will be formatted as <em>dim_vel_000010.dat</em>).</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -i ../data/dim_vel_<span class="o">{</span>:06d<span class="o">}</span>.dat -mf ../data/mean.dat -t <span class="m">50</span> -first <span class="m">10</span> -last <span class="m">10</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -239,7 +249,7 @@ and to the right we have the convection velocity subtracted.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>

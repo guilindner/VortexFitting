@@ -132,3 +132,22 @@ and to the right we have the convection velocity subtracted.
 .. image:: _images/PIVvortex1_2.png
    :width: 45 %
 
+PIV case - Tecplot file
+-----------------------
+
+For PIV data we need to change the *classes.py* to match Tecplot file.
+
+.. code-block:: bash
+   
+   $ python3 vortexfitting.py -i ../data/adim_vel_000010.dat -t 300
+
+A mean file can be subtracted, using *-mf* argument.
+
+If you want to analyze a set of images, use arguments *-first*, *-last* and *-step*.
+
+(please modify data input to format the image number: *dim_vel_{:06d}.dat* with *-first 10* will be formatted as *dim_vel_000010.dat*).
+
+.. code-block:: bash
+   
+   $ python3 vortexfitting.py -i ../data/dim_vel_{:06d}.dat -mf ../data/mean.dat -t 50 -first 10 -last 10
+

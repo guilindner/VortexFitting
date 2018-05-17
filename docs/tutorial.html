@@ -2,16 +2,12 @@
 
 <!doctype html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Tutorial &#8212; VortexFitting 1 documentation</title>
-    
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
@@ -35,7 +31,7 @@
     <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -140,11 +136,11 @@ The default configuration os <strong>class.py</strong> is set to handle the HIT 
 </div>
 <p>If we want to define a threshold for the swirling strength, we can specify with
 the <em>-s</em> argument, like this:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t 0.5
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t <span class="m">0</span>.5
 </pre></div>
 </div>
 <p>The differencing scheme can be changed with the <em>-s</em> argument:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -s 4
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -s <span class="m">4</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -169,6 +165,19 @@ the <em>-s</em> argument, like this:</p>
 <li>delta - Delta criterion</li>
 </ul>
 </div>
+<p>An initial radius can be set with <em>-rmax</em> argument.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -rmax <span class="m">15</span>
+</pre></div>
+</div>
+<p>An output directory can be specified with <em>-o</em> / <em>–output</em> argument.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -o ../results/MY_DIRECTORY
+</pre></div>
+</div>
+<p>Use arguments <em>-first</em>, <em>-last</em> and <em>-step</em> to analyze a set of images. Default for <em>-step</em> is 1.</p>
+<p>For example, if you want to compute from image #10 to #20, each 2 images, enter:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -first <span class="m">10</span> -last <span class="m">20</span> -step <span class="m">2</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="data-output">
 <h3>Data output<a class="headerlink" href="#data-output" title="Permalink to this headline">¶</a></h3>
@@ -186,7 +195,7 @@ subtracting the convection velocity</li>
 </div>
 <div class="section" id="generating-a-custom-vortex">
 <h2>Generating a custom Vortex<a class="headerlink" href="#generating-a-custom-vortex" title="Permalink to this headline">¶</a></h2>
-<p>It&#8217;s possible to generate a custom vortex using the <strong>generateNetCDF.py</strong> module.
+<p>It’s possible to generate a custom vortex using the <strong>generateNetCDF.py</strong> module.
 It will create a netCDF4 file with the same characteristics as the DNS HIT file.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 generateNetCDF.py
 </pre></div>
@@ -253,7 +262,7 @@ the doc folder should be commited to github.com to appear online.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>
