@@ -93,6 +93,13 @@ if __name__ == '__main__':
     start = time.time()
     #---- LOAD DATA ----#
 
+	#init output vortices file, with tecplot format
+    #Chnage someday (function of format...)
+    outfile = open(args.output_dir+'/vortices.dat','w')
+    outfile.write("TITLE=\"Vortex characteristics evolution\"\n")
+    outfile.write("Variables=\"time\",\"radius\",\"gamma\",\"xindex\",\"yindex\",\"uc\",\"vc\",\"dist\",\"corr\",\"vtheta\"\n")
+    outfile.write("ZONE T=\"0\", SOLUTIONTIME=0\n")
+    outfile.close()
 
     for time_step in range(args.first,args.last+1,args.step):
 
@@ -165,5 +172,5 @@ if __name__ == '__main__':
         if args.plot_x == 'fields':
             plot.plot_fields(a,vorticity)
         if args.plot_x == 'fit':
-            plot.plot_accepted(a,vortices,swirling,args.output_dir)
-            plot.plot_vortex(a,vortices,args.output_dir)
+            plot.plot_accepted(a,vortices,swirling,args.output_dir,time_step)
+            plot.plot_vortex(a,vortices,args.output_dir,time_step)
