@@ -2,16 +2,12 @@
 
 <!doctype html>
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Methodology &#8212; VortexFitting 1 documentation</title>
-    
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
@@ -35,7 +31,7 @@
     <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -135,9 +131,9 @@ can be expressed as:</p>
 <p>The Q criterion proposed by Hunt <em>et al</em> (1988) <a class="reference internal" href="#hunt1988" id="id1">[HUNT1988]</a> identifies the vortices
 as flow regions with positive second invariant of $nabla u$. An additional
 condition is that the pressure in the eddy region should to be lower than the
-ambient pressure. Chakraborty <em>et al</em> (2005) <a class="reference internal" href="#chakra2005" id="id2">[CHAKRA2005]</a> quoted &#8220;in
+ambient pressure. Chakraborty <em>et al</em> (2005) <a class="reference internal" href="#chakra2005" id="id2">[CHAKRA2005]</a> quoted “in
 an incompressible flow Q is a local measure of the excess rotation rate relative
-to the strain rate&#8221;.</p>
+to the strain rate”.</p>
 <p>In practical terms, the vortex is detected in case of the second invariant  <img class="math" src="_images/math/97ce8490384510232af439974e12cd5336841e7c.png" alt="Q &gt; 0"/>.</p>
 </div>
 <div class="section" id="criterion">
@@ -217,7 +213,7 @@ vortex and its center. But even using a threshold on these methods, the presence
 of a real vortex is not always true. To improve this detection we use a Lamb-Oseen
 vortex model to be fitted on top of the actual detected peak to check if it is
 really a vortex.</p>
-<p>The correlation coefficient between the fitted model and the velocity field is calculated according to equation ref{eq:corr} and if it&#8217;s higher than 0.75 we can consider it a vortex.</p>
+<p>The correlation coefficient between the fitted model and the velocity field is calculated according to equation ref{eq:corr} and if it’s higher than 0.75 we can consider it a vortex.</p>
 <div class="math">
 <p><img src="_images/math/05e1e42015bc83ca93e9c4f6d1f6dd79e403ee73.png" alt="R(model/data) = \frac{\langle u_{model} \cdot u_{data} \rangle +
                       \langle u_{model} \cdot u_{data} \rangle}
@@ -258,13 +254,13 @@ arise especially in least squares curve fitting.</p>
 <p><img src="_images/math/92f3adf08bed8246a0f9221af961292467dee08a.png" alt="\alpha_{kl} = \sum_{i=1}^N \frac{1}{\sigma_i^2} \left[ \frac{\partial y(x_i;a)}{\partial a_k} \frac{\partial y(x_i;a)}{\partial a_l} \right]"/></p>
 </div></div>
 <div class="section" id="powell-s-dogleg-method">
-<h3>Powell&#8217;s dogleg method<a class="headerlink" href="#powell-s-dogleg-method" title="Permalink to this headline">¶</a></h3>
-<p>The Powell&#8217;s method is an algorithm for finding a local minimum of a function.
-This function doesn&#8217;t need to be differentiable and no derivatives are taken. It
-does this using a combination of Newton&#8217;s method and the steepest descent method.
+<h3>Powell’s dogleg method<a class="headerlink" href="#powell-s-dogleg-method" title="Permalink to this headline">¶</a></h3>
+<p>The Powell’s method is an algorithm for finding a local minimum of a function.
+This function doesn’t need to be differentiable and no derivatives are taken. It
+does this using a combination of Newton’s method and the steepest descent method.
 This is a so-called trust region method. This means that every step moves the
 current point to within a finite region. This makes the method more stable than
-Newton&#8217;s method.</p>
+Newton’s method.</p>
 <table class="docutils citation" frame="void" id="herpin2009" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -335,7 +331,7 @@ Center for Turbulence Research Report, CTR-S88, 1988</td></tr>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>
