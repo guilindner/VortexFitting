@@ -12,7 +12,14 @@ class VelocityField():
 
     """
     def __init__(self, path="/", time=0, meanfilepath="/"):
-        self.path = path
+
+
+        if ('{:' in path):
+            self.path = path.format(time)
+        else:
+            self.path = path
+
+        #self.path = path.format(time)
         self.time = time
         self.meanfilepath = meanfilepath
         filetype = 'tecplot' #change here to the desired format
@@ -41,7 +48,7 @@ class VelocityField():
 
         if filetype == 'piv':
             #PIV DATA
-            grp1 = Dataset(path, 'r')
+            grp1 = Dataset(self.path, 'r')
             self.u = np.array(grp1.variables['velocity_n'][time, :, :])
             self.v = np.array(grp1.variables['velocity_s'][time, :, :])
             self.w = np.array(grp1.variables['velocity_z'][time, :, :])
@@ -58,7 +65,7 @@ class VelocityField():
 
         if filetype == 'dns':
         #DNS DATA
-            grp1 = Dataset(path, 'r')
+            grp1 = Dataset(self.path, 'r')
             self.u = np.array(grp1.variables['velocity_x'][time, :, :])
             self.v = np.array(grp1.variables['velocity_y'][time, :, :])
             self.w = np.array(grp1.variables['velocity_z'][time, :, :])
@@ -71,7 +78,7 @@ class VelocityField():
             
         if filetype == 'dns2':
         # ILKAY DATA FOR DNS
-            grp1 = Dataset(path, 'r')
+            grp1 = Dataset(self.path, 'r')
             grp2 = Dataset('../data/DNS_example/vel_v_00000000.00400000.nc', 'r')
             grp3 = Dataset('../data/DNS_example/vel_w_00000000.00400000.nc', 'r')
             grp4 = Dataset('../data/DNS_example/grid_x.nc', 'r')
@@ -88,7 +95,7 @@ class VelocityField():
                     
         if filetype == 'tecplot':
         # YANN DATA FOR PIV - TECPLOT
-            with open(path) as myfile:
+            with open(self.path) as myfile:
                 myfile.readline()
                 list_variables=re.findall(r'\"(.*?)\"',myfile.readline())
                 index_x,index_y,index_z,index_u,index_v,index_w = 0,0,0,0,0,0
@@ -106,7 +113,7 @@ class VelocityField():
                     if list_variables[j] in ['VZ', 'W', 'w\'/Udeb']:
                         index_w=j                 
     
-            grp1=np.loadtxt(path,delimiter=" ",dtype=float,skiprows=3) #skip header, default is 3 lines
+            grp1=np.loadtxt(self.path,delimiter=" ",dtype=float,skiprows=3) #skip header, default is 3 lines
             dx_tmp = np.array(grp1[:,0])
         
             for i in range(1,dx_tmp.shape[0]):
