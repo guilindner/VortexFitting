@@ -101,7 +101,7 @@ def plot_fit_test(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, co
     plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' %(round(coreR,2),round(gamma,2),round(u_conv,2),round(v_conv,2),round(corr,2)))
     plt.show()
 
-def plot_accepted(a,vortices,field):
+def plot_accepted(a,vortices,field,output_dir):
     plt.subplot()
     plt.imshow(field, origin='lower', cmap="Greys_r")
     plt.xlabel('x')
@@ -133,13 +133,13 @@ def plot_accepted(a,vortices,field):
 
     #plt.legend()
     plt.tight_layout()
-    plt.savefig('../results/accepted.svg', format='svg')
-    plt.savefig('../results/tk.png', format='png', transparent=True)
-    create_links('../results/accepted.svg',vortices)
+    plt.savefig(output_dir+'/accepted.svg', format='svg')
+    plt.savefig(output_dir+'/tk.png', format='png', transparent=True)
+    create_links(output_dir+'/accepted.svg',vortices,output_dir)
     #plt.show()
 
-def plot_vortex(a,vortices):
-    outfile = open('../results/vortices.dat','w')
+def plot_vortex(a,vortices,output_dir):
+    outfile = open(output_dir+'/vortices.dat','w')
     outfile.write('radius gamma x_index y_index u_c v_c dist corr\n')
     for i,line in enumerate(vortices):
         #print(line)
@@ -157,9 +157,9 @@ def plot_vortex(a,vortices):
         plot_fit(x_index, y_index, u_data-line[4], v_data-line[5], u_model-line[4], v_model-line[5], line[2],
                    line[3], line[0], line[1], line[4], line[5], corr,i,2)
 
-def create_links(path,vortices):
-    fileIn = open("../results/accepted.svg","r")
-    fileOut = open("../results/linked.svg","w")
+def create_links(path,vortices,output_dir):
+    fileIn = open(output_dir+"/accepted.svg","r")
+    fileOut = open(output_dir+"/linked.svg","w")
     i = 0
     vortex_found = False
     for line in fileIn:

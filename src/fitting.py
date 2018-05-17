@@ -60,7 +60,7 @@ def velocity_model(coreR, gamma, x_real, y_real, u_conv, v_conv, x, y):
     vely = np.nan_to_num(vely)
     return velx, vely
 
-def get_vortices(a, peaks, vorticity):
+def get_vortices(a, peaks, vorticity,rmax):
     """General routine to check if the detected vortex is a real vortex
 
     :param a: data from the input file
@@ -81,9 +81,10 @@ def get_vortices(a, peaks, vorticity):
         x_center_index = peaks[1][i]
         y_center_index = peaks[0][i]
         print(i, " Processing detected swirling at (x, y)", x_center_index, y_center_index)
-        coreR = 2*(a.dx[5]-a.dx[4]) #ugly change someday
-        #coreR = 15 #guess on the starting vortex radius
+        #coreR = 2*(a.dx[5]-a.dx[4]) #ugly change someday
+        coreR = rmax #guess on the starting vortex radius
         gamma = vorticity[y_center_index, x_center_index]*np.pi*coreR**2
+        #print("vorticity",vorticity[y_center_index, x_center_index])
         b = full_fit(coreR, gamma, a, x_center_index, y_center_index)
         if b[6] < 2:
             corr = 0
@@ -91,7 +92,7 @@ def get_vortices(a, peaks, vorticity):
             x_index, y_index, u_data, v_data = tools.window(a, round(b[2]/dx, 0), round(b[3]/dy, 0), b[6])
             u_model, v_model = velocity_model(b[0], b[1], b[2], b[3], b[4], b[5], x_index, y_index)
             corr = correlation_coef(u_data-b[4], v_data-b[5], u_model-b[4], v_model-b[5])
-        if corr > 0.75: #if the vortex is too big, its better to decrease this value
+        if corr > 0.55: #if the vortex is too big, its better to decrease this value
             print("Accepted! corr = %s (vortex %s)" %(corr, j))
             velT = (b[1]/(2 * np.pi * b[0])) * (1 - np.exp(-1))
             vortices.append([b[0], b[1], b[2], b[3], b[4], b[5], b[6], corr, velT])
