@@ -24,6 +24,7 @@ The code is hosted at https://github.com/guilindner/VortexFitting
    tutorial
    examples
    modules/modules
+   contributors
 
 Indices and tables
 ==================

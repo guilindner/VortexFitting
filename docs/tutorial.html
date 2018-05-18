@@ -4,20 +4,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Tutorial &#8212; VortexFitting 1 documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
@@ -30,8 +22,7 @@
     <!--[if lt IE 9]>
     <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
-  </head>
-  <body>
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -67,16 +58,19 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
 </ul>
 
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -109,7 +103,7 @@ components are ordered like z, y, x, where z can also be the number of
 samples in a 2D field.</p>
 <p>The variable names should be changed in the <strong>class.py</strong> file</p>
 <p>In this example we have the DNS HIT format used in this tutorial:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_x&#39;</span><span class="p">][</span><span class="n">time</span><span class="p">,:,:])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_x&#39;</span><span class="p">][</span><span class="n">time</span><span class="p">,:,:])</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_y&#39;</span><span class="p">][</span><span class="n">time</span><span class="p">,:,:])</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_z&#39;</span><span class="p">][</span><span class="n">time</span><span class="p">,:,:])</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -131,16 +125,16 @@ defined and an equally spaced mesh is created using <em>np.linspace</em>.</p>
 <p>The code comes with a default test case for the HIT, located in <em>../data/test_data.nc</em>.
 The default configuration os <strong>class.py</strong> is set to handle the HIT case.</p>
 <p>If no input file with the <em>-i</em> argument has been specified, the <em>test_data.nc</em> will be used.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py
 </pre></div>
 </div>
 <p>If we want to define a threshold for the swirling strength, we can specify with
 the <em>-s</em> argument, like this:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t <span class="m">0</span>.5
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t <span class="m">0</span>.5
 </pre></div>
 </div>
 <p>The differencing scheme can be changed with the <em>-s</em> argument:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -s <span class="m">4</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -s <span class="m">4</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -153,7 +147,7 @@ the <em>-s</em> argument, like this:</p>
 </ul>
 </div>
 <p>We can as well change the detection method with the <em>-d</em> argument</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -d Q
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -d Q
 </pre></div>
 </div>
 <div class="admonition note">
@@ -166,16 +160,16 @@ the <em>-s</em> argument, like this:</p>
 </ul>
 </div>
 <p>An initial radius can be set with <em>-rmax</em> argument.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -rmax <span class="m">15</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -rmax <span class="m">15</span>
 </pre></div>
 </div>
 <p>An output directory can be specified with <em>-o</em> / <em>–output</em> argument.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -o ../results/MY_DIRECTORY
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -o ../results/MY_DIRECTORY
 </pre></div>
 </div>
 <p>Use arguments <em>-first</em>, <em>-last</em> and <em>-step</em> to analyze a set of images. Default for <em>-step</em> is 1.</p>
 <p>For example, if you want to compute from image #10 to #20, each 2 images, enter:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -first <span class="m">10</span> -last <span class="m">20</span> -step <span class="m">2</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -first <span class="m">10</span> -last <span class="m">20</span> -step <span class="m">2</span>
 </pre></div>
 </div>
 </div>
@@ -197,7 +191,7 @@ subtracting the convection velocity</li>
 <h2>Generating a custom Vortex<a class="headerlink" href="#generating-a-custom-vortex" title="Permalink to this headline">¶</a></h2>
 <p>It’s possible to generate a custom vortex using the <strong>generateNetCDF.py</strong> module.
 It will create a netCDF4 file with the same characteristics as the DNS HIT file.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 generateNetCDF.py
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 generateNetCDF.py
 </pre></div>
 </div>
 <p>This command will create a file <em>generatedField.nc</em> at the data folder.</p>
@@ -217,7 +211,7 @@ following values directly on <em>generatedField.nc</em>:</p>
 <p>If for any reason you need to convert the NC file to a text format (ASCII), the
 module <strong>convertToASCII.py</strong> can do the job. It will open the <em>infile</em> and save
 all z planes (or time) into separeted files.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 convertToASCII.py -i input.nc -o output
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 convertToASCII.py -i input.nc -o output
 </pre></div>
 </div>
 <p>Depending on the file you need to change the variable names like <em>velocity_x</em>
@@ -228,7 +222,7 @@ and such for the corresponding variable.</p>
 <p>To perform changes on the documentation, you should modify directly the <em>.rst</em>
 files, located in the <em>docs</em> folder. After modifying the desired files, run the
 script <em>update_docs.sh</em>:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ sh update_docs.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sh update_docs.sh
 </pre></div>
 </div>
 <p>After this, the html files will be generated in the same folder. All files in
@@ -262,7 +256,7 @@ the doc folder should be commited to github.com to appear online.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
     </div>
   </body>
 </html>
