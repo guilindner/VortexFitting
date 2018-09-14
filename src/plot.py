@@ -103,7 +103,7 @@ def plot_fit_test(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, co
 
 def plot_accepted(a,vortices,field,output_dir,time_step):
     plt.subplot()
-    plt.imshow(field, origin='lower', cmap="Greys_r")
+    plt.imshow(field, origin='lower', cmap="bone")
     plt.xlabel('x')
     plt.ylabel('y')
     dx = a.dx[5]-a.dx[4]
@@ -114,7 +114,7 @@ def plot_accepted(a,vortices,field,output_dir,time_step):
         else:
             orient = 'Y'
         circle1=plt.Circle((line[2]/dx,line[3]/dy),line[0]/dx,
-                            edgecolor=orient,facecolor='none',gid='vortex%i' % i)
+                            edgecolor='yellow',facecolor='none',gid='vortex%i' % i)
         plt.gca().add_artist(circle1)
 
     ##Comparing data
@@ -134,8 +134,8 @@ def plot_accepted(a,vortices,field,output_dir,time_step):
     #plt.legend()
     plt.tight_layout()
     plt.savefig(output_dir+'/accepted_{:01d}.svg'.format(time_step), format='svg')
-    plt.savefig(output_dir+'/tk_{:01d}.png'.format(time_step), format='png', transparent=True)
-    create_links(output_dir+'/accepted_{:01d}.svg'.format(time_step),vortices,output_dir,time_step)
+    #plt.savefig(output_dir+'/tk_{:01d}.png'.format(time_step), format='png', transparent=True)
+    #create_links(output_dir+'/accepted_{:01d}.svg'.format(time_step),vortices,output_dir,time_step)
     #plt.show()
 
 def plot_vortex(a,vortices,output_dir,time_step):

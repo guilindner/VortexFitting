@@ -85,7 +85,7 @@ if __name__ == '__main__':
                         help='Step between 2 images')
 
     parser.add_argument('-rmax', '--rmax', dest='rmax',
-                        default=10, type=int,
+                        default=0.0, type=float,
                         help='guess on the starting vortex radius')
 
     args = parser.parse_args()
