@@ -81,8 +81,10 @@ def get_vortices(a, peaks, vorticity,rmax):
         x_center_index = peaks[1][i]
         y_center_index = peaks[0][i]
         print(i, " Processing detected swirling at (x, y)", x_center_index, y_center_index)
-        #coreR = 2*(a.dx[5]-a.dx[4]) #ugly change someday
-        coreR = rmax #guess on the starting vortex radius
+        if rmax == 0.0:
+            coreR = 2*(a.dx[5]-a.dx[4]) #ugly change someday
+        else:
+            coreR = rmax #guess on the starting vortex radius
         gamma = vorticity[y_center_index, x_center_index]*np.pi*coreR**2
         #print("vorticity",vorticity[y_center_index, x_center_index])
         b = full_fit(coreR, gamma, a, x_center_index, y_center_index)
@@ -92,9 +94,9 @@ def get_vortices(a, peaks, vorticity,rmax):
             x_index, y_index, u_data, v_data = tools.window(a, round(b[2]/dx, 0), round(b[3]/dy, 0), b[6])
             u_model, v_model = velocity_model(b[0], b[1], b[2], b[3], b[4], b[5], x_index, y_index)
             corr = correlation_coef(u_data-b[4], v_data-b[5], u_model-b[4], v_model-b[5])
-        if corr > 0.55: #if the vortex is too big, its better to decrease this value
+        if corr > 0.50: #if the vortex is too big, its better to decrease this value
             print("Accepted! corr = %s (vortex %s)" %(corr, j))
-            velT = (b[1]/(2 * np.pi * b[0])) * (1 - np.exp(-1))
+            velT = (b[1]/(2 * np.pi * b[0]))# * (1 - np.exp(-1))
             vortices.append([b[0], b[1], b[2], b[3], b[4], b[5], b[6], corr, velT])
             j += 1
     return vortices
@@ -198,10 +200,8 @@ def fit(coreR, gamma, x, y, x_real, y_real, u_data, v_data, u_conv, v_conv, i):
         m = 1.0
     else:
         m = 4.0
-    bnds = ([0.0, gamma-abs(gamma)*m/2, x_real-m*dx, y_real-m*dy,
-             u_conv-abs(u_conv), v_conv-abs(v_conv)],
-            [coreR+coreR*m, gamma+abs(gamma)*m/2, x_real+m*dx, y_real+m*dy,
-             u_conv+abs(u_conv), v_conv+abs(v_conv)])
-    sol = optimize.least_squares(fun, [coreR, gamma, x_real, y_real, u_conv,
-                                       v_conv], bounds=bnds)
+    epsilon=0.001
+    bnds = ([0.0, gamma-abs(gamma)*m/2, x_real-m*dx-epsilon, y_real-m*dy-epsilon, u_conv-abs(u_conv)-epsilon, v_conv-abs(v_conv)-epsilon],
+            [coreR+coreR*m, gamma+abs(gamma)*m/2, x_real+m*dx+epsilon, y_real+m*dy+epsilon,u_conv+abs(u_conv)+epsilon, v_conv+abs(v_conv)+epsilon])
+    sol = optimize.least_squares(fun, [coreR, gamma, x_real, y_real, u_conv,v_conv], bounds=bnds)
     return sol.x

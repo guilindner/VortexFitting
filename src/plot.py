@@ -40,7 +40,6 @@ def plot_detect(dirL,dirR,field, *args):
         plt.scatter(dirR[1],dirR[0],edgecolor='Y',facecolor='Y',label='right')
 
     plt.title('Detected possible vortices')
-    #plt.contourf(field, cmap="Greys_r")
 
     plt.imshow(field, origin='lower', cmap="Greys_r")
     plt.xlabel('x')
@@ -60,7 +59,7 @@ def plot_quiver(x_index, y_index, u_data, v_data, field):
     plt.quiver(x_index[::s,::s],y_index[::s,::s],u_data[::s,::s],v_data[::s,::s])
     plt.show()
 
-def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, coreR, gamma, u_conv, v_conv, corr,i,j):
+def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, coreR, gamma, u_conv, v_conv, corr,i,j, output_dir,time_step):
     plt.figure()
     s = 1
     if (x_index.size > 400):
@@ -78,7 +77,7 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, coreR, 
     plt.xlabel('x')
     plt.ylabel('y')
     plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' %(round(coreR,2),round(gamma,2),round(u_conv,2),round(v_conv,2),round(corr,2)))
-    plt.savefig('../results/vortex%i_%i.png' %(i,j),format='png')
+    plt.savefig(output_dir+'/vortex{:01d}_{:01d}_{:01d}.png'.format(time_step,i,j),format='png')
     plt.close('all')
 
 def plot_fit_test(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, coreR, gamma, u_conv, v_conv, corr):
@@ -103,7 +102,7 @@ def plot_fit_test(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, co
 
 def plot_accepted(a,vortices,field,output_dir,time_step):
     plt.subplot()
-    plt.imshow(field, origin='lower', cmap="Greys_r")
+    plt.imshow(field, origin='lower', cmap="bone")
     plt.xlabel('x')
     plt.ylabel('y')
     dx = a.dx[5]-a.dx[4]
@@ -114,7 +113,7 @@ def plot_accepted(a,vortices,field,output_dir,time_step):
         else:
             orient = 'Y'
         circle1=plt.Circle((line[2]/dx,line[3]/dy),line[0]/dx,
-                            edgecolor=orient,facecolor='none',gid='vortex%i' % i)
+                            edgecolor='yellow',facecolor='none',gid='vortex%i' % i)
         plt.gca().add_artist(circle1)
 
     ##Comparing data
@@ -134,8 +133,8 @@ def plot_accepted(a,vortices,field,output_dir,time_step):
     #plt.legend()
     plt.tight_layout()
     plt.savefig(output_dir+'/accepted_{:01d}.svg'.format(time_step), format='svg')
-    plt.savefig(output_dir+'/tk_{:01d}.png'.format(time_step), format='png', transparent=True)
-    create_links(output_dir+'/accepted_{:01d}.svg'.format(time_step),vortices,output_dir,time_step)
+    #plt.savefig(output_dir+'/tk_{:01d}.png'.format(time_step), format='png', transparent=True)
+    #create_links(output_dir+'/accepted_{:01d}.svg'.format(time_step),vortices,output_dir,time_step)
     #plt.show()
 
 def plot_vortex(a,vortices,output_dir,time_step):
@@ -152,10 +151,10 @@ def plot_vortex(a,vortices,output_dir,time_step):
         u_model, v_model = fitting.velocity_model(line[0], line[1],
          line[2], line[3], line[4], line[5], x_index, y_index)
         corr = fitting.correlation_coef(u_data,v_data,u_model,v_model)
-        plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, line[2],line[3], line[0], line[1], line[4], line[5], corr,i,1)
+        plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, line[2],line[3], line[0], line[1], line[4], line[5], corr,i,1,output_dir,time_step)
         corr = fitting.correlation_coef(u_data-line[4],v_data-line[5],u_model-line[4],v_model-line[5])
         plot_fit(x_index, y_index, u_data-line[4], v_data-line[5], u_model-line[4], v_model-line[5], line[2],
-                   line[3], line[0], line[1], line[4], line[5], corr,i,2)
+                   line[3], line[0], line[1], line[4], line[5], corr,i,2,output_dir,time_step)
 
 def create_links(path,vortices,output_dir,time_step):
     fileIn = open(output_dir+"/accepted_{:01d}.svg".format(time_step),"r")

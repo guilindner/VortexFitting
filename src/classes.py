@@ -3,6 +3,7 @@
 import numpy as np
 from netCDF4 import Dataset
 import re
+import os
 
 class VelocityField():
     """NetCDF file
@@ -11,19 +12,18 @@ class VelocityField():
     initialize the variables.
 
     """
-    def __init__(self, path="/", time=0, meanfilepath="/"):
-
+    def __init__(self, path="/", time=0, meanfilepath="/",filetype='piv'):
+        
+        print("Opening file:",path.format(time), " with filetype ",filetype)
 
         if ('{:' in path):
             self.path = path.format(time)
         else:
             self.path = path
 
-        #self.path = path.format(time)
         self.time = time
         self.meanfilepath = meanfilepath
-        filetype = 'tecplot' #change here to the desired format
-        
+
         ## To read data
         #grp1 = Dataset(path, 'r')
         #self.u = np.array(grp1.variables['velocity_x'][time, :, :])
@@ -47,7 +47,7 @@ class VelocityField():
          
 
         if filetype == 'piv':
-            #PIV DATA
+        #PIV DATA
             grp1 = Dataset(self.path, 'r')
             self.u = np.array(grp1.variables['velocity_n'][time, :, :])
             self.v = np.array(grp1.variables['velocity_s'][time, :, :])
@@ -100,17 +100,17 @@ class VelocityField():
                 list_variables=re.findall(r'\"(.*?)\"',myfile.readline())
                 index_x,index_y,index_z,index_u,index_v,index_w = 0,0,0,0,0,0
                 for j in range(0,len(list_variables)):
-                    if list_variables[j] in ['x', 'X', 'x/c']:
+                    if list_variables[j] in ['x', 'X', 'x/c']: #replace by regex ?
                         index_x=j
-                    if list_variables[j] in ['y', 'Y', 'y/c']:
+                    if list_variables[j] in ['y', 'Y', 'y/c']: #replace by regex ?
                         index_y=j
-                    if list_variables[j] in ['z', 'Z', 'z/c']:
+                    if list_variables[j] in ['z', 'Z', 'z/c']: #replace by regex ?
                         index_z=j                    
-                    if list_variables[j] in ['VX', 'U', 'u\'/Udeb']:
+                    if list_variables[j] in ['VX', 'U', 'u\'/Udeb']: #replace by regex ?
                         index_u=j
-                    if list_variables[j] in ['VY', 'V', 'v\'/Udeb']:
+                    if list_variables[j] in ['VY', 'V', 'v\'/Udeb']: #replace by regex ?
                         index_v=j
-                    if list_variables[j] in ['VZ', 'W', 'w\'/Udeb']:
+                    if list_variables[j] in ['VZ', 'W', 'w\'/Udeb']: #replace by regex ?
                         index_w=j                 
     
             grp1=np.loadtxt(self.path,delimiter=" ",dtype=float,skiprows=3) #skip header, default is 3 lines
@@ -147,6 +147,42 @@ class VelocityField():
             self.norm = False
             self.normdir = 'x'
             
+        if filetype == 'openfoam':
+        	# OPENFOAM DATA FROM SAMPLE
+            grp1=np.loadtxt(self.path,delimiter=" ",dtype=float,skiprows=2)
+            dx_tmp = np.array(grp1[:,0])
+        
+            for i in range(1,dx_tmp.shape[0]):
+                if (dx_tmp[i]==dx_tmp[0]):
+                    self.sizey=i;
+                    break;
+            self.sizex=np.int(dx_tmp.shape[0]/self.sizey); #determiner la taille du domaine
+
+            self.u  = np.array(grp1[:,3]).reshape(self.sizex,self.sizey)
+            self.v  = np.array(grp1[:,4]).reshape(self.sizex,self.sizey)
+
+            if (self.meanfilepath != '/' ):
+                print("subtracting mean file")
+                grp2=np.loadtxt(meanfilepath,delimiter=" ",dtype=float,skiprows=2) #mean data
+                self.uMean  = np.array(grp2[:,3]).reshape(self.sizex,self.sizey)
+                self.vMean  = np.array(grp2[:,4]).reshape(self.sizex,self.sizey)
+                self.u = self.u - self.uMean
+                self.v = self.v - self.vMean
+
+            self.samples = self.u.shape[1]
+
+            tmp_x  = np.array(grp1[:,0]).reshape(self.sizex,self.sizey)
+            tmp_y  = np.array(grp1[:,1]).reshape(self.sizex,self.sizey)
+
+            self.dx = np.linspace(0, np.max(tmp_x)-np.min(tmp_x), self.u.shape[1])
+            self.dy = np.linspace(0, np.max(tmp_y)-np.min(tmp_y), self.u.shape[0])
+
+            self.step_dx=round((np.max(self.dx)-np.min(self.dx)) / (np.size(self.dx)-1) ,6)
+            self.step_dy=round((np.max(self.dy)-np.min(self.dy)) / (np.size(self.dy)-1) ,6)
+
+            self.norm = False
+            self.normdir = 'x'
+
         #COMMON TO ALL DATA
         self.derivative = {'dudx': np.zeros_like(self.u),
                            'dudy': np.zeros_like(self.u),

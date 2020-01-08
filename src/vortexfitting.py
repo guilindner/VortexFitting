@@ -21,7 +21,11 @@ if __name__ == '__main__':
 
     parser.add_argument('-i', '--input', dest='infilename',
                         default='../data/test_dataHIT.nc',
-                        help='input NetCDF file', metavar='FILE')
+                        help='input file', metavar='FILE')
+
+    parser.add_argument('-ft', '--filetype', dest='filetype',
+                        default='dns',
+                        help='file type: piv, dns (default), tecplot', metavar='FILETYPE')
 
     parser.add_argument('-o', '--output', dest='output_dir',
                         default='../results',
@@ -60,7 +64,7 @@ if __name__ == '__main__':
 
     parser.add_argument('-mf', '--meanfilename', dest='meanfilename',
                         default='/', 
-                        help='INSERT HELP')
+                        help='Average file tu subtract')
 
     parser.add_argument('-p', '--plot', dest='plot_x',
                         default='fit',
@@ -74,18 +78,18 @@ if __name__ == '__main__':
 
     parser.add_argument('-first', '--first', dest='first',
                         default=0, type=int,
-                        help='First image')
+                        help='First image to read')
 
     parser.add_argument('-last', '--last', dest='last',
                         default=0, type=int,
-                        help='Last image')
+                        help='Last image to read')
 
     parser.add_argument('-step', '--step', dest='step',
                         default=1, type=int,
                         help='Step between 2 images')
 
     parser.add_argument('-rmax', '--rmax', dest='rmax',
-                        default=10, type=int,
+                        default=0.0, type=float,
                         help='guess on the starting vortex radius')
 
     args = parser.parse_args()
@@ -94,7 +98,7 @@ if __name__ == '__main__':
     #---- LOAD DATA ----#
 
 	#init output vortices file, with tecplot format
-    #Chnage someday (function of format...)
+    #Change someday (function of format...)
     outfile = open(args.output_dir+'/vortices.dat','w')
     outfile.write("TITLE=\"Vortex characteristics evolution\"\n")
     outfile.write("Variables=\"time\",\"radius\",\"gamma\",\"xindex\",\"yindex\",\"uc\",\"vc\",\"dist\",\"corr\",\"vtheta\"\n")
@@ -102,13 +106,8 @@ if __name__ == '__main__':
     outfile.close()
 
     for time_step in range(args.first,args.last+1,args.step):
-
-        
-        print("Opening file:",args.infilename.format(time_step),args.meanfilename)
-        a = VelocityField(args.infilename,time_step,args.meanfilename)
-
-         
-            #print("Sample target: (todo)", args.timestep)
+        print
+        a = VelocityField(args.infilename,time_step,args.meanfilename,args.filetype)
         
         print("Samples:", a.samples)
     
