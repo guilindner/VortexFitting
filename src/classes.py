@@ -5,13 +5,44 @@ from netCDF4 import Dataset
 import re
 
 class VelocityField():
-    """NetCDF file
+    """Data file
 
-    Loads the input file with the NetCFD (.nc) format and
+    Loads the input file with the NetCFD (.nc) format or a Tecplot format (.dat); 
     initialize the variables.
+    
+    :param path: file path
+    :type path: str
+    :param time: current time step
+    :type time: int
+    :param meanfilepath: in case of a mean field subtraction
+    :type meanfilepath: str
+    :param filetype: 'piv_netcdf', 'dns, 'dns2', 'piv_tecplot'
+    :type filetype: str
+    :param u: 1st component velocity field
+    :type u: array of float
+    :param v: 2nd component velocity field
+    :type v: array of float
+    :param w: 3rd component velocity field, optional
+    :type w: array of float
+    :param dx: spatial mesh
+    :type dx: array of float
+    :param dy: spatial mesh
+    :type dy: array of float
+    :param dz: spatial mesh, optional
+    :type dz: array of float
+    :param norm: for normalization of the swirling field
+    :type norm: boolean
+    :param normdir: False, 'x' or 'y'
+    :type normdir: str
+    :param step_dx: for homogeneous mesh, provides a unique step
+    :type step_dx: float
+    :param step_dy: for homogeneous mesh, provides a unique step 
+    :type step_dy: float
+    :param derivative: 
+    :type derivative: array of float
 
     """
-    def __init__(self, path="/", time=0, meanfilepath="/"):
+    def __init__(self, path="/", time=0, meanfilepath="/",filetype="/"):
 
 
         if ('{:' in path):
@@ -19,10 +50,9 @@ class VelocityField():
         else:
             self.path = path
 
-        #self.path = path.format(time)
         self.time = time
         self.meanfilepath = meanfilepath
-        filetype = 'openfoam' #change here to the desired format
+        #filetype = 'tecplot' #change here to the desired format
         
         ## To read data
         #grp1 = Dataset(path, 'r')
@@ -46,8 +76,8 @@ class VelocityField():
         #    self.normdir = False
          
 
-        if filetype == 'piv':
-            #PIV DATA
+        if filetype == 'piv_netcdf':
+        #PIV DATA with netCDF format
             grp1 = Dataset(self.path, 'r')
             self.u = np.array(grp1.variables['velocity_n'][time, :, :])
             self.v = np.array(grp1.variables['velocity_s'][time, :, :])
@@ -93,25 +123,26 @@ class VelocityField():
             self.norm = False
             grp1.close()
                     
-        if filetype == 'tecplot':
-        # YANN DATA FOR PIV - TECPLOT
+        if filetype == 'piv_tecplot':
+        # DATA FORMAT FOR PIV - TECPLOT
             with open(self.path) as myfile:
                 myfile.readline()
                 list_variables=re.findall(r'\"(.*?)\"',myfile.readline())
-                index_x,index_y,index_z,index_u,index_v,index_w = 0,0,0,0,0,0
-                for j in range(0,len(list_variables)):
-                    if list_variables[j] in ['x', 'X', 'x/c']:
-                        index_x=j
-                    if list_variables[j] in ['y', 'Y', 'y/c']:
-                        index_y=j
-                    if list_variables[j] in ['z', 'Z', 'z/c']:
-                        index_z=j                    
-                    if list_variables[j] in ['VX', 'U', 'u\'/Udeb']:
-                        index_u=j
-                    if list_variables[j] in ['VY', 'V', 'v\'/Udeb']:
-                        index_v=j
-                    if list_variables[j] in ['VZ', 'W', 'w\'/Udeb']:
-                        index_w=j                 
+		# Default: data are x, y, z, u, v, w
+                index_x,index_y,index_z,index_u,index_v,index_w = 0,1,2,3,4,5 
+                #for j in range(0,len(list_variables)):
+                #    if list_variables[j] in ['x', 'X', 'x/c']:
+                #        index_x=j
+                #    if list_variables[j] in ['y', 'Y', 'y/c']:
+                #        index_y=j
+                #    if list_variables[j] in ['z', 'Z', 'z/c']:
+                #        index_z=j                    
+                #    if list_variables[j] in ['VX', 'U', 'u\'/Udeb']:
+                #        index_u=j
+                #    if list_variables[j] in ['VY', 'V', 'v\'/Udeb']:
+                #        index_v=j
+                #    if list_variables[j] in ['VZ', 'W', 'w\'/Udeb']:
+                #        index_w=j                 
     
             grp1=np.loadtxt(self.path,delimiter=" ",dtype=float,skiprows=3) #skip header, default is 3 lines
             dx_tmp = np.array(grp1[:,0])
@@ -120,7 +151,7 @@ class VelocityField():
                 if (dx_tmp[i]==dx_tmp[0]):
                     self.sizey=i;
                     break;
-            self.sizex=np.int(dx_tmp.shape[0]/self.sizey); #determiner la taille du domaine
+            self.sizex=np.int(dx_tmp.shape[0]/self.sizey); #domain size
 
             self.u  = np.array(grp1[:,index_u]).reshape(self.sizex,self.sizey)
             self.v  = np.array(grp1[:,index_v]).reshape(self.sizex,self.sizey)
@@ -141,51 +172,23 @@ class VelocityField():
             self.dx = np.linspace(0, np.max(tmp_x)-np.min(tmp_x), self.u.shape[1])
             self.dy = np.linspace(0, np.max(tmp_y)-np.min(tmp_y), self.u.shape[0])
 
-            self.step_dx=round((np.max(self.dx)-np.min(self.dx)) / (np.size(self.dx)-1) ,6)
-            self.step_dy=round((np.max(self.dy)-np.min(self.dy)) / (np.size(self.dy)-1) ,6)
-
             self.norm = False
             self.normdir = 'x'
-            
-        if filetype == 'openfoam':
-        # OPENFOAM DATA FROM SAMPLE
-          
-    
-            grp1=np.loadtxt(self.path,delimiter=" ",dtype=float,skiprows=2)
-            dx_tmp = np.array(grp1[:,0])
+     
         
-            for i in range(1,dx_tmp.shape[0]):
-                if (dx_tmp[i]==dx_tmp[0]):
-                    self.sizey=i;
-                    break;
-            self.sizex=np.int(dx_tmp.shape[0]/self.sizey); #determiner la taille du domaine
+        if filetype == 'test':
+            sizex, sizey=100,100
+            u = np.linspace(0.0,1.0,sizex)
+            v = np.linspace(0.0,1.0,sizey)
+            self.u, self.v = np.meshgrid(u,v)
+            self.dx = np.linspace(0.0,1.0,sizex)
+            self.dy = np.linspace(0.0,1.0,sizey)
 
-            self.u  = np.array(grp1[:,3]).reshape(self.sizex,self.sizey)
-            self.v  = np.array(grp1[:,4]).reshape(self.sizex,self.sizey)
-
-            if (self.meanfilepath != '/' ):
-                print("subtracting mean file")
-                grp2=np.loadtxt(meanfilepath,delimiter=" ",dtype=float,skiprows=2) #mean data
-                self.uMean  = np.array(grp2[:,3]).reshape(self.sizex,self.sizey)
-                self.vMean  = np.array(grp2[:,4]).reshape(self.sizex,self.sizey)
-                self.u = self.u - self.uMean
-                self.v = self.v - self.vMean
-
-            self.samples = self.u.shape[1]
-
-            tmp_x  = np.array(grp1[:,0]).reshape(self.sizex,self.sizey)
-            tmp_y  = np.array(grp1[:,1]).reshape(self.sizex,self.sizey)
-
-            self.dx = np.linspace(0, np.max(tmp_x)-np.min(tmp_x), self.u.shape[1])
-            self.dy = np.linspace(0, np.max(tmp_y)-np.min(tmp_y), self.u.shape[0])
-
-            self.step_dx=round((np.max(self.dx)-np.min(self.dx)) / (np.size(self.dx)-1) ,6)
-            self.step_dy=round((np.max(self.dy)-np.min(self.dy)) / (np.size(self.dy)-1) ,6)
-
-            self.norm = False
-            self.normdir = 'x'
-
+       
         #COMMON TO ALL DATA
+        self.step_dx=round((np.max(self.dx)-np.min(self.dx)) / (np.size(self.dx)-1) ,6)
+        self.step_dy=round((np.max(self.dy)-np.min(self.dy)) / (np.size(self.dy)-1) ,6)
+
         self.derivative = {'dudx': np.zeros_like(self.u),
                            'dudy': np.zeros_like(self.u),
                            'dudz': np.zeros_like(self.u),
@@ -195,3 +198,8 @@ class VelocityField():
                            'dwdx': np.zeros_like(self.u),
                            'dwdy': np.zeros_like(self.u),
                            'dwdz': np.zeros_like(self.u)}
+
+
+
+
+

@@ -3,7 +3,6 @@
 """
 import numpy as np
 
-import tools
 
 def calc_swirling(a):
     """
@@ -32,8 +31,7 @@ def q_criterion(a):
     """
     print("Detection method: Q criterion")
     Q = np.zeros((a.u.shape[0], a.u.shape[1]))
-    print(a.u.shape[0], a.u.shape[1])
-    #print(Q.shape)
+    #print(a.u.shape[0], a.u.shape[1])
     for i in range(a.u.shape[0]):
         for j in range(a.u.shape[1]):
             Q[i, j] = -0.5*(a.derivative['dudx'][i, j]**2 + a.derivative['dvdy'][i, j]**2) \

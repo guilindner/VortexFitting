@@ -9,7 +9,9 @@
     <title>Examples &#8212; VortexFitting 1 documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
@@ -43,7 +45,7 @@
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h3><a href="index.html">Table Of Contents</a></h3>
+<h3><a href="index.html">Table of Contents</a></h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
@@ -51,7 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#dns-case">DNS case</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#piv-case">PIV case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#piv-case-netcdf-file">PIV case - NetCDF file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#piv-case-tecplot-file">PIV case - Tecplot file</a></li>
 </ul>
 </li>
@@ -171,8 +173,8 @@ and to the right we have the convection velocity subtracted.</p>
 </table>
 </div>
 </div>
-<div class="section" id="piv-case">
-<h2>PIV case<a class="headerlink" href="#piv-case" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="piv-case-netcdf-file">
+<h2>PIV case - NetCDF file<a class="headerlink" href="#piv-case-netcdf-file" title="Permalink to this headline">¶</a></h2>
 <p>For PIV data we need to change the <em>classes.py</em> to match the NetCDF file:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_n&#39;</span><span class="p">][</span><span class="n">time</span><span class="p">,:,:])</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_s&#39;</span><span class="p">][</span><span class="n">time</span><span class="p">,:,:])</span>
@@ -204,14 +206,14 @@ and to the right we have the convection velocity subtracted.</p>
 </div>
 <div class="section" id="piv-case-tecplot-file">
 <h2>PIV case - Tecplot file<a class="headerlink" href="#piv-case-tecplot-file" title="Permalink to this headline">¶</a></h2>
-<p>For PIV data we need to change the <em>classes.py</em> to match Tecplot file.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -i ../data/adim_vel_000010.dat -t <span class="m">300</span>
+<p>For PIV data with Tecplot, we need to update the format, to match Tecplot file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -i ../data/adim_vel_000010.dat -t <span class="m">300</span> -ft piv_tecplot
 </pre></div>
 </div>
-<p>A mean file can be subtracted, using <em>-mf</em> argument.</p>
+<p>An average field can be subtracted, using <em>-mf</em> argument (<em>mean file</em>)</p>
 <p>If you want to analyze a set of images, use arguments <em>-first</em>, <em>-last</em> and <em>-step</em>.</p>
-<p>(please modify data input to format the image number: <em>dim_vel_{:06d}.dat</em> with <em>-first 10</em> will be formatted as <em>dim_vel_000010.dat</em>).</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -i ../data/dim_vel_<span class="o">{</span>:06d<span class="o">}</span>.dat -mf ../data/mean.dat -t <span class="m">50</span> -first <span class="m">10</span> -last <span class="m">10</span>
+<p>(please modify data input to format the image number: <em>dim_vel_{:06d}.dat</em> with <em>-first 10</em> is formatted as <em>dim_vel_000010.dat</em>).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -i ../data/dim_vel_<span class="o">{</span>:06d<span class="o">}</span>.dat -mf ../data/mean.dat -t <span class="m">50</span> -first <span class="m">10</span> -last <span class="m">10</span> -ft piv_tecplot
 </pre></div>
 </div>
 </div>
@@ -243,7 +245,7 @@ and to the right we have the convection velocity subtracted.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
     </div>
   </body>
 </html>

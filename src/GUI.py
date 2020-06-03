@@ -53,13 +53,13 @@ class VortexDetection:
 
         self.cadre=Canvas(master,width=800,height=600)#,bg="white")
         self.cadre.grid(columnspan=2)
-        self.pilImage=Image.open("../results/tk_0.png")
+        self.pilImage=Image.open("../results/tk.png")
         print(self.pilImage.mode)
         self.im=ImageTk.PhotoImage(self.pilImage)
         self.cadre.create_image(400,300,image = self.im)
 
     def update_image(self):
-        self.pilImage=Image.open("../results/tk_0.png")
+        self.pilImage=Image.open("../results/tk.png")
         self.im=ImageTk.PhotoImage(self.pilImage)
         self.cadre.create_image(400,300,image = self.im)
 

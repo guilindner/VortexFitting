@@ -7,7 +7,9 @@ Modules
    classes
    detection
    fitting
+   output
    plot
    schemes
    testOseen
    tools
+

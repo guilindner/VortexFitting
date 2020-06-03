@@ -9,7 +9,9 @@
     <title>classes.py &#8212; VortexFitting 1 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -44,7 +46,7 @@
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h3><a href="../index.html">Table Of Contents</a></h3>
+<h3><a href="../index.html">Table of Contents</a></h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
@@ -89,11 +91,36 @@
 <p>class</p>
 <dl class="class">
 <dt id="classes.VelocityField">
-<em class="property">class </em><code class="descclassname">classes.</code><code class="descname">VelocityField</code><span class="sig-paren">(</span><em>path='/'</em>, <em>time=0</em>, <em>meanfilepath='/'</em><span class="sig-paren">)</span><a class="headerlink" href="#classes.VelocityField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">classes.</code><code class="descname">VelocityField</code><span class="sig-paren">(</span><em>path='/'</em>, <em>time=0</em>, <em>meanfilepath='/'</em>, <em>filetype='/'</em><span class="sig-paren">)</span><a class="headerlink" href="#classes.VelocityField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>NetCDF file</p>
-<p>Loads the input file with the NetCFD (.nc) format and
+<p>Data file</p>
+<p>Loads the input file with the NetCFD (.nc) format or a Tecplot format (.dat); 
 initialize the variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> (<em>str</em>) – file path</li>
+<li><strong>time</strong> (<em>int</em>) – current time step</li>
+<li><strong>meanfilepath</strong> (<em>str</em>) – in case of a mean field subtraction</li>
+<li><strong>filetype</strong> (<em>str</em>) – ‘piv_netcdf’, ‘dns, ‘dns2’, ‘piv_tecplot’</li>
+<li><strong>u</strong> (<em>array of float</em>) – 1st component velocity field</li>
+<li><strong>v</strong> (<em>array of float</em>) – 2nd component velocity field</li>
+<li><strong>w</strong> (<em>array of float</em>) – 3rd component velocity field, optional</li>
+<li><strong>dx</strong> (<em>array of float</em>) – spatial mesh</li>
+<li><strong>dy</strong> (<em>array of float</em>) – spatial mesh</li>
+<li><strong>dz</strong> (<em>array of float</em>) – spatial mesh, optional</li>
+<li><strong>norm</strong> (<em>boolean</em>) – for normalization of the swirling field</li>
+<li><strong>normdir</strong> (<em>str</em>) – False, ‘x’ or ‘y’</li>
+<li><strong>step_dx</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</li>
+<li><strong>step_dy</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</li>
+<li><strong>derivative</strong> (<em>array of float</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -125,7 +152,7 @@ initialize the variables.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
     </div>
   </body>
 </html>

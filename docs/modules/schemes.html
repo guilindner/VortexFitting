@@ -9,7 +9,9 @@
     <title>schemes.py &#8212; VortexFitting 1 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -44,7 +46,7 @@
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h3><a href="../index.html">Table Of Contents</a></h3>
+<h3><a href="../index.html">Table of Contents</a></h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
@@ -61,6 +63,7 @@
 <li class="toctree-l2"><a class="reference internal" href="tools.html">tools.py</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
 </ul>
 
 <div id="searchbox" style="display: none" role="search">
@@ -87,7 +90,7 @@
 <span id="schemes-py"></span><h1>schemes.py<a class="headerlink" href="#module-schemes" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="schemes.fourth_order_diff">
-<code class="descclassname">schemes.</code><code class="descname">fourth_order_diff</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="headerlink" href="#schemes.fourth_order_diff" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">schemes.</code><code class="descname">fourth_order_diff</code><span class="sig-paren">(</span><em>vfield</em><span class="sig-paren">)</span><a class="headerlink" href="#schemes.fourth_order_diff" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fourth order accurate finite difference scheme.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -97,7 +100,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Params a:</th><td class="field-body">2D array of the velocity field, containing u and v</td>
+<tr class="field-odd field"><th class="field-name">Params vfield:</th><td class="field-body">2D array of the velocity field, containing u and v</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">derivative</td>
 </tr>
@@ -109,7 +112,7 @@
 
 <dl class="function">
 <dt id="schemes.least_square_diff">
-<code class="descclassname">schemes.</code><code class="descname">least_square_diff</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="headerlink" href="#schemes.least_square_diff" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">schemes.</code><code class="descname">least_square_diff</code><span class="sig-paren">(</span><em>vfield</em><span class="sig-paren">)</span><a class="headerlink" href="#schemes.least_square_diff" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fourth order accurate finite difference scheme.</p>
 <p>Least-square filter (Raffel 1998)</p>
 <div class="admonition note">
@@ -120,7 +123,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Params a:</th><td class="field-body">2D array of the velocity field, containing u and v</td>
+<tr class="field-odd field"><th class="field-name">Params vfield:</th><td class="field-body">2D array of the velocity field, containing u and v</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">derivative</td>
 </tr>
@@ -132,7 +135,7 @@
 
 <dl class="function">
 <dt id="schemes.second_order_diff">
-<code class="descclassname">schemes.</code><code class="descname">second_order_diff</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="headerlink" href="#schemes.second_order_diff" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">schemes.</code><code class="descname">second_order_diff</code><span class="sig-paren">(</span><em>vfield</em><span class="sig-paren">)</span><a class="headerlink" href="#schemes.second_order_diff" title="Permalink to this definition">¶</a></dt>
 <dd><p>Second order accurate finite difference scheme.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -142,7 +145,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Params a:</th><td class="field-body">2D array of the velocity field, containing u and v</td>
+<tr class="field-odd field"><th class="field-name">Params vfield:</th><td class="field-body">2D array of the velocity field, containing u and v</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">derivative</td>
 </tr>
@@ -181,7 +184,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
     </div>
   </body>
 </html>

@@ -1,8 +1,26 @@
+#!/usr/bin/env/ python
+"""
+Convert ASCII files to NetCDF4 (plain text)
+"""
 from netCDF4 import Dataset
+import argparse
 import numpy as np
 
-grp1 = Dataset('../data/anand_data.nc', 'w', format='NETCDF4')
-grp1.description = 'Experiments conducted at Rouen by Anand'
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='convert file from ASCII to netCDF format',
+                                     formatter_class=argparse.RawTextHelpFormatter)
+
+    parser.add_argument('-i', '--input', dest='infile',
+                        help='input ASCII file', metavar='FILE')
+
+    parser.add_argument('-o', '--output', dest='outfile',
+                        help='output NetCDF file', metavar='FILE')
+
+    args = parser.parse_args()
+
+
+grp1 = Dataset(args.outfile, 'w', format='NETCDF4')
+grp1.description = 'Experiments conducted at Rouen ...'
 
 ndimx = 159 # spacing
 ndimy = 134 # spacing
@@ -34,7 +52,8 @@ grid_y = grp1.createVariable('grid_y', 'f4', 'resolution_y')
 x = np.linspace(0, ndimy, ndimx)
 y = np.linspace(0, ndimy, ndimx)
 
-infile = open('../data/guil_anand_data.dat', 'r')
+infile = open(args.infile, 'r')
+line=infile.readline()
 lines = infile.readlines()
 for j in range(ndimy):
     for i in range(ndimx):

@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    a = VelocityField(args.infilename)
+    vfield = VelocityField(args.infilename,0,'/','dns')
 
     def test_oseen(coreR, gamma, dist,xdrift,ydrift,u_conv,v_conv):
         print('coreR:',coreR,'Gamma',gamma,'xdrift',xdrift,
@@ -61,7 +61,7 @@ if __name__ == '__main__':
         corr = fitting.correlation_coef(u_data,v_data,u_model,v_model)
         print('correlation:',corr)
         print('---')
-        plot.plot_fit_test(x_index, y_index, u_data, v_data, u_model, v_model, model[2], model[3], model[0], model[1], model[4],model[5], corr)
+        plot.plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, model[2], model[3], model[0], model[1], model[4],model[5], corr,0,0,'.',0)
 
     test_oseen(0.2,10,10,0.0,0.0,0.01,0.01)
     test_oseen(0.2,10,10,0.2,0.2,0.01,0.01)

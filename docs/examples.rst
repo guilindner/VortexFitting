@@ -87,8 +87,8 @@ and to the right we have the convection velocity subtracted.
 |4   |0.4      |9       |8       |
 +----+---------+--------+--------+
 
-PIV case
---------
+PIV case - NetCDF file
+----------------------
 
 For PIV data we need to change the *classes.py* to match the NetCDF file:
 
@@ -135,19 +135,19 @@ and to the right we have the convection velocity subtracted.
 PIV case - Tecplot file
 -----------------------
 
-For PIV data we need to change the *classes.py* to match Tecplot file.
+For PIV data with Tecplot, we need to update the format, to match Tecplot file.
 
 .. code-block:: bash
    
-   $ python3 vortexfitting.py -i ../data/adim_vel_000010.dat -t 300
+   $ python3 vortexfitting.py -i ../data/adim_vel_000010.dat -t 300 -ft piv_tecplot
 
-A mean file can be subtracted, using *-mf* argument.
+An average field can be subtracted, using *-mf* argument (*mean file*)
 
 If you want to analyze a set of images, use arguments *-first*, *-last* and *-step*.
 
-(please modify data input to format the image number: *dim_vel_{:06d}.dat* with *-first 10* will be formatted as *dim_vel_000010.dat*).
+(please modify data input to format the image number: *dim_vel_{:06d}.dat* with *-first 10* is formatted as *dim_vel_000010.dat*).
 
 .. code-block:: bash
    
-   $ python3 vortexfitting.py -i ../data/dim_vel_{:06d}.dat -mf ../data/mean.dat -t 50 -first 10 -last 10
+   $ python3 vortexfitting.py -i ../data/dim_vel_{:06d}.dat -mf ../data/mean.dat -t 50 -first 10 -last 10 -ft piv_tecplot
 

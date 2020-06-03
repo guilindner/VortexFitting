@@ -1,8 +1,8 @@
 Contributors
 ------------
 
-* Guilherme Lindner - Master Student at Pprime - Poitiers
+* Guilherme Lindner - PhD Student at University of British Columbia
 
-* Ilkay Solak - PhD Student at LML - Lille
+* Ilkay Solak - PhD
 
-* Yann Devaux - Phd Student at Pprime - Poitiers
+* Yann Devaux - PhD at Pprime - Poitiers

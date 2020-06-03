@@ -9,7 +9,9 @@
     <title>Methodology &#8212; VortexFitting 1 documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
@@ -43,14 +45,14 @@
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h3><a href="index.html">Table Of Contents</a></h3>
+<h3><a href="index.html">Table of Contents</a></h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Methodology</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#detection-methods">Detection methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#q-criterion">Q criterion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#criterion"><img class="math" src="_images/math/4d26a3c646f81ab56cceb818c7801dd1f3cfaaf3.png" alt="\Delta"/> criterion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#delta-criterion"><img class="math" src="_images/math/4d26a3c646f81ab56cceb818c7801dd1f3cfaaf3.png" alt="\Delta"/> criterion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#swirling-strength-criterion">Swirling strength criterion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#localization-of-the-extrema">Localization of the extrema</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#fitting-of-coherent-structures">Fitting of coherent structures</a></li>
@@ -130,8 +132,8 @@ an incompressible flow Q is a local measure of the excess rotation rate relative
 to the strain rate”.</p>
 <p>In practical terms, the vortex is detected in case of the second invariant  <img class="math" src="_images/math/97ce8490384510232af439974e12cd5336841e7c.png" alt="Q &gt; 0"/>.</p>
 </div>
-<div class="section" id="criterion">
-<h2><img class="math" src="_images/math/4d26a3c646f81ab56cceb818c7801dd1f3cfaaf3.png" alt="\Delta"/> criterion<a class="headerlink" href="#criterion" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="delta-criterion">
+<h2><img class="math" src="_images/math/4d26a3c646f81ab56cceb818c7801dd1f3cfaaf3.png" alt="\Delta"/> criterion<a class="headerlink" href="#delta-criterion" title="Permalink to this headline">¶</a></h2>
 <p>Chong <em>et al</em> (1990) <a class="reference internal" href="#chong1990" id="id3">[CHONG1990]</a> define a vortex core to be the region where
 <img class="math" src="_images/math/86618d947a94eaaaf4ef96bfa62c43186b3301b9.png" alt="\nabla v"/> has complex eigenvalues. In order to determine if the eigenvalues
 are complex, we examine the discriminant of the characteristic equation, considering
@@ -255,14 +257,9 @@ does this using a combination of Newton’s method and the steepest descent meth
 This is a so-called trust region method. This means that every step moves the
 current point to within a finite region. This makes the method more stable than
 Newton’s method.</p>
-<table class="docutils citation" frame="void" id="herpin2009" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[HERPIN2009]</td><td>Sophie Herpin.
-<em>Étude de linfluence du nombre de Reynolds sur lorganisation de la turbulence
-de paroi.</em> PhD thesis, Ecole Centrale de Lille, 2009.</td></tr>
-</tbody>
-</table>
+<p>#.. [HERPIN2009] Sophie Herpin.
+#   <em>Étude de l’influence du nombre de Reynolds sur lorganisation de la turbulence
+#   de paroi.</em> PhD thesis, Ecole Centrale de Lille, 2009.</p>
 <table class="docutils citation" frame="void" id="zhou1999" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -325,7 +322,7 @@ Center for Turbulence Research Report, CTR-S88, 1988</td></tr>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
     </div>
   </body>
 </html>

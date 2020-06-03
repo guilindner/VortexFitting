@@ -1,7 +1,7 @@
-fitting.py
-==========
+output.py
+=========
 
-.. automodule:: fitting
+.. automodule:: output
     :members:
     :undoc-members:
     :show-inheritance:

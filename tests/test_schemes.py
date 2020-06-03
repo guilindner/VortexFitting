@@ -1,6 +1,10 @@
 import unittest
-import schemes
 import numpy as np
+import sys
+sys.path.insert(1,'../src')
+
+import schemes
+
 """
 test using "nosetests /tests/test_schemes.py"
 """
@@ -11,7 +15,7 @@ class SchemeTest(unittest.TestCase):
         x = np.arange(0.0,1.0,0.01)
         func = np.sin(np.pi*x) 
         res = np.pi*(np.cos(np.pi*x))
-        res_my = schemes.secondOrderDiff(func)
+        res_my = schemes.second_order_diff(func)
         self.assertAlmostEqual(res,res_my,6)
 
 #    def test_numpy(self):

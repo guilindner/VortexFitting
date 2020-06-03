@@ -1,5 +1,6 @@
 #!/usr/bin/env/ python
-"""Plotting routines and image generation
+"""
+Plotting routines and image generation
 """
 
 import numpy as np
@@ -11,16 +12,16 @@ import re
 import tools
 import fitting
 
-def plot_fields(a,field):
+def plot_fields(vfield,field):
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2)#, sharex='col', sharey='row')
-    ax1.imshow(a.u, cmap='seismic',origin="lower")
+    ax1.imshow(vfield.u, cmap='seismic',origin="lower")
     ax1.set_title('Velocity u (velocity_s)')
 
-    ax2.imshow(a.v, cmap='seismic',origin="lower")
+    ax2.imshow(vfield.v, cmap='seismic',origin="lower")
     ax2.set_title('Velocity v (velocity_n)')
 
 
-    ax3.imshow(a.w, cmap='seismic',origin="lower")
+    ax3.imshow(vfield.w, cmap='seismic',origin="lower")
     ax3.set_title('Velocity w (velocity_z)')
 
     ax4.set_title('Vorticity')
@@ -51,6 +52,7 @@ def plot_detect(dirL,dirR,field, *args):
 
     plt.show()
 
+
 def plot_quiver(x_index, y_index, u_data, v_data, field):
     plt.figure()
     #plt.title('Velocity vectors centered at max swirling strength')
@@ -60,9 +62,9 @@ def plot_quiver(x_index, y_index, u_data, v_data, field):
     plt.quiver(x_index[::s,::s],y_index[::s,::s],u_data[::s,::s],v_data[::s,::s])
     plt.show()
 
-def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, coreR, gamma, u_conv, v_conv, corr,i,j):
+def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, coreR, gamma, u_conv, v_conv, corr,i,j, output_dir,time_step):
     plt.figure()
-    s = 1
+    s = 1 			#sampling factor
     if (x_index.size > 400):
         s = 1
     plt.quiver(x_index[::s,::s], y_index[::s,::s], u_data[::s,::s],v_data[::s,::s],
@@ -78,44 +80,28 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, coreR, 
     plt.xlabel('x')
     plt.ylabel('y')
     plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' %(round(coreR,2),round(gamma,2),round(u_conv,2),round(v_conv,2),round(corr,2)))
-    plt.savefig('../results/vortex%i_%i.png' %(i,j),format='png')
+    plt.savefig(output_dir+'/vortex%i_%i.png' %(i,j),format='png')
     plt.close('all')
 
-def plot_fit_test(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, coreR, gamma, u_conv, v_conv, corr):
-    plt.figure()
-    s = 1
-    if (x_index.size > 400):
-        s = 1
-    plt.quiver(x_index[::s,::s], y_index[::s,::s], u_data[::s,::s],v_data[::s,::s],
-               color='r',label='data')
-    plt.quiver(x_index[::s,::s], y_index[::s,::s], u_model[::s,::s], v_model[::s,::s],
-               color='b',label='model', alpha=0.5)
-    circle1=plt.Circle((xc,yc),coreR,color='k',alpha=0.05)
-    plt.gca().add_artist(circle1)
-    plt.gca().scatter([xc], [yc], marker='+', color='k', s=100)
-    plt.legend()
-    plt.grid()
-    plt.axes().set_aspect('equal')
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' %(round(coreR,2),round(gamma,2),round(u_conv,2),round(v_conv,2),round(corr,2)))
-    plt.show()
 
-def plot_accepted(a,vortices,field,output_dir,time_step):
+def plot_accepted(vfield,vortices,field,output_dir,time_step):
     plt.subplot()
-    plt.imshow(field, origin='lower', cmap="bone")
+    print(field.shape)
+    plt.contourf(vfield.dx,vfield.dy,field,origin='lower', cmap="bone")
+#    plt.imshow(field, origin='lower', cmap="bone")
     plt.xlabel('x')
     plt.ylabel('y')
-    dx = a.dx[5]-a.dx[4]
-    dy = a.dy[5]-a.dy[4]
+    dx = vfield.step_dx
+    dy = vfield.step_dy
     for i,line in enumerate(vortices):
         if vortices[i][1] > 0:
             orient = 'Y'
         else:
             orient = 'Y'
-        circle1=plt.Circle((line[2]/dx,line[3]/dy),line[0]/dx,
-                            edgecolor='yellow',facecolor='none',gid='vortex%i' % i)
+        circle1=plt.Circle((line[2],line[3]),line[0],
+                            edgecolor='yellow',facecolor='none',gid='vortex%i' % i) 
         plt.gca().add_artist(circle1)
+        print(line[2],line[3],line[0])
 
     ##Comparing data
     #fileIn = open('../data/dazin.dat', 'r')
@@ -134,28 +120,26 @@ def plot_accepted(a,vortices,field,output_dir,time_step):
     #plt.legend()
     plt.tight_layout()
     plt.savefig(output_dir+'/accepted_{:01d}.svg'.format(time_step), format='svg')
+    plt.contourf(field,origin='lower', cmap="bone")
+    #plt.savefig(output_dir+'/meshed_{:01d}.svg'.format(time_step), format='svg') #use it to verify your coordinate system if needed !
     #plt.savefig(output_dir+'/tk_{:01d}.png'.format(time_step), format='png', transparent=True)
     #create_links(output_dir+'/accepted_{:01d}.svg'.format(time_step),vortices,output_dir,time_step)
     #plt.show()
 
-def plot_vortex(a,vortices,output_dir,time_step):
-    outfile = open(output_dir+'/vortices.dat','a')
-    #outfile.write('radius gamma x_index y_index u_c v_c dist corr\n')
+def plot_vortex(vfield,vortices,output_dir,time_step):
     for i,line in enumerate(vortices):
-        #print(line)
-        outfile.write("{0} {1} {2} {3} {4} {5} {6} {7} {8} {9}\n".format(time_step,line[0],line[1],line[2],line[3],line[4],line[5],line[6],line[7],line[8]))
-        print('r:',line[0],'gamma:',line[1], 'x:',line[2],
-         'y',line[3],'dist',line[6],'corr',line[7],'Vtan',line[8])
-        dx = a.dx[5]-a.dx[4]
-        dy = a.dy[5]-a.dy[4]
-        x_index, y_index, u_data, v_data = tools.window(a,round(line[2]/dx,0),round(line[3]/dy,0),line[6])
-        u_model, v_model = fitting.velocity_model(line[0], line[1],
-         line[2], line[3], line[4], line[5], x_index, y_index)
+        print('r:',line[0],'gamma:',line[1], 'x:',line[2],'y',line[3],'dist',line[6],'corr',line[7],'Vt',line[8])
+        dx = vfield.step_dx
+        dy = vfield.step_dy
+        x_index, y_index, u_data, v_data = tools.window(vfield,round(line[2]/dx,0),round(line[3]/dy,0),line[6])
+        u_model, v_model = fitting.velocity_model(line[0], line[1],line[2], line[3], line[4], line[5], x_index, y_index)
         corr = fitting.correlation_coef(u_data,v_data,u_model,v_model)
-        plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, line[2],line[3], line[0], line[1], line[4], line[5], corr,i,1)
+        plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, line[2],line[3],
+                   line[0], line[1], line[4], line[5], corr,i,1,output_dir,time_step)
         corr = fitting.correlation_coef(u_data-line[4],v_data-line[5],u_model-line[4],v_model-line[5])
-        plot_fit(x_index, y_index, u_data-line[4], v_data-line[5], u_model-line[4], v_model-line[5], line[2],
-                   line[3], line[0], line[1], line[4], line[5], corr,i,2)
+        plot_fit(x_index, y_index, u_data-line[4], v_data-line[5], u_model-line[4], v_model-line[5], line[2], line[3],
+                   line[0], line[1], line[4], line[5], corr,i,2,output_dir,time_step)
+
 
 def create_links(path,vortices,output_dir,time_step):
     fileIn = open(output_dir+"/accepted_{:01d}.svg".format(time_step),"r")

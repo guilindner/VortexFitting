@@ -7,7 +7,14 @@ np.seterr(divide='ignore', invalid='ignore')
 
 def get_fluc(x, mean, hom_axis):
     """
-    Used when you have a convective vnnelocity along one axis
+    Used when you have a advective velocity along one axis
+
+    :param x: velocity field
+    :type x: 2D array of float
+    :param mean: advective velocity to subtract
+    :type mean: float
+    :param hom_axis: False, 'x', or 'y'. The axis which the mean is subtracted
+    :type hom_axis: str
     """
     if hom_axis is None:
         x = x - mean
@@ -34,7 +41,22 @@ def normalize(x, hom_axis):
         sys.exit("Invalid homogenity axis.")
     return x
 
-def window(a,x_center_index,y_center_index,dist):
+def window(vfield,x_center_index,y_center_index,dist):
+    """
+    Defines a window around (x;y) coordinates
+
+    :param vfield: fullsize velocity field
+    :type vfield: 2D array of float
+    :param x_center_index: box center index (x)
+    :type x_center_index: int
+    :param y_center_index: box center index (y)
+    :type y_center_index: int
+    :param dist: ??    
+    :param dist: int
+    :returns: cropped arrays for x, y, u and v 
+    :rtype: 2D arrays of floats
+
+    """
     if (x_center_index-dist > 0):
         x1 = x_center_index -dist
     else:
@@ -43,18 +65,18 @@ def window(a,x_center_index,y_center_index,dist):
         y1 = y_center_index -dist
     else:
         y1 = 0
-    if (x_center_index+dist <= a.u.shape[1]):
+    if (x_center_index+dist <= vfield.u.shape[1]):
         x2 = x_center_index+dist
     else:
-        x2 = a.u.shape[1]
-    if (y_center_index+dist <= a.v.shape[0]):
+        x2 = vfield.u.shape[0]
+    if (y_center_index+dist <= vfield.v.shape[0]):
         y2 = y_center_index+dist
     else:
-        y2 = a.v.shape[0]
-    x_index, y_index = np.meshgrid(a.dx[int(x1):int(x2)],
-                       a.dy[int(y1):int(y2)],indexing='xy')
-    u_data = a.u[int(y1):int(y2),int(x1):int(x2)]
-    v_data = a.v[int(y1):int(y2),int(x1):int(x2)]
+        y2 = vfield.v.shape[0]
+    x_index, y_index = np.meshgrid(vfield.dx[int(x1):int(x2)],
+                       vfield.dy[int(y1):int(y2)],indexing='xy')
+    u_data = vfield.u[int(y1):int(y2),int(x1):int(x2)]
+    v_data = vfield.v[int(y1):int(y2),int(x1):int(x2)]
     return x_index, y_index, u_data, v_data
 
 def find_peaks(data, threshold, box_size):
@@ -72,6 +94,9 @@ def find_peaks(data, threshold, box_size):
         detection threshold.  A 2D "threshold" must have the same
         shape as "data".
     :param box_size: The size of the local region to search for peaks at every point
+    :type data: 2D array of float
+    :type threshold: float
+    :type box_size: int
 
     :returns: An array containing the x and y pixel location of the peaks and their values.
     :rtype: list
@@ -92,9 +117,14 @@ def find_peaks(data, threshold, box_size):
     return peaks
 
 def direction_rotation(vorticity,peaks):
-    """ Identify the direction of the vortices rotation
-    using the vorticity.
+    """ Identify the direction of the vortices rotation using the vorticity.
+    :param vorticity: 2D array with the computed vorticity
+    :param peaks: list of the detected peaks
+
+    :returns: An array containing the direction of rotation for each vortex
+    :rtype: list
     """
+
     dirR = []
     dirR_x, dirR_y, dirR_i = [],[],[]
     dirL = []

@@ -223,9 +223,9 @@ current point to within a finite region. This makes the method more stable than
 Newton's method.
 
 
-.. [HERPIN2009] Sophie Herpin.
-   *Étude de linfluence du nombre de Reynolds sur lorganisation de la turbulence
-   de paroi.* PhD thesis, Ecole Centrale de Lille, 2009.
+#.. [HERPIN2009] Sophie Herpin.
+#   *Étude de l'influence du nombre de Reynolds sur lorganisation de la turbulence
+#   de paroi.* PhD thesis, Ecole Centrale de Lille, 2009.
 
 .. [ZHOU1999] Zhou J., Adrian R. J., Balachandar S., and Kendall T. M.
    *Mechanisms for generating coherent packets of hairpin vortices in channel flow.*

@@ -9,13 +9,16 @@
     <title>tools.py &#8212; VortexFitting 1 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contributors" href="../contributors.html" />
     <link rel="prev" title="testOseen.py" href="testOseen.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
@@ -32,6 +35,9 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="../contributors.html" title="Contributors"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
           <a href="testOseen.html" title="testOseen.py"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 1 documentation</a> &#187;</li>
@@ -40,7 +46,7 @@
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h3><a href="../index.html">Table Of Contents</a></h3>
+<h3><a href="../index.html">Table of Contents</a></h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
@@ -57,6 +63,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">tools.py</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
 </ul>
 
 <div id="searchbox" style="display: none" role="search">
@@ -84,8 +91,19 @@
 <dl class="function">
 <dt id="tools.direction_rotation">
 <code class="descclassname">tools.</code><code class="descname">direction_rotation</code><span class="sig-paren">(</span><em>vorticity</em>, <em>peaks</em><span class="sig-paren">)</span><a class="headerlink" href="#tools.direction_rotation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identify the direction of the vortices rotation
-using the vorticity.</p>
+<dd><p>Identify the direction of the vortices rotation using the vorticity.
+:param vorticity: 2D array with the computed vorticity
+:param peaks: list of the detected peaks</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An array containing the direction of rotation for each vortex</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -102,11 +120,11 @@ as a square box.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> – The 2D array of the image/data.</li>
-<li><strong>threshold</strong> – The data value or pixel-wise data values to be used for the
+<li><strong>data</strong> (<em>2D array of float</em>) – The 2D array of the image/data.</li>
+<li><strong>threshold</strong> (<em>float</em>) – The data value or pixel-wise data values to be used for the
 detection threshold.  A 2D “threshold” must have the same
 shape as “data”.</li>
-<li><strong>box_size</strong> – The size of the local region to search for peaks at every point</li>
+<li><strong>box_size</strong> (<em>int</em>) – The size of the local region to search for peaks at every point</li>
 </ul>
 </td>
 </tr>
@@ -123,7 +141,20 @@ shape as “data”.</li>
 <dl class="function">
 <dt id="tools.get_fluc">
 <code class="descclassname">tools.</code><code class="descname">get_fluc</code><span class="sig-paren">(</span><em>x</em>, <em>mean</em>, <em>hom_axis</em><span class="sig-paren">)</span><a class="headerlink" href="#tools.get_fluc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Used when you have a convective vnnelocity along one axis</p>
+<dd><p>Used when you have a advective velocity along one axis</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> (<em>2D array of float</em>) – velocity field</li>
+<li><strong>mean</strong> (<em>float</em>) – advective velocity to subtract</li>
+<li><strong>hom_axis</strong> (<em>str</em>) – False, ‘x’, or ‘y’. The axis which the mean is subtracted</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -134,8 +165,31 @@ shape as “data”.</li>
 
 <dl class="function">
 <dt id="tools.window">
-<code class="descclassname">tools.</code><code class="descname">window</code><span class="sig-paren">(</span><em>a</em>, <em>x_center_index</em>, <em>y_center_index</em>, <em>dist</em><span class="sig-paren">)</span><a class="headerlink" href="#tools.window" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">tools.</code><code class="descname">window</code><span class="sig-paren">(</span><em>vfield</em>, <em>x_center_index</em>, <em>y_center_index</em>, <em>dist</em><span class="sig-paren">)</span><a class="headerlink" href="#tools.window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a window around (x;y) coordinates</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>vfield</strong> (<em>2D array of float</em>) – fullsize velocity field</li>
+<li><strong>x_center_index</strong> (<em>int</em>) – box center index (x)</li>
+<li><strong>y_center_index</strong> (<em>int</em>) – box center index (y)</li>
+<li><strong>dist</strong> – <p>??</p>
+</li>
+<li><strong>dist</strong> – int</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">cropped arrays for x, y, u and v</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">2D arrays of floats</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 
@@ -155,6 +209,9 @@ shape as “data”.</li>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="../contributors.html" title="Contributors"
+             >next</a> |</li>
+        <li class="right" >
           <a href="testOseen.html" title="testOseen.py"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 1 documentation</a> &#187;</li>
@@ -163,7 +220,7 @@ shape as “data”.</li>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
     </div>
   </body>
 </html>
