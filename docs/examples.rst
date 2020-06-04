@@ -139,7 +139,10 @@ For PIV data with Tecplot, we need to update the format, to match Tecplot file.
 
 .. code-block:: bash
    
-   $ python3 vortexfitting.py -i ../data/adim_vel_000010.dat -t 300 -ft piv_tecplot
+   $ python3 vortexfitting.py -i ../data/adim_vel_{:06d}.dat -first 10 -last 10 -t 5 -b 10 -ft piv_tecplot 
+
+.. image:: _images/PIV_accepted_10.svg
+   :width: 40 %
 
 An average field can be subtracted, using *-mf* argument (*mean file*)
 

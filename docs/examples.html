@@ -207,9 +207,10 @@ and to the right we have the convection velocity subtracted.</p>
 <div class="section" id="piv-case-tecplot-file">
 <h2>PIV case - Tecplot file<a class="headerlink" href="#piv-case-tecplot-file" title="Permalink to this headline">¶</a></h2>
 <p>For PIV data with Tecplot, we need to update the format, to match Tecplot file.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -i ../data/adim_vel_000010.dat -t <span class="m">300</span> -ft piv_tecplot
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -i ../data/adim_vel_<span class="o">{</span>:06d<span class="o">}</span>.dat -first <span class="m">10</span> -last <span class="m">10</span> -t <span class="m">5</span> -b <span class="m">10</span> -ft piv_tecplot
 </pre></div>
 </div>
+<a class="reference internal image-reference" href="_images/PIV_accepted_10.svg"><img alt="_images/PIV_accepted_10.svg" src="_images/PIV_accepted_10.svg" width="45%" /></a>
 <p>An average field can be subtracted, using <em>-mf</em> argument (<em>mean file</em>)</p>
 <p>If you want to analyze a set of images, use arguments <em>-first</em>, <em>-last</em> and <em>-step</em>.</p>
 <p>(please modify data input to format the image number: <em>dim_vel_{:06d}.dat</em> with <em>-first 10</em> is formatted as <em>dim_vel_000010.dat</em>).</p>

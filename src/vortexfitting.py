@@ -104,14 +104,19 @@ if __name__ == '__main__':
 
     start = time.time()
 
-        
+    #create file 'vortices.dat' to store output vortices data        
     output.create(args.output_dir) 
 
     #---- LOAD DATA ----#
 
+    if (args.last < args.first):
+        args.last= args.first
+
     for time_step in range(args.first,args.last+1,args.step):
         
-        print('Opening file: ',args.infilename.format(time_step),args.meanfilename,args.filetype)
+        print('\nOpening file: ',args.infilename.format(time_step), ', file type: ', args.filetype)
+        if (args.meanfilename != '/'):
+            print('Opening mean field: ', args.meanfilename)
         vfield = VelocityField(args.infilename,time_step,args.meanfilename,args.filetype)
         
         # print("Samples:", vfield.samples)

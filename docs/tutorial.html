@@ -207,7 +207,9 @@ following values directly on <em>generatedField.nc</em>:</p>
 <li>v_conv.</li>
 </ul>
 <p>The size of the domain can also be changed on the <em>ndim</em> variable.</p>
-<p>You can use the <em>output</em> option (<em>-o</em>) to specify the name of the created file, and <em>ndim</em> (<em>-ndim</em>) option to change the domain size.</p>
+<p>You can use the <em>output</em> option (<em>-o</em>) to specify the name of the created file,
+and <em>ndim</em> (<em>-ndim</em>) option to change the domain size.
+For example!</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 generateNetCDF.py -o ./data/testGenerate.nc -ndim <span class="m">300</span>
 </pre></div>
 </div>
@@ -216,7 +218,7 @@ following values directly on <em>generatedField.nc</em>:</p>
 <h2>Converting NC to ASCII<a class="headerlink" href="#converting-nc-to-ascii" title="Permalink to this headline">¶</a></h2>
 <p>If for any reason you need to convert the NC file to a text format (ASCII), the
 module <strong>convertToASCII.py</strong> can do the job. It will open the <em>infile</em> and save
-all z planes (or time) into separeted files.</p>
+all z planes (or time) into separated files.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 convertToASCII.py -i input.nc -o output
 </pre></div>
 </div>
