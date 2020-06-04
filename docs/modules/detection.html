@@ -91,21 +91,57 @@
 <p>Different methods for vortex detection</p>
 <dl class="function">
 <dt id="detection.calc_swirling">
-<code class="descclassname">detection.</code><code class="descname">calc_swirling</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="headerlink" href="#detection.calc_swirling" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">detection.</code><code class="descname">calc_swirling</code><span class="sig-paren">(</span><em>vfield</em><span class="sig-paren">)</span><a class="headerlink" href="#detection.calc_swirling" title="Permalink to this definition">¶</a></dt>
 <dd><p>2D Swirling strength</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">swirling</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">2D array of float</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="detection.delta_criterion">
-<code class="descclassname">detection.</code><code class="descname">delta_criterion</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="headerlink" href="#detection.delta_criterion" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">detection.</code><code class="descname">delta_criterion</code><span class="sig-paren">(</span><em>vfield</em><span class="sig-paren">)</span><a class="headerlink" href="#detection.delta_criterion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delta Criterion</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">delta</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">2D array of float</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="detection.q_criterion">
-<code class="descclassname">detection.</code><code class="descname">q_criterion</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="headerlink" href="#detection.q_criterion" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">detection.</code><code class="descname">q_criterion</code><span class="sig-paren">(</span><em>vfield</em><span class="sig-paren">)</span><a class="headerlink" href="#detection.q_criterion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Q Criterion
 vorticity magnitude and mean strain rate</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Q</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">2D array of float</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

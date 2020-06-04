@@ -13,15 +13,24 @@ import tools
 import fitting
 
 def plot_fields(vfield,field):
+    """
+    Plot fields
+
+    :param vfield: contains spatial mesh and velocity components
+    :type vfield: class VelocityField()
+    :param detection_field: detection field (vorticity ...)
+    :type detection_field: 2D array of float
+    :returns: popup
+    :rtype: image
+    """
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2)#, sharex='col', sharey='row')
-    ax1.imshow(vfield.u, cmap='seismic',origin="lower")
+    ax1.imshow(vfield.u_velocity_matrix, cmap='seismic',origin="lower")
     ax1.set_title('Velocity u (velocity_s)')
 
-    ax2.imshow(vfield.v, cmap='seismic',origin="lower")
+    ax2.imshow(vfield.v_velocity_matrix, cmap='seismic',origin="lower")
     ax2.set_title('Velocity v (velocity_n)')
 
-
-    ax3.imshow(vfield.w, cmap='seismic',origin="lower")
+    ax3.imshow(vfield.w_velocity_matrix, cmap='seismic',origin="lower")
     ax3.set_title('Velocity w (velocity_z)')
 
     ax4.set_title('Vorticity')
@@ -31,6 +40,16 @@ def plot_fields(vfield,field):
     plt.show()
 
 def plot_detect(dirL,dirR,field, *args):
+    """
+    Plot detect TODO
+
+    :param vfield: contains spatial mesh and velocity components
+    :type vfield: class VelocityField()
+    :param detection_field: detection field (vorticity ...)
+    :type detection_field: 2D array of float
+    :returns: popup
+    :rtype: image
+    """
     plt.subplot()
     if (args[0] == True):
         field = field.T
@@ -54,6 +73,16 @@ def plot_detect(dirL,dirR,field, *args):
 
 
 def plot_quiver(x_index, y_index, u_data, v_data, field):
+    """
+    Plot fields TODO
+
+    :param vfield: contains spatial mesh and velocity components
+    :type vfield: class VelocityField()
+    :param detection_field: detection field (vorticity ...)
+    :type detection_field: 2D array of float
+    :returns: popup
+    :rtype: image
+    """
     plt.figure()
     #plt.title('Velocity vectors centered at max swirling strength')
     plt.contourf(field,
@@ -63,6 +92,16 @@ def plot_quiver(x_index, y_index, u_data, v_data, field):
     plt.show()
 
 def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, coreR, gamma, u_conv, v_conv, corr,i,j, output_dir,time_step):
+    """
+    Plot fields TODO
+
+    :param vfield: contains spatial mesh and velocity components
+    :type vfield: class VelocityField()
+    :param detection_field: detection field (vorticity ...)
+    :type detection_field: 2D array of float
+    :returns: popup
+    :rtype: image
+    """
     plt.figure()
     s = 1 			#sampling factor
     if (x_index.size > 400):
@@ -86,12 +125,22 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, coreR, 
 
 
 def plot_accepted(vfield,vortices,field,output_dir,time_step):
+    """
+    Plot fields TODO
+
+    :param vfield: contains spatial mesh and velocity components
+    :type vfield: class VelocityField()
+    :param detection_field: detection field (vorticity ...)
+    :type detection_field: 2D array of float
+    :returns: popup
+    :rtype: image
+    """
     plt.figure(1)
-    plt.contourf(vfield.dx,vfield.dy,field,origin='lower', cmap="bone")
+    plt.contourf(vfield.x_coordinate_matrix,vfield.y_coordinate_matrix,field,origin='lower', cmap="bone")
     plt.xlabel('x')
     plt.ylabel('y')
-    dx = vfield.step_dx
-    dy = vfield.step_dy
+    dx = vfield.x_coordinate_step
+    dy = vfield.y_coordinate_step
     plt.figure(2)
     plt.imshow(field, origin='lower', cmap="bone")
     for i,line in enumerate(vortices):
@@ -104,7 +153,7 @@ def plot_accepted(vfield,vortices,field,output_dir,time_step):
                             edgecolor='yellow',facecolor='none',gid='vortex%i' % i) 
         plt.gca().add_artist(circle1)
         plt.figure(2)
-        circle1=plt.Circle((line[2]/dx,line[3]/dy),line[0]/np.sqrt(dx**2+dy**2),
+        circle1=plt.Circle((line[2]/dx,line[3]/dy),line[0]/np.hypot(dx,dy),
                             edgecolor='yellow',facecolor='none',gid='vortex%i' % i) 
         plt.gca().add_artist(circle1)
 
@@ -133,6 +182,16 @@ def plot_accepted(vfield,vortices,field,output_dir,time_step):
     #plt.show()
 
 def plot_vortex(vfield,vortices,output_dir,time_step):
+    """
+    Plot fields TODO
+
+    :param vfield: contains spatial mesh and velocity components
+    :type vfield: class VelocityField()
+    :param detection_field: detection field (vorticity ...)
+    :type detection_field: 2D array of float
+    :returns: popup
+    :rtype: image
+    """
     for i,line in enumerate(vortices):
         print('r: {:.2f}'.format(line[0]), 
               'gamma: {:.2f}'.format(line[1]), 
@@ -141,8 +200,8 @@ def plot_vortex(vfield,vortices,output_dir,time_step):
               'dist: {:.2f}'.format(line[6]), 
               'corr: {:.2f}'.format(line[7]),
               'vt: {:.2f}'.format(line[8]) )
-        dx = vfield.step_dx
-        dy = vfield.step_dy
+        dx = vfield.x_coordinate_step
+        dy = vfield.y_coordinate_step
         x_index, y_index, u_data, v_data = tools.window(vfield,round(line[2]/dx,0),round(line[3]/dy,0),line[6])
         u_model, v_model = fitting.velocity_model(line[0], line[1],line[2], line[3], line[4], line[5], x_index, y_index)
         corr = fitting.correlation_coef(u_data,v_data,u_model,v_model)
@@ -154,6 +213,16 @@ def plot_vortex(vfield,vortices,output_dir,time_step):
 
 
 def create_links(path,vortices,output_dir,time_step):
+    """
+    Plot fields TODO
+
+    :param vfield: contains spatial mesh and velocity components
+    :type vfield: class VelocityField()
+    :param detection_field: detection field (vorticity ...)
+    :type detection_field: 2D array of float
+    :returns: popup
+    :rtype: image
+    """
     fileIn = open(output_dir+"/accepted_{:01d}.svg".format(time_step),"r")
     fileOut = open(output_dir+"/linked_{:01d}.svg".format(time_step),"w")
     i = 0

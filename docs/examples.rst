@@ -152,5 +152,5 @@ If you want to analyze a set of images, use arguments *-first*, *-last* and *-st
 
 .. code-block:: bash
    
-   $ python3 vortexfitting.py -i ../data/dim_vel_{:06d}.dat -mf ../data/mean.dat -t 50 -first 10 -last 10 -ft piv_tecplot
+   $ python3 vortexfitting.py -i ../data/dim_vel_{:06d}.dat -mf ../data/mean.dat -t 50 -first 10 -ft piv_tecplot
 

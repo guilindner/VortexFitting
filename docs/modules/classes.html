@@ -91,7 +91,7 @@
 <p>class</p>
 <dl class="class">
 <dt id="classes.VelocityField">
-<em class="property">class </em><code class="descclassname">classes.</code><code class="descname">VelocityField</code><span class="sig-paren">(</span><em>path='/'</em>, <em>time=0</em>, <em>meanfilepath='/'</em>, <em>filetype='/'</em><span class="sig-paren">)</span><a class="headerlink" href="#classes.VelocityField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">classes.</code><code class="descname">VelocityField</code><span class="sig-paren">(</span><em>file_path='/'</em>, <em>time_step=0</em>, <em>mean_file_path='/'</em>, <em>file_type='/'</em><span class="sig-paren">)</span><a class="headerlink" href="#classes.VelocityField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Data file</p>
 <p>Loads the input file with the NetCFD (.nc) format or a Tecplot format (.dat); 
@@ -101,20 +101,21 @@ initialize the variables.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>path</strong> (<em>str</em>) – file path</li>
-<li><strong>time</strong> (<em>int</em>) – current time step</li>
-<li><strong>meanfilepath</strong> (<em>str</em>) – in case of a mean field subtraction</li>
-<li><strong>filetype</strong> (<em>str</em>) – ‘piv_netcdf’, ‘dns, ‘dns2’, ‘piv_tecplot’</li>
-<li><strong>u</strong> (<em>array of float</em>) – 1st component velocity field</li>
-<li><strong>v</strong> (<em>array of float</em>) – 2nd component velocity field</li>
-<li><strong>w</strong> (<em>array of float</em>) – 3rd component velocity field, optional</li>
-<li><strong>dx</strong> (<em>array of float</em>) – spatial mesh</li>
-<li><strong>dy</strong> (<em>array of float</em>) – spatial mesh</li>
-<li><strong>dz</strong> (<em>array of float</em>) – spatial mesh, optional</li>
-<li><strong>norm</strong> (<em>boolean</em>) – for normalization of the swirling field</li>
-<li><strong>normdir</strong> (<em>str</em>) – False, ‘x’ or ‘y’</li>
-<li><strong>step_dx</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</li>
-<li><strong>step_dy</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</li>
+<li><strong>file_path</strong> (<em>str</em>) – file path</li>
+<li><strong>time_step</strong> (<em>int</em>) – current time step</li>
+<li><strong>mean_file_path</strong> (<em>str</em>) – in case of a mean field subtraction</li>
+<li><strong>file_type</strong> (<em>str</em>) – ‘piv_netcdf’, ‘dns, ‘dns2’, ‘piv_tecplot’</li>
+<li><strong>x_coordinate_matrix</strong> (<em>array of float</em>) – spatial mesh</li>
+<li><strong>y_coordinate_matrix</strong> (<em>array of float</em>) – spatial mesh</li>
+<li><strong>z_coordinate_matrix</strong> (<em>array of float</em>) – spatial mesh, optional</li>
+<li><strong>u_velocity_matrix</strong> (<em>array of float</em>) – 1st component velocity field</li>
+<li><strong>v_velocity_matrix</strong> (<em>array of float</em>) – 2nd component velocity field</li>
+<li><strong>w_velocity_matrix</strong> (<em>array of float</em>) – 3rd component velocity field, optional</li>
+<li><strong>normalization_flag</strong> (<em>boolean</em>) – for normalization of the swirling field</li>
+<li><strong>normalization_direction</strong> (<em>str</em>) – False, ‘x’ or ‘y’</li>
+<li><strong>x_coordinate_step</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</li>
+<li><strong>y_coordinate_step</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</li>
+<li><strong>z_coordinate_step</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</li>
 <li><strong>derivative</strong> (<em>array of float</em>) – </li>
 </ul>
 </td>

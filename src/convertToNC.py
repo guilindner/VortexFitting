@@ -51,9 +51,9 @@ grid_x = grp1.createVariable('grid_x', 'f4', 'resolution_x')
 grid_y = grp1.createVariable('grid_y', 'f4', 'resolution_y')
 
 # data
-#velocity_x[:] = np.random.random((1,ndimy,ndimx))/1
-#velocity_y[:] = np.random.random((1,ndimy,ndimx))/1
-#velocity_z[:] = np.random.random((1,ndimy,ndimx))/1
+# velocity_x[:] = np.random.random((1,ndimy,ndimx))/1
+# velocity_y[:] = np.random.random((1,ndimy,ndimx))/1
+# velocity_z[:] = np.random.random((1,ndimy,ndimx))/1
 
 # grid
 x = np.linspace(0, ndimy, ndimx)
