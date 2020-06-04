@@ -87,27 +87,25 @@ class VelocityField():
             self.dy = self.dy - self.dy[0] #it does not start at 0
             self.u = self.u - np.mean(self.u, 1)[:, None]
             self.v = self.v - np.mean(self.v, 1)[:, None]
-            self.w = self.w - np.mean(self.w, 1)[:, None]
+            self.w = self.w - np.mean(self.w, 1)[:, None]         
             self.norm = True
             self.normdir = 'y'
-            self.samples = self.u.shape[1]
             grp1.close()
 
         if filetype == 'dns':
-        #DNS DATA
+        #DNS DATA, netCDF format
             grp1 = Dataset(self.path, 'r')
             self.u = np.array(grp1.variables['velocity_x'][time, :, :])
             self.v = np.array(grp1.variables['velocity_y'][time, :, :])
             self.w = np.array(grp1.variables['velocity_z'][time, :, :])
-            self.samples = self.u.shape[1]
-            self.dx = np.linspace(0, self.samples, self.samples)
-            self.dy = np.linspace(0, self.samples, self.samples)
+            self.dx = np.linspace(0, self.u.shape[1], self.u.shape[1])
+            self.dy = np.linspace(0, self.u.shape[0], self.u.shape[0])
             self.norm = False
             self.normdir = False
             grp1.close()
             
         if filetype == 'dns2':
-        # ILKAY DATA FOR DNS
+        # ILKAY DATA FOR DNS, netCDF format
             grp1 = Dataset(self.path, 'r')
             grp2 = Dataset('../data/DNS_example/vel_v_00000000.00400000.nc', 'r')
             grp3 = Dataset('../data/DNS_example/vel_w_00000000.00400000.nc', 'r')
@@ -158,13 +156,12 @@ class VelocityField():
 
             if (self.meanfilepath != '/' ):
                 print("subtracting mean file")
-                grp2=np.loadtxt(meanfilepath,delimiter=" ",dtype=float,skiprows=3) #mean data
-                self.uMean  = np.array(grp2[:,index_u]).reshape(self.sizex,self.sizey)
+                #load and subtract mean data
+                grp2=np.loadtxt(meanfilepath,delimiter=" ",dtype=float,skiprows=3) 
+                self.uMean  = np.array(grp2[:,index_u]).reshape(self.sizex,self.sizey) #umean, vmean en local ?
                 self.vMean  = np.array(grp2[:,index_v]).reshape(self.sizex,self.sizey)
                 self.u = self.u - self.uMean
                 self.v = self.v - self.vMean
-
-            self.samples = self.u.shape[1]
 
             tmp_x  = np.array(grp1[:,index_x]).reshape(self.sizex,self.sizey)
             tmp_y  = np.array(grp1[:,index_y]).reshape(self.sizex,self.sizey)
@@ -199,6 +196,27 @@ class VelocityField():
                            'dwdy': np.zeros_like(self.u),
                            'dwdz': np.zeros_like(self.u)}
 
+
+#format de données
+#dx -> x_coordinate_matrix
+#dy -> y_coordinate_matrix
+#dz -> z_coordinate_matrix
+#u -> u_velocity_matrix
+#v -> v_velocity_matrix
+#w -> w_velocity_matrix
+#norm -> normalization_flag
+#normdir -> normalization_direction
+#path -> file_path
+#time -> time_step
+#meanfilepath -> mean_file_path
+#samples -> ??
+#step_dx -> x_coordinate_step
+#step_dy -> y_coordinate_step
+#	-> z_coordinate_step
+#derivative 
+#sizex -> x_coordinate_size (ou x_coordinate_dimension?)
+#sizey -> y_coordinate_size
+#      -> z_coordinate_size
 
 
 

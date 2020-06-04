@@ -58,7 +58,7 @@ def plot_quiver(x_index, y_index, u_data, v_data, field):
     #plt.title('Velocity vectors centered at max swirling strength')
     plt.contourf(field,
                  extent=[x_index[0][0], x_index[0][-1], y_index[0][0], y_index[-1][0]])
-    s = 1
+    s = 1			#sampling factor
     plt.quiver(x_index[::s,::s],y_index[::s,::s],u_data[::s,::s],v_data[::s,::s])
     plt.show()
 
@@ -66,7 +66,7 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, coreR, 
     plt.figure()
     s = 1 			#sampling factor
     if (x_index.size > 400):
-        s = 1
+        s = 2
     plt.quiver(x_index[::s,::s], y_index[::s,::s], u_data[::s,::s],v_data[::s,::s],
                color='r',label='data')
     plt.quiver(x_index[::s,::s], y_index[::s,::s], u_model[::s,::s], v_model[::s,::s],
@@ -76,7 +76,8 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, coreR, 
     plt.gca().scatter([xc], [yc], marker='+', color='k', s=100)
     plt.legend()
     plt.grid()
-    plt.axes().set_aspect('equal')
+    plt.gca().set_aspect('equal', adjustable='box')
+#    plt.axes().set_aspect('equal') #deprecated
     plt.xlabel('x')
     plt.ylabel('y')
     plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' %(round(coreR,2),round(gamma,2),round(u_conv,2),round(v_conv,2),round(corr,2)))
@@ -85,23 +86,27 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, coreR, 
 
 
 def plot_accepted(vfield,vortices,field,output_dir,time_step):
-    plt.subplot()
-    print(field.shape)
+    plt.figure(1)
     plt.contourf(vfield.dx,vfield.dy,field,origin='lower', cmap="bone")
-#    plt.imshow(field, origin='lower', cmap="bone")
     plt.xlabel('x')
     plt.ylabel('y')
     dx = vfield.step_dx
     dy = vfield.step_dy
+    plt.figure(2)
+    plt.imshow(field, origin='lower', cmap="bone")
     for i,line in enumerate(vortices):
         if vortices[i][1] > 0:
             orient = 'Y'
         else:
             orient = 'Y'
+        plt.figure(1)
         circle1=plt.Circle((line[2],line[3]),line[0],
                             edgecolor='yellow',facecolor='none',gid='vortex%i' % i) 
         plt.gca().add_artist(circle1)
-        print(line[2],line[3],line[0])
+        plt.figure(2)
+        circle1=plt.Circle((line[2]/dx,line[3]/dy),line[0]/np.sqrt(dx**2+dy**2),
+                            edgecolor='yellow',facecolor='none',gid='vortex%i' % i) 
+        plt.gca().add_artist(circle1)
 
     ##Comparing data
     #fileIn = open('../data/dazin.dat', 'r')
@@ -118,17 +123,24 @@ def plot_accepted(vfield,vortices,field,output_dir,time_step):
         #plt.gca().add_artist(circle2)
 
     #plt.legend()
+    plt.figure(1)
     plt.tight_layout()
     plt.savefig(output_dir+'/accepted_{:01d}.svg'.format(time_step), format='svg')
-    plt.contourf(field,origin='lower', cmap="bone")
-    #plt.savefig(output_dir+'/meshed_{:01d}.svg'.format(time_step), format='svg') #use it to verify your coordinate system if needed !
+    plt.figure(2)
+    plt.savefig(output_dir+'/meshed_{:01d}.svg'.format(time_step), format='svg') #use it to verify your coordinate system if needed !
     #plt.savefig(output_dir+'/tk_{:01d}.png'.format(time_step), format='png', transparent=True)
     #create_links(output_dir+'/accepted_{:01d}.svg'.format(time_step),vortices,output_dir,time_step)
     #plt.show()
 
 def plot_vortex(vfield,vortices,output_dir,time_step):
     for i,line in enumerate(vortices):
-        print('r:',line[0],'gamma:',line[1], 'x:',line[2],'y',line[3],'dist',line[6],'corr',line[7],'Vt',line[8])
+        print('r: {:.2f}'.format(line[0]), 
+              'gamma: {:.2f}'.format(line[1]), 
+              'x: {:.2f}'.format(line[2]), 
+              'y: {:.2f}'.format(line[3]),
+              'dist: {:.2f}'.format(line[6]), 
+              'corr: {:.2f}'.format(line[7]),
+              'vt: {:.2f}'.format(line[8]) )
         dx = vfield.step_dx
         dy = vfield.step_dy
         x_index, y_index, u_data, v_data = tools.window(vfield,round(line[2]/dx,0),round(line[3]/dy,0),line[6])

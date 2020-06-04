@@ -145,12 +145,20 @@ following values directly on *generatedField.nc*:
 
 The size of the domain can also be changed on the *ndim* variable.
 
+You can use the *output* option (*-o*) to specify the name of the created file, 
+and *ndim* (*-ndim*) option to change the domain size.
+For example!
+
+.. code-block:: bash
+
+   $ python3 generateNetCDF.py -o ./data/testGenerate.nc -ndim 300
+
 Converting NC to ASCII
 ----------------------
 
 If for any reason you need to convert the NC file to a text format (ASCII), the
 module **convertToASCII.py** can do the job. It will open the *infile* and save
-all z planes (or time) into separeted files.
+all z planes (or time) into separated files.
 
 .. code-block:: bash
 

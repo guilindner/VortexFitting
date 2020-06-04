@@ -93,7 +93,7 @@ if __name__ == '__main__':
                         default='dns', help='Type of the file (default: dns)')
 
     parser.add_argument('-ct', '--corrthreshold', dest='corr_threshold',
-                        default=0.75, help='Correlation threshold (default: 0.55).' 
+                        default=0.75, help='Correlation threshold (default: 0.75).' 
 					     'if the vortex is too big, its better to decrease this value')
 
 #    parser.add_argument('-v', '--verbose', dest='verbose',
@@ -111,10 +111,10 @@ if __name__ == '__main__':
 
     for time_step in range(args.first,args.last+1,args.step):
         
-        print("Opening file:",args.infilename.format(time_step),args.meanfilename,args.filetype)
+        print('Opening file: ',args.infilename.format(time_step),args.meanfilename,args.filetype)
         vfield = VelocityField(args.infilename,time_step,args.meanfilename,args.filetype)
         
-        print("Samples:", vfield.samples)
+        # print("Samples:", vfield.samples)
     
         #---- DIFFERENCE APPROXIMATION ----#
         lap = time.time()
@@ -147,11 +147,11 @@ if __name__ == '__main__':
             swirling = tools.normalize(swirling,vfield.normdir) #normalization
     
         #---- PEAK DETECTION ----#
-        print("threshold=",args.threshold,"box size=",args.boxsize)
+        print('Threshold=',args.threshold,', box size=',args.boxsize)
     
         peaks = tools.find_peaks(swirling, args.threshold, args.boxsize)
     
-        print("Vortices found:",len(peaks[0]))
+        print('Vortices found: ',len(peaks[0]))
         #---- PEAKS DIRECTION OF ROTATION ----#
         dirL, dirR = tools.direction_rotation(vorticity,peaks)
     
@@ -162,7 +162,7 @@ if __name__ == '__main__':
             print('---- Accepted vortices ----')
             print(len(vortices))
         else:
-            print("No fitting")
+            print('No fitting')
     
         #---- PLOTTING OPTIONS ----#
         if args.xy != [0,0]:

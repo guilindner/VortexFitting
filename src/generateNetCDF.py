@@ -1,18 +1,34 @@
 #!/usr/bin/env/ python
 """
 Generate a netCDF file with a vortex field.
+
 """
 
+import argparse
 from netCDF4 import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
-
 import fitting
 
-grp1 = Dataset('../data/generatedField.nc', 'w', format='NETCDF4')
-grp1.description = 'Sample field with an oseen vortex'
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='generate a vortex field in a netCDF file',
+                                     formatter_class=argparse.RawTextHelpFormatter)
 
-ndim = 256 # spacing
+    parser.add_argument('-o', '--output', dest='outfile',
+                        help='output NetCDF file', metavar='FILE', default='../data/generatedField.nc')
+
+    parser.add_argument('-ndim', '--ndim', dest='ndim', type=int,
+                        help='spatial mesh dimension, for each x and y variables', default=256)
+
+
+    args = parser.parse_args()
+
+print("Generating {:s} file with a {:d}x{:d} mesh".format(args.outfile,args.ndim,args.ndim))
+
+grp1 = Dataset(args.outfile, 'w', format='NETCDF4')
+grp1.description = 'Sample field with an Oseen vortex'
+
+ndim = args.ndim # spacing
 
 # dimensions
 grp1.createDimension('resolution_x', ndim)
@@ -61,7 +77,7 @@ v_data = v_data + v_conv
 #vely = velocity_y[0]
 velocity_x[0,:,:] += u_data[:,:]
 velocity_y[0,:,:] += v_data[:,:]
-s = 4
+s = 4 #sampling factor for quiver plot
 #velx = np.einsum('ij->ji', velx)
 #vely = np.einsum('ij->ji', vely)
 plt.quiver(xx[::s,::s],yy[::s,::s],velocity_x[0,::s,::s],velocity_y[0,::s,::s])

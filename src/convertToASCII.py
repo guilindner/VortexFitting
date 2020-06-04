@@ -19,17 +19,20 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    grp1 = Dataset(args.infile, 'r')
+grp1 = Dataset(args.infile, 'r')
 
-    u = np.array(grp1.variables['velocity_x'][:, :, :])
-    v = np.array(grp1.variables['velocity_y'][:, :, :])
-    w = np.array(grp1.variables['velocity_z'][:, :, :])
-    for k in range(len(u)):
-        outfile = open(args.outfile, 'w')
-        outfile.write('x y u v \n')
-        for i in range(u[0, 0].size):
-            for j in range(v[0, 0].size):
-                outfile.write(str(i)+' '+str(j)+' '+str(u[k, j, i])+' '+str(v[k, j, i])+'\n')
+u = np.array(grp1.variables['velocity_x'][:, :, :])
+v = np.array(grp1.variables['velocity_y'][:, :, :])
+w = np.array(grp1.variables['velocity_z'][:, :, :])
+
+print("Converting {:s} file to {:s} file".format(args.infile,args.outfile))
+
+for k in range(len(u)):
+    outfile = open(args.outfile, 'w')
+    outfile.write('x y u v \n')
+    for i in range(u[0, 0].size):
+        for j in range(v[0, 0].size):
+            outfile.write(str(i)+' '+str(j)+' '+str(u[k, j, i])+' '+str(v[k, j, i])+'\n')
 
     ###this routine reads the ascii file in top of the netCDF file
     ###used to see if the exported ascii is equal to the original file

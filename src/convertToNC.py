@@ -2,6 +2,7 @@
 """
 Convert ASCII files to NetCDF4 (plain text)
 """
+
 from netCDF4 import Dataset
 import argparse
 import numpy as np
@@ -16,14 +17,20 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--output', dest='outfile',
                         help='output NetCDF file', metavar='FILE')
 
+    parser.add_argument('-nx', '--nx', dest='ndimx',
+                        help='spatial mesh dimension, for the x variable', default=159)
+
+    parser.add_argument('-ny', '--ny', dest='ndimy',
+                        help='spatial mesh dimension, for the y variable', default=134)
+
     args = parser.parse_args()
 
 
 grp1 = Dataset(args.outfile, 'w', format='NETCDF4')
 grp1.description = 'Experiments conducted at Rouen ...'
 
-ndimx = 159 # spacing
-ndimy = 134 # spacing
+ndimx = args.ndimx # spacing
+ndimy = args.ndimy # spacing
 
 # dimensions
 grp1.createDimension('resolution_x', ndimx)
@@ -51,6 +58,8 @@ grid_y = grp1.createVariable('grid_y', 'f4', 'resolution_y')
 # grid
 x = np.linspace(0, ndimy, ndimx)
 y = np.linspace(0, ndimy, ndimx)
+
+print("Converting {:s} file to {:s} file".format(args.infile,args.outfile))
 
 infile = open(args.infile, 'r')
 line=infile.readline()

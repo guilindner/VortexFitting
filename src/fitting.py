@@ -1,7 +1,8 @@
 import numpy as np
-from scipy.signal import correlate2d
 from scipy import optimize
-from scipy.stats import pearsonr
+# unused ?
+# from scipy.stats import pearsonr
+# from scipy.signal import correlate2d
 
 import tools
 import plot
@@ -95,7 +96,7 @@ def get_vortices(vfield, peaks, vorticity,rmax,corr_tresh):
 		vortices_parameters[4], vortices_parameters[5], x_index, y_index)
             corr = correlation_coef(u_data-vortices_parameters[4], v_data-vortices_parameters[5], u_model-vortices_parameters[4], v_model-vortices_parameters[5])
         if corr > corr_tresh: 
-            print("Accepted! corr = {:1.2f} (vortex {:2d})".format(corr, cpt_accepted) )
+            print("Accepted! Correlation = {:1.2f} (vortex #{:2d})".format(corr, cpt_accepted) )
             velT = (vortices_parameters[1]/(2 * np.pi * vortices_parameters[0])) * (1 - np.exp(-1)) #compute the tangential velocity at critical radius
             vortices.append([vortices_parameters[0], vortices_parameters[1], vortices_parameters[2], vortices_parameters[3], vortices_parameters[4], 
 		vortices_parameters[5], vortices_parameters[6], corr, velT])
@@ -177,7 +178,7 @@ def fit(coreR, gamma, x, y, x_real, y_real, u_data, v_data, u_conv, v_conv, i):
     :returns: sol.x
     :rtype: float
     """
-    #print(coreR, gamma, x, y, x_real, y_real, u_data, v_data, u_conv, v_conv, i)
+
     x = x.ravel()
     y = y.ravel()
     u_data = u_data.ravel()
