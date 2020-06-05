@@ -5,7 +5,7 @@ Convert NetCDF4 files to ASCII (plain text)
 
 import argparse
 import numpy as np
-from netCDF4 import Dataset
+import netCDF4
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='convert file from netCDF to ASCII format',
@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-grp1 = Dataset(args.infile, 'r')
+grp1 = netCDF4.Dataset(args.infile, 'r')
 
 u = np.array(grp1.variables['velocity_x'][:, :, :])
 v = np.array(grp1.variables['velocity_y'][:, :, :])

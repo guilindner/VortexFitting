@@ -32,16 +32,17 @@ def normalize(x, hom_axis):
     Normalize with swirling strength
     """
     if hom_axis is None:
-        x = x/np.sqrt(np.mean(x**2))
+        x = x / np.sqrt(np.mean(x ** 2))
     elif hom_axis == 'x':
-        x = x/np.sqrt(np.mean(x**2, axis=1))
+        x = x / np.sqrt(np.mean(x ** 2, axis=1))
     elif hom_axis == 'y':
-        x = x/np.sqrt(np.mean(x**2, axis=0))
+        x = x / np.sqrt(np.mean(x ** 2, axis=0))
     else:
-        sys.exit("Invalid homogenity axis.")
+        sys.exit('Invalid homogenity axis.')
     return x
 
-def window(vfield,x_center_index,y_center_index,dist):
+
+def window(vfield, x_center_index, y_center_index, dist):
     """
     Defines a window around (x; y) coordinates
 
@@ -57,27 +58,29 @@ def window(vfield,x_center_index,y_center_index,dist):
     :rtype: 2D arrays of floats
 
     """
-    if x_center_index-dist > 0:
-        x1 = x_center_index -dist
+    if x_center_index - dist > 0:
+        x1 = x_center_index - dist
     else:
         x1 = 0
-    if y_center_index-dist > 0:
-        y1 = y_center_index -dist
+    if y_center_index - dist > 0:
+        y1 = y_center_index - dist
     else:
         y1 = 0
-    if x_center_index+dist <= vfield.u_velocity_matrix.shape[1]:
-        x2 = x_center_index+dist
+    if x_center_index + dist <= vfield.u_velocity_matrix.shape[1]:
+        x2 = x_center_index + dist
     else:
         x2 = vfield.u_velocity_matrix.shape[1]
-    if y_center_index+dist <= vfield.v_velocity_matrix.shape[0]:
-        y2 = y_center_index+dist
+    if y_center_index + dist <= vfield.v_velocity_matrix.shape[0]:
+        y2 = y_center_index + dist
     else:
         y2 = vfield.v_velocity_matrix.shape[0]
     x_index, y_index = np.meshgrid(vfield.x_coordinate_matrix[int(x1):int(x2)],
-                                   vfield.y_coordinate_matrix[int(y1):int(y2)],indexing='xy')
-    u_data = vfield.u_velocity_matrix[int(y1):int(y2),int(x1):int(x2)]
-    v_data = vfield.v_velocity_matrix[int(y1):int(y2),int(x1):int(x2)]
+                                   vfield.y_coordinate_matrix[int(y1):int(y2)],
+                                   indexing='xy')
+    u_data = vfield.u_velocity_matrix[int(y1):int(y2), int(x1):int(x2)]
+    v_data = vfield.v_velocity_matrix[int(y1):int(y2), int(x1):int(x2)]
     return x_index, y_index, u_data, v_data
+
 
 def find_peaks(data, threshold, box_size):
     """
@@ -106,9 +109,9 @@ def find_peaks(data, threshold, box_size):
         return []
 
     data_max = ndimage.maximum_filter(data, size=box_size,
-                                          mode='constant', cval=0.0)
+                                      mode='constant', cval=0.0)
 
-    peak_goodmask = (data == data_max)    # good pixels are True
+    peak_goodmask = (data == data_max)  # good pixels are True
 
     peak_goodmask = np.logical_and(peak_goodmask, (data > threshold))
     y_peaks, x_peaks = peak_goodmask.nonzero()
@@ -116,30 +119,30 @@ def find_peaks(data, threshold, box_size):
     peaks = (y_peaks, x_peaks, peak_values)
     return peaks
 
-def direction_rotation(vorticity,peaks):
+
+def direction_rotation(vorticity, peaks):
     """ Identify the direction of the vortices rotation using the vorticity.
     :param vorticity: 2D array with the computed vorticity
     :param peaks: list of the detected peaks
 
-    :returns: An array containing the direction of rotation for each vortex
+    :returns: vortices_clockwise, vortices_counterclockwise, arrays containing the direction of rotation for each vortex
     :rtype: list
     """
 
-    dirR = []
-    dirR_x, dirR_y, dirR_i = [],[],[]
-    dirL = []
-    dirL_x, dirL_y, dirL_i = [],[],[]
+    vortices_clockwise_x, vortices_clockwise_y, vortices_clockwise_cpt = [], [], []
+    vortices_counterclockwise_x, vortices_counterclockwise_y, vortices_counterclockwise_cpt = [], [], []
     for i in range(len(peaks[0])):
-        if vorticity[peaks[0][i],peaks[1][i]] > 0.0:
-            dirR_x.append(peaks[0][i])
-            dirR_y.append(peaks[1][i])
-            dirR_i.append(peaks[2][i])
+        if vorticity[peaks[0][i], peaks[1][i]] > 0.0:
+            vortices_clockwise_x.append(peaks[0][i])
+            vortices_clockwise_y.append(peaks[1][i])
+            vortices_clockwise_cpt.append(peaks[2][i])
         else:
-            dirL_x.append(peaks[0][i])
-            dirL_y.append(peaks[1][i])
-            dirL_i.append(peaks[2][i])
-    dirR = (dirR_x, dirR_y, dirR_i)
-    dirL = (dirL_x, dirL_y, dirL_i)
-    dirR = np.asarray(dirR)
-    dirL = np.asarray(dirL)
-    return dirR, dirL
+            vortices_counterclockwise_x.append(peaks[0][i])
+            vortices_counterclockwise_y.append(peaks[1][i])
+            vortices_counterclockwise_cpt.append(peaks[2][i])
+    vortices_clockwise = (vortices_clockwise_x, vortices_clockwise_y, vortices_clockwise_cpt)
+    vortices_counterclockwise = (vortices_counterclockwise_x, vortices_counterclockwise_y,
+                                 vortices_counterclockwise_cpt)
+    vortices_clockwise = np.asarray(vortices_clockwise)
+    vortices_counterclockwise = np.asarray(vortices_counterclockwise)
+    return vortices_clockwise, vortices_counterclockwise

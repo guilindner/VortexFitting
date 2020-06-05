@@ -3,12 +3,9 @@
 This program load NetCDF files from DNS simulations  or PIV experiments
 and detect the vortices and apply a fitting to them.
 """
-import sys
+
 import argparse
-import time
 import numpy as np
-import scipy
-from scipy import optimize
 
 import tools
 import fitting

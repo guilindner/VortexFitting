@@ -153,7 +153,7 @@ if __name__ == '__main__':
     
         print('Vortices found: ',len(peaks[0]))
         #---- PEAKS DIRECTION OF ROTATION ----#
-        dirL, dirR = tools.direction_rotation(vorticity,peaks)
+        vortices_counterclockwise, vortices_clockwise = tools.direction_rotation(vorticity,peaks)
     
         #---- MODEL FITTING ----#
         vortices = list()
@@ -166,13 +166,13 @@ if __name__ == '__main__':
     
         #---- PLOTTING OPTIONS ----#
         if args.xy_location != [0,0]:
-            x = int(args.xy_location[0])
-            y = int(args.xy_location[1])
-            swirlingw = swirling[y-10:y+10,x-10:x+10]
-            x_index, y_index, u_data, v_data = tools.window(vfield,x,y,10)
+            x_location = int(args.xy_location[0])
+            y_location = int(args.xy_location[1])
+            swirlingw = swirling[y_location-10:y_location+10,x_location-10:x_location+10]
+            x_index, y_index, u_data, v_data = tools.window(vfield,x_location,y_location,10)
             plot.plot_quiver(x_index, y_index, u_data, v_data, swirlingw)
         if args.plot_method == 'detect':
-            plot.plot_detect(dirL,dirR,swirling,args.flip_axis)
+            plot.plot_detect(vortices_counterclockwise,vortices_clockwise,swirling,args.flip_axis)
         if args.plot_method == 'fields':
             plot.plot_fields(vfield,vorticity)
         if args.plot_method == 'fit':

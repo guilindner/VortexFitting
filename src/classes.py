@@ -4,10 +4,7 @@ import numpy as np
 import netCDF4
 
 
-# from netCDF4 import Dataset
-# import re
-
-class VelocityField():
+class VelocityField:
     """
     Data file
 
@@ -20,7 +17,7 @@ class VelocityField():
     :type  time_step: int
     :param mean_file_path: in case of a mean field subtraction
     :type  mean_file_path: str
-    :param file_type: 'piv_netcdf', 'dns, 'dns2', 'piv_tecplot'
+    :param file_type: 'piv_netcdf', 'dns, 'dns2', 'piv_tecplot', 'openfoam'
     :type  file_type: str
     :param x_coordinate_matrix: spatial mesh
     :type  x_coordinate_matrix: array of float
@@ -163,7 +160,7 @@ class VelocityField():
             for i in range(1, dx_tmp.shape[0]):
                 if dx_tmp[i] == dx_tmp[0]:
                     self.y_coordinate_size = i
-                    break;
+                    break
             self.x_coordinate_size = np.int(dx_tmp.shape[0] / self.y_coordinate_size);  # domain size
             self.z_coordinate_size = 1
 
@@ -182,14 +179,14 @@ class VelocityField():
                 # load and subtract mean data
                 datafile_mean_read = np.loadtxt(mean_file_path, delimiter=" ", dtype=float, skiprows=3)
                 u_velocity_matrix_mean = np.array(datafile_mean_read[:, index_u]).reshape(self.x_coordinate_size,
-                                                                                         self.y_coordinate_size)
+                                                                                          self.y_coordinate_size)
                 v_velocity_matrix_mean = np.array(datafile_mean_read[:, index_v]).reshape(self.x_coordinate_size,
-                                                                                         self.y_coordinate_size)
+                                                                                          self.y_coordinate_size)
                 self.u_velocity_matrix = self.u_velocity_matrix - u_velocity_matrix_mean
                 self.v_velocity_matrix = self.v_velocity_matrix - v_velocity_matrix_mean
                 if self.w_velocity_matrix is not None:
                     w_velocity_matrix_mean = np.array(datafile_mean_read[:, index_w]).reshape(self.x_coordinate_size,
-                                                                                             self.y_coordinate_size)
+                                                                                              self.y_coordinate_size)
                     self.w_velocity_matrix = self.w_velocity_matrix - w_velocity_matrix_mean
 
             tmp_x = np.array(datafile_read[:, index_x]).reshape(self.x_coordinate_size, self.y_coordinate_size)
@@ -203,8 +200,41 @@ class VelocityField():
                 print('No z component')
 
             self.normalization_flag = False
-            self.normalization_direction = 'x'
+            self.normalization_direction = None
 
+        if file_type == 'openfoam':
+            index_x, index_y, index_z, index_u, index_v, index_w = 0, 1, 2, 3, 4, 5
+            datafile_read = np.loadtxt(self.file_path, delimiter=" ", dtype=float,
+                                       skiprows=2)  # skip header, default is 2 lines
+            dx_tmp = np.array(datafile_read[:, 0])
+            for i in range(1, dx_tmp.shape[0]):
+                if dx_tmp[i] == dx_tmp[0]:
+                    self.y_coordinate_size = i
+                    break;
+            self.x_coordinate_size = np.int(dx_tmp.shape[0] / self.y_coordinate_size);  # domain size
+            self.z_coordinate_size = 1
+
+            self.u_velocity_matrix = np.array(datafile_read[:, index_u]).reshape(self.x_coordinate_size,
+                                                                                 self.y_coordinate_size)
+            self.v_velocity_matrix = np.array(datafile_read[:, index_v]).reshape(self.x_coordinate_size,
+                                                                                 self.y_coordinate_size)
+            try:
+                self.w_velocity_matrix = np.array(datafile_read[:, index_w]).reshape(self.x_coordinate_size,
+                                                                                     self.y_coordinate_size)
+            except:
+                print('No w velocity matrix')
+            tmp_x = np.array(datafile_read[:, index_x]).reshape(self.x_coordinate_size, self.y_coordinate_size)
+            tmp_y = np.array(datafile_read[:, index_y]).reshape(self.x_coordinate_size, self.y_coordinate_size)
+            self.x_coordinate_matrix = np.linspace(0, np.max(tmp_x) - np.min(tmp_x), self.u_velocity_matrix.shape[1])
+            self.y_coordinate_matrix = np.linspace(0, np.max(tmp_y) - np.min(tmp_y), self.u_velocity_matrix.shape[0])
+            try:
+                tmp_z = np.array(datafile_read[:, index_z]).reshape(self.x_coordinate_size, self.y_coordinate_size)
+                self.z_coordinate_matrix = tmp_z[0, 0]
+            except:
+                print('No z component')
+
+            self.normalization_flag = False
+            self.normalization_direction = None
 
         if file_type == 'test':
             self.x_coordinate_size, self.y_coordinate_size, self.z_coordinate_size = 100, 100, 1
@@ -234,28 +264,3 @@ class VelocityField():
                            'dwdx': np.zeros_like(self.u_velocity_matrix),
                            'dwdy': np.zeros_like(self.u_velocity_matrix),
                            'dwdz': np.zeros_like(self.u_velocity_matrix)}
-
-# format de données
-# dx -> x_coordinate_matrix
-# dy -> y_coordinate_matrix
-# dz -> z_coordinate_matrix
-# u -> u_velocity_matrix
-# v -> v_velocity_matrix
-# w -> w_velocity_matrix
-# norm -> normalization_flag
-# normdir -> normalization_direction
-# path -> file_path
-# time -> time_step
-# meanfilepath -> mean_file_path
-# samples -> supprimée
-# step_dx -> x_coordinate_step
-# step_dy -> y_coordinate_step
-#	-> z_coordinate_step
-# derivative  -> idem
-# sizex -> x_coordinate_size (ou x_coordinate_dimension?)
-# sizey -> y_coordinate_size
-#      -> z_coordinate_size
-# grp1 -> datafile_read
-
-
-# check z coordinate et w values
