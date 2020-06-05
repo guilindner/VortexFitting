@@ -43,7 +43,7 @@ def normalize(x, hom_axis):
 
 def window(vfield,x_center_index,y_center_index,dist):
     """
-    Defines a window around (x;y) coordinates
+    Defines a window around (x; y) coordinates
 
     :param vfield: fullsize velocity field
     :type vfield: 2D array of float
@@ -57,24 +57,24 @@ def window(vfield,x_center_index,y_center_index,dist):
     :rtype: 2D arrays of floats
 
     """
-    if (x_center_index-dist > 0):
+    if x_center_index-dist > 0:
         x1 = x_center_index -dist
     else:
         x1 = 0
-    if (y_center_index-dist > 0):
+    if y_center_index-dist > 0:
         y1 = y_center_index -dist
     else:
         y1 = 0
-    if (x_center_index+dist <= vfield.u_velocity_matrix.shape[1]):
+    if x_center_index+dist <= vfield.u_velocity_matrix.shape[1]:
         x2 = x_center_index+dist
     else:
-        x2 = vfield.u_velocity_matrix.shape[0]
-    if (y_center_index+dist <= vfield.v_velocity_matrix.shape[0]):
+        x2 = vfield.u_velocity_matrix.shape[1]
+    if y_center_index+dist <= vfield.v_velocity_matrix.shape[0]:
         y2 = y_center_index+dist
     else:
         y2 = vfield.v_velocity_matrix.shape[0]
     x_index, y_index = np.meshgrid(vfield.x_coordinate_matrix[int(x1):int(x2)],
-                       vfield.y_coordinate_matrix[int(y1):int(y2)],indexing='xy')
+                                   vfield.y_coordinate_matrix[int(y1):int(y2)],indexing='xy')
     u_data = vfield.u_velocity_matrix[int(y1):int(y2),int(x1):int(x2)]
     v_data = vfield.v_velocity_matrix[int(y1):int(y2),int(x1):int(x2)]
     return x_index, y_index, u_data, v_data

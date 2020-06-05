@@ -19,7 +19,7 @@ def correlation_coef(u_data, v_data, u, v):
     :type v_data: float
     :type u: float
     :type v: float
-    :returns: corr
+    :returns: correlation
     :rtype: float
     """
     u_data = u_data.ravel()
@@ -30,9 +30,9 @@ def correlation_coef(u_data, v_data, u, v):
     prod_piv_mod = np.mean(u_data * u + v_data * v)
     prod_piv = np.mean(u * u + v * v)
     prod_mod = np.mean(u_data * u_data + v_data * v_data)
-    corr = prod_piv_mod / (max(prod_piv, prod_mod))
+    correlation = prod_piv_mod / (max(prod_piv, prod_mod))
 
-    return corr
+    return correlation
 
 
 def velocity_model(core_radius, gamma, x_real, y_real, u_conv, v_conv, x, y):
@@ -60,11 +60,11 @@ def velocity_model(core_radius, gamma, x_real, y_real, u_conv, v_conv, x, y):
     vely = v_conv + vel * (x - x_real) / r
     velx = np.nan_to_num(velx)
     vely = np.nan_to_num(vely)
-    # print(coreR, gamma, x_real, y_real, u_conv, v_conv, x, y)
+    # print(core_radius, gamma, x_real, y_real, u_conv, v_conv, x, y)
     return velx, vely
 
 
-def get_vortices(vfield, peaks, vorticity, rmax, corr_tresh):
+def get_vortices(vfield, peaks, vorticity, rmax, correlation_treshold):
     """General routine to check if the detected vortex is a real vortex
 
     :param vfield: data from the input file
@@ -86,13 +86,13 @@ def get_vortices(vfield, peaks, vorticity, rmax, corr_tresh):
         y_center_index = peaks[0][i]
         print(i, 'Processing detected swirling at (x, y)', x_center_index, y_center_index)
         if rmax == 0.0:
-            coreR = 2 * np.hypot(dx, dy)
+            core_radius = 2 * np.hypot(dx, dy)
         else:
-            coreR = rmax  # guess on the starting vortex radius
-        gamma = vorticity[y_center_index, x_center_index] * np.pi * coreR ** 2
-        vortices_parameters = full_fit(coreR, gamma, vfield, x_center_index, y_center_index)
+            core_radius = rmax  # guess on the starting vortex radius
+        gamma = vorticity[y_center_index, x_center_index] * np.pi * core_radius ** 2
+        vortices_parameters = full_fit(core_radius, gamma, vfield, x_center_index, y_center_index)
         if vortices_parameters[6] < 2:
-            corr = 0
+            correlation_value = 0
         else:
             x_index, y_index, u_data, v_data = tools.window(vfield, round(vortices_parameters[2] / dx, 0),
                                                             round(vortices_parameters[3] / dy, 0),
@@ -100,16 +100,16 @@ def get_vortices(vfield, peaks, vorticity, rmax, corr_tresh):
             u_model, v_model = velocity_model(vortices_parameters[0], vortices_parameters[1], vortices_parameters[2],
                                               vortices_parameters[3],
                                               vortices_parameters[4], vortices_parameters[5], x_index, y_index)
-            corr = correlation_coef(u_data - vortices_parameters[4], v_data - vortices_parameters[5],
+            correlation_value = correlation_coef(u_data - vortices_parameters[4], v_data - vortices_parameters[5],
                                     u_model - vortices_parameters[4], v_model - vortices_parameters[5])
-        if corr > corr_tresh:
-            print('Accepted! Correlation = {:1.2f} (vortex #{:2d})'.format(corr, cpt_accepted))
+        if correlation_value > correlation_treshold:
+            print('Accepted! Correlation = {:1.2f} (vortex #{:2d})'.format(correlation_value, cpt_accepted))
             velT = (vortices_parameters[1] / (2 * np.pi * vortices_parameters[0])) * (
                         1 - np.exp(-1))  # compute the tangential velocity at critical radius
             vortices.append(
                 [vortices_parameters[0], vortices_parameters[1], vortices_parameters[2], vortices_parameters[3],
                  vortices_parameters[4],
-                 vortices_parameters[5], vortices_parameters[6], corr, velT])
+                 vortices_parameters[5], vortices_parameters[6], correlation_value, velT])
             cpt_accepted += 1
     return vortices
 
@@ -138,7 +138,7 @@ def full_fit(core_radius, gamma, vfield, x_center_index, y_center_index):
     fitted[3] = vfield.y_coordinate_matrix[y_center_index]
     dx = vfield.x_coordinate_step
     dy = vfield.y_coordinate_step
-    corr = 0.0
+    correlation_value = 0.0
     for i in range(10):
         x_center_index = int(round(fitted[2] / dx))
         y_center_index = int(round(fitted[3] / dy))
@@ -157,6 +157,7 @@ def full_fit(core_radius, gamma, vfield, x_center_index, y_center_index):
         fitted[4] = vfield.u_velocity_matrix[y_center_index, x_center_index]  # u_conv
         fitted[5] = vfield.v_velocity_matrix[y_center_index, x_center_index]  # v_conv
         x_index, y_index, u_data, v_data = tools.window(vfield, x_center_index, y_center_index, dist)
+        #print(x_index, y_index)
         fitted = fit(fitted[0], fitted[1], x_index, y_index, fitted[2], fitted[3],
                      u_data, v_data, fitted[4], fitted[5], i)
         if i > 0:

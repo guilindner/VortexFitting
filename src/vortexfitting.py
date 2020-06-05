@@ -89,8 +89,9 @@ if __name__ == '__main__':
                         default='dns', help='Type of the file (default: dns)')
 
     parser.add_argument('-ct', '--corrthreshold', dest='correlation_threshold',
-                        default=0.75, help='Correlation threshold (default: 0.75).' 
-					     'if the vortex is too big, its better to decrease this value')
+                        default=0.75, type=float, 
+                        help='Correlation threshold (default: 0.75).' 
+			     'if the vortex is too big, its better to decrease this value')
 
 #    parser.add_argument('-v', '--verbose', dest='verbose',
 #                        default=False, type=bool,
@@ -171,7 +172,7 @@ if __name__ == '__main__':
             x_index, y_index, u_data, v_data = tools.window(vfield,x,y,10)
             plot.plot_quiver(x_index, y_index, u_data, v_data, swirlingw)
         if args.plot_method == 'detect':
-            plot.plot_detect(dirL,dirR,swirling,args.flip)
+            plot.plot_detect(dirL,dirR,swirling,args.flip_axis)
         if args.plot_method == 'fields':
             plot.plot_fields(vfield,vorticity)
         if args.plot_method == 'fit':
