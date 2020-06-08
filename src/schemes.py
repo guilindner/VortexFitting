@@ -13,12 +13,11 @@ def second_order_diff(vfield):
     """
     print("Difference scheme: Second Order Scheme")
 
-    # x, y = np.meshgrid(vfield.dx,vfield.dy)  UTILE ?
     dx = vfield.x_coordinate_step  # only for homogeneous mesh
     dy = vfield.y_coordinate_step  # only for homogeneous mesh
 
-    vfield.derivative['dudy'], vfield.derivative['dudx'] = np.gradient(vfield.u_velocity_matrix, dx)
-    vfield.derivative['dvdy'], vfield.derivative['dvdx'] = np.gradient(vfield.v_velocity_matrix, dy)
+    vfield.derivative['dudy'], vfield.derivative['dudx'] = np.gradient(vfield.u_velocity_matrix, dy,dx)
+    vfield.derivative['dvdy'], vfield.derivative['dvdx'] = np.gradient(vfield.v_velocity_matrix, dy,dx)
 
     return vfield.derivative
 
@@ -40,24 +39,22 @@ def least_square_diff(vfield):  # may have a problem on the boundary
     dx = vfield.x_coordinate_step  # only for homogeneous mesh
     dy = vfield.y_coordinate_step  # only for homogeneous mesh
 
-    vfield.derivative['dudx'][:, 2:-2] = (-2 * vfield.u_velocity_matrix[:, 0:-4] - vfield.u_velocity_matrix[:,
-                                                                                   1:-3] + vfield.u_velocity_matrix[:,
-                                                                                           3:-1] + 2 * vfield.u_velocity_matrix[
-                                                                                                       :, 4:]) / (
-                                                     10 * dy)
-    vfield.derivative['dudy'][2:-2, :] = (-2 * vfield.u_velocity_matrix[0:-4, :] - vfield.u_velocity_matrix[1:-3,
-                                                                                   :] + vfield.u_velocity_matrix[3:-1,
-                                                                                        :] + 2 * vfield.u_velocity_matrix[
-                                                                                                 4:, :]) / (10 * dx)
-    vfield.derivative['dvdx'][:, 2:-2] = (-2 * vfield.v_velocity_matrix[:, 0:-4] - vfield.v_velocity_matrix[:,
-                                                                                   1:-3] + vfield.v_velocity_matrix[:,
-                                                                                           3:-1] + 2 * vfield.v_velocity_matrix[
-                                                                                                       :, 4:]) / (
-                                                     10 * dy)
-    vfield.derivative['dvdy'][2:-2, :] = (-2 * vfield.v_velocity_matrix[0:-4, :] - vfield.v_velocity_matrix[1:-3,
-                                                                                   :] + vfield.v_velocity_matrix[3:-1,
-                                                                                        :] + 2 * vfield.v_velocity_matrix[
-                                                                                                 4:, :]) / (10 * dx)
+    vfield.derivative['dudx'][:,2:-2] = (-2*vfield.u_velocity_matrix[:, 0:-4] - 
+                                         vfield.u_velocity_matrix[:,1:-3] + 
+                                         vfield.u_velocity_matrix[:, 3:-1] + 
+                                         2*vfield.u_velocity_matrix[:,4:])/(10*dy)
+    vfield.derivative['dudy'][2:-2,:] = (-2*vfield.u_velocity_matrix[0:-4,:] - 
+                                         vfield.u_velocity_matrix[1:-3,:] + 
+                                         vfield.u_velocity_matrix[3:-1,:] + 
+                                         2*vfield.u_velocity_matrix[4:,:])/(10*dx)
+    vfield.derivative['dvdx'][:,2:-2] = (-2*vfield.v_velocity_matrix[:, 0:-4] - 
+                                         vfield.v_velocity_matrix[:,1:-3] + 
+                                         vfield.v_velocity_matrix[:, 3:-1] + 
+                                         2*vfield.v_velocity_matrix[:,4:])/(10*dy)
+    vfield.derivative['dvdy'][2:-2,:] = (-2*vfield.v_velocity_matrix[0:-4,:] - 
+                                         vfield.v_velocity_matrix[1:-3,:] + 
+                                         vfield.v_velocity_matrix[3:-1,:] + 
+                                         2*vfield.v_velocity_matrix[4:,:])/(10*dx)
 
     return vfield.derivative
 
@@ -77,27 +74,21 @@ def fourth_order_diff(vfield):
     dx = vfield.x_coordinate_step  # only for homogeneous mesh
     dy = vfield.y_coordinate_step  # only for homogeneous mesh
 
-    vfield.derivative['dudx'][:, 2:-2] = (vfield.u_velocity_matrix[:, 0:-4] - 8 * vfield.u_velocity_matrix[:,
-                                                                                  1:-3] + 8 * vfield.u_velocity_matrix[
-                                                                                              :,
-                                                                                              3:-1] - vfield.u_velocity_matrix[
-                                                                                                      :, 4:]) / (
-                                                     12 * dy)
-    vfield.derivative['dudy'][2:-2, :] = (vfield.u_velocity_matrix[0:-4, :] - 8 * vfield.u_velocity_matrix[1:-3,
-                                                                                  :] + 8 * vfield.u_velocity_matrix[
-                                                                                           3:-1,
-                                                                                           :] - vfield.u_velocity_matrix[
-                                                                                                4:, :]) / (12 * dx)
-    vfield.derivative['dvdx'][:, 2:-2] = (vfield.v_velocity_matrix[:, 0:-4] - 8 * vfield.v_velocity_matrix[:,
-                                                                                  1:-3] + 8 * vfield.v_velocity_matrix[
-                                                                                              :,
-                                                                                              3:-1] - vfield.v_velocity_matrix[
-                                                                                                      :, 4:]) / (
-                                                     12 * dy)
-    vfield.derivative['dvdy'][2:-2, :] = (vfield.v_velocity_matrix[0:-4, :] - 8 * vfield.v_velocity_matrix[1:-3,
-                                                                                  :] + 8 * vfield.v_velocity_matrix[
-                                                                                           3:-1,
-                                                                                           :] - vfield.v_velocity_matrix[
-                                                                                                4:, :]) / (12 * dx)
+    vfield.derivative['dudx'][:, 2:-2] = (vfield.u_velocity_matrix[:, 0:-4] - 
+                                          8 * vfield.u_velocity_matrix[:,1:-3] + 
+                                          8 * vfield.u_velocity_matrix[:,3:-1] - 
+                                          vfield.u_velocity_matrix[:, 4:]) / (12 * dy)
+    vfield.derivative['dudy'][2:-2, :] = (vfield.u_velocity_matrix[0:-4, :] - 
+                                          8 * vfield.u_velocity_matrix[1:-3,:] + 
+                                          8 * vfield.u_velocity_matrix[3:-1,:] - 
+                                          vfield.u_velocity_matrix[4:, :]) / (12 * dx)
+    vfield.derivative['dvdx'][:, 2:-2] = (vfield.v_velocity_matrix[:, 0:-4] - 
+                                          8 * vfield.v_velocity_matrix[:,1:-3] + 
+                                          8 * vfield.v_velocity_matrix[:,3:-1] - 
+                                          vfield.v_velocity_matrix[:, 4:]) / (12 * dy)
+    vfield.derivative['dvdy'][2:-2, :] = (vfield.v_velocity_matrix[0:-4, :] - 
+                                          8 * vfield.v_velocity_matrix[1:-3,:] + 
+                                          8 * vfield.v_velocity_matrix[3:-1,:] - 
+                                          vfield.v_velocity_matrix[4:, :]) / (12 * dx)
 
     return vfield.derivative

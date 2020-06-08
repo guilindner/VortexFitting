@@ -157,11 +157,12 @@ def full_fit(core_radius, gamma, vfield, x_center_index, y_center_index):
         x1 = fitted[2]
         y1 = fitted[3]
         dist = int(round(fitted[0] / np.hypot(dx, dy), 0)) + 1
-        if fitted[0] < 2 * dx:
+        if fitted[0] < 2 * np.hypot(dx,dy):
             break
         fitted[4] = vfield.u_velocity_matrix[y_center_index, x_center_index]  # u_conv
         fitted[5] = vfield.v_velocity_matrix[y_center_index, x_center_index]  # v_conv
         x_index, y_index, u_data, v_data = tools.window(vfield, x_center_index, y_center_index, dist)
+
 
         fitted = fit(fitted[0], fitted[1], x_index, y_index, fitted[2], fitted[3],
                      u_data, v_data, fitted[4], fitted[5], i)

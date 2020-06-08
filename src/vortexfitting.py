@@ -135,6 +135,7 @@ if __name__ == '__main__':
     
         #---- METHOD FOR DETECTION OF VORTICES ----#
         lap = time.time()
+        # TODO Modifier le nom, swirling -> detection_field par exemple ?
         if args.detection_method == 'Q':
             swirling = detection.q_criterion(vfield)
         elif args.detection_method == 'swirling':
