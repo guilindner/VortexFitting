@@ -19,11 +19,11 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-grp1 = netCDF4.Dataset(args.infile, 'r')
+datafile_read = netCDF4.Dataset(args.infile, 'r')
 
-u = np.array(grp1.variables['velocity_x'][:, :, :])
-v = np.array(grp1.variables['velocity_y'][:, :, :])
-w = np.array(grp1.variables['velocity_z'][:, :, :])
+u = np.array(datafile_read.variables['velocity_x'][:, :, :])
+v = np.array(datafile_read.variables['velocity_y'][:, :, :])
+w = np.array(datafile_read.variables['velocity_z'][:, :, :])
 
 print("Converting {:s} file to {:s} file".format(args.infile, args.outfile))
 

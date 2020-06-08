@@ -11,6 +11,8 @@ def create(output_directory):
 
     :param output_directory: directory hosting the file vortices.dat
     :type output_directory: str
+    :returns: file
+    :rtype: file
     """
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
@@ -32,6 +34,8 @@ def write(vortices, output_directory, time_step):
     :type vortices: list 
     :type output_directory: str
     :type time_step: int
+    :returns: empty
+    :rtype: empty
     """
 
     outfile = open(output_directory+'/vortices.dat', 'a')

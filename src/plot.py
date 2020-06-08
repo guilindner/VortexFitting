@@ -15,7 +15,7 @@ import fitting
 
 def plot_fields(vfield, detection_field):
     """
-    Plot fields
+    Plot fields: display the (u,v,w) fields and the vorticity field.
 
     :param vfield: contains spatial mesh and velocity components
     :type vfield: class VelocityField()
@@ -45,7 +45,7 @@ def plot_fields(vfield, detection_field):
 
 def plot_detect(vortices_counterclockwise, vortices_clockwise, detection_field, *args):
     """
-    Plot detect
+    Plot detect: display the location and rotation of the vortices
 
     :param vortices_counterclockwise: vortices spinning counterclockwise
     :type vortices_counterclockwise: list of vortices
@@ -82,7 +82,7 @@ def plot_detect(vortices_counterclockwise, vortices_clockwise, detection_field, 
 
 def plot_quiver(x_index, y_index, u_data, v_data, detection_field):
     """
-    Plot quiver
+    Plot quiver: display a specific (x,y) location with vector fields.
 
     :param x_index: contains spatial mesh (x direction)
     :type x_index: array of float
@@ -102,13 +102,14 @@ def plot_quiver(x_index, y_index, u_data, v_data, detection_field):
     # plt.title('Velocity vectors centered at max swirling strength')
     plt.contourf(detection_field,
                  extent=[x_index[0][0], x_index[0][-1], y_index[0][0], y_index[-1][0]])
-    s = 1  # sampling factor
+    s = 1  # sampling factor, can be modified
     plt.quiver(x_index[::s, ::s], y_index[::s, ::s], u_data[::s, ::s], v_data[::s, ::s])
     plt.show()
 
 
-def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, core_radius, gamma, u_conv, v_conv, corr, i, j,
-             output_dir, time_step):
+def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, 
+             xc, yc, core_radius, gamma, u_conv, v_conv, correlation_value,
+             cpt_vortex, subtract_advection_field, output_dir, time_step):
     """
     Plot fit
 
@@ -136,16 +137,16 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, core_ra
     :type u_conv: 2D array of float
     :param v_conv: contains velocity data (v component)
     :type v_conv: 2D array of float
-    :param i: 
-    :type i: 
-    :param j: 
-    :type j: 
-    :param output_dir: 
-    :type output_dir: 
-    :param corr: 
-    :type corr: 
-    :param time_step: 
-    :type time_step: 
+    :param cpt_vortex: current n° of the vortex
+    :type cpt_vortex: int
+    :param subtract_advection_field: if True, the advection field (uconv, vconv) is subtracted
+    :type subtract_advection_field:  bool
+    :param output_dir: directory where the results are written
+    :type output_dir: str
+    :param correlation_value: correlation between the vortex and a Lamb-Oseen model
+    :type correlation_value: float
+    :param time_step: current time_step
+    :type time_step: int
     :returns: image file
     :rtype: png
     """
@@ -166,26 +167,31 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, xc, yc, core_ra
     #    plt.axes().set_aspect('equal') #deprecated
     plt.xlabel('x')
     plt.ylabel('y')
+    
     plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' % (
-    round(core_radius, 2), round(gamma, 2), round(u_conv, 2), round(v_conv, 2), round(corr, 2)))
-    plt.savefig(output_dir + '/vortex%i_%i.png' % (i, j), format='png')
+    round(core_radius, 2), round(gamma, 2), round(u_conv, 2), round(v_conv, 2), round(correlation_value, 2)))
+    if subtract_advection_field == False:
+        plt.savefig(output_dir + '/vortex%i_%s.png' % (cpt_vortex, 'initial_vfield'), format='png')
+    else:
+        plt.savefig(output_dir + '/vortex%i_%s.png' % (cpt_vortex, 'advection_field_subtracted'), format='png')
     plt.close('all')
 
 
 def plot_accepted(vfield, vortices_list, detection_field, output_dir, time_step):
     """
-    Plot accepted
+    Plot accepted: display the accepted vortices, with respect to the different criterion
+    (correlation threshold, box size ...)
 
     :param vfield: contains spatial mesh and velocity components
     :type vfield: class VelocityField()
-    :param vortices_list: 
-    :type vortices_list: 
+    :param vortices_list: contains all the detected vortices
+    :type vortices_list: list
     :param detection_field: detection field (vorticity ...)
     :type detection_field: 2D array of float
-    :param output_dir: 
-    :type output_dir: 
-    :param time_step: 
-    :type time_step: 
+    :param output_dir: directory where the results are written
+    :type output_dir: str
+    :param time_step: current time_step
+    :type time_step: int
     :returns: popup
     :rtype: image
     """
@@ -229,30 +235,31 @@ def plot_accepted(vfield, vortices_list, detection_field, output_dir, time_step)
     plt.figure(1)
     plt.tight_layout()
     plt.savefig(output_dir + '/accepted_{:01d}.svg'.format(time_step), format='svg')
+    create_links(output_dir + '/accepted_{:01d}.svg'.format(time_step),vortices_list,output_dir,time_step)
     plt.figure(2)
     plt.savefig(output_dir + '/meshed_{:01d}.svg'.format(time_step),
                 format='svg')  # use it to verify your coordinate system if needed !
     # plt.savefig(output_dir+'/tk_{:01d}.png'.format(time_step), format='png', transparent=True)
-    # create_links(output_dir+'/accepted_{:01d}.svg'.format(time_step),vortices,output_dir,time_step)
+    
     # plt.show()
 
 
 def plot_vortex(vfield, vortices_list, output_dir, time_step):
     """
-    Plot fields TODO
+    Plot vortex: plot a vortex and its corresponding vortex model
 
     :param vfield: contains spatial mesh and velocity components
     :type vfield: class VelocityField()
-    :param vortices_list: 
-    :type vortices_list: 
-    :param output_dir: 
-    :type output_dir: 
-    :param time_step: 
-    :type time_step: 
-    :returns: popup
+    :param vortices_list: contains all the detected vortices
+    :type vortices_list: list
+    :param output_dir: directory where the results are written
+    :type output_dir: str
+    :param time_step: current time_step
+    :type time_step: int
+    :returns: file
     :rtype: image
     """
-    for i, line in enumerate(vortices_list):
+    for cpt_vortex, line in enumerate(vortices_list):
         print('r: {:.3f}'.format(line[0]),
               'gamma: {:.2f}'.format(line[1]),
               'x: {:.2f}'.format(line[2]),
@@ -265,48 +272,49 @@ def plot_vortex(vfield, vortices_list, output_dir, time_step):
         x_index, y_index, u_data, v_data = tools.window(vfield, round(line[2] / dx, 0), round(line[3] / dy, 0), line[6])
         u_model, v_model = fitting.velocity_model(line[0], line[1], line[2], line[3], line[4], line[5], x_index,
                                                   y_index)
-        corr = fitting.correlation_coef(u_data, v_data, u_model, v_model)
+        correlation_value = fitting.correlation_coef(u_data, v_data, u_model, v_model)
         plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, line[2], line[3],
-                 line[0], line[1], line[4], line[5], corr, i, 1, output_dir, time_step)
-        corr = fitting.correlation_coef(u_data - line[4], v_data - line[5], u_model - line[4], v_model - line[5])
+                 line[0], line[1], line[4], line[5], correlation_value, cpt_vortex, False, output_dir, time_step)
+        correlation_value = fitting.correlation_coef(u_data - line[4], v_data - line[5], u_model - line[4], v_model - line[5])
         plot_fit(x_index, y_index, u_data - line[4], v_data - line[5], u_model - line[4], v_model - line[5], line[2],
                  line[3],
-                 line[0], line[1], line[4], line[5], corr, i, 2, output_dir, time_step)
+                 line[0], line[1], line[4], line[5], correlation_value, cpt_vortex, True, output_dir, time_step)
 
 
 def create_links(path, vortices_list, output_dir, time_step):
     """
-    create links
+    create links: add some links bewteen the accepted.svg file and the detected vortices
 
-    :param path: 
-    :type path: 
-    :param vortices_list: 
-    :type vortices_list: 
-    :param output_dir: 
-    :type output_dir: 
-    :param time_step: 
-    :type time_step: 
-    :returns: popup
+    :param path: path of the accepted.svg file
+    :type path: str
+    :param vortices_list: contains all the detected vortices
+    :type vortices_list: list
+    :param output_dir: directory where the results are written
+    :type output_dir: str
+    :param time_step: current time_step
+    :type time_step: int
+    :returns: file
     :rtype: image
     """
-    fileIn = open(output_dir + "/accepted_{:01d}.svg".format(time_step), "r")
-    fileOut = open(output_dir + "/linked_{:01d}.svg".format(time_step), "w")
+
+    file_in = open(path, "r")
+    file_out = open(output_dir + "/linked_{:01d}.svg".format(time_step), "w")
     i = 0
     vortex_found = False
-    for line in fileIn:
+    for line in file_in:
         if "</g>" in line:
             if vortex_found == True:
-                fileOut.write(line)
-                fileOut.write('   </a>\n')
+                file_out.write(line)
+                file_out.write('   </a>\n')
                 vortex_found = False
             else:
-                fileOut.write(line)
+                file_out.write(line)
         elif "vortex" in line:
-            fileOut.write('   <a href="vortex%i_1.png">\n' % i)
-            fileOut.write(line)
-            fileOut.write('   <title>Vortex %i: r = %s gamma = %s</title>\n' % (
+            file_out.write('   <a href="vortex%i_advection_field_subtracted.png">\n' % i)
+            file_out.write(line)
+            file_out.write('   <title>Vortex %i: r = %s gamma = %s</title>\n' % (
             i, round(vortices_list[i][3], 1), round(vortices_list[i][2], 1)))
             i = i + 1
             vortex_found = True
         else:
-            fileOut.write(line)
+            file_out.write(line)

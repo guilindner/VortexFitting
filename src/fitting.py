@@ -64,19 +64,20 @@ def velocity_model(core_radius, gamma, x_real, y_real, u_conv, v_conv, x, y):
 
 
 def get_vortices(vfield, peaks, vorticity, rmax, correlation_treshold):
-    """General routine to check if the detected vortex is a real vortex
+    """
+    General routine to check if the detected vortex is a real vortex
 
     :param vfield: data from the input file
     :param peaks: list of vortices
     :param vorticity: calculated field
     :param rmax: maximum radius (adapt it to your data domain)
     :param correlation_treshold: threshold to detect a vortex (default is 0.75)
-    :type vfield: class
-    :type peaks	: list
+    :type vfield: class VelocityField
+    :type peaks: list
     :type vorticity: array
     :type rmax: float
     :type correlation_treshold: float
-    :returns: vortices
+    :returns: list of detected vortices
     :rtype: list
     """
 

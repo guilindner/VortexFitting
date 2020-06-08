@@ -104,7 +104,7 @@
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">corr</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">correlation</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
@@ -116,14 +116,14 @@
 
 <dl class="function">
 <dt id="fitting.fit">
-<code class="descclassname">fitting.</code><code class="descname">fit</code><span class="sig-paren">(</span><em>coreR</em>, <em>gamma</em>, <em>x</em>, <em>y</em>, <em>x_real</em>, <em>y_real</em>, <em>u_data</em>, <em>v_data</em>, <em>u_conv</em>, <em>v_conv</em>, <em>i</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.fit" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fitting.</code><code class="descname">fit</code><span class="sig-paren">(</span><em>core_radius</em>, <em>gamma</em>, <em>x</em>, <em>y</em>, <em>x_real</em>, <em>y_real</em>, <em>u_data</em>, <em>v_data</em>, <em>u_conv</em>, <em>v_conv</em>, <em>i</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fitting  of the Lamb-Oseen Vortex</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>coreR</strong> (<em>float</em>) – core radius of the vortex</li>
+<li><strong>core_radius</strong> (<em>float</em>) – core radius of the vortex</li>
 <li><strong>gamma</strong> (<em>float</em>) – circulation contained in the vortex</li>
 <li><strong>x</strong> (<em>float</em>) – x position</li>
 <li><strong>y</strong> (<em>float</em>) – y position</li>
@@ -144,14 +144,14 @@
 
 <dl class="function">
 <dt id="fitting.full_fit">
-<code class="descclassname">fitting.</code><code class="descname">full_fit</code><span class="sig-paren">(</span><em>coreR</em>, <em>gamma</em>, <em>vfield</em>, <em>x_center_index</em>, <em>y_center_index</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.full_fit" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fitting.</code><code class="descname">full_fit</code><span class="sig-paren">(</span><em>core_radius</em>, <em>gamma</em>, <em>vfield</em>, <em>x_center_index</em>, <em>y_center_index</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.full_fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Full fitting procedure</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>coreR</strong> (<em>float</em>) – core radius of the vortex</li>
+<li><strong>core_radius</strong> (<em>float</em>) – core radius of the vortex</li>
 <li><strong>gamma</strong> (<em>float</em>) – circulation contained in the vortex</li>
 <li><strong>vfield</strong> (<em>class</em>) – data from the input file</li>
 <li><strong>x_center_index</strong> (<em>int</em>) – x index of the vortex center</li>
@@ -171,33 +171,48 @@
 
 <dl class="function">
 <dt id="fitting.get_vortices">
-<code class="descclassname">fitting.</code><code class="descname">get_vortices</code><span class="sig-paren">(</span><em>vfield</em>, <em>peaks</em>, <em>vorticity</em>, <em>rmax</em>, <em>corr_tresh</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.get_vortices" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fitting.</code><code class="descname">get_vortices</code><span class="sig-paren">(</span><em>vfield</em>, <em>peaks</em>, <em>vorticity</em>, <em>rmax</em>, <em>correlation_treshold</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.get_vortices" title="Permalink to this definition">¶</a></dt>
 <dd><p>General routine to check if the detected vortex is a real vortex</p>
-<p>:param vfield       : data from the input file
-:param peaks        : list of vortices
-:param vorticity    : calculated field
-:type vfield        : class
-:type peaks         : list
-:type vorticity     : array
-:returns            : vortices
-:rtype              : list</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>vfield</strong> (<em>class VelocityField</em>) – data from the input file</li>
+<li><strong>peaks</strong> (<em>list</em>) – list of vortices</li>
+<li><strong>vorticity</strong> (<em>array</em>) – calculated field</li>
+<li><strong>rmax</strong> (<em>float</em>) – maximum radius (adapt it to your data domain)</li>
+<li><strong>correlation_treshold</strong> (<em>float</em>) – threshold to detect a vortex (default is 0.75)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">list of detected vortices</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="fitting.velocity_model">
-<code class="descclassname">fitting.</code><code class="descname">velocity_model</code><span class="sig-paren">(</span><em>coreR</em>, <em>gamma</em>, <em>x_real</em>, <em>y_real</em>, <em>u_conv</em>, <em>v_conv</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.velocity_model" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fitting.</code><code class="descname">velocity_model</code><span class="sig-paren">(</span><em>core_radius</em>, <em>gamma</em>, <em>x_real</em>, <em>y_real</em>, <em>u_conv</em>, <em>v_conv</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.velocity_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates the Lamb-Oseen vortex velocity array</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>coreR</strong> (<em>float</em>) – core radius of the vortex</li>
+<li><strong>core_radius</strong> (<em>float</em>) – core radius of the vortex</li>
 <li><strong>gamma</strong> (<em>float</em>) – circulation contained in the vortex</li>
 <li><strong>x_real</strong> (<em>float</em>) – relative x position of the vortex center</li>
 <li><strong>y_real</strong> (<em>float</em>) – relative y position of the vortex center</li>
 <li><strong>u_conv</strong> (<em>float</em>) – u convective velocity at the center</li>
 <li><strong>v_conv</strong> (<em>float</em>) – v convective velocity at the center</li>
+<li><strong>x</strong> (<em>float</em>) – </li>
+<li><strong>y</strong> (<em>float</em>) – </li>
 </ul>
 </td>
 </tr>

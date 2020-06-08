@@ -4,6 +4,9 @@ cd `pwd`/src
 
 python3 vortexfitting.py -i ../data/example_Ub_planeZ_0.01.raw -o ../results/example_openfoam -ft openfoam -rmax 0
 
+
+exit
+
 python3 vortexfitting.py -i ../data/example_Ub_planeZ_0.01.raw -ft openfoam -xy 20 50
 
 python3 vortexfitting.py -i ../data/example_adim_vel_{:06d}.dat -o ../results/example_adim_vel_000010 -first 10 -t 5 -b 20 -ft piv_tecplot 
