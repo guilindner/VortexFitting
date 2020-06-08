@@ -26,14 +26,14 @@ if __name__ == '__main__':
 
     vfield = VelocityField(args.infilename,0,'/','dns')
 
-    def test_oseen(coreR, gamma, dist,xdrift,ydrift,u_conv,v_conv):
-        print('coreR:',coreR,'Gamma',gamma,'xdrift',xdrift,
+    def test_oseen(core_radius, gamma, dist,xdrift,ydrift,u_conv,v_conv):
+        print('core_radius:',core_radius,'Gamma',gamma,'xdrift',xdrift,
               'ydrift',ydrift,'u_conv',u_conv,'v_conv',v_conv)
         model = [[],[],[],[],[],[]]
-        model[0] = coreR
+        model[0] = core_radius
         model[1] = gamma
-        coreRori = model[0]
-        gammaori = model[1]
+        core_radius_ori = model[0]
+        gamma_ori = model[1]
         x_index = np.linspace(-1,1,dist)
         y_index = np.linspace(-1,1,dist)
         x_index, y_index = np.meshgrid(x_index, y_index)
@@ -41,16 +41,16 @@ if __name__ == '__main__':
         y_real = 0.0
         model[4] = u_conv
         model[5] = v_conv
-        u_data, v_data = fitting.velocity_model(coreR, gamma, x_real, y_real,
+        u_data, v_data = fitting.velocity_model(core_radius, gamma, x_real, y_real,
                                                 u_conv, v_conv, x_index+xdrift, y_index+ydrift)
         u_data = u_data + u_conv
         v_data = v_data + v_conv
         # NOISE
         u_data = np.random.normal(u_data,0.3)
         v_data = np.random.normal(v_data,0.3)
-        model = fitting.fit(coreR, gamma, x_index, y_index, x_real, y_real, u_data, v_data, u_conv, v_conv,0)
-        print('coreR:',model[0],'error(%):',(1-(model[0])/coreRori)*100)
-        print('gamma:',model[1],'error(%):',(1-(model[1])/gammaori)*100)
+        model = fitting.fit(core_radius, gamma, x_index, y_index, x_real, y_real, u_data, v_data, u_conv, v_conv,0)
+        print('core_radius:',model[0],'error(%):',(1-(model[0])/core_radius_ori)*100)
+        print('gamma:',model[1],'error(%):',(1-(model[1])/gamma_ori)*100)
         print('x_real:',model[2])
         print('y_real:',model[3])
         u_model, v_model = fitting.velocity_model(model[0], model[1], model[2], model[3],

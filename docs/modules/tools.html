@@ -91,16 +91,22 @@
 <dl class="function">
 <dt id="tools.direction_rotation">
 <code class="descclassname">tools.</code><code class="descname">direction_rotation</code><span class="sig-paren">(</span><em>vorticity</em>, <em>peaks</em><span class="sig-paren">)</span><a class="headerlink" href="#tools.direction_rotation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identify the direction of the vortices rotation using the vorticity.
-:param vorticity: 2D array with the computed vorticity
-:param peaks: list of the detected peaks</p>
+<dd><p>Identify the direction of the vortices rotation using the vorticity.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">vortices_clockwise, vortices_counterclockwise, arrays containing the direction of rotation for each vortex</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>vorticity</strong> (<em>2D array of float</em>) – 2D array with the computed vorticity</li>
+<li><strong>peaks</strong> (<em>list</em>) – list of the detected peaks</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">vortices_clockwise, vortices_counterclockwise, arrays containing the direction of rotation for each vortex</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -146,11 +152,17 @@ shape as “data”.</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>x</strong> (<em>2D array of float</em>) – velocity field</li>
 <li><strong>mean</strong> (<em>float</em>) – advective velocity to subtract</li>
 <li><strong>hom_axis</strong> (<em>str</em>) – False, ‘x’, or ‘y’. The axis which the mean is subtracted</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">input array, minus the advective velocity</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">2D arrays of float</p>
 </td>
 </tr>
 </tbody>
@@ -161,6 +173,24 @@ shape as “data”.</li>
 <dt id="tools.normalize">
 <code class="descclassname">tools.</code><code class="descname">normalize</code><span class="sig-paren">(</span><em>x</em>, <em>hom_axis</em><span class="sig-paren">)</span><a class="headerlink" href="#tools.normalize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Normalize with swirling strength</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>2D array of float</em>) – velocity field</li>
+<li><strong>hom_axis</strong> (<em>str</em>) – False, ‘x’, or ‘y’. The axis which the mean is subtracted</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">normalized array</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">2D array of float</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -175,8 +205,7 @@ shape as “data”.</li>
 <li><strong>vfield</strong> (<em>2D array of float</em>) – fullsize velocity field</li>
 <li><strong>x_center_index</strong> (<em>int</em>) – box center index (x)</li>
 <li><strong>y_center_index</strong> (<em>int</em>) – box center index (y)</li>
-<li><strong>dist</strong> – <p>??</p>
-</li>
+<li><strong>dist</strong> – size of the vortex (mesh units)</li>
 <li><strong>dist</strong> – int</li>
 </ul>
 </td>

@@ -55,6 +55,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#dns-case">DNS case</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#piv-case-netcdf-file">PIV case - NetCDF file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#piv-case-tecplot-file">PIV case - Tecplot file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#numerical-case-openfoam-file">Numerical case - OpenFOAM file</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Modules</a></li>
@@ -217,6 +218,19 @@ and to the right we have the convection velocity subtracted.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -i ../data/dim_vel_<span class="o">{</span>:06d<span class="o">}</span>.dat -mf ../data/mean.dat -t <span class="m">50</span> -first <span class="m">10</span> -ft piv_tecplot
 </pre></div>
 </div>
+</div>
+<div class="section" id="numerical-case-openfoam-file">
+<h2>Numerical case - OpenFOAM file<a class="headerlink" href="#numerical-case-openfoam-file" title="Permalink to this headline">¶</a></h2>
+<p>A columnar Lamb-Oseen vortex is generated on OpenFOAM. By default, data are extracted in a text file, with a <em>.raw</em> extension.</p>
+<p>Here, a z-plane is extracted, with a 100x100 mesh. (u,v,w) data are exported.</p>
+<p>The spatial mesh for this simulation is quite small, so the default initial radius (<em>rmax = 10</em>) is too large.</p>
+<p>Specify a smaller value (close to the spatial mesh); <em>-rmax 0</em> gets an initial radius of <img class="math" src="_images/math/d2bac4d3f7f89f981f16e99a409b504e39e80c1b.png" alt="r_{max} =2\sqrt{dx^2+dy^2}"/>,</p>
+<p>with <img class="math" src="_images/math/a0fba1111fb08ada16b5c455e227418c0aa07874.png" alt="dx"/> and <img class="math" src="_images/math/c79c965e2ebd7b4cf0724beb64c8929aed7d635d.png" alt="dy"/> the spatial resolution.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -i ../data/example_Ub_planeZ_0.01.raw -ft openfoam -rmax <span class="m">0</span>.0
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/openfoam_quiverplot.png"><img alt="_images/openfoam_quiverplot.png" src="_images/openfoam_quiverplot.png" style="width: 45%;" /></a>
+<a class="reference internal image-reference" href="_images/openfoam.png"><img alt="_images/openfoam.png" src="_images/openfoam.png" style="width: 45%;" /></a>
 </div>
 </div>
 

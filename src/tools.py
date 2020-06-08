@@ -15,6 +15,9 @@ def get_fluc(x, mean, hom_axis):
     :type mean: float
     :param hom_axis: False, 'x', or 'y'. The axis which the mean is subtracted
     :type hom_axis: str
+
+    :returns: input array, minus the advective velocity
+    :rtype: 2D arrays of float
     """
     if hom_axis is None:
         x = x - mean
@@ -30,6 +33,14 @@ def get_fluc(x, mean, hom_axis):
 def normalize(x, hom_axis):
     """
     Normalize with swirling strength
+
+    :param x: velocity field
+    :type x: 2D array of float
+    :param hom_axis: False, 'x', or 'y'. The axis which the mean is subtracted
+    :type hom_axis: str
+
+    :returns: normalized array
+    :rtype: 2D array of float
     """
     if hom_axis is None:
         x = x / np.sqrt(np.mean(x ** 2))
@@ -52,8 +63,9 @@ def window(vfield, x_center_index, y_center_index, dist):
     :type x_center_index: int
     :param y_center_index: box center index (y)
     :type y_center_index: int
-    :param dist: ??    
+    :param dist: size of the vortex (mesh units)    
     :param dist: int
+
     :returns: cropped arrays for x, y, u and v 
     :rtype: 2D arrays of floats
 
@@ -121,9 +133,13 @@ def find_peaks(data, threshold, box_size):
 
 
 def direction_rotation(vorticity, peaks):
-    """ Identify the direction of the vortices rotation using the vorticity.
+    """ 
+    Identify the direction of the vortices rotation using the vorticity.
+ 
     :param vorticity: 2D array with the computed vorticity
     :param peaks: list of the detected peaks
+    :type vorticity: 2D array of float
+    :type peaks: list
 
     :returns: vortices_clockwise, vortices_counterclockwise, arrays containing the direction of rotation for each vortex
     :rtype: list

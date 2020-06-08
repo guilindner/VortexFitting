@@ -154,3 +154,27 @@ If you want to analyze a set of images, use arguments *-first*, *-last* and *-st
    
    $ python3 vortexfitting.py -i ../data/dim_vel_{:06d}.dat -mf ../data/mean.dat -t 50 -first 10 -ft piv_tecplot
 
+
+Numerical case - OpenFOAM file
+------------------------------
+
+A columnar Lamb-Oseen vortex is generated on OpenFOAM. By default, data are extracted in a text file, with a *.raw* extension.
+
+Here, a z-plane is extracted, with a 100x100 mesh. (u,v,w) data are exported.
+
+The spatial mesh for this simulation is quite small, so the default initial radius (*rmax = 10*) is too large.
+
+Specify a smaller value (close to the spatial mesh); *-rmax 0* gets an initial radius of :math:`r_{max} =2\sqrt{dx^2+dy^2}`,
+
+with :math:`dx` and :math:`dy` the spatial resolution.
+
+.. code-block:: bash
+   
+   $ python3 vortexfitting.py -i ../data/example_Ub_planeZ_0.01.raw -ft openfoam -rmax 0.0
+
+.. image:: _images/openfoam_quiverplot.png
+   :width: 45 %
+.. image:: _images/openfoam.png
+   :width: 45 %
+
+
