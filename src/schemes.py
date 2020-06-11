@@ -2,7 +2,8 @@ import numpy as np
 
 
 def second_order_diff(vfield):
-    """Second order accurate finite difference scheme.
+    """
+    Second order accurate finite difference scheme.
 
     .. note:: Scheme 1:0:-1
 
@@ -11,7 +12,7 @@ def second_order_diff(vfield):
     :returns: derivative
     :rtype: 2D array of float
     """
-    print("Difference scheme: Second Order Scheme")
+    print('Difference scheme: Second Order Scheme')
 
     dx = vfield.x_coordinate_step  # only for homogeneous mesh
     dy = vfield.y_coordinate_step  # only for homogeneous mesh
@@ -23,9 +24,8 @@ def second_order_diff(vfield):
 
 
 def least_square_diff(vfield):  # may have a problem on the boundary
-    """Fourth order accurate finite difference scheme.
-
-    Least-square filter (Raffel 1998)
+    """
+    Least-square filter difference scheme [RAFFEL1998]_.
 
     .. note:: Scheme -2:-1:0:1:2
 
@@ -33,8 +33,10 @@ def least_square_diff(vfield):  # may have a problem on the boundary
     :type vfield: float
     :returns: derivative
     :rtype: 2D array of float
+    .. [RAFFEL1998] Raffel M, Willert C and Kompenhans J 1998
+           *Particle image velocimetry A Practical Guide* (Berlin: Springer)
     """
-    print("Difference scheme: least-square filter")
+    print('Difference scheme: least-square filter')
 
     dx = vfield.x_coordinate_step  # only for homogeneous mesh
     dy = vfield.y_coordinate_step  # only for homogeneous mesh
@@ -60,7 +62,8 @@ def least_square_diff(vfield):  # may have a problem on the boundary
 
 
 def fourth_order_diff(vfield):
-    """Fourth order accurate finite difference scheme.
+    """
+    Fourth order accurate finite difference scheme.
 
     .. note:: Scheme: 1:-8:0:8:-1
 
@@ -69,7 +72,7 @@ def fourth_order_diff(vfield):
     :returns: derivative
     :rtype: 2D array of float
     """
-    print("Difference scheme: Fourth Order Scheme")
+    print('Difference scheme: Fourth Order Scheme')
 
     dx = vfield.x_coordinate_step  # only for homogeneous mesh
     dy = vfield.y_coordinate_step  # only for homogeneous mesh

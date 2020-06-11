@@ -26,9 +26,9 @@ if __name__ == '__main__':
 
     vfield = VelocityField(args.infilename,0,'/','dns')
 
-    def test_oseen(core_radius, gamma, dist,xdrift,ydrift,u_conv,v_conv):
+    def test_oseen(core_radius, gamma, dist,xdrift,ydrift,u_advection,v_advection):
         print('core_radius:',core_radius,'Gamma',gamma,'xdrift',xdrift,
-              'ydrift',ydrift,'u_conv',u_conv,'v_conv',v_conv)
+              'ydrift',ydrift,'u_advection',u_advection,'v_advection',v_advection)
         model = [[],[],[],[],[],[]]
         model[0] = core_radius
         model[1] = gamma
@@ -39,16 +39,16 @@ if __name__ == '__main__':
         x_index, y_index = np.meshgrid(x_index, y_index)
         x_real = 0.0
         y_real = 0.0
-        model[4] = u_conv
-        model[5] = v_conv
+        model[4] = u_advection
+        model[5] = v_advection
         u_data, v_data = fitting.velocity_model(core_radius, gamma, x_real, y_real,
-                                                u_conv, v_conv, x_index+xdrift, y_index+ydrift)
-        u_data = u_data + u_conv
-        v_data = v_data + v_conv
+                                                u_advection, v_advection, x_index+xdrift, y_index+ydrift)
+        u_data = u_data + u_advection
+        v_data = v_data + v_advection
         # NOISE
         u_data = np.random.normal(u_data,0.3)
         v_data = np.random.normal(v_data,0.3)
-        model = fitting.fit(core_radius, gamma, x_index, y_index, x_real, y_real, u_data, v_data, u_conv, v_conv,0)
+        model = fitting.fit(core_radius, gamma, x_index, y_index, x_real, y_real, u_data, v_data, u_advection, v_advection,0)
         print('core_radius:',model[0],'error(%):',(1-(model[0])/core_radius_ori)*100)
         print('gamma:',model[1],'error(%):',(1-(model[1])/gamma_ori)*100)
         print('x_real:',model[2])

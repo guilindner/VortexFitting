@@ -118,7 +118,7 @@ The results will be written to the *../results/* folder with the following files
   clickable vortices
 * vortex#_1.png: Comparison of the velocity field of the vortex and the model
 * vortex#_2.png: Comparison of the velocity field of the vortex and the model,
-  subtracting the convection velocity
+  subtracting the advection velocity
 * vortices.dat: parameters of all the vortices
 
 

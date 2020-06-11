@@ -30,23 +30,23 @@ def correlation_coef(u_data, v_data, u, v):
     return correlation
 
 
-def velocity_model(core_radius, gamma, x_real, y_real, u_conv, v_conv, x, y):
+def velocity_model(core_radius, gamma, x_real, y_real, u_advection, v_advection, x, y):
     """Generates the Lamb-Oseen vortex velocity array
 
     :param core_radius: core radius of the vortex
     :param gamma: circulation contained in the vortex
     :param x_real: relative x position of the vortex center
     :param y_real: relative y position of the vortex center
-    :param u_conv: u convective velocity at the center
-    :param v_conv: v convective velocity at the center
+    :param u_advection: u advective velocity at the center
+    :param v_advection: v advective velocity at the center
     :param x:
     :param y:
     :type core_radius: float
     :type gamma: float
     :type x_real: float
     :type y_real: float
-    :type u_conv: float
-    :type v_conv: float
+    :type u_advection: float
+    :type v_advection: float
     :type x: float
     :type y: float
     :returns: velx, vely
@@ -55,11 +55,11 @@ def velocity_model(core_radius, gamma, x_real, y_real, u_conv, v_conv, x, y):
     r = np.hypot(x - x_real, y - y_real)
     vel = (gamma / (2 * np.pi * r)) * (1 - np.exp(-(r ** 2) / core_radius ** 2))
     vel = np.nan_to_num(vel)
-    velx = u_conv - vel * (y - y_real) / r
-    vely = v_conv + vel * (x - x_real) / r
+    velx = u_advection - vel * (y - y_real) / r
+    vely = v_advection + vel * (x - x_real) / r
     velx = np.nan_to_num(velx)
     vely = np.nan_to_num(vely)
-    # print(core_radius, gamma, x_real, y_real, u_conv, v_conv, x, y)
+    # print(core_radius, gamma, x_real, y_real, u_advection, v_advection, x, y)
     return velx, vely
 
 
@@ -159,8 +159,8 @@ def full_fit(core_radius, gamma, vfield, x_center_index, y_center_index):
         dist = int(round(fitted[0] / np.hypot(dx, dy), 0)) + 1
         if fitted[0] < 2 * np.hypot(dx,dy):
             break
-        fitted[4] = vfield.u_velocity_matrix[y_center_index, x_center_index]  # u_conv
-        fitted[5] = vfield.v_velocity_matrix[y_center_index, x_center_index]  # v_conv
+        fitted[4] = vfield.u_velocity_matrix[y_center_index, x_center_index]  # u_advection
+        fitted[5] = vfield.v_velocity_matrix[y_center_index, x_center_index]  # v_advection
         x_index, y_index, u_data, v_data = tools.window(vfield, x_center_index, y_center_index, dist)
 
 
@@ -178,7 +178,7 @@ def full_fit(core_radius, gamma, vfield, x_center_index, y_center_index):
     return fitted[0], fitted[1], fitted[2], fitted[3], fitted[4], fitted[5], dist
 
 
-def fit(core_radius, gamma, x, y, x_real, y_real, u_data, v_data, u_conv, v_conv, i):
+def fit(core_radius, gamma, x, y, x_real, y_real, u_data, v_data, u_advection, v_advection, i):
     """
     Fitting  of the Lamb-Oseen Vortex
 
@@ -227,11 +227,11 @@ def fit(core_radius, gamma, x, y, x_real, y_real, u_data, v_data, u_conv, v_conv
 
     epsilon = 0.001
     bnds = ([0, gamma - abs(gamma) * m / 2 - epsilon, x_real - m * dx - epsilon, y_real - m * dy - epsilon,
-             u_conv - abs(u_conv) - epsilon, v_conv - abs(v_conv) - epsilon],
+             u_advection - abs(u_advection) - epsilon, v_advection - abs(v_advection) - epsilon],
             [core_radius + core_radius * m, gamma + abs(gamma) * m / 2 + epsilon, x_real + m * dx + epsilon,
-             y_real + m * dy + epsilon, u_conv + abs(u_conv) + epsilon, v_conv + abs(v_conv) + epsilon])
+             y_real + m * dy + epsilon, u_advection + abs(u_advection) + epsilon, v_advection + abs(v_advection) + epsilon])
 
-    sol = sp.optimize.least_squares(lamb_oseen_model, [core_radius, gamma, x_real, y_real, u_conv, v_conv],
+    sol = sp.optimize.least_squares(lamb_oseen_model, [core_radius, gamma, x_real, y_real, u_advection, v_advection],
                                     method='trf', bounds=bnds)
 
     return sol.x

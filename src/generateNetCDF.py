@@ -57,11 +57,11 @@ core_radius = 5.0
 gamma = 30
 x_real = 64
 y_real = 192
-u_conv = 0.0
-v_conv = 0.3
-u_data, v_data = fitting.velocity_model(core_radius, gamma, x_real, y_real, u_conv, v_conv, x_matrix, y_matrix)
-u_data = u_data + u_conv
-v_data = v_data + v_conv
+u_advection = 0.0
+v_advection = 0.3
+u_data, v_data = fitting.velocity_model(core_radius, gamma, x_real, y_real, u_advection, v_advection, x_matrix, y_matrix)
+u_data = u_data + u_advection
+v_data = v_data + v_advection
 #x_center_index = 200 #where to move the vortex
 #y_center_index = 100
 #print(u_data)

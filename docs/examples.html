@@ -130,7 +130,7 @@ unnecessary noise.</p>
 <a class="reference internal image-reference" href="_images/HIT_04.svg"><img alt="_images/HIT_04.svg" src="_images/HIT_04.svg" width="90%" /></a>
 <p>9 vortices detected with 8 accepted.</p>
 <p>Below two vortices are displayed, where in the left we have the normal field
-and to the right we have the convection velocity subtracted.</p>
+and to the right we have the advection velocity subtracted.</p>
 <a class="reference internal image-reference" href="_images/DNSvortex0_1.png"><img alt="_images/DNSvortex0_1.png" src="_images/DNSvortex0_1.png" style="width: 45%;" /></a>
 <a class="reference internal image-reference" href="_images/DNSvortex0_2.png"><img alt="_images/DNSvortex0_2.png" src="_images/DNSvortex0_2.png" style="width: 45%;" /></a>
 <a class="reference internal image-reference" href="_images/DNSvortex1_1.png"><img alt="_images/DNSvortex1_1.png" src="_images/DNSvortex1_1.png" style="width: 45%;" /></a>
@@ -191,7 +191,7 @@ and to the right we have the convection velocity subtracted.</p>
 <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Here since we have a convection velocity, we have to set the <em>self.norm = True</em>
+<p>Here since we have a advection velocity, we have to set the <em>self.norm = True</em>
 and the <em>self.normdir = 0</em> (for the y direction)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -i ../data/test_dataPIV -t <span class="m">1</span>.5
 </pre></div>
@@ -199,7 +199,7 @@ and the <em>self.normdir = 0</em> (for the y direction)</p>
 <a class="reference internal image-reference" href="_images/piv_15.svg"><img alt="_images/piv_15.svg" src="_images/piv_15.svg" width="90%" /></a>
 <p>203 vortices detected with 29 accepted.</p>
 <p>Below two vortices are displayed, where in the left we have the normal field
-and to the right we have the convection velocity subtracted.</p>
+and to the right we have the advection velocity subtracted.</p>
 <a class="reference internal image-reference" href="_images/PIVvortex0_1.png"><img alt="_images/PIVvortex0_1.png" src="_images/PIVvortex0_1.png" style="width: 45%;" /></a>
 <a class="reference internal image-reference" href="_images/PIVvortex0_2.png"><img alt="_images/PIVvortex0_2.png" src="_images/PIVvortex0_2.png" style="width: 45%;" /></a>
 <a class="reference internal image-reference" href="_images/PIVvortex1_1.png"><img alt="_images/PIVvortex1_1.png" src="_images/PIVvortex1_1.png" style="width: 45%;" /></a>

@@ -189,7 +189,7 @@ $\nu$ is the viscosity and $\Gamma$ is the circulation contained in the vortex.
 
 In this work we are dealing with a time-independent flow, so we have no decaying
 due to viscosity. And since the coherent structures are in movement, we add the
-convective velocity to the Lamb-Oseen vortex model shown in equation \ref{eq:oseen}.  
+advective velocity to the Lamb-Oseen vortex model shown in equation \ref{eq:oseen}.  
 
 .. math::
    \label{eq:oseen}

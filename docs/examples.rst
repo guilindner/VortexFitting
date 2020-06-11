@@ -63,7 +63,7 @@ Case 4
 9 vortices detected with 8 accepted.
 
 Below two vortices are displayed, where in the left we have the normal field
-and to the right we have the convection velocity subtracted.
+and to the right we have the advection velocity subtracted.
 
 .. image:: _images/DNSvortex0_1.png
    :width: 45 %
@@ -107,7 +107,7 @@ For PIV data we need to change the *classes.py* to match the NetCDF file:
    self.normdir = 0
    self.samples = self.u.shape[1]
 
-Here since we have a convection velocity, we have to set the *self.norm = True*
+Here since we have a advection velocity, we have to set the *self.norm = True*
 and the *self.normdir = 0* (for the y direction)
 
 .. code-block:: bash
@@ -120,7 +120,7 @@ and the *self.normdir = 0* (for the y direction)
 203 vortices detected with 29 accepted.
 
 Below two vortices are displayed, where in the left we have the normal field
-and to the right we have the convection velocity subtracted.
+and to the right we have the advection velocity subtracted.
 
 .. image:: _images/PIVvortex0_1.png
    :width: 45 %

@@ -108,7 +108,7 @@ def plot_quiver(x_index, y_index, u_data, v_data, detection_field):
 
 
 def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, 
-             xc, yc, core_radius, gamma, u_conv, v_conv, correlation_value,
+             xc, yc, core_radius, gamma, u_advection, v_advection, correlation_value,
              cpt_vortex, subtract_advection_field, output_dir, time_step):
     """
     Plot fit
@@ -133,13 +133,13 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model,
     :type core_radius: float
     :param gamma: circulation of the vortex
     :type gamma: float
-    :param u_conv: contains velocity data (u component)
-    :type u_conv: 2D array of float
-    :param v_conv: contains velocity data (v component)
-    :type v_conv: 2D array of float
+    :param u_advection: contains velocity data (u component)
+    :type u_advection: 2D array of float
+    :param v_advection: contains velocity data (v component)
+    :type v_advection: 2D array of float
     :param cpt_vortex: current n° of the vortex
     :type cpt_vortex: int
-    :param subtract_advection_field: if True, the advection field (uconv, vconv) is subtracted
+    :param subtract_advection_field: if True, the advection field (u_advection, v_advection) is subtracted
     :type subtract_advection_field:  bool
     :param output_dir: directory where the results are written
     :type output_dir: str
@@ -169,7 +169,7 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model,
     plt.ylabel('y')
     
     plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' % (
-    round(core_radius, 2), round(gamma, 2), round(u_conv, 2), round(v_conv, 2), round(correlation_value, 2)))
+    round(core_radius, 2), round(gamma, 2), round(u_advection, 2), round(v_advection, 2), round(correlation_value, 2)))
     if subtract_advection_field == False:
         plt.savefig(output_dir + '/vortex%i_%s.png' % (cpt_vortex, 'initial_vfield'), format='png')
     else:
