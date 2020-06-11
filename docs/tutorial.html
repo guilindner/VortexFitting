@@ -100,19 +100,20 @@
 <h2>Using the code<a class="headerlink" href="#using-the-code" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="data-input">
 <h3>Data input<a class="headerlink" href="#data-input" title="Permalink to this headline">¶</a></h3>
-<p>The data used must be in the netCDF4 format. The axis of the velocity
-components are ordered like z, y, x, where z can also be the number of
-samples in a 2D field.</p>
+<p>The data used can be of different format.
+For netCDF4, the axis of the velocity components are ordered like z, y, x,
+where z can also be the number of samples in a 2D field.</p>
+<p>TecPlot format or OpenFoam export are also accepted.</p>
 <p>The variable names should be changed in the <strong>class.py</strong> file</p>
 <p>In this example we have the DNS HIT format used in this tutorial:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_x&#39;</span><span class="p">][</span><span class="n">time</span><span class="p">,:,:])</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_y&#39;</span><span class="p">][</span><span class="n">time</span><span class="p">,:,:])</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">grp1</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_z&#39;</span><span class="p">][</span><span class="n">time</span><span class="p">,:,:])</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">dy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span><span class="p">)</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">norm</span> <span class="o">=</span> <span class="bp">False</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">normdir</span> <span class="o">=</span> <span class="mi">1</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">u_velocity_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datafile_read</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_x&#39;</span><span class="p">][</span><span class="n">time_step</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">v_velocity_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datafile_read</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_y&#39;</span><span class="p">][</span><span class="n">time_step</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">w_velocity_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datafile_read</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;velocity_z&#39;</span><span class="p">][</span><span class="n">time_step</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">x_coordinate_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_velocity_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_velocity_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">y_coordinate_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_velocity_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_velocity_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">z_coordinate_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_velocity_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_velocity_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">normalization_flag</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">normalization_direction</span> <span class="o">=</span> <span class="bp">False</span>
 </pre></div>
 </div>
 <p>Here the names of the variables <em>velocity_x</em>, <em>velocity_y</em> and <em>velocity_z</em> are
@@ -182,10 +183,10 @@ the <em>-s</em> argument, like this:</p>
 <li>accepted.svg: The location and size of the accepted vortices</li>
 <li>linked.svg: same as <em>accepted.svg</em> but can be open on the web browser with
 clickable vortices</li>
-<li>vortex#_1.png: Comparison of the velocity field of the vortex and the model</li>
-<li>vortex#_2.png: Comparison of the velocity field of the vortex and the model,
+<li>vortex#_initial_vfield.png: Comparison of the velocity field of the vortex and the model</li>
+<li>vortex#_advection_field_subtracted.png: Comparison of the velocity field of the vortex and the model,
 subtracting the advection velocity</li>
-<li>vortices.dat: parameters of all the vortices</li>
+<li>vortices.dat: parameters of all the detected vortices</li>
 </ul>
 </div>
 </div>
@@ -200,19 +201,21 @@ It will create a netCDF4 file with the same characteristics as the DNS HIT file.
 <p>You can tune the characteristics and position of the vortex by changing the
 following values directly on <em>generatedField.nc</em>:</p>
 <ul class="simple">
-<li>coreR;</li>
+<li>core_radius;</li>
 <li>gamma;</li>
-<li>fxCenter;</li>
-<li>u_conv;</li>
-<li>v_conv.</li>
+<li>x_center;</li>
+<li>y_center;</li>
+<li>u_advection;</li>
+<li>v_advection.</li>
 </ul>
 <p>The size of the domain can also be changed on the <em>ndim</em> variable.</p>
 <p>You can use the <em>output</em> option (<em>-o</em>) to specify the name of the created file,
 and <em>ndim</em> (<em>-ndim</em>) option to change the domain size.
-For example!</p>
+For example:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 generateNetCDF.py -o ./data/testGenerate.nc -ndim <span class="m">300</span>
 </pre></div>
 </div>
+<p>will produce a 300x300 mesh, in a file named <em>testGenerate.nc</em>.</p>
 </div>
 <div class="section" id="converting-nc-to-ascii">
 <h2>Converting NC to ASCII<a class="headerlink" href="#converting-nc-to-ascii" title="Permalink to this headline">¶</a></h2>

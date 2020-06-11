@@ -176,24 +176,24 @@ Lamb-Oseen vortex
 -----------------
 
 The Lamb-Oseen vortex is a mathematical model for the flow velocity in the
-circumferential direction ($\theta$), shown in equation \ref{eq:oseenDecay}. It
+circumferential direction (:math:`\theta`), shown below. It
 models a line vortex that decays due to viscosity.
 
 .. math::
    \label{eq:oseenDecay}
-   \vec{u}_\theta(r,t) = \frac{\Gamma}{2\pi r} \left( 1 - exp \left(
+   \vec{u}_\theta(r,t) = \frac{\Gamma}{2\pi r} \left( 1 - \exp \left(
    -\left(\frac{r}{r_0(t)}\right)^2\right)\right) \vec{e}_{\theta}
 
-where $r$ is the radius, $r_0 = \sqrt{4 \nu t}$ is the core radius of vortex,
-$\nu$ is the viscosity and $\Gamma$ is the circulation contained in the vortex. 
+where :math:`r` is the radius, :math:`r_0 = \sqrt{4 \nu t}` is the core radius of vortex,
+:math:`\nu` is the viscosity and :math:`\Gamma` is the circulation contained in the vortex. 
 
 In this work we are dealing with a time-independent flow, so we have no decaying
 due to viscosity. And since the coherent structures are in movement, we add the
-advective velocity to the Lamb-Oseen vortex model shown in equation \ref{eq:oseen}.  
+advective velocity to the Lamb-Oseen vortex model shown below.  
 
 .. math::
    \label{eq:oseen}
-   \vec{u}(r,\theta) = \vec{u}_c + \frac{\Gamma}{2\pi r} \left( 1 - exp \left(
+   \vec{u}(r,\theta) = \vec{u}_c + \frac{\Gamma}{2\pi r} \left( 1 - \exp \left(
    -\left(\frac{r}{r_0}\right)^2\right)\right) \vec{e}_{\theta}
 
 Non-linear least squares
@@ -223,9 +223,11 @@ current point to within a finite region. This makes the method more stable than
 Newton's method.
 
 
-#.. [HERPIN2009] Sophie Herpin.
-#   *Étude de l'influence du nombre de Reynolds sur lorganisation de la turbulence
-#   de paroi.* PhD thesis, Ecole Centrale de Lille, 2009.
+|
+|
+
+References
+----------
 
 .. [ZHOU1999] Zhou J., Adrian R. J., Balachandar S., and Kendall T. M.
    *Mechanisms for generating coherent packets of hairpin vortices in channel flow.*

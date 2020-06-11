@@ -19,9 +19,11 @@ Using the code
 Data input
 ``````````
 
-The data used must be in the netCDF4 format. The axis of the velocity
-components are ordered like z, y, x, where z can also be the number of
-samples in a 2D field.
+The data used can be of different format.
+For netCDF4, the axis of the velocity components are ordered like z, y, x, 
+where z can also be the number of samples in a 2D field.
+
+TecPlot format or OpenFoam export are also accepted.
 
 The variable names should be changed in the **class.py** file
 
@@ -29,14 +31,14 @@ In this example we have the DNS HIT format used in this tutorial:
 
 .. code-block:: python
 
-    self.u = np.array(grp1.variables['velocity_x'][time,:,:])
-    self.v = np.array(grp1.variables['velocity_y'][time,:,:])
-    self.w = np.array(grp1.variables['velocity_z'][time,:,:])
-    self.samples = self.u.shape[1]
-    self.dx = np.linspace(0,self.samples,self.samples)
-    self.dy = np.linspace(0,self.samples,self.samples)
-    self.norm = False
-    self.normdir = 1
+    self.u_velocity_matrix = np.array(datafile_read.variables['velocity_x'][time_step, :, :])
+    self.v_velocity_matrix = np.array(datafile_read.variables['velocity_y'][time_step, :, :])
+    self.w_velocity_matrix = np.array(datafile_read.variables['velocity_z'][time_step, :, :])
+    self.x_coordinate_matrix = np.linspace(0, self.u_velocity_matrix.shape[1], self.u_velocity_matrix.shape[1])
+    self.y_coordinate_matrix = np.linspace(0, self.u_velocity_matrix.shape[0], self.u_velocity_matrix.shape[0])
+    self.z_coordinate_matrix = np.linspace(0, self.u_velocity_matrix.shape[0], self.u_velocity_matrix.shape[0])
+    self.normalization_flag = False
+    self.normalization_direction = False
 
 Here the names of the variables *velocity_x*, *velocity_y* and *velocity_z* are
 defined and an equally spaced mesh is created using *np.linspace*. 
@@ -116,10 +118,10 @@ The results will be written to the *../results/* folder with the following files
 * accepted.svg: The location and size of the accepted vortices
 * linked.svg: same as *accepted.svg* but can be open on the web browser with
   clickable vortices
-* vortex#_1.png: Comparison of the velocity field of the vortex and the model
-* vortex#_2.png: Comparison of the velocity field of the vortex and the model,
+* vortex#_initial_vfield.png: Comparison of the velocity field of the vortex and the model
+* vortex#_advection_field_subtracted.png: Comparison of the velocity field of the vortex and the model,
   subtracting the advection velocity
-* vortices.dat: parameters of all the vortices
+* vortices.dat: parameters of all the detected vortices
 
 
 Generating a custom Vortex
@@ -137,21 +139,26 @@ This command will create a file *generatedField.nc* at the data folder.
 You can tune the characteristics and position of the vortex by changing the 
 following values directly on *generatedField.nc*:
 
-* coreR;
+* core_radius;
 * gamma;
-* fxCenter;
-* u_conv;
-* v_conv.
+* x_center;
+* y_center;
+* u_advection;
+* v_advection.
 
 The size of the domain can also be changed on the *ndim* variable.
 
 You can use the *output* option (*-o*) to specify the name of the created file, 
 and *ndim* (*-ndim*) option to change the domain size.
-For example!
+For example:
 
 .. code-block:: bash
 
    $ python3 generateNetCDF.py -o ./data/testGenerate.nc -ndim 300
+
+
+will produce a 300x300 mesh, in a file named *testGenerate.nc*.
+
 
 Converting NC to ASCII
 ----------------------
@@ -166,6 +173,8 @@ all z planes (or time) into separated files.
 
 Depending on the file you need to change the variable names like *velocity_x*
 and such for the corresponding variable.
+
+
 
 Documentation
 -------------

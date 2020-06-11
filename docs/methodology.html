@@ -58,6 +58,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#fitting-of-coherent-structures">Fitting of coherent structures</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#lamb-oseen-vortex">Lamb-Oseen vortex</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#non-linear-least-squares">Non-linear least squares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
@@ -221,20 +222,20 @@ really a vortex.</p>
 <div class="section" id="lamb-oseen-vortex">
 <h2>Lamb-Oseen vortex<a class="headerlink" href="#lamb-oseen-vortex" title="Permalink to this headline">¶</a></h2>
 <p>The Lamb-Oseen vortex is a mathematical model for the flow velocity in the
-circumferential direction ($theta$), shown in equation ref{eq:oseenDecay}. It
+circumferential direction (<img class="math" src="_images/math/3be04d4207434584251f6921820c24ac9fa8c6f1.png" alt="\theta"/>), shown below. It
 models a line vortex that decays due to viscosity.</p>
 <div class="math">
-<p><img src="_images/math/e5fafa36c515181a1fd8bc7b1ba0c44faeabe4f4.png" alt="\label{eq:oseenDecay}
-\vec{u}_\theta(r,t) = \frac{\Gamma}{2\pi r} \left( 1 - exp \left(
+<p><img src="_images/math/dc66df3fc466f497b4e9157c9943acdafb1aa717.png" alt="\label{eq:oseenDecay}
+\vec{u}_\theta(r,t) = \frac{\Gamma}{2\pi r} \left( 1 - \exp \left(
 -\left(\frac{r}{r_0(t)}\right)^2\right)\right) \vec{e}_{\theta}"/></p>
-</div><p>where $r$ is the radius, $r_0 = sqrt{4 nu t}$ is the core radius of vortex,
-$nu$ is the viscosity and $Gamma$ is the circulation contained in the vortex.</p>
+</div><p>where <img class="math" src="_images/math/eaa6ad49a7f78fe5a13b486690163bf2dc7e3e60.png" alt="r"/> is the radius, <img class="math" src="_images/math/be9a07b2c8c9f23ba3ff5c67985ef3f26e1b427c.png" alt="r_0 = \sqrt{4 \nu t}"/> is the core radius of vortex,
+<img class="math" src="_images/math/ca3b8fa4180eee2dfc3af9d13fae1da451cd2c31.png" alt="\nu"/> is the viscosity and <img class="math" src="_images/math/d872993ed0c7c420e73e77a1d285ac100c516806.png" alt="\Gamma"/> is the circulation contained in the vortex.</p>
 <p>In this work we are dealing with a time-independent flow, so we have no decaying
 due to viscosity. And since the coherent structures are in movement, we add the
-advective velocity to the Lamb-Oseen vortex model shown in equation ref{eq:oseen}.</p>
+advective velocity to the Lamb-Oseen vortex model shown below.</p>
 <div class="math">
-<p><img src="_images/math/dbce97688e276bfb719b2e65988a5d1cb17eb1a5.png" alt="\label{eq:oseen}
-\vec{u}(r,\theta) = \vec{u}_c + \frac{\Gamma}{2\pi r} \left( 1 - exp \left(
+<p><img src="_images/math/3ada1e1ff7afb768184fbca182c019730ac0ec24.png" alt="\label{eq:oseen}
+\vec{u}(r,\theta) = \vec{u}_c + \frac{\Gamma}{2\pi r} \left( 1 - \exp \left(
 -\left(\frac{r}{r_0}\right)^2\right)\right) \vec{e}_{\theta}"/></p>
 </div></div>
 <div class="section" id="non-linear-least-squares">
@@ -257,9 +258,14 @@ does this using a combination of Newton’s method and the steepest descent meth
 This is a so-called trust region method. This means that every step moves the
 current point to within a finite region. This makes the method more stable than
 Newton’s method.</p>
-<p>#.. [HERPIN2009] Sophie Herpin.
-#   <em>Étude de l’influence du nombre de Reynolds sur lorganisation de la turbulence
-#   de paroi.</em> PhD thesis, Ecole Centrale de Lille, 2009.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <table class="docutils citation" frame="void" id="zhou1999" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -292,7 +298,6 @@ Phys. Fluids, 2:765–777, 1990.</td></tr>
 Center for Turbulence Research Report, CTR-S88, 1988</td></tr>
 </tbody>
 </table>
-</div>
 </div>
 </div>
 

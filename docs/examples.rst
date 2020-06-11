@@ -94,18 +94,17 @@ For PIV data we need to change the *classes.py* to match the NetCDF file:
 
 .. code-block:: python
 
-   self.u = np.array(grp1.variables['velocity_n'][time,:,:])
-   self.v = np.array(grp1.variables['velocity_s'][time,:,:])
-   self.w = np.array(grp1.variables['velocity_z'][time,:,:])
-   self.dx = np.array(grp1.variables['grid_n'])
-   self.dy = np.array(grp1.variables['grid_z'])
-   self.dy = self.dy - self.dy[0] #it does not start at 0
-   self.u = self.u - np.mean(self.u,1)[:,None]
-   self.v = self.v - np.mean(self.v,1)[:,None]
-   self.w = self.w - np.mean(self.w,1)[:,None]
-   self.norm = True
-   self.normdir = 0
-   self.samples = self.u.shape[1]
+   self.u_velocity_matrix = np.array(datafile_read.variables['velocity_x'][time_step, :, :])
+   self.v_velocity_matrix = np.array(datafile_read.variables['velocity_y'][time_step, :, :])
+   self.w_velocity_matrix = np.array(datafile_read.variables['velocity_z'][time_step, :, :])
+   self.x_coordinate_matrix = np.linspace(0, self.u_velocity_matrix.shape[1], self.u_velocity_matrix.shape[1])
+   self.y_coordinate_matrix = np.linspace(0, self.u_velocity_matrix.shape[0], self.u_velocity_matrix.shape[0])
+   self.z_coordinate_matrix = np.linspace(0, self.u_velocity_matrix.shape[0], self.u_velocity_matrix.shape[0])
+   self.x_coordinate_size = self.u_velocity_matrix.shape[1]
+   self.y_coordinate_size = self.u_velocity_matrix.shape[0]
+   self.z_coordinate_size = 1
+   self.normalization_flag = False
+   self.normalization_direction = False
 
 Here since we have a advection velocity, we have to set the *self.norm = True*
 and the *self.normdir = 0* (for the y direction)
