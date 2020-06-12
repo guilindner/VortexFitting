@@ -8,15 +8,16 @@ import argparse
 import time
 import numpy as np
 
-from classes import VelocityField
-import tools
-import fitting
-import plot
-import schemes
-import detection
-import output
+from . import tools
+from . import fitting
+from . import plot
+from . import schemes
+from . import detection
+from . import output
+from . import classes
 
-if __name__ == '__main__':
+def main():
+#if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Optional app description',
                                      formatter_class=argparse.RawTextHelpFormatter)
 
@@ -114,7 +115,7 @@ if __name__ == '__main__':
         print('\nOpening file: ',args.input_filename.format(time_step), ', file type: ', args.file_type)
         if (args.mean_filename != '/'):
             print('Opening mean field: ', args.mean_filename)
-        vfield = VelocityField(args.input_filename,time_step,args.mean_filename,args.file_type)
+        vfield = classes.VelocityField(args.input_filename,time_step,args.mean_filename,args.file_type)
 
         #---- DIFFERENCE APPROXIMATION ----#
         lap = time.time()

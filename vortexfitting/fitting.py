@@ -1,6 +1,7 @@
 import numpy as np
 import scipy as sp
-import tools
+
+from . import tools
 
 
 def correlation_coef(u_data, v_data, u, v):

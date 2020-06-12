@@ -1,60 +1,42 @@
-"""A setuptools based setup module.
-See:
-https://packaging.python.org/guides/distributing-packages-using-setuptools/
-https://github.com/pypa/sampleproject
-"""
-
-# Always prefer setuptools over distutils
 from setuptools import setup, find_packages
-from os import path
+import pathlib
 
-here = path.abspath(path.dirname(__file__))
+# The directory containing this file
+HERE = pathlib.Path(__file__).parent
 
-# Get the long description from the README file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
+# The text of the README file
+README = (HERE / "README.md").read_text()
 
-# Arguments marked as "Required" below must be included for upload to PyPI.
-# Fields marked as "Optional" may be commented out.
-
+# This call to setup() does all the work
 setup(
-    # $ pip install vortexfitting
-    name='vortexfitting',
-    version='0.1',
-    description='A tool to locate and characterize vortices',  # Optional
-    long_description=long_description,
-    #url='https://github.com/pypa/sampleproject',  # Optional
-    author='Guilherme Anrain Lindner',
-    #author_email='@gmail.com',  # Optional
-
-    # Classifiers help users find your project by categorizing it.
-    #
-    # For a list of valid classifiers, see https://pypi.org/classifiers/
-    classifiers=[  # Optional
-        # How mature is this project? Common values are
-        #   3 - Alpha
-        #   4 - Beta
-        #   5 - Production/Stable
-        'Development Status :: 3 - Alpha',
-        'Intended Audience :: Developers',
-        'Topic :: Software Development :: Build Tools',
-        'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
+    name="vortexfitting",
+    version="1.0.0",
+    description="A tool to locate and characterize vortices",
+    long_description=README,
+    long_description_content_type="text/markdown",
+    url="https://github.com/realpython/reader",
+    author="Guilherme Anrain Lindner",
+    keywords='vortex cfd fluid mechanics',
+    author_email="lindner.guilherme@gmail.com",
+    license="MIT",
+    classifiers=[
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         'Programming Language :: Python :: 3.8',
     ],
-    keywords='vortex cfd fluid mechanics',  # Optional
-    package_dir={'': 'src'},
-    packages=find_packages(where='src'),  # Required
-    python_requires='>=3.6',
-
-    install_requires=['netcdf4','matplotlib', 'numpy', 'scipy'],  # Optional
-
-    #package_data={  # Optional
-    #    'sample': ['package_data.dat'],
-    #},
-
-    project_urls={  # Optional
+    
+    packages= ['vortexfitting'],
+    #package_dir={'vortexfitting': 'vortexfitting'},
+    package_data={'vortexfitting': ['data/*.*']},
+    include_package_data=True,
+    install_requires=['netcdf4','matplotlib', 'numpy', 'scipy'],
+    project_urls={  
         'Source': 'https://github.com/guilindner/VortexFitting',
+    },
+    entry_points={
+        "console_scripts": [
+            "vortex-fitting = vortexfitting.__main__:main",
+        ]
     },
 )

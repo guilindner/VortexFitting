@@ -9,8 +9,8 @@ from matplotlib.backends.backend_pdf import PdfPages
 from scipy.stats import norm
 import re
 
-import tools
-import fitting
+from . import tools
+from . import fitting
 
 
 def plot_fields(vfield, detection_field):
