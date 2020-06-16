@@ -2,27 +2,28 @@
 
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>plot.py &#8212; VortexFitting 1 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/bizstyle.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="schemes.py" href="schemes.html" />
-    <link rel="prev" title="fitting.py" href="fitting.html" />
+    <link rel="prev" title="output.py" href="output.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -38,12 +39,28 @@
           <a href="schemes.html" title="schemes.py"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="fitting.html" title="fitting.py"
+          <a href="output.html" title="output.py"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Modules</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Modules</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">plot.py</a></li> 
       </ul>
-    </div>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="plot-py">
+<h1>plot.py<a class="headerlink" href="#plot-py" title="Permalink to this headline">¶</a></h1>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
 <h3><a href="../index.html">Table of Contents</a></h3>
@@ -51,15 +68,16 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../methodology.html">Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="classes.html">classes.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="detection.html">detection.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fitting.html">fitting.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output.html">output.py</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">plot.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="schemes.html">schemes.py</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testOseen.html">testOseen.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tools.html">tools.py</a></li>
 </ul>
 </li>
@@ -67,227 +85,15 @@
 </ul>
 
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <div class="section" id="module-plot">
-<span id="plot-py"></span><h1>plot.py<a class="headerlink" href="#module-plot" title="Permalink to this headline">¶</a></h1>
-<p>Plotting routines and image generation</p>
-<dl class="function">
-<dt id="plot.create_links">
-<code class="descclassname">plot.</code><code class="descname">create_links</code><span class="sig-paren">(</span><em>path</em>, <em>vortices_list</em>, <em>output_dir</em>, <em>time_step</em><span class="sig-paren">)</span><a class="headerlink" href="#plot.create_links" title="Permalink to this definition">¶</a></dt>
-<dd><p>create links: add some links bewteen the accepted.svg file and the detected vortices</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>path</strong> (<em>str</em>) – path of the accepted.svg file</li>
-<li><strong>vortices_list</strong> (<em>list</em>) – contains all the detected vortices</li>
-<li><strong>output_dir</strong> (<em>str</em>) – directory where the results are written</li>
-<li><strong>time_step</strong> (<em>int</em>) – current time_step</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">file</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">image</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="plot.plot_accepted">
-<code class="descclassname">plot.</code><code class="descname">plot_accepted</code><span class="sig-paren">(</span><em>vfield</em>, <em>vortices_list</em>, <em>detection_field</em>, <em>output_dir</em>, <em>time_step</em><span class="sig-paren">)</span><a class="headerlink" href="#plot.plot_accepted" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot accepted: display the accepted vortices, with respect to the different criterion
-(correlation threshold, box size …)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</li>
-<li><strong>vortices_list</strong> (<em>list</em>) – contains all the detected vortices</li>
-<li><strong>detection_field</strong> (<em>2D array of float</em>) – detection field (vorticity …)</li>
-<li><strong>output_dir</strong> (<em>str</em>) – directory where the results are written</li>
-<li><strong>time_step</strong> (<em>int</em>) – current time_step</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">popup</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">image</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="plot.plot_detect">
-<code class="descclassname">plot.</code><code class="descname">plot_detect</code><span class="sig-paren">(</span><em>vortices_counterclockwise</em>, <em>vortices_clockwise</em>, <em>detection_field</em>, <em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#plot.plot_detect" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot detect: display the location and rotation of the vortices</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>vortices_counterclockwise</strong> (<em>list of vortices</em>) – vortices spinning counterclockwise</li>
-<li><strong>vortices_clockwise</strong> (<em>list of vortices</em>) – vortices spinning clockwise</li>
-<li><strong>detection_field</strong> (<em>2D array of float</em>) – detection field (vorticity …)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">popup</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">image</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="plot.plot_fields">
-<code class="descclassname">plot.</code><code class="descname">plot_fields</code><span class="sig-paren">(</span><em>vfield</em>, <em>detection_field</em><span class="sig-paren">)</span><a class="headerlink" href="#plot.plot_fields" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot fields: display the (u,v,w) fields and the vorticity field.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</li>
-<li><strong>detection_field</strong> (<em>2D array of float</em>) – detection field (vorticity …)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">popup</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">image</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="plot.plot_fit">
-<code class="descclassname">plot.</code><code class="descname">plot_fit</code><span class="sig-paren">(</span><em>x_index</em>, <em>y_index</em>, <em>u_data</em>, <em>v_data</em>, <em>u_model</em>, <em>v_model</em>, <em>xc</em>, <em>yc</em>, <em>core_radius</em>, <em>gamma</em>, <em>u_advection</em>, <em>v_advection</em>, <em>correlation_value</em>, <em>cpt_vortex</em>, <em>subtract_advection_field</em>, <em>output_dir</em>, <em>time_step</em><span class="sig-paren">)</span><a class="headerlink" href="#plot.plot_fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot fit</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x_index</strong> (<em>array of float</em>) – contains spatial mesh (x direction)</li>
-<li><strong>y_index</strong> (<em>array of float</em>) – contains spatial mesh (y direction)</li>
-<li><strong>u_data</strong> (<em>2D array of float</em>) – contains velocity data (u component)</li>
-<li><strong>v_data</strong> (<em>2D array of float</em>) – contains velocity data (v component)</li>
-<li><strong>u_model</strong> (<em>2D array of float</em>) – contains velocity data (u component)</li>
-<li><strong>v_model</strong> (<em>2D array of float</em>) – contains velocity data (v component)</li>
-<li><strong>xc</strong> (<em>float</em>) – x coordinate of the vortex center</li>
-<li><strong>yc</strong> (<em>float</em>) – y coordinate of the vortex center</li>
-<li><strong>core_radius</strong> (<em>float</em>) – dimension of the vortex core radius</li>
-<li><strong>gamma</strong> (<em>float</em>) – circulation of the vortex</li>
-<li><strong>u_advection</strong> (<em>2D array of float</em>) – contains velocity data (u component)</li>
-<li><strong>v_advection</strong> (<em>2D array of float</em>) – contains velocity data (v component)</li>
-<li><strong>cpt_vortex</strong> (<em>int</em>) – current n° of the vortex</li>
-<li><strong>subtract_advection_field</strong> (<em>bool</em>) – if True, the advection field (u_advection, v_advection) is subtracted</li>
-<li><strong>output_dir</strong> (<em>str</em>) – directory where the results are written</li>
-<li><strong>correlation_value</strong> (<em>float</em>) – correlation between the vortex and a Lamb-Oseen model</li>
-<li><strong>time_step</strong> (<em>int</em>) – current time_step</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">image file</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">png</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="plot.plot_quiver">
-<code class="descclassname">plot.</code><code class="descname">plot_quiver</code><span class="sig-paren">(</span><em>x_index</em>, <em>y_index</em>, <em>u_data</em>, <em>v_data</em>, <em>detection_field</em><span class="sig-paren">)</span><a class="headerlink" href="#plot.plot_quiver" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot quiver: display a specific (x,y) location with vector fields.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x_index</strong> (<em>array of float</em>) – contains spatial mesh (x direction)</li>
-<li><strong>y_index</strong> (<em>array of float</em>) – contains spatial mesh (y direction)</li>
-<li><strong>u_data</strong> (<em>2D array of float</em>) – contains velocity data (u component)</li>
-<li><strong>v_data</strong> (<em>2D array of float</em>) – contains velocity data (v component)</li>
-<li><strong>detection_field</strong> (<em>2D array of float</em>) – detection field (vorticity …)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">popup</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">image</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="plot.plot_vortex">
-<code class="descclassname">plot.</code><code class="descname">plot_vortex</code><span class="sig-paren">(</span><em>vfield</em>, <em>vortices_list</em>, <em>output_dir</em>, <em>time_step</em><span class="sig-paren">)</span><a class="headerlink" href="#plot.plot_vortex" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot vortex: plot a vortex and its corresponding vortex model</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</li>
-<li><strong>vortices_list</strong> (<em>list</em>) – contains all the detected vortices</li>
-<li><strong>output_dir</strong> (<em>str</em>) – directory where the results are written</li>
-<li><strong>time_step</strong> (<em>int</em>) – current time_step</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">file</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">image</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
-
-
-          </div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -305,15 +111,16 @@
           <a href="schemes.html" title="schemes.py"
              >next</a> |</li>
         <li class="right" >
-          <a href="fitting.html" title="fitting.py"
+          <a href="output.html" title="output.py"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >Modules</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="modules.html" >Modules</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">plot.py</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2017, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.0.
     </div>
   </body>
 </html>

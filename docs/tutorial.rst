@@ -1,18 +1,6 @@
 Tutorial
 ========
 
-Requirements
-------------
-You need the following **Python 3** libraries:
-
-* NumPy
-* SciPy
-* Matplotlib
-* netCDF4
-
-In order to generate the documentation you need the **sphinx** package.
-
-
 Using the code
 --------------
 
@@ -173,19 +161,3 @@ all z planes (or time) into separated files.
 
 Depending on the file you need to change the variable names like *velocity_x*
 and such for the corresponding variable.
-
-
-
-Documentation
--------------
-
-To perform changes on the documentation, you should modify directly the *.rst*
-files, located in the *docs* folder. After modifying the desired files, run the
-script *update_docs.sh*:
-
-.. code-block:: bash
-
-   $ sh update_docs.sh
-
-After this, the html files will be generated in the same folder. All files in
-the doc folder should be commited to github.com to appear online.

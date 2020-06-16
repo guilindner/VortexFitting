@@ -21,6 +21,7 @@ The code is hosted at https://github.com/guilindner/VortexFitting
 
    introduction
    methodology
+   installation
    tutorial
    examples
    modules/modules

@@ -1,2 +1,2 @@
-include data/*
+include vortexfitting/data/*
 include *.sh

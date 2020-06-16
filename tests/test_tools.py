@@ -3,7 +3,7 @@ import numpy as np
 
 
 import sys
-sys.path.insert(1,'../src')
+sys.path.insert(1,'../vortexfitting')
 
 import tools
 

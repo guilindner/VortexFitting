@@ -21,7 +21,7 @@ Case 1
 ``````
 .. code-block:: bash
    
-   $ python3 vortexfitting.py -t 0.0
+   $ vortexfitting -t 0.0 -i data/example_dataHIT.nc
 
 .. image:: _images/HIT_00.svg
    :width: 90%
@@ -32,7 +32,7 @@ Case 2
 ``````
 .. code-block:: bash
    
-   $ python3 vortexfitting.py -t 0.1
+   $ vortexfitting -t 0.1 -i data/example_dataHIT.nc
 
 .. image:: _images/HIT_01.svg
    :width: 90%
@@ -43,7 +43,7 @@ Case 3
 ``````
 .. code-block:: bash
    
-   $ python3 vortexfitting.py -t 0.2
+   $ vortexfitting -t 0.2 -i data/example_dataHIT.nc
 
 .. image:: _images/HIT_02.svg
    :width: 90%
@@ -55,7 +55,7 @@ Case 4
 
 .. code-block:: bash
    
-   $ python3 vortexfitting.py -t 0.4
+   $ vortexfitting -t 0.4 -i data/example_dataHIT.nc
 
 .. image:: _images/HIT_04.svg
    :width: 90%
@@ -111,7 +111,7 @@ and the *self.normdir = 0* (for the y direction)
 
 .. code-block:: bash
    
-   $ python3 vortexfitting.py -i ../data/test_dataPIV -t 1.5
+   $ vortexfitting.py -i data/test_dataPIV -ft piv_netcdf -t 1.5 
 
 .. image:: _images/piv_15.svg
    :width: 90 %
@@ -175,5 +175,3 @@ with :math:`dx` and :math:`dy` the spatial resolution.
    :width: 45 %
 .. image:: _images/openfoam.png
    :width: 45 %
-
-

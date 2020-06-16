@@ -22,11 +22,10 @@ def main():
                                      formatter_class=argparse.RawTextHelpFormatter)
 
     parser.add_argument('-i', '--input', dest='input_filename',
-                        default='../data/test_dataHIT.nc',
-                        help='input file', metavar='FILE')
+                        help='input file', metavar='FILE', required=True)
 
     parser.add_argument('-o', '--output', dest='output_directory',
-                        default='../results',
+                        default='results',
                         help='if you want to specify an output directory', metavar='DIRECTORY')
 
     parser.add_argument('-s', '--scheme', dest='scheme', type=int, default=22,

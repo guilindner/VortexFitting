@@ -33,6 +33,7 @@ def least_square_diff(vfield):  # may have a problem on the boundary
     :type vfield: float
     :returns: derivative
     :rtype: 2D array of float
+
     .. [RAFFEL1998] Raffel M, Willert C and Kompenhans J 1998
            *Particle image velocimetry A Practical Guide* (Berlin: Springer)
     """

@@ -28,15 +28,15 @@ setup(
     
     packages= ['vortexfitting'],
     #package_dir={'vortexfitting': 'vortexfitting'},
-    package_data={'vortexfitting': ['data/*.*']},
-    include_package_data=True,
+    #package_data={'vortexfitting': ['data/*.*']},
+    #include_package_data=True,
     install_requires=['netcdf4','matplotlib', 'numpy', 'scipy'],
     project_urls={  
         'Source': 'https://github.com/guilindner/VortexFitting',
     },
     entry_points={
         "console_scripts": [
-            "vortex-fitting = vortexfitting.__main__:main",
+            "vortexfitting = vortexfitting.__main__:main",
         ]
     },
 )
