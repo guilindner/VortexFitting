@@ -1,31 +1,40 @@
-#!/usr/bin/env/ python
+#!/usr/bin/env/ python3
 """
 Generate a netCDF file with a vortex field.
-
 """
 
 import argparse
-from netCDF4 import Dataset
+import netCDF4
 import numpy as np
 import matplotlib.pyplot as plt
+import os, sys
+
 import fitting
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='generate a vortex field in a netCDF file',
                                      formatter_class=argparse.RawTextHelpFormatter)
 
-    parser.add_argument('-o', '--output', dest='outfile',
-                        help='output NetCDF file', metavar='FILE', default='../data/generatedField.nc')
+    parser.add_argument('-o', '--output', dest='outfile', type=str,
+                        help='output NetCDF file', metavar='FILE', 
+                        default='../data/generatedField.nc')
 
     parser.add_argument('-ndim', '--ndim', dest='ndim', type=int,
-                        help='spatial mesh dimension, for each x and y variables', default=256)
+                        help='spatial mesh dimension, for each x and y variables', 
+                        default=256)
 
 
     args = parser.parse_args()
 
 print("Generating {:s} file with a {:d}x{:d} mesh".format(args.outfile,args.ndim,args.ndim))
 
-datafile_write = Dataset(args.outfile, 'w', format='NETCDF4')
+# Try to write the file
+try:
+    datafile_write = netCDF4.Dataset(args.outfile, 'w', format='NETCDF4')
+except IOError:
+    print('There was an error writing the file!')
+    sys.exit()
+
 datafile_write.description = 'Sample field with an Oseen vortex'
 
 ndim = args.ndim # spacing

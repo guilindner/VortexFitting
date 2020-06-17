@@ -1,3 +1,8 @@
+#!/usr/bin/env/ python3
+"""
+Different functions for the fitting of vortices
+"""
+
 import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt

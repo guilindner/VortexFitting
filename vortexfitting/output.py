@@ -2,6 +2,7 @@
 """
 Create an output file for the detected vortices, with tecplot format
 """
+
 import os
 
 

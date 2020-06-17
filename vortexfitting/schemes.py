@@ -1,3 +1,8 @@
+#!/usr/bin/env/ python3
+"""
+Difference schemes for the velocity derivatives
+"""
+
 import numpy as np
 
 

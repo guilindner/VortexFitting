@@ -1,4 +1,4 @@
-#!/usr/bin/env/ python
+#!/usr/bin/env/ python3
 """
 Convert ASCII files to NetCDF4 (plain text)
 """
@@ -6,26 +6,35 @@ Convert ASCII files to NetCDF4 (plain text)
 import netCDF4
 import argparse
 import numpy as np
+import sys
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='convert file from ASCII to netCDF format',
                                      formatter_class=argparse.RawTextHelpFormatter)
 
-    parser.add_argument('-i', '--input', dest='infile',
+    parser.add_argument('-i', '--input', dest='infile', type=str,
+                        default='../data/test_dataHIT_ascii.dat',
                         help='input ASCII file', metavar='FILE')
 
-    parser.add_argument('-o', '--output', dest='outfile',
+    parser.add_argument('-o', '--output', dest='outfile', type=str, 
+                        default='../data/test_dataHIT_back_converted.dat',
                         help='output NetCDF file', metavar='FILE')
 
-    parser.add_argument('-nx', '--nx', dest='ndimx',
+    parser.add_argument('-nx', '--nx', dest='ndimx', type=int,
                         help='spatial mesh dimension, for the x variable', default=159)
 
-    parser.add_argument('-ny', '--ny', dest='ndimy',
+    parser.add_argument('-ny', '--ny', dest='ndimy', type=int,
                         help='spatial mesh dimension, for the y variable', default=134)
 
     args = parser.parse_args()
 
-datafile_write = netCDF4.Dataset(args.outfile, 'w', format='NETCDF4')
+# Try to write the file
+try:
+    datafile_write = netCDF4.Dataset(args.outfile, 'w', format='NETCDF4')
+except IOError:
+    print('There was an error writing the file!')
+    sys.exit()
+
 datafile_write.description = 'Experiments conducted at Rouen ...'
 
 ndimx = args.ndimx  # spacing
@@ -60,7 +69,13 @@ y = np.linspace(0, ndimy, ndimx)
 
 print("Converting {:s} file to {:s} file".format(args.infile, args.outfile))
 
-infile = open(args.infile, 'r')
+# Try to read the file
+try:
+    infile = open(args.infile, 'r')
+except IOError:
+    print('There was an error reading the file!')
+    sys.exit()
+
 line = infile.readline()
 lines = infile.readlines()
 for j in range(ndimy):

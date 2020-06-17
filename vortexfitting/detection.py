@@ -1,7 +1,8 @@
-#!/usr/bin/env/ python
+#!/usr/bin/env/ python3
 """
 Different methods for vortex detection
 """
+
 import numpy as np
 
 

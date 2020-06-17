@@ -1,5 +1,8 @@
-#!/usr/bin/env/ python
-"""class"""
+#!/usr/bin/env/ python3
+"""
+class VelocityField
+"""
+
 import numpy as np
 import netCDF4
 
@@ -41,7 +44,7 @@ class VelocityField:
     :type  y_coordinate_step: float
     :param z_coordinate_step: for homogeneous mesh, provides a unique step 
     :type  z_coordinate_step: float
-    :param derivative: 
+    :param derivative: contains 'dudx', 'dudy', 'dvdx', 'dvdy'. Can be extended to the 3rd dimension
     :type  derivative: array of float
     """
 
@@ -168,7 +171,7 @@ class VelocityField:
                                                                                  self.y_coordinate_size)
             self.v_velocity_matrix = np.array(datafile_read[:, index_v]).reshape(self.x_coordinate_size,
                                                                                  self.y_coordinate_size)
-            try:
+            try: # TODO too broad exception
                 self.w_velocity_matrix = np.array(datafile_read[:, index_w]).reshape(self.x_coordinate_size,
                                                                                      self.y_coordinate_size)
             except:

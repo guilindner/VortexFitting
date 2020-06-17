@@ -1,8 +1,11 @@
 #!/usr/bin/env/ python3
-"""vortex detection tool, by Guilherme Lindner, 2017-04\n
-This program load NetCDF files from DNS simulations or PIV experiments, or Tecplot format.
+"""
+vortex detection tool, by Guilherme Lindner, 2017-04\n
+This program load data files from DNS simulations or PIV experiments, 
+with NetCDF, Tecplot or OpenFoam format.
 It detects the vortices and apply a fitting to them.
 """
+
 import sys
 import argparse
 import time
@@ -22,20 +25,22 @@ def main():
                                      formatter_class=argparse.RawTextHelpFormatter)
 
     parser.add_argument('-i', '--input', dest='input_filename',
-                        help='input file', metavar='FILE', required=True)
+                        default='../data/example_dataHIT.nc', type=str,
+                        help='Input file', metavar='FILE', required=True)
 
     parser.add_argument('-o', '--output', dest='output_directory',
-                        default='results',
-                        help='if you want to specify an output directory', metavar='DIRECTORY')
+                        default='results', type=str, 
+                        help='To specify an output directory', metavar='DIRECTORY')
 
-    parser.add_argument('-s', '--scheme', dest='scheme', type=int, default=22,
+    parser.add_argument('-s', '--scheme', dest='scheme', 
+                        default=22, type=int, 
                         help='Scheme for differencing\n'
                              '2 = second order \n'
                              '22 = least-square filter (default)\n'
                              '4 = fourth order')
 
     parser.add_argument('-d', '--detect', dest='detection_method',
-                        default='swirling',
+                        default='swirling', type=str,
                         help='Detection method:\n'
                              'Q = Q criterion\n'
                              'delta = delta criterion\n'
@@ -56,17 +61,18 @@ def main():
                               '1 = True')
 
     parser.add_argument('-mf', '--meanfilename', dest='mean_filename',
-                        default='/', 
+                        default='/', type=str,
                         help='Subtract a mean field from your instant field')
 
     parser.add_argument('-p', '--plot', dest='plot_method',
-                        default='fit',
+                        default='fit', type=str,
                         help='Plot on screen:\n'
                              'fit    = Detection and fitting, saves images (default)\n'
                              'detect = Possible vortices (no fitting)\n'
                              'fields = Velocity fields and vorticity\n')
                              
-    parser.add_argument('-xy', '--xy', nargs=2, dest='xy_location', default=[0,0],
+    parser.add_argument('-xy', '--xy', nargs=2, dest='xy_location', 
+                        default=[0,0],
                         help='specify a location to see the data. ex: -xy 80 60')
 
     parser.add_argument('-first', '--first', dest='first',
@@ -86,12 +92,17 @@ def main():
                         help='Initial guess on the vortex radius (default: 10)')
 
     parser.add_argument('-ft', '--filetype', dest='file_type',
-                        default='dns', help='Type of the file (default: dns)')
+                        default='dns', type=str,
+                        help='Type of the file (default: dns)\n'
+                             'piv_netcdf: read a netCDF format\n'
+                             'dns: read a netCDF format\n'
+                             'piv_tecplot: read a tecplot format\n'
+                             'openfoam: read an openfoam format\n')
 
     parser.add_argument('-ct', '--corrthreshold', dest='correlation_threshold',
                         default=0.75, type=float, 
-                        help='Correlation threshold (default: 0.75).' 
-			     'if the vortex is too big, its better to decrease this value')
+                        help='Correlation threshold (default: 0.75).\n' 
+			     'If the vortex is too big, its better to decrease this value')
 
 #    parser.add_argument('-v', '--verbose', dest='verbose',
 #                        default=False, type=bool,
@@ -101,7 +112,7 @@ def main():
 
     start = time.time()
 
-    #create file 'vortices.dat' to store output vortices data        
+    # create file 'vortices.dat' to store output vortices data        
     output.create(args.output_directory) 
 
     #---- LOAD DATA ----#
@@ -135,22 +146,22 @@ def main():
     
         #---- METHOD FOR DETECTION OF VORTICES ----#
         lap = time.time()
-        # TODO Modifier le nom, swirling -> detection_field par exemple ?
+
         if args.detection_method == 'Q':
-            swirling = detection.q_criterion(vfield)
+            detection_field = detection.q_criterion(vfield)
         elif args.detection_method == 'swirling':
-            swirling = detection.calc_swirling(vfield)
+            detection_field = detection.calc_swirling(vfield)
         elif args.detection_method == 'delta':
-            swirling = detection.delta_criterion(vfield)
+            detection_field = detection.delta_criterion(vfield)
         #print(round(time.time() - lap,3), 'seconds')
     
         if vfield.normalization_flag == True:
-            swirling = tools.normalize(swirling,vfield.normalization_direction) #normalization
+            detection_field = tools.normalize(detection_field,vfield.normalization_direction) #normalization
     
         #---- PEAK DETECTION ----#
         print('Threshold=',args.detection_threshold,', box size=',args.box_size)
     
-        peaks = tools.find_peaks(swirling, args.detection_threshold, args.box_size)
+        peaks = tools.find_peaks(detection_field, args.detection_threshold, args.box_size)
     
         print('Vortices found: ',len(peaks[0]))
         #---- PEAKS DIRECTION OF ROTATION ----#
@@ -169,14 +180,14 @@ def main():
         if args.xy_location != [0,0]:
             x_location = int(args.xy_location[0])
             y_location = int(args.xy_location[1])
-            swirlingw = swirling[y_location-10:y_location+10,x_location-10:x_location+10]
+            detection_field_window = detection_field[y_location-10:y_location+10,x_location-10:x_location+10]
             x_index, y_index, u_data, v_data = tools.window(vfield,x_location,y_location,10)
-            plot.plot_quiver(x_index, y_index, u_data, v_data, swirlingw)
+            plot.plot_quiver(x_index, y_index, u_data, v_data, detection_field_window)
         if args.plot_method == 'detect':
-            plot.plot_detect(vortices_counterclockwise,vortices_clockwise,swirling,args.flip_axis)
+            plot.plot_detect(vortices_counterclockwise,vortices_clockwise,detection_field,args.flip_axis)
         if args.plot_method == 'fields':
             plot.plot_fields(vfield,vorticity)
         if args.plot_method == 'fit':
-            plot.plot_accepted(vfield,vortices,swirling,args.output_directory,time_step)
+            plot.plot_accepted(vfield,vortices,detection_field,args.output_directory,time_step)
             plot.plot_vortex(vfield,vortices,args.output_directory,time_step)
             output.write(vortices,args.output_directory,time_step)
