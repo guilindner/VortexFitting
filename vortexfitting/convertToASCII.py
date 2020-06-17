@@ -17,7 +17,7 @@ if __name__ == '__main__':
                         help='input NetCDF file', metavar='FILE')
 
     parser.add_argument('-o', '--output', dest='outfile', type=str,
-                        default='../data/test_dataHIT.nc',
+                        default='../data/test_dataHIT_ascii.dat',
                         help='output ASCII file', metavar='FILE')
 
     args = parser.parse_args()

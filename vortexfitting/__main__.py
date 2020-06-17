@@ -7,17 +7,19 @@ It detects the vortices and apply a fitting to them.
 """
 
 import sys
+import os.path
 import argparse
 import time
 import numpy as np
 
-from . import tools
-from . import fitting
-from . import plot
-from . import schemes
-from . import detection
-from . import output
-from . import classes
+import sys
+sys.path.insert(1,'./vortexfitting')
+
+import fitting
+import schemes
+import detection
+import output
+import classes
 
 def main():
 #if __name__ == '__main__':
@@ -118,10 +120,14 @@ def main():
     #---- LOAD DATA ----#
 
     if (args.last < args.first):
-        args.last= args.first
+        args.last = args.first #last should be at least equal to first
 
     for time_step in range(args.first,args.last+1,args.step):
         
+        if not os.path.exists( args.input_filename.format(time_step) ):
+            print('The input file does not exist. Exiting.')
+            sys.exit()
+
         print('\nOpening file: ',args.input_filename.format(time_step), ', file type: ', args.file_type)
         if (args.mean_filename != '/'):
             print('Opening mean field: ', args.mean_filename)
@@ -136,7 +142,7 @@ def main():
         elif args.scheme == 22:
             vfield.derivative = schemes.least_square_diff(vfield)
         else:
-            print('No scheme', args.scheme, 'found. Exitting!')
+            print('No scheme', args.scheme, 'found. Exiting!')
             sys.exit()
         #print(round(time.time() - lap,3), 'seconds')
     
@@ -156,16 +162,16 @@ def main():
         #print(round(time.time() - lap,3), 'seconds')
     
         if vfield.normalization_flag == True:
-            detection_field = tools.normalize(detection_field,vfield.normalization_direction) #normalization
+            detection_field = fitting.normalize(detection_field,vfield.normalization_direction) #normalization
     
         #---- PEAK DETECTION ----#
         print('Threshold=',args.detection_threshold,', box size=',args.box_size)
     
-        peaks = tools.find_peaks(detection_field, args.detection_threshold, args.box_size)
+        peaks = fitting.find_peaks(detection_field, args.detection_threshold, args.box_size)
     
         print('Vortices found: ',len(peaks[0]))
         #---- PEAKS DIRECTION OF ROTATION ----#
-        vortices_counterclockwise, vortices_clockwise = tools.direction_rotation(vorticity,peaks)
+        vortices_counterclockwise, vortices_clockwise = fitting.direction_rotation(vorticity,peaks)
     
         #---- MODEL FITTING ----#
         vortices = list()
@@ -181,13 +187,13 @@ def main():
             x_location = int(args.xy_location[0])
             y_location = int(args.xy_location[1])
             detection_field_window = detection_field[y_location-10:y_location+10,x_location-10:x_location+10]
-            x_index, y_index, u_data, v_data = tools.window(vfield,x_location,y_location,10)
-            plot.plot_quiver(x_index, y_index, u_data, v_data, detection_field_window)
+            x_index, y_index, u_data, v_data = fitting.window(vfield,x_location,y_location,10)
+            fitting.plot_quiver(x_index, y_index, u_data, v_data, detection_field_window)
         if args.plot_method == 'detect':
-            plot.plot_detect(vortices_counterclockwise,vortices_clockwise,detection_field,args.flip_axis)
+            fitting.plot_detect(vortices_counterclockwise,vortices_clockwise,detection_field,args.flip_axis)
         if args.plot_method == 'fields':
-            plot.plot_fields(vfield,vorticity)
+            fitting.plot_fields(vfield,vorticity)
         if args.plot_method == 'fit':
-            plot.plot_accepted(vfield,vortices,detection_field,args.output_directory,time_step)
-            plot.plot_vortex(vfield,vortices,args.output_directory,time_step)
+            fitting.plot_accepted(vfield,vortices,detection_field,args.output_directory,time_step)
+            fitting.plot_vortex(vfield,vortices,args.output_directory,time_step)
             output.write(vortices,args.output_directory,time_step)

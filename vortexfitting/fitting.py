@@ -4,7 +4,7 @@ Different functions for the fitting of vortices
 """
 
 import numpy as np
-import scipy as sp
+import scipy.ndimage 
 import matplotlib.pyplot as plt
 np.seterr(divide='ignore', invalid='ignore')
 import scipy.optimize as opt
@@ -125,7 +125,7 @@ def find_peaks(data, threshold, box_size):
     if np.all(data == data.flat[0]):
         return []
 
-    data_max = sp.ndimage.maximum_filter(data, size=box_size,
+    data_max = scipy.ndimage.maximum_filter(data, size=box_size,
                                       mode='constant', cval=0.0)
 
     peak_goodmask = (data == data_max)  # good pixels are True

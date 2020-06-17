@@ -5,7 +5,7 @@ import numpy as np
 import sys
 sys.path.insert(1,'../vortexfitting')
 
-import tools
+import fitting
 
 """
 test using "nosetests tests/test_tools.py"
@@ -23,7 +23,7 @@ class ToolsTest(unittest.TestCase):
         # Test in hom. in x axis
         mean = np.array([1.0, 2.0, 3.0, 4.0])
 
-        result_calc = tools.get_fluc(sample_field, mean, 'x')
+        result_calc = fitting.get_fluc(sample_field, mean, 'x')
 
         result = np.array([[0.1, -0.1, 0.3, -0.3],
                            [0.1, -0.1, 0.3, -0.3],
@@ -35,7 +35,7 @@ class ToolsTest(unittest.TestCase):
         # Test in hom. in y axis
         mean = np.array([2.6, 2.4, 2.8, 2.2])
 
-        result_calc = tools.get_fluc(sample_field, mean, 'y')
+        result_calc = fitting.get_fluc(sample_field, mean, 'y')
 
         result = np.array([[-1.5, -1.5, -1.5, -1.5],
                            [-0.5, -0.5, -0.5, -0.5],

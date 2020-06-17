@@ -54,7 +54,8 @@ class VelocityField:
             self.file_path = file_path.format(time_step)
         else:
             self.file_path = file_path
-
+        import os
+        print(os.path.abspath(self.file_path))
         self.time_step = time_step
         self.mean_file_path = mean_file_path
         # file_type = 'tecplot' #change here to the desired format

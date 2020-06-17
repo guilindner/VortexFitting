@@ -17,7 +17,7 @@ if __name__ == '__main__':
                         help='input ASCII file', metavar='FILE')
 
     parser.add_argument('-o', '--output', dest='outfile', type=str, 
-                        default='../data/test_dataHIT_back_converted.dat',
+                        default='../data/test_dataHIT_back_converted.nc',
                         help='output NetCDF file', metavar='FILE')
 
     parser.add_argument('-nx', '--nx', dest='ndimx', type=int,

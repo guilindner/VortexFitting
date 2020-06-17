@@ -1,5 +1,6 @@
 #!/usr/bin/env/ python3
-"""vortex detection tool, by Guilherme Lindner, 2017-04\n
+"""
+vortex detection tool, by Guilherme Lindner, 2017-04\n
 This program load NetCDF files from DNS simulations  or PIV experiments
 and detect the vortices and apply a fitting to them.
 """
@@ -19,10 +20,11 @@ if __name__ == '__main__':
                                      formatter_class=argparse.RawTextHelpFormatter)
 
     parser.add_argument('-i', '--input', dest='infilename',
-                        default='../data/test_dataHIT.nc',
+                        default='../data/example_dataHIT.nc',
                         help='input NetCDF file', metavar='FILE')
-
     args = parser.parse_args()
+
+    print(args.infilename)
 
     vfield = VelocityField(args.infilename,0,'/','dns')
 

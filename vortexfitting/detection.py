@@ -43,7 +43,6 @@ def q_criterion(vfield):
     """
     print('Detection method: Q criterion')
     Q = np.zeros((vfield.u_velocity_matrix.shape[0], vfield.u_velocity_matrix.shape[1]))
-    #print(vfield.u_velocity_matrix.shape[0], vfield.u_velocity_matrix.shape[1])
     for i in range(vfield.u_velocity_matrix.shape[0]):
         for j in range(vfield.u_velocity_matrix.shape[1]):
             Q[i, j] = -0.5*(vfield.derivative['dudx'][i, j]**2 + vfield.derivative['dvdy'][i, j]**2) \
