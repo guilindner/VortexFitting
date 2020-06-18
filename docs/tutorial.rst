@@ -37,10 +37,10 @@ defined and an equally spaced mesh is created using *np.linspace*.
 Parameters
 ``````````
 
-The code comes with a default test case for the HIT, located in *../data/test_data.nc*.
+The code comes with a default test case for the HIT, located in *../data/example_dataHIT.nc*.
 The default configuration os **class.py** is set to handle the HIT case.
 
-If no input file with the *-i* argument has been specified, the *test_data.nc* will be used.
+If no input file with the *-i* argument has been specified, the *example_dataHIT.nc* will be used.
 
 .. code-block:: bash
    
@@ -148,16 +148,24 @@ For example:
 will produce a 300x300 mesh, in a file named *testGenerate.nc*.
 
 
-Converting NC to ASCII
-----------------------
+Converting netCDF to ASCII (and vice-versa)
+-------------------------------------------
 
-If for any reason you need to convert the NC file to a text format (ASCII), the
+If for any reason you need to convert a netCDF file to a text format (ASCII), the
 module **convertToASCII.py** can do the job. It will open the *infile* and save
 all z planes (or time) into separated files.
 
 .. code-block:: bash
 
-   $ python3 convertToASCII.py -i input.nc -o output
+   $ python3 convertToASCII.py -i input.nc -o output.dat
 
 Depending on the file you need to change the variable names like *velocity_x*
 and such for the corresponding variable.
+
+The module **convertToNC.py** can convert an ASCII file to a netCDF4 format.
+You can specify the spatial dimensions (*nx*, *ny* respectively for x and y directions),
+with the options *-nx* or *-ny*
+
+.. code-block:: bash
+
+   $ python3 convertToNC.py -i input.dat -o output.nc

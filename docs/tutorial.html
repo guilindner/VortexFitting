@@ -81,9 +81,9 @@ defined and an equally spaced mesh is created using <em>np.linspace</em>.</p>
 </div>
 <div class="section" id="parameters">
 <h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h3>
-<p>The code comes with a default test case for the HIT, located in <em>../data/test_data.nc</em>.
+<p>The code comes with a default test case for the HIT, located in <em>../data/example_dataHIT.nc</em>.
 The default configuration os <strong>class.py</strong> is set to handle the HIT case.</p>
-<p>If no input file with the <em>-i</em> argument has been specified, the <em>test_data.nc</em> will be used.</p>
+<p>If no input file with the <em>-i</em> argument has been specified, the <em>example_dataHIT.nc</em> will be used.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py
 </pre></div>
 </div>
@@ -173,16 +173,22 @@ For example:</p>
 </div>
 <p>will produce a 300x300 mesh, in a file named <em>testGenerate.nc</em>.</p>
 </div>
-<div class="section" id="converting-nc-to-ascii">
-<h2>Converting NC to ASCII<a class="headerlink" href="#converting-nc-to-ascii" title="Permalink to this headline">¶</a></h2>
-<p>If for any reason you need to convert the NC file to a text format (ASCII), the
+<div class="section" id="converting-netcdf-to-ascii-and-vice-versa">
+<h2>Converting netCDF to ASCII (and vice-versa)<a class="headerlink" href="#converting-netcdf-to-ascii-and-vice-versa" title="Permalink to this headline">¶</a></h2>
+<p>If for any reason you need to convert a netCDF file to a text format (ASCII), the
 module <strong>convertToASCII.py</strong> can do the job. It will open the <em>infile</em> and save
 all z planes (or time) into separated files.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 convertToASCII.py -i input.nc -o output
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 convertToASCII.py -i input.nc -o output.dat
 </pre></div>
 </div>
 <p>Depending on the file you need to change the variable names like <em>velocity_x</em>
 and such for the corresponding variable.</p>
+<p>The module <strong>convertToNC.py</strong> can convert an ASCII file to a netCDF4 format.
+You can specify the spatial dimensions (<em>nx</em>, <em>ny</em> respectively for x and y directions),
+with the options <em>-nx</em> or <em>-ny</em></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3 convertToNC.py -i input.dat -o output.nc
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -201,7 +207,7 @@ and such for the corresponding variable.</p>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#using-the-code">Using the code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#generating-a-custom-vortex">Generating a custom Vortex</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#converting-nc-to-ascii">Converting NC to ASCII</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#converting-netcdf-to-ascii-and-vice-versa">Converting netCDF to ASCII (and vice-versa)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>

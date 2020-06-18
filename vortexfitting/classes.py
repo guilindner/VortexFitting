@@ -11,7 +11,8 @@ class VelocityField:
     """
     Data file
 
-    Loads the input file with the NetCFD (.nc) format or a Tecplot format (.dat); 
+    Loads the input file with the NetCFD (.nc) 
+    format or a Tecplot format (.dat); 
     initialize the variables.
 
     :param file_path: file path
@@ -23,17 +24,17 @@ class VelocityField:
     :param file_type: 'piv_netcdf', 'dns, 'dns2', 'piv_tecplot', 'openfoam'
     :type  file_type: str
     :param x_coordinate_matrix: spatial mesh
-    :type  x_coordinate_matrix: array of float
+    :type  x_coordinate_matrix: ndarray
     :param y_coordinate_matrix: spatial mesh
-    :type  y_coordinate_matrix: array of float
+    :type  y_coordinate_matrix: ndarray
     :param z_coordinate_matrix: spatial mesh, optional
-    :type  z_coordinate_matrix: array of float
+    :type  z_coordinate_matrix: ndarray
     :param u_velocity_matrix: 1st component velocity field
-    :type  u_velocity_matrix: array of float
+    :type  u_velocity_matrix: ndarray
     :param v_velocity_matrix: 2nd component velocity field
-    :type  v_velocity_matrix: array of float
+    :type  v_velocity_matrix: ndarray
     :param w_velocity_matrix: 3rd component velocity field, optional
-    :type  w_velocity_matrix: array of float
+    :type  w_velocity_matrix: ndarray
     :param normalization_flag: for normalization of the swirling field
     :type  normalization_flag: boolean
     :param normalization_direction: False, 'x' or 'y'
@@ -44,18 +45,23 @@ class VelocityField:
     :type  y_coordinate_step: float
     :param z_coordinate_step: for homogeneous mesh, provides a unique step 
     :type  z_coordinate_step: float
-    :param derivative: contains 'dudx', 'dudy', 'dvdx', 'dvdy'. Can be extended to the 3rd dimension
-    :type  derivative: array of float
+    :param derivative: contains 'dudx', 'dudy', 'dvdx', 'dvdy'. 
+                       Can be extended to the 3rd dimension
+    :type  derivative: dict
+    :returns: vfield, an instance of the VelocityField class
+    :rtype: class VelocityField
     """
 
     def __init__(self, file_path="/", time_step=0, mean_file_path="/", file_type="/"):
+        """
 
+        :rtype:
+        """
         if '{:' in file_path:
             self.file_path = file_path.format(time_step)
         else:
             self.file_path = file_path
-        import os
-        print(os.path.abspath(self.file_path))
+
         self.time_step = time_step
         self.mean_file_path = mean_file_path
         # file_type = 'tecplot' #change here to the desired format
@@ -115,23 +121,33 @@ class VelocityField:
             self.normalization_flag = False
             self.normalization_direction = False
             datafile_read.close()
+            if self.mean_file_path != '/':
+                print("subtracting mean file")  # load and subtract mean data
+                datafile_mean_read = netCDF4.Dataset(self.mean_file_path, 'r')
+                u_velocity_matrix_mean = np.array(datafile_mean_read.variables['velocity_x'][:, :])
+                v_velocity_matrix_mean = np.array(datafile_mean_read.variables['velocity_y'][:, :])
+                self.u_velocity_matrix = self.u_velocity_matrix - u_velocity_matrix_mean
+                self.v_velocity_matrix = self.v_velocity_matrix - v_velocity_matrix_mean
+                if self.w_velocity_matrix is not None:
+                    w_velocity_matrix_mean = np.array(datafile_read.variables['velocity_z'][:, :])
+                    self.w_velocity_matrix = self.w_velocity_matrix - w_velocity_matrix_mean
 
-        if file_type == 'dns2':
-            # ILKAY DATA FOR DNS, netCDF format
-            datafile_read = netCDF4.Dataset(self.file_path, 'r')
-            grp2 = netCDF4.Dataset('../data/DNS_example/vel_v_00000000.00400000.nc', 'r')
-            grp3 = netCDF4.Dataset('../data/DNS_example/vel_w_00000000.00400000.nc', 'r')
-            grp4 = netCDF4.Dataset('../data/DNS_example/grid_x.nc', 'r')
-            grp5 = netCDF4.Dataset('../data/DNS_example/grid_y.nc', 'r')
-            grp6 = netCDF4.Dataset('../data/DNS_example/grid_z.nc', 'r')
-            self.u_velocity_matrix = np.array(datafile_read.variables['U'][60])
-            self.v_velocity_matrix = np.array(grp2.variables['V'][60])
-            self.w_velocity_matrix = np.array(grp3.variables['W'][60])
-            self.x_coordinate_matrix = np.array(grp4.variables['gridx'][0, 0, :])
-            self.y_coordinate_matrix = np.array(grp5.variables['gridy'][0, :, 0])
-            self.z_coordinate_matrix = np.array(grp6.variables['gridz'][:, 0, 0])
-            self.normalization_flag = False
-            datafile_read.close()
+        # if file_type == 'dns2':
+        #    # ILKAY DATA FOR DNS, netCDF format
+        #    datafile_read = netCDF4.Dataset(self.file_path, 'r')
+        #    grp2 = netCDF4.Dataset('../data/DNS_example/vel_v_00000000.00400000.nc', 'r')
+        #    grp3 = netCDF4.Dataset('../data/DNS_example/vel_w_00000000.00400000.nc', 'r')
+        #    grp4 = netCDF4.Dataset('../data/DNS_example/grid_x.nc', 'r')
+        #    grp5 = netCDF4.Dataset('../data/DNS_example/grid_y.nc', 'r')
+        #    grp6 = netCDF4.Dataset('../data/DNS_example/grid_z.nc', 'r')
+        #    self.u_velocity_matrix = np.array(datafile_read.variables['U'][60])
+        #    self.v_velocity_matrix = np.array(grp2.variables['V'][60])
+        #    self.w_velocity_matrix = np.array(grp3.variables['W'][60])
+        #    self.x_coordinate_matrix = np.array(grp4.variables['gridx'][0, 0, :])
+        #    self.y_coordinate_matrix = np.array(grp5.variables['gridy'][0, :, 0])
+        #    self.z_coordinate_matrix = np.array(grp6.variables['gridz'][:, 0, 0])
+        #    self.normalization_flag = False
+        #    datafile_read.close()
 
         if file_type == 'piv_tecplot':
             # DATA FORMAT FOR PIV - TECPLOT
@@ -143,45 +159,45 @@ class VelocityField:
             # Default: data are x, y, z, u, v, w
             # index_x,index_y,index_z,index_u,index_v,index_w = 0,1,2,3,4,5
             # for j in range(0,len(list_variables)):
-            #    if list_variables[j] in ['x', 'X', 'x/c']:
+            #    if list_variables[j] in ['x', 'X']:
             #        index_x=j
-            #    if list_variables[j] in ['y', 'Y', 'y/c']:
+            #    if list_variables[j] in ['y', 'Y']:
             #        index_y=j
-            #    if list_variables[j] in ['z', 'Z', 'z/c']:
+            #    if list_variables[j] in ['z', 'Z']:
             #        index_z=j
-            #    if list_variables[j] in ['VX', 'U', 'u\'/Udeb']:
+            #    if list_variables[j] in ['VX', 'U']:
             #        index_u=j
-            #    if list_variables[j] in ['VY', 'V', 'v\'/Udeb']:
+            #    if list_variables[j] in ['VY', 'V']:
             #        index_v=j
-            #    if list_variables[j] in ['VZ', 'W', 'w\'/Udeb']:
+            #    if list_variables[j] in ['VZ', 'W']:
             #        index_w=j
 
             index_x, index_y, index_z, index_u, index_v, index_w = 0, 1, 2, 3, 4, 5
-            datafile_read = np.loadtxt(self.file_path, delimiter=" ", dtype=float,
-                                       skiprows=3)  # skip header, default is 3 lines
+            datafile_read = np.loadtxt(self.file_path, delimiter = " ", dtype = float,
+                                       skiprows = 3)  # skip header, default is 3 lines
             dx_tmp = np.array(datafile_read[:, 0])
 
             for i in range(1, dx_tmp.shape[0]):
                 if dx_tmp[i] == dx_tmp[0]:
                     self.y_coordinate_size = i
                     break
-            self.x_coordinate_size = np.int(dx_tmp.shape[0] / self.y_coordinate_size);  # domain size
+            self.x_coordinate_size = np.int(dx_tmp.shape[0] / self.y_coordinate_size)  # domain size
             self.z_coordinate_size = 1
 
             self.u_velocity_matrix = np.array(datafile_read[:, index_u]).reshape(self.x_coordinate_size,
                                                                                  self.y_coordinate_size)
             self.v_velocity_matrix = np.array(datafile_read[:, index_v]).reshape(self.x_coordinate_size,
                                                                                  self.y_coordinate_size)
-            try: # TODO too broad exception
+            try:
                 self.w_velocity_matrix = np.array(datafile_read[:, index_w]).reshape(self.x_coordinate_size,
                                                                                      self.y_coordinate_size)
-            except:
+            except IndexError:
                 print('No w velocity matrix')
 
             if self.mean_file_path != '/':
                 print("subtracting mean file")
                 # load and subtract mean data
-                datafile_mean_read = np.loadtxt(mean_file_path, delimiter=" ", dtype=float, skiprows=3)
+                datafile_mean_read = np.loadtxt(mean_file_path, delimiter = " ", dtype = float, skiprows = 3)
                 u_velocity_matrix_mean = np.array(datafile_mean_read[:, index_u]).reshape(self.x_coordinate_size,
                                                                                           self.y_coordinate_size)
                 v_velocity_matrix_mean = np.array(datafile_mean_read[:, index_v]).reshape(self.x_coordinate_size,
@@ -200,32 +216,33 @@ class VelocityField:
             try:
                 tmp_z = np.array(datafile_read[:, index_z]).reshape(self.x_coordinate_size, self.y_coordinate_size)
                 self.z_coordinate_matrix = tmp_z[0, 0]
-            except:
+            except IndexError:
                 print('No z component')
 
             self.normalization_flag = False
             self.normalization_direction = None
 
         if file_type == 'openfoam':
-            index_x, index_y, index_z, index_u, index_v, index_w = 0, 1, 2, 3, 4, 5
-            datafile_read = np.loadtxt(self.file_path, delimiter=" ", dtype=float,
-                                       skiprows=2)  # skip header, default is 2 lines
+            index_x, index_y, index_z, index_u, index_v, index_w = 0, 1, 2, 3, 4, 6
+            datafile_read = np.loadtxt(self.file_path, delimiter = " ", dtype = float,
+                                       skiprows = 2)  # skip header, default is 2 lines
             dx_tmp = np.array(datafile_read[:, 0])
             for i in range(1, dx_tmp.shape[0]):
                 if dx_tmp[i] == dx_tmp[0]:
                     self.y_coordinate_size = i
-                    break;
-            self.x_coordinate_size = np.int(dx_tmp.shape[0] / self.y_coordinate_size);  # domain size
+                    break
+            self.x_coordinate_size = np.int(dx_tmp.shape[0] / self.y_coordinate_size)  # domain size
             self.z_coordinate_size = 1
 
             self.u_velocity_matrix = np.array(datafile_read[:, index_u]).reshape(self.x_coordinate_size,
                                                                                  self.y_coordinate_size)
             self.v_velocity_matrix = np.array(datafile_read[:, index_v]).reshape(self.x_coordinate_size,
                                                                                  self.y_coordinate_size)
+
             try:
                 self.w_velocity_matrix = np.array(datafile_read[:, index_w]).reshape(self.x_coordinate_size,
                                                                                      self.y_coordinate_size)
-            except:
+            except IndexError:
                 print('No w velocity matrix')
             tmp_x = np.array(datafile_read[:, index_x]).reshape(self.x_coordinate_size, self.y_coordinate_size)
             tmp_y = np.array(datafile_read[:, index_y]).reshape(self.x_coordinate_size, self.y_coordinate_size)
@@ -234,14 +251,14 @@ class VelocityField:
             try:
                 tmp_z = np.array(datafile_read[:, index_z]).reshape(self.x_coordinate_size, self.y_coordinate_size)
                 self.z_coordinate_matrix = tmp_z[0, 0]
-            except:
+            except IndexError:
                 print('No z component')
 
             self.normalization_flag = False
             self.normalization_direction = None
 
         if file_type == 'test':
-            self.x_coordinate_size, self.y_coordinate_size, self.z_coordinate_size = 100, 100, 1
+            self.x_coordinate_size, self.y_coordinate_size, self.z_coordinate_size = 11, 5, 1
             u = np.linspace(0.0, 1.0, self.x_coordinate_size)
             v = np.linspace(0.0, 1.0, self.y_coordinate_size)
             self.u_velocity_matrix, self.v_velocity_matrix = np.meshgrid(u, v)
@@ -255,10 +272,6 @@ class VelocityField:
                 np.size(self.y_coordinate_matrix) - 1), 6)
         self.z_coordinate_step = 0.0
 
-        #        print(self.x_coordinate_step, self.x_coordinate_matrix[1]-self.x_coordinate_matrix[0])
-        #        print(self.x_coordinate_matrix, self.y_coordinate_matrix, self.z_coordinate_matrix)
-        #        print(self.x_coordinate_step, self.y_coordinate_step, self.z_coordinate_step)
-        #        print(self.x_coordinate_size, self.y_coordinate_size, self.z_coordinate_size)
         self.derivative = {'dudx': np.zeros_like(self.u_velocity_matrix),
                            'dudy': np.zeros_like(self.u_velocity_matrix),
                            'dudz': np.zeros_like(self.u_velocity_matrix),

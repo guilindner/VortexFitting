@@ -12,24 +12,26 @@ def calc_swirling(vfield):
 
     :param vfield: contains spatial mesh and velocity components
     :type  vfield: class VelocityField()
-    :returns: swirling
-    :rtype: 2D array of float
+    :returns: swirling strength criterion
+    :rtype: ndarray
     """
     print('Detection method: 2D swirling strength')
-    A = np.zeros((vfield.u_velocity_matrix.size, 3, 3))
+    # A = np.zeros((vfield.u_velocity_matrix.size, 3, 3))
     A = np.array(
         [[vfield.derivative['dudx'].ravel(), vfield.derivative['dudy'].ravel(),
           vfield.derivative['dudz'].ravel()],
          [vfield.derivative['dvdx'].ravel(), vfield.derivative['dvdy'].ravel(),
           vfield.derivative['dvdz'].ravel()],
          [vfield.derivative['dwdx'].ravel(), vfield.derivative['dwdy'].ravel(),
-          -vfield.derivative['dudx'].ravel()-vfield.derivative['dvdy'].ravel()]])
+          -vfield.derivative['dudx'].ravel() - vfield.derivative['dvdy'].ravel()]])
 
     A = A.transpose(2, 1, 0)
     eigenvalues = np.linalg.eigvals(A)
-    swirling = np.max(eigenvalues.imag, axis=1).reshape(vfield.u_velocity_matrix[:, 0].size, vfield.u_velocity_matrix[0, :].size)
-    print('Max value of swirling: ', np.round(np.max(swirling),2))
+    swirling = np.max(eigenvalues.imag, axis = 1).reshape(vfield.u_velocity_matrix[:, 0].size,
+                                                          vfield.u_velocity_matrix[0, :].size)
+    print('Max value of swirling: ', np.round(np.max(swirling), 2))
     return swirling
+
 
 def q_criterion(vfield):
     """
@@ -38,25 +40,26 @@ def q_criterion(vfield):
 
     :param vfield: contains spatial mesh and velocity components
     :type  vfield: class VelocityField()
-    :returns: Q
-    :rtype: 2D array of float
+    :returns: Q criterion
+    :rtype: ndarray
     """
     print('Detection method: Q criterion')
     Q = np.zeros((vfield.u_velocity_matrix.shape[0], vfield.u_velocity_matrix.shape[1]))
     for i in range(vfield.u_velocity_matrix.shape[0]):
         for j in range(vfield.u_velocity_matrix.shape[1]):
-            Q[i, j] = -0.5*(vfield.derivative['dudx'][i, j]**2 + vfield.derivative['dvdy'][i, j]**2) \
-            - vfield.derivative['dudy'][i, j] * vfield.derivative['dvdx'][i, j]
+            Q[i, j] = -0.5 * (vfield.derivative['dudx'][i, j] ** 2 + vfield.derivative['dvdy'][i, j] ** 2) \
+                      - vfield.derivative['dudy'][i, j] * vfield.derivative['dvdx'][i, j]
     return Q
+
 
 def delta_criterion(vfield):
     """
     Delta Criterion
 
     :param vfield: contains spatial mesh and velocity components
-    :type  vfield: class VelocityField()
-    :returns: delta
-    :rtype: 2D array of float
+    :type  vfield: class VelocityField
+    :returns: delta criterion
+    :rtype: ndarray
     """
     print('Detection method: Delta criterion')
     Q = np.zeros((vfield.u_velocity_matrix.shape[0], vfield.u_velocity_matrix.shape[1]))
@@ -64,9 +67,9 @@ def delta_criterion(vfield):
     delta = np.zeros((vfield.u_velocity_matrix.shape[0], vfield.u_velocity_matrix.shape[1]))
     for i in range(vfield.u_velocity_matrix.shape[0]):
         for j in range(vfield.u_velocity_matrix.shape[1]):
-            Q[i, j] = -0.5*(vfield.derivative['dudx'][i, j]**2 + vfield.derivative['dvdy'][i, j]**2) \
-            - vfield.derivative['dudy'][i, j] * vfield.derivative['dvdx'][i, j]
-            R[i, j] = vfield.derivative['dudx'][i, j]*vfield.derivative['dvdy'][i, j] \
-            - vfield.derivative['dvdx'][i, j]*vfield.derivative['dudy'][i, j]
-            delta[i, j] = (Q[i, j]/3)**3 + (R[i, j]/2)**2
+            Q[i, j] = -0.5 * (vfield.derivative['dudx'][i, j] ** 2 + vfield.derivative['dvdy'][i, j] ** 2) \
+                      - vfield.derivative['dudy'][i, j] * vfield.derivative['dvdx'][i, j]
+            R[i, j] = vfield.derivative['dudx'][i, j] * vfield.derivative['dvdy'][i, j] \
+                      - vfield.derivative['dvdx'][i, j] * vfield.derivative['dudy'][i, j] # noqa: E261
+            delta[i, j] = (Q[i, j] / 3) ** 3 + (R[i, j] / 2) ** 2
     return delta

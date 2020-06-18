@@ -3,10 +3,12 @@
 Convert ASCII files to NetCDF4 (plain text)
 """
 
-import netCDF4
+import sys
 import argparse
 import numpy as np
-import sys
+import netCDF4
+
+args = []
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='convert file from ASCII to netCDF format',

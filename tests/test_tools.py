@@ -3,9 +3,9 @@ import numpy as np
 
 
 import sys
-sys.path.insert(1,'../vortexfitting')
+sys.path.insert(1, '../vortexfitting')
 
-import fitting
+import fitting  # noqa: E402
 
 """
 test using "nosetests tests/test_tools.py"
@@ -15,6 +15,7 @@ test using "nosetests tests/test_tools.py"
 class ToolsTest(unittest.TestCase):
 
     def test_get_fluc(self):
+        print('Some tests from the fitting functions')
         sample_field = np.array([[1.1, 0.9, 1.3, 0.7],
                                  [2.1, 1.9, 2.3, 1.7],
                                  [3.1, 2.9, 3.3, 2.7],

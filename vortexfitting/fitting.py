@@ -3,11 +3,13 @@
 Different functions for the fitting of vortices
 """
 
+import sys
 import numpy as np
-import scipy.ndimage 
-import matplotlib.pyplot as plt
-np.seterr(divide='ignore', invalid='ignore')
+import scipy.ndimage
 import scipy.optimize as opt
+import matplotlib.pyplot as plt
+
+np.seterr(divide = 'ignore', invalid = 'ignore')
 
 
 def get_fluc(x, mean, hom_axis):
@@ -15,14 +17,14 @@ def get_fluc(x, mean, hom_axis):
     Used when you have a advective velocity along one axis
 
     :param x: velocity field
-    :type x: 2D array of float
+    :type x: ndarray
     :param mean: advective velocity to subtract
     :type mean: float
     :param hom_axis: False, 'x', or 'y'. The axis which the mean is subtracted
     :type hom_axis: str
 
     :returns: input array, minus the advective velocity
-    :rtype: 2D arrays of float
+    :rtype: ndarray
     """
     if hom_axis is None:
         x = x - mean
@@ -31,7 +33,7 @@ def get_fluc(x, mean, hom_axis):
     elif hom_axis == 'y':
         x = x - mean[None, :]
     else:
-        sys.exit("Invalid homogenity axis.")
+        sys.exit("Invalid homogeneity axis.")
     return x
 
 
@@ -40,21 +42,21 @@ def normalize(x, hom_axis):
     Normalize with swirling strength
 
     :param x: velocity field
-    :type x: 2D array of float
+    :type x: ndarray
     :param hom_axis: False, 'x', or 'y'. The axis which the mean is subtracted
     :type hom_axis: str
 
     :returns: normalized array
-    :rtype: 2D array of float
+    :rtype: ndarray
     """
     if hom_axis is None:
         x = x / np.sqrt(np.mean(x ** 2))
     elif hom_axis == 'x':
-        x = x / np.sqrt(np.mean(x ** 2, axis=1))
+        x = x / np.sqrt(np.mean(x ** 2, axis = 1))
     elif hom_axis == 'y':
-        x = x / np.sqrt(np.mean(x ** 2, axis=0))
+        x = x / np.sqrt(np.mean(x ** 2, axis = 0))
     else:
-        sys.exit('Invalid homogenity axis.')
+        sys.exit('Invalid homogeneity axis.')
     return x
 
 
@@ -62,8 +64,8 @@ def window(vfield, x_center_index, y_center_index, dist):
     """
     Defines a window around (x; y) coordinates
 
-    :param vfield: fullsize velocity field
-    :type vfield: 2D array of float
+    :param vfield: full size velocity field
+    :type vfield: ndarray
     :param x_center_index: box center index (x)
     :type x_center_index: int
     :param y_center_index: box center index (y)
@@ -93,7 +95,7 @@ def window(vfield, x_center_index, y_center_index, dist):
         y2 = vfield.v_velocity_matrix.shape[0]
     x_index, y_index = np.meshgrid(vfield.x_coordinate_matrix[int(x1):int(x2)],
                                    vfield.y_coordinate_matrix[int(y1):int(y2)],
-                                   indexing='xy')
+                                   indexing = 'xy')
     u_data = vfield.u_velocity_matrix[int(y1):int(y2), int(x1):int(x2)]
     v_data = vfield.v_velocity_matrix[int(y1):int(y2), int(x1):int(x2)]
     return x_index, y_index, u_data, v_data
@@ -114,7 +116,7 @@ def find_peaks(data, threshold, box_size):
         detection threshold.  A 2D "threshold" must have the same
         shape as "data".
     :param box_size: The size of the local region to search for peaks at every point
-    :type data: 2D array of float
+    :type data: ndarray
     :type threshold: float
     :type box_size: int
 
@@ -125,8 +127,8 @@ def find_peaks(data, threshold, box_size):
     if np.all(data == data.flat[0]):
         return []
 
-    data_max = scipy.ndimage.maximum_filter(data, size=box_size,
-                                      mode='constant', cval=0.0)
+    data_max = scipy.ndimage.maximum_filter(data, size = box_size,
+                                            mode = 'constant', cval = 0.0)
 
     peak_goodmask = (data == data_max)  # good pixels are True
 
@@ -143,7 +145,7 @@ def direction_rotation(vorticity, peaks):
 
     :param vorticity: 2D array with the computed vorticity
     :param peaks: list of the detected peaks
-    :type vorticity: 2D array of float
+    :type vorticity: ndarray
     :type peaks: list
 
     :returns: vortices_clockwise, vortices_counterclockwise, arrays containing the direction of rotation for each vortex
@@ -169,24 +171,24 @@ def direction_rotation(vorticity, peaks):
     return vortices_clockwise, vortices_counterclockwise
 
 
-def correlation_coef(u_data, v_data, u, v):
+def correlation_coef(u_data, v_data, u_model, v_model):
     """Calculates the correlation coefficient between two 2D arrays
 
     :param u_data: velocity u from the data at the proposed window
     :param v_data: velocity v from the data at the proposed window
-    :param u: velocity u from the calculated model
-    :param v: velocity v from the calculated model
-    :type u_data: float
-    :type v_data: float
-    :type u: float
-    :type v: float
+    :param u_model: velocity u from the calculated model
+    :param v_model: velocity v from the calculated model
+    :type u_data: ndarray
+    :type v_data: ndarray
+    :type u_model: ndarray
+    :type v_model: ndarray
     :returns: correlation
     :rtype: float
     """
     u_data = u_data.ravel()
     v_data = v_data.ravel()
-    u = u.ravel()
-    v = v.ravel()
+    u = u_model.ravel()
+    v = v_model.ravel()
 
     prod_piv_mod = np.mean(u_data * u + v_data * v)
     prod_piv = np.mean(u * u + v * v)
@@ -240,7 +242,7 @@ def get_vortices(vfield, peaks, vorticity, rmax, correlation_treshold):
     :param correlation_treshold: threshold to detect a vortex (default is 0.75)
     :type vfield: class VelocityField
     :type peaks: list
-    :type vorticity: array
+    :type vorticity: ndarray
     :type rmax: float
     :type correlation_treshold: float
     :returns: list of detected vortices
@@ -266,8 +268,8 @@ def get_vortices(vfield, peaks, vorticity, rmax, correlation_treshold):
             correlation_value = 0
         else:
             x_index, y_index, u_data, v_data = window(vfield, round(vortices_parameters[2] / dx, 0),
-                                                            round(vortices_parameters[3] / dy, 0),
-                                                            vortices_parameters[6])
+                                                      round(vortices_parameters[3] / dy, 0),
+                                                      vortices_parameters[6])
             u_model, v_model = velocity_model(vortices_parameters[0], vortices_parameters[1], vortices_parameters[2],
                                               vortices_parameters[3],
                                               vortices_parameters[4], vortices_parameters[5], x_index, y_index)
@@ -309,6 +311,7 @@ def full_fit(core_radius, gamma, vfield, x_center_index, y_center_index):
     fitted[3] = vfield.y_coordinate_matrix[y_center_index]
     dx = vfield.x_coordinate_step
     dy = vfield.y_coordinate_step
+    dist = 0
     # correlation_value = 0.0
     for i in range(10):
         x_center_index = int(round(fitted[2] / dx))
@@ -323,12 +326,11 @@ def full_fit(core_radius, gamma, vfield, x_center_index, y_center_index):
         x1 = fitted[2]
         y1 = fitted[3]
         dist = int(round(fitted[0] / np.hypot(dx, dy), 0)) + 1
-        if fitted[0] < 2 * np.hypot(dx,dy):
+        if fitted[0] < 2 * np.hypot(dx, dy):
             break
         fitted[4] = vfield.u_velocity_matrix[y_center_index, x_center_index]  # u_advection
         fitted[5] = vfield.v_velocity_matrix[y_center_index, x_center_index]  # v_advection
         x_index, y_index, u_data, v_data = window(vfield, x_center_index, y_center_index, dist)
-
 
         fitted = fit(fitted[0], fitted[1], x_index, y_index, fitted[2], fitted[3],
                      u_data, v_data, fitted[4], fitted[5], i)
@@ -354,14 +356,24 @@ def fit(core_radius, gamma, x, y, x_real, y_real, u_data, v_data, u_advection, v
     :param y: y position
     :param x_real: x position of the vortex center
     :param y_real: y position of the vortex center
+    :param u_data: velocity u from the data at the proposed window
+    :param v_data: velocity v from the data at the proposed window
+    :param u_advection: uniform advection velocity u
+    :param v_advection: uniform advection velocity u
+    :param i: current iteration for fitting
     :type core_radius: float
     :type gamma: float
     :type x: float
     :type y: float
     :type x_real: float
     :type y_real: float
+    :type u_data: ndarray
+    :type v_data: ndarray
+    :type u_advection: float
+    :type v_advection: float
+    :type i: iterator
     :returns: sol.x
-    :rtype: float
+    :rtype: list
     """
 
     x = x.ravel()
@@ -395,10 +407,11 @@ def fit(core_radius, gamma, x, y, x_real, y_real, u_data, v_data, u_advection, v
     bnds = ([0, gamma - abs(gamma) * m / 2 - epsilon, x_real - m * dx - epsilon, y_real - m * dy - epsilon,
              u_advection - abs(u_advection) - epsilon, v_advection - abs(v_advection) - epsilon],
             [core_radius + core_radius * m, gamma + abs(gamma) * m / 2 + epsilon, x_real + m * dx + epsilon,
-             y_real + m * dy + epsilon, u_advection + abs(u_advection) + epsilon, v_advection + abs(v_advection) + epsilon])
+             y_real + m * dy + epsilon, u_advection + abs(u_advection) + epsilon,
+             v_advection + abs(v_advection) + epsilon])
 
     sol = opt.least_squares(lamb_oseen_model, [core_radius, gamma, x_real, y_real, u_advection, v_advection],
-                                    method='trf', bounds=bnds)
+                            method = 'trf', bounds = bnds)
 
     return sol.x
 
@@ -410,24 +423,24 @@ def plot_fields(vfield, detection_field):
     :param vfield: contains spatial mesh and velocity components
     :type vfield: class VelocityField()
     :param detection_field: detection field (vorticity ...)
-    :type detection_field: 2D array of float
+    :type detection_field: ndarray
     :returns: popup
     :rtype: image
     """
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)  # , sharex='col', sharey='row')
-    ax1.imshow(vfield.u_velocity_matrix, cmap='seismic', origin="lower")
+    ax1.imshow(vfield.u_velocity_matrix, cmap = 'seismic', origin = "lower")
     ax1.set_title('Velocity u (velocity_s)')
 
-    ax2.imshow(vfield.v_velocity_matrix, cmap='seismic', origin="lower")
+    ax2.imshow(vfield.v_velocity_matrix, cmap = 'seismic', origin = "lower")
     ax2.set_title('Velocity v (velocity_n)')
 
-    try:
-        ax3.imshow(vfield.w_velocity_matrix, cmap='seismic', origin="lower")
+    if vfield.w_velocity_matrix:
+        ax3.imshow(vfield.w_velocity_matrix, cmap = 'seismic', origin = "lower")
         ax3.set_title('Velocity w (velocity_z)')
-    except:
+    else:
         print('No w velocity')
     ax4.set_title('Vorticity')
-    ax4.imshow(detection_field, origin="lower", cmap='seismic')
+    ax4.imshow(detection_field, origin = "lower", cmap = 'seismic')
     plt.tight_layout()
 
     plt.show()
@@ -442,25 +455,25 @@ def plot_detect(vortices_counterclockwise, vortices_clockwise, detection_field, 
     :param vortices_clockwise: vortices spinning clockwise
     :type vortices_clockwise: list of vortices
     :param detection_field: detection field (vorticity ...)
-    :type detection_field: 2D array of float
+    :type detection_field: ndarray
     :returns: popup
     :rtype: image
     """
     plt.subplot()
-    if (args[0] == True):
+    if args[0]:
         detection_field = detection_field.T  # transpose the detection field
-        plt.scatter(vortices_counterclockwise[0], vortices_counterclockwise[1], edgecolor='G', facecolor='G',
-                    label='left')
-        plt.scatter(vortices_clockwise[0], vortices_clockwise[1], edgecolor='Y', facecolor='Y', label='right')
+        plt.scatter(vortices_counterclockwise[0], vortices_counterclockwise[1], edgecolor = 'G', facecolor = 'G',
+                    label = 'left')
+        plt.scatter(vortices_clockwise[0], vortices_clockwise[1], edgecolor = 'Y', facecolor = 'Y', label = 'right')
     else:
-        plt.scatter(vortices_counterclockwise[1], vortices_counterclockwise[0], edgecolor='G', facecolor='G',
-                    label='left')
-        plt.scatter(vortices_clockwise[1], vortices_clockwise[0], edgecolor='Y', facecolor='Y', label='right')
+        plt.scatter(vortices_counterclockwise[1], vortices_counterclockwise[0], edgecolor = 'G', facecolor = 'G',
+                    label = 'left')
+        plt.scatter(vortices_clockwise[1], vortices_clockwise[0], edgecolor = 'Y', facecolor = 'Y', label = 'right')
 
     plt.title('Detected possible vortices')
     # plt.contourf(field, cmap="Greys_r")
 
-    plt.imshow(detection_field, origin='lower', cmap="Greys_r")
+    plt.imshow(detection_field, origin = 'lower', cmap = "Greys_r")
     plt.xlabel('x')
     plt.ylabel('y')
     # plt.legend()
@@ -475,15 +488,15 @@ def plot_quiver(x_index, y_index, u_data, v_data, detection_field):
     Plot quiver: display a specific (x,y) location with vector fields.
 
     :param x_index: contains spatial mesh (x direction)
-    :type x_index: array of float
+    :type x_index: ndarray
     :param y_index: contains spatial mesh (y direction)
-    :type y_index: array of float
+    :type y_index: ndarray
     :param u_data: contains velocity data (u component)
-    :type u_data: 2D array of float
+    :type u_data: ndarray
     :param v_data: contains velocity data (v component)
-    :type v_data: 2D array of float
+    :type v_data: ndarray
     :param detection_field: detection field (vorticity ...)
-    :type detection_field: 2D array of float
+    :type detection_field: ndarray
     :returns: popup
     :rtype: image
     """
@@ -491,7 +504,7 @@ def plot_quiver(x_index, y_index, u_data, v_data, detection_field):
     plt.figure()
     # plt.title('Velocity vectors centered at max swirling strength')
     plt.contourf(detection_field,
-                 extent=[x_index[0][0], x_index[0][-1], y_index[0][0], y_index[-1][0]])
+                 extent = [x_index[0][0], x_index[0][-1], y_index[0][0], y_index[-1][0]])
     s = 1  # sampling factor, can be modified
     plt.quiver(x_index[::s, ::s], y_index[::s, ::s], u_data[::s, ::s], v_data[::s, ::s])
     plt.show()
@@ -504,17 +517,17 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model,
     Plot fit
 
     :param x_index: contains spatial mesh (x direction)
-    :type x_index: array of float
+    :type x_index: ndarray
     :param y_index: contains spatial mesh (y direction)
-    :type y_index: array of float
+    :type y_index: ndarray
     :param u_data: contains velocity data (u component)
-    :type u_data: 2D array of float
+    :type u_data: ndarray
     :param v_data: contains velocity data (v component)
-    :type v_data: 2D array of float
+    :type v_data: ndarray
     :param u_model: contains velocity data (u component)
-    :type u_model: 2D array of float
+    :type u_model: ndarray
     :param v_model: contains velocity data (v component)
-    :type v_model: 2D array of float
+    :type v_model: ndarray
     :param xc: x coordinate of the vortex center
     :type xc: float
     :param yc: y coordinate of the vortex center
@@ -524,9 +537,9 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model,
     :param gamma: circulation of the vortex
     :type gamma: float
     :param u_advection: contains velocity data (u component)
-    :type u_advection: 2D array of float
+    :type u_advection: ndarray
     :param v_advection: contains velocity data (v component)
-    :type v_advection: 2D array of float
+    :type v_advection: ndarray
     :param cpt_vortex: current n° of the vortex
     :type cpt_vortex: int
     :param subtract_advection_field: if True, the advection field (u_advection, v_advection) is subtracted
@@ -542,18 +555,18 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model,
     """
     plt.figure()
     s = 1  # sampling factor
-    if (x_index.size > 400):
+    if x_index.size > 400:
         s = 2
     plt.quiver(x_index[::s, ::s], y_index[::s, ::s], u_data[::s, ::s], v_data[::s, ::s],
-               color='r', label='data')
+               color = 'r', label = 'data')
     plt.quiver(x_index[::s, ::s], y_index[::s, ::s], u_model[::s, ::s], v_model[::s, ::s],
-               color='b', label='model', alpha=0.5)
-    circle1 = plt.Circle((xc, yc), core_radius, color='k', alpha=0.05)
+               color = 'b', label = 'model', alpha = 0.5)
+    circle1 = plt.Circle((xc, yc), core_radius, color = 'k', alpha = 0.05)
     plt.gca().add_artist(circle1)
-    plt.gca().scatter([xc], [yc], marker='+', color='k', s=100)
+    plt.gca().scatter([xc], [yc], marker = '+', color = 'k', s = 100)
     plt.legend()
     plt.grid()
-    plt.gca().set_aspect('equal', adjustable='box')
+    plt.gca().set_aspect('equal', adjustable = 'box')
     #    plt.axes().set_aspect('equal') #deprecated
     plt.xlabel('x')
     plt.ylabel('y')
@@ -561,10 +574,12 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model,
     plt.title(r'r=%s $\Gamma$=%s u=%s v=%s C=%s' % (
         round(core_radius, 2), round(gamma, 2), round(u_advection, 2), round(v_advection, 2),
         round(correlation_value, 2)))
-    if subtract_advection_field == False:
-        plt.savefig(output_dir + '/vortex%i_%s.png' % (cpt_vortex, 'initial_vfield'), format='png')
+    if not subtract_advection_field:
+        plt.savefig(output_dir + '/vortex%i_%i_%s.png' % (time_step, cpt_vortex, 'initial_vfield'),
+                    format = 'png')
     else:
-        plt.savefig(output_dir + '/vortex%i_%s.png' % (cpt_vortex, 'advection_field_subtracted'), format='png')
+        plt.savefig(output_dir + '/vortex%i_%i_%s.png' % (time_step, cpt_vortex, 'advection_field_subtracted'),
+                    format = 'png')
     plt.close('all')
 
 
@@ -578,7 +593,7 @@ def plot_accepted(vfield, vortices_list, detection_field, output_dir, time_step)
     :param vortices_list: contains all the detected vortices
     :type vortices_list: list
     :param detection_field: detection field (vorticity ...)
-    :type detection_field: 2D array of float
+    :type detection_field: ndarray
     :param output_dir: directory where the results are written
     :type output_dir: str
     :param time_step: current time_step
@@ -587,28 +602,37 @@ def plot_accepted(vfield, vortices_list, detection_field, output_dir, time_step)
     :rtype: image
     """
     plt.figure(1)
-    plt.contourf(vfield.x_coordinate_matrix, vfield.y_coordinate_matrix, detection_field, origin='lower', cmap="bone")
+    plt.contourf(vfield.x_coordinate_matrix, vfield.y_coordinate_matrix, detection_field, origin = 'lower',
+                 cmap = "bone")
     plt.xlabel('x')
     plt.ylabel('y')
     dx = vfield.x_coordinate_step
     dy = vfield.y_coordinate_step
     plt.figure(2)
-    plt.imshow(detection_field, origin='lower', cmap="bone")
+    plt.imshow(detection_field, origin = 'lower', cmap = "bone")
     for i, line in enumerate(vortices_list):
         if vortices_list[i][1] > 0:
-            orient = 'Y'
+            # orient = 'yellow'
+            plt.figure(1)
+            circle1 = plt.Circle((line[2], line[3]), line[0],
+                                 edgecolor = 'yellow', facecolor = 'none', gid = 'vortex%i' % i)
+            plt.gca().add_artist(circle1)
+            plt.figure(2)
+            circle1 = plt.Circle((line[2] / dx, line[3] / dy), line[0] / np.hypot(dx, dy),
+                                 edgecolor = 'yellow', facecolor = 'none', gid = 'vortex%i' % i)
+            plt.gca().add_artist(circle1)
         else:
-            orient = 'Y'
-        plt.figure(1)
-        circle1 = plt.Circle((line[2], line[3]), line[0],
-                             edgecolor='yellow', facecolor='none', gid='vortex%i' % i)
-        plt.gca().add_artist(circle1)
-        plt.figure(2)
-        circle1 = plt.Circle((line[2] / dx, line[3] / dy), line[0] / np.hypot(dx, dy),
-                             edgecolor='yellow', facecolor='none', gid='vortex%i' % i)
-        plt.gca().add_artist(circle1)
+            # orient = 'green'
+            plt.figure(1)
+            circle1 = plt.Circle((line[2], line[3]), line[0],
+                                 edgecolor = 'green', facecolor = 'none', gid = 'vortex%i' % i)
+            plt.gca().add_artist(circle1)
+            plt.figure(2)
+            circle1 = plt.Circle((line[2] / dx, line[3] / dy), line[0] / np.hypot(dx, dy),
+                                 edgecolor = 'green', facecolor = 'none', gid = 'vortex%i' % i)
+            plt.gca().add_artist(circle1)
 
-    ##Comparing data
+    # Comparing data
     # fileIn = open('../data/dazin.dat', 'r')
     # for line in fileIn:
     # xComp = int(float(line.split()[1]))
@@ -625,11 +649,11 @@ def plot_accepted(vfield, vortices_list, detection_field, output_dir, time_step)
     # plt.legend()
     plt.figure(1)
     plt.tight_layout()
-    plt.savefig(output_dir + '/accepted_{:01d}.svg'.format(time_step), format='svg')
+    plt.savefig(output_dir + '/accepted_{:01d}.svg'.format(time_step), format = 'svg')
     create_links(output_dir + '/accepted_{:01d}.svg'.format(time_step), vortices_list, output_dir, time_step)
     plt.figure(2)
     plt.savefig(output_dir + '/meshed_{:01d}.svg'.format(time_step),
-                format='svg')  # use it to verify your coordinate system if needed !
+                format = 'svg')  # use it to verify your coordinate system if needed !
     # plt.savefig(output_dir+'/tk_{:01d}.png'.format(time_step), format='png', transparent=True)
 
     # plt.show()
@@ -694,7 +718,7 @@ def create_links(path, vortices_list, output_dir, time_step):
     vortex_found = False
     for line in file_in:
         if "</g>" in line:
-            if vortex_found == True:
+            if vortex_found:
                 file_out.write(line)
                 file_out.write('   </a>\n')
                 vortex_found = False
