@@ -612,16 +612,6 @@ def plot_accepted(vfield, vortices_list, detection_field, output_dir, time_step)
     plt.imshow(detection_field, origin = 'lower', cmap = "bone")
     for i, line in enumerate(vortices_list):
         if vortices_list[i][1] > 0:
-            # orient = 'yellow'
-            plt.figure(1)
-            circle1 = plt.Circle((line[2], line[3]), line[0],
-                                 edgecolor = 'yellow', facecolor = 'none', gid = 'vortex%i' % i)
-            plt.gca().add_artist(circle1)
-            plt.figure(2)
-            circle1 = plt.Circle((line[2] / dx, line[3] / dy), line[0] / np.hypot(dx, dy),
-                                 edgecolor = 'yellow', facecolor = 'none', gid = 'vortex%i' % i)
-            plt.gca().add_artist(circle1)
-        else:
             # orient = 'green'
             plt.figure(1)
             circle1 = plt.Circle((line[2], line[3]), line[0],
@@ -630,6 +620,16 @@ def plot_accepted(vfield, vortices_list, detection_field, output_dir, time_step)
             plt.figure(2)
             circle1 = plt.Circle((line[2] / dx, line[3] / dy), line[0] / np.hypot(dx, dy),
                                  edgecolor = 'green', facecolor = 'none', gid = 'vortex%i' % i)
+            plt.gca().add_artist(circle1)
+        else:
+            # orient = 'yellow'
+            plt.figure(1)
+            circle1 = plt.Circle((line[2], line[3]), line[0],
+                                 edgecolor = 'yellow', facecolor = 'none', gid = 'vortex%i' % i)
+            plt.gca().add_artist(circle1)
+            plt.figure(2)
+            circle1 = plt.Circle((line[2] / dx, line[3] / dy), line[0] / np.hypot(dx, dy),
+                                 edgecolor = 'yellow', facecolor = 'none', gid = 'vortex%i' % i)
             plt.gca().add_artist(circle1)
 
     # Comparing data

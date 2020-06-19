@@ -3,6 +3,7 @@
 class VelocityField
 """
 
+import sys
 import numpy as np
 import netCDF4
 
@@ -88,7 +89,10 @@ class VelocityField:
 
         if file_type == 'piv_netcdf':
             # PIV DATA with netCDF format
-            datafile_read = netCDF4.Dataset(self.file_path, 'r')
+            try:
+                datafile_read = netCDF4.Dataset(self.file_path, 'r')
+            except IOError:
+                sys.exit("\nReading error. Maybe a wrong file type?\n")
             self.u_velocity_matrix = np.array(datafile_read.variables['velocity_n'][time_step, :, :])
             self.v_velocity_matrix = np.array(datafile_read.variables['velocity_s'][time_step, :, :])
             self.w_velocity_matrix = np.array(datafile_read.variables['velocity_z'][time_step, :, :])
@@ -108,7 +112,11 @@ class VelocityField:
 
         if file_type == 'dns':
             # DNS DATA, netCDF format
-            datafile_read = netCDF4.Dataset(self.file_path, 'r')
+            try:
+                datafile_read = netCDF4.Dataset(self.file_path, 'r')
+            except IOError:
+                sys.exit("\nReading error. Maybe a wrong file type?\n")
+
             self.u_velocity_matrix = np.array(datafile_read.variables['velocity_x'][time_step, :, :])
             self.v_velocity_matrix = np.array(datafile_read.variables['velocity_y'][time_step, :, :])
             self.w_velocity_matrix = np.array(datafile_read.variables['velocity_z'][time_step, :, :])
@@ -171,11 +179,14 @@ class VelocityField:
             #        index_v=j
             #    if list_variables[j] in ['VZ', 'W']:
             #        index_w=j
+            try:
+                datafile_read = np.loadtxt(self.file_path, delimiter = " ", dtype = float,
+                                           skiprows = 3)  # skip header, default is 3 lines
+            except IOError:
+                sys.exit("\nReading error. Maybe a wrong file type?\n")
 
             index_x, index_y, index_z, index_u, index_v, index_w = 0, 1, 2, 3, 4, 5
-            datafile_read = np.loadtxt(self.file_path, delimiter = " ", dtype = float,
-                                       skiprows = 3)  # skip header, default is 3 lines
-            dx_tmp = np.array(datafile_read[:, 0])
+            dx_tmp = np.array(datafile_read[:, index_x])
 
             for i in range(1, dx_tmp.shape[0]):
                 if dx_tmp[i] == dx_tmp[0]:
@@ -223,10 +234,14 @@ class VelocityField:
             self.normalization_direction = None
 
         if file_type == 'openfoam':
+            try:
+                datafile_read = np.loadtxt(self.file_path, delimiter = " ", dtype = float,
+                                           skiprows = 2)  # skip header, default is 2 lines
+            except IOError:
+                sys.exit("\nReading error. Maybe a wrong file type?\n")
+
             index_x, index_y, index_z, index_u, index_v, index_w = 0, 1, 2, 3, 4, 6
-            datafile_read = np.loadtxt(self.file_path, delimiter = " ", dtype = float,
-                                       skiprows = 2)  # skip header, default is 2 lines
-            dx_tmp = np.array(datafile_read[:, 0])
+            dx_tmp = np.array(datafile_read[:, index_x])
             for i in range(1, dx_tmp.shape[0]):
                 if dx_tmp[i] == dx_tmp[0]:
                     self.y_coordinate_size = i
