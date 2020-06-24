@@ -1,19 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>fitting.py &#8212; VortexFitting 1 documentation</title>
     <link rel="stylesheet" href="../_static/pyramid.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="output.py" href="output.html" />
@@ -42,7 +42,8 @@
           <a href="detection.html" title="detection.py"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Modules</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Modules</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">fitting.py</a></li> 
       </ul>
     </div>  
 
@@ -54,474 +55,412 @@
   <div class="section" id="module-fitting">
 <span id="fitting-py"></span><h1>fitting.py<a class="headerlink" href="#module-fitting" title="Permalink to this headline">¶</a></h1>
 <p>Different functions for the fitting of vortices</p>
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.correlation_coef">
-<code class="descclassname">fitting.</code><code class="descname">correlation_coef</code><span class="sig-paren">(</span><em>u_data</em>, <em>v_data</em>, <em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.correlation_coef" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">correlation_coef</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u_data</span></em>, <em class="sig-param"><span class="n">v_data</span></em>, <em class="sig-param"><span class="n">u_model</span></em>, <em class="sig-param"><span class="n">v_model</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.correlation_coef" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the correlation coefficient between two 2D arrays</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>u_data</strong> (<em>float</em>) – velocity u from the data at the proposed window</li>
-<li><strong>v_data</strong> (<em>float</em>) – velocity v from the data at the proposed window</li>
-<li><strong>u</strong> (<em>float</em>) – velocity u from the calculated model</li>
-<li><strong>v</strong> (<em>float</em>) – velocity v from the calculated model</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u_data</strong> (<em>ndarray</em>) – velocity u from the data at the proposed window</p></li>
+<li><p><strong>v_data</strong> (<em>ndarray</em>) – velocity v from the data at the proposed window</p></li>
+<li><p><strong>u_model</strong> (<em>ndarray</em>) – velocity u from the calculated model</p></li>
+<li><p><strong>v_model</strong> (<em>ndarray</em>) – velocity v from the calculated model</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">correlation</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>correlation</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.create_links">
-<code class="descclassname">fitting.</code><code class="descname">create_links</code><span class="sig-paren">(</span><em>path</em>, <em>vortices_list</em>, <em>output_dir</em>, <em>time_step</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.create_links" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">create_links</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">vortices_list</span></em>, <em class="sig-param"><span class="n">output_dir</span></em>, <em class="sig-param"><span class="n">time_step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.create_links" title="Permalink to this definition">¶</a></dt>
 <dd><p>create links: add some links bewteen the accepted.svg file and the detected vortices</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>path</strong> (<em>str</em>) – path of the accepted.svg file</li>
-<li><strong>vortices_list</strong> (<em>list</em>) – contains all the detected vortices</li>
-<li><strong>output_dir</strong> (<em>str</em>) – directory where the results are written</li>
-<li><strong>time_step</strong> (<em>int</em>) – current time_step</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – path of the accepted.svg file</p></li>
+<li><p><strong>vortices_list</strong> (<em>list</em>) – contains all the detected vortices</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – directory where the results are written</p></li>
+<li><p><strong>time_step</strong> (<em>int</em>) – current time_step</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">file</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">image</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>file</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>image</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.direction_rotation">
-<code class="descclassname">fitting.</code><code class="descname">direction_rotation</code><span class="sig-paren">(</span><em>vorticity</em>, <em>peaks</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.direction_rotation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">direction_rotation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vorticity</span></em>, <em class="sig-param"><span class="n">peaks</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.direction_rotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Identify the direction of the vortices rotation using the vorticity.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>vorticity</strong> (<em>2D array of float</em>) – 2D array with the computed vorticity</li>
-<li><strong>peaks</strong> (<em>list</em>) – list of the detected peaks</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vorticity</strong> (<em>ndarray</em>) – 2D array with the computed vorticity</p></li>
+<li><p><strong>peaks</strong> (<em>list</em>) – list of the detected peaks</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">vortices_clockwise, vortices_counterclockwise, arrays containing the direction of rotation for each vortex</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>vortices_clockwise, vortices_counterclockwise, arrays containing the direction of rotation for each vortex</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.find_peaks">
-<code class="descclassname">fitting.</code><code class="descname">find_peaks</code><span class="sig-paren">(</span><em>data</em>, <em>threshold</em>, <em>box_size</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.find_peaks" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">find_peaks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">threshold</span></em>, <em class="sig-param"><span class="n">box_size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.find_peaks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find local peaks in an image that are above above a specified
 threshold value.</p>
 <p>Peaks are the maxima above the “threshold” within a local region.
 The regions are defined by the “box_size” parameters.
 “box_size” defines the local region around each pixel
 as a square box.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> (<em>2D array of float</em>) – The 2D array of the image/data.</li>
-<li><strong>threshold</strong> (<em>float</em>) – The data value or pixel-wise data values to be used for the
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>ndarray</em>) – The 2D array of the image/data.</p></li>
+<li><p><strong>threshold</strong> (<em>float</em>) – The data value or pixel-wise data values to be used for the
 detection threshold.  A 2D “threshold” must have the same
-shape as “data”.</li>
-<li><strong>box_size</strong> (<em>int</em>) – The size of the local region to search for peaks at every point</li>
+shape as “data”.</p></li>
+<li><p><strong>box_size</strong> (<em>int</em>) – The size of the local region to search for peaks at every point</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An array containing the x and y pixel location of the peaks and their values.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An array containing the x and y pixel location of the peaks and their values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.fit">
-<code class="descclassname">fitting.</code><code class="descname">fit</code><span class="sig-paren">(</span><em>core_radius</em>, <em>gamma</em>, <em>x</em>, <em>y</em>, <em>x_real</em>, <em>y_real</em>, <em>u_data</em>, <em>v_data</em>, <em>u_advection</em>, <em>v_advection</em>, <em>i</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.fit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">core_radius</span></em>, <em class="sig-param"><span class="n">gamma</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">x_real</span></em>, <em class="sig-param"><span class="n">y_real</span></em>, <em class="sig-param"><span class="n">u_data</span></em>, <em class="sig-param"><span class="n">v_data</span></em>, <em class="sig-param"><span class="n">u_advection</span></em>, <em class="sig-param"><span class="n">v_advection</span></em>, <em class="sig-param"><span class="n">i</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fitting  of the Lamb-Oseen Vortex</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>core_radius</strong> (<em>float</em>) – core radius of the vortex</li>
-<li><strong>gamma</strong> (<em>float</em>) – circulation contained in the vortex</li>
-<li><strong>x</strong> (<em>float</em>) – x position</li>
-<li><strong>y</strong> (<em>float</em>) – y position</li>
-<li><strong>x_real</strong> (<em>float</em>) – x position of the vortex center</li>
-<li><strong>y_real</strong> (<em>float</em>) – y position of the vortex center</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>core_radius</strong> (<em>float</em>) – core radius of the vortex</p></li>
+<li><p><strong>gamma</strong> (<em>float</em>) – circulation contained in the vortex</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – x position</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – y position</p></li>
+<li><p><strong>x_real</strong> (<em>float</em>) – x position of the vortex center</p></li>
+<li><p><strong>y_real</strong> (<em>float</em>) – y position of the vortex center</p></li>
+<li><p><strong>u_data</strong> (<em>ndarray</em>) – velocity u from the data at the proposed window</p></li>
+<li><p><strong>v_data</strong> (<em>ndarray</em>) – velocity v from the data at the proposed window</p></li>
+<li><p><strong>u_advection</strong> (<em>float</em>) – uniform advection velocity u</p></li>
+<li><p><strong>v_advection</strong> (<em>float</em>) – uniform advection velocity u</p></li>
+<li><p><strong>i</strong> (<em>iterator</em>) – current iteration for fitting</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">sol.x</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>sol.x</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.full_fit">
-<code class="descclassname">fitting.</code><code class="descname">full_fit</code><span class="sig-paren">(</span><em>core_radius</em>, <em>gamma</em>, <em>vfield</em>, <em>x_center_index</em>, <em>y_center_index</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.full_fit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">full_fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">core_radius</span></em>, <em class="sig-param"><span class="n">gamma</span></em>, <em class="sig-param"><span class="n">vfield</span></em>, <em class="sig-param"><span class="n">x_center_index</span></em>, <em class="sig-param"><span class="n">y_center_index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.full_fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Full fitting procedure</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>core_radius</strong> (<em>float</em>) – core radius of the vortex</li>
-<li><strong>gamma</strong> (<em>float</em>) – circulation contained in the vortex</li>
-<li><strong>vfield</strong> (<em>class</em>) – data from the input file</li>
-<li><strong>x_center_index</strong> (<em>int</em>) – x index of the vortex center</li>
-<li><strong>y_center_index</strong> (<em>int</em>) – y index of the vortex center</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>core_radius</strong> (<em>float</em>) – core radius of the vortex</p></li>
+<li><p><strong>gamma</strong> (<em>float</em>) – circulation contained in the vortex</p></li>
+<li><p><strong>vfield</strong> (<em>class</em>) – data from the input file</p></li>
+<li><p><strong>x_center_index</strong> (<em>int</em>) – x index of the vortex center</p></li>
+<li><p><strong>y_center_index</strong> (<em>int</em>) – y index of the vortex center</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">fitted[i], dist</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fitted[i], dist</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.get_fluc">
-<code class="descclassname">fitting.</code><code class="descname">get_fluc</code><span class="sig-paren">(</span><em>x</em>, <em>mean</em>, <em>hom_axis</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.get_fluc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">get_fluc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">mean</span></em>, <em class="sig-param"><span class="n">hom_axis</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.get_fluc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Used when you have a advective velocity along one axis</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<em>2D array of float</em>) – velocity field</li>
-<li><strong>mean</strong> (<em>float</em>) – advective velocity to subtract</li>
-<li><strong>hom_axis</strong> (<em>str</em>) – False, ‘x’, or ‘y’. The axis which the mean is subtracted</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>ndarray</em>) – velocity field</p></li>
+<li><p><strong>mean</strong> (<em>float</em>) – advective velocity to subtract</p></li>
+<li><p><strong>hom_axis</strong> (<em>str</em>) – False, ‘x’, or ‘y’. The axis which the mean is subtracted</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">input array, minus the advective velocity</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">2D arrays of float</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>input array, minus the advective velocity</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.get_vortices">
-<code class="descclassname">fitting.</code><code class="descname">get_vortices</code><span class="sig-paren">(</span><em>vfield</em>, <em>peaks</em>, <em>vorticity</em>, <em>rmax</em>, <em>correlation_treshold</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.get_vortices" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">get_vortices</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vfield</span></em>, <em class="sig-param"><span class="n">peaks</span></em>, <em class="sig-param"><span class="n">vorticity</span></em>, <em class="sig-param"><span class="n">rmax</span></em>, <em class="sig-param"><span class="n">correlation_treshold</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.get_vortices" title="Permalink to this definition">¶</a></dt>
 <dd><p>General routine to check if the detected vortex is a real vortex</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>vfield</strong> (<em>class VelocityField</em>) – data from the input file</li>
-<li><strong>peaks</strong> (<em>list</em>) – list of vortices</li>
-<li><strong>vorticity</strong> (<em>array</em>) – calculated field</li>
-<li><strong>rmax</strong> (<em>float</em>) – maximum radius (adapt it to your data domain)</li>
-<li><strong>correlation_treshold</strong> (<em>float</em>) – threshold to detect a vortex (default is 0.75)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vfield</strong> (<em>class VelocityField</em>) – data from the input file</p></li>
+<li><p><strong>peaks</strong> (<em>list</em>) – list of vortices</p></li>
+<li><p><strong>vorticity</strong> (<em>ndarray</em>) – calculated field</p></li>
+<li><p><strong>rmax</strong> (<em>float</em>) – maximum radius (adapt it to your data domain)</p></li>
+<li><p><strong>correlation_treshold</strong> (<em>float</em>) – threshold to detect a vortex (default is 0.75)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">list of detected vortices</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of detected vortices</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.normalize">
-<code class="descclassname">fitting.</code><code class="descname">normalize</code><span class="sig-paren">(</span><em>x</em>, <em>hom_axis</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.normalize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">normalize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">hom_axis</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.normalize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Normalize with swirling strength</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<em>2D array of float</em>) – velocity field</li>
-<li><strong>hom_axis</strong> (<em>str</em>) – False, ‘x’, or ‘y’. The axis which the mean is subtracted</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>ndarray</em>) – velocity field</p></li>
+<li><p><strong>hom_axis</strong> (<em>str</em>) – False, ‘x’, or ‘y’. The axis which the mean is subtracted</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">normalized array</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">2D array of float</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>normalized array</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.plot_accepted">
-<code class="descclassname">fitting.</code><code class="descname">plot_accepted</code><span class="sig-paren">(</span><em>vfield</em>, <em>vortices_list</em>, <em>detection_field</em>, <em>output_dir</em>, <em>time_step</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.plot_accepted" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">plot_accepted</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vfield</span></em>, <em class="sig-param"><span class="n">vortices_list</span></em>, <em class="sig-param"><span class="n">detection_field</span></em>, <em class="sig-param"><span class="n">output_dir</span></em>, <em class="sig-param"><span class="n">time_step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.plot_accepted" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot accepted: display the accepted vortices, with respect to the different criterion
 (correlation threshold, box size …)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</li>
-<li><strong>vortices_list</strong> (<em>list</em>) – contains all the detected vortices</li>
-<li><strong>detection_field</strong> (<em>2D array of float</em>) – detection field (vorticity …)</li>
-<li><strong>output_dir</strong> (<em>str</em>) – directory where the results are written</li>
-<li><strong>time_step</strong> (<em>int</em>) – current time_step</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</p></li>
+<li><p><strong>vortices_list</strong> (<em>list</em>) – contains all the detected vortices</p></li>
+<li><p><strong>detection_field</strong> (<em>ndarray</em>) – detection field (vorticity …)</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – directory where the results are written</p></li>
+<li><p><strong>time_step</strong> (<em>int</em>) – current time_step</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">popup</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">image</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>popup</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>image</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.plot_detect">
-<code class="descclassname">fitting.</code><code class="descname">plot_detect</code><span class="sig-paren">(</span><em>vortices_counterclockwise</em>, <em>vortices_clockwise</em>, <em>detection_field</em>, <em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.plot_detect" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">plot_detect</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vortices_counterclockwise</span></em>, <em class="sig-param"><span class="n">vortices_clockwise</span></em>, <em class="sig-param"><span class="n">detection_field</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.plot_detect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot detect: display the location and rotation of the vortices</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>vortices_counterclockwise</strong> (<em>list of vortices</em>) – vortices spinning counterclockwise</li>
-<li><strong>vortices_clockwise</strong> (<em>list of vortices</em>) – vortices spinning clockwise</li>
-<li><strong>detection_field</strong> (<em>2D array of float</em>) – detection field (vorticity …)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vortices_counterclockwise</strong> (<em>list of vortices</em>) – vortices spinning counterclockwise</p></li>
+<li><p><strong>vortices_clockwise</strong> (<em>list of vortices</em>) – vortices spinning clockwise</p></li>
+<li><p><strong>detection_field</strong> (<em>ndarray</em>) – detection field (vorticity …)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">popup</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">image</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>popup</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>image</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.plot_fields">
-<code class="descclassname">fitting.</code><code class="descname">plot_fields</code><span class="sig-paren">(</span><em>vfield</em>, <em>detection_field</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.plot_fields" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">plot_fields</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vfield</span></em>, <em class="sig-param"><span class="n">detection_field</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.plot_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot fields: display the (u,v,w) fields and the vorticity field.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</li>
-<li><strong>detection_field</strong> (<em>2D array of float</em>) – detection field (vorticity …)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</p></li>
+<li><p><strong>detection_field</strong> (<em>ndarray</em>) – detection field (vorticity …)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">popup</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">image</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>popup</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>image</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.plot_fit">
-<code class="descclassname">fitting.</code><code class="descname">plot_fit</code><span class="sig-paren">(</span><em>x_index</em>, <em>y_index</em>, <em>u_data</em>, <em>v_data</em>, <em>u_model</em>, <em>v_model</em>, <em>xc</em>, <em>yc</em>, <em>core_radius</em>, <em>gamma</em>, <em>u_advection</em>, <em>v_advection</em>, <em>correlation_value</em>, <em>cpt_vortex</em>, <em>subtract_advection_field</em>, <em>output_dir</em>, <em>time_step</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.plot_fit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">plot_fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x_index</span></em>, <em class="sig-param"><span class="n">y_index</span></em>, <em class="sig-param"><span class="n">u_data</span></em>, <em class="sig-param"><span class="n">v_data</span></em>, <em class="sig-param"><span class="n">u_model</span></em>, <em class="sig-param"><span class="n">v_model</span></em>, <em class="sig-param"><span class="n">xc</span></em>, <em class="sig-param"><span class="n">yc</span></em>, <em class="sig-param"><span class="n">core_radius</span></em>, <em class="sig-param"><span class="n">gamma</span></em>, <em class="sig-param"><span class="n">u_advection</span></em>, <em class="sig-param"><span class="n">v_advection</span></em>, <em class="sig-param"><span class="n">correlation_value</span></em>, <em class="sig-param"><span class="n">cpt_vortex</span></em>, <em class="sig-param"><span class="n">subtract_advection_field</span></em>, <em class="sig-param"><span class="n">output_dir</span></em>, <em class="sig-param"><span class="n">time_step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.plot_fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot fit</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x_index</strong> (<em>array of float</em>) – contains spatial mesh (x direction)</li>
-<li><strong>y_index</strong> (<em>array of float</em>) – contains spatial mesh (y direction)</li>
-<li><strong>u_data</strong> (<em>2D array of float</em>) – contains velocity data (u component)</li>
-<li><strong>v_data</strong> (<em>2D array of float</em>) – contains velocity data (v component)</li>
-<li><strong>u_model</strong> (<em>2D array of float</em>) – contains velocity data (u component)</li>
-<li><strong>v_model</strong> (<em>2D array of float</em>) – contains velocity data (v component)</li>
-<li><strong>xc</strong> (<em>float</em>) – x coordinate of the vortex center</li>
-<li><strong>yc</strong> (<em>float</em>) – y coordinate of the vortex center</li>
-<li><strong>core_radius</strong> (<em>float</em>) – dimension of the vortex core radius</li>
-<li><strong>gamma</strong> (<em>float</em>) – circulation of the vortex</li>
-<li><strong>u_advection</strong> (<em>2D array of float</em>) – contains velocity data (u component)</li>
-<li><strong>v_advection</strong> (<em>2D array of float</em>) – contains velocity data (v component)</li>
-<li><strong>cpt_vortex</strong> (<em>int</em>) – current n° of the vortex</li>
-<li><strong>subtract_advection_field</strong> (<em>bool</em>) – if True, the advection field (u_advection, v_advection) is subtracted</li>
-<li><strong>output_dir</strong> (<em>str</em>) – directory where the results are written</li>
-<li><strong>correlation_value</strong> (<em>float</em>) – correlation between the vortex and a Lamb-Oseen model</li>
-<li><strong>time_step</strong> (<em>int</em>) – current time_step</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_index</strong> (<em>ndarray</em>) – contains spatial mesh (x direction)</p></li>
+<li><p><strong>y_index</strong> (<em>ndarray</em>) – contains spatial mesh (y direction)</p></li>
+<li><p><strong>u_data</strong> (<em>ndarray</em>) – contains velocity data (u component)</p></li>
+<li><p><strong>v_data</strong> (<em>ndarray</em>) – contains velocity data (v component)</p></li>
+<li><p><strong>u_model</strong> (<em>ndarray</em>) – contains velocity data (u component)</p></li>
+<li><p><strong>v_model</strong> (<em>ndarray</em>) – contains velocity data (v component)</p></li>
+<li><p><strong>xc</strong> (<em>float</em>) – x coordinate of the vortex center</p></li>
+<li><p><strong>yc</strong> (<em>float</em>) – y coordinate of the vortex center</p></li>
+<li><p><strong>core_radius</strong> (<em>float</em>) – dimension of the vortex core radius</p></li>
+<li><p><strong>gamma</strong> (<em>float</em>) – circulation of the vortex</p></li>
+<li><p><strong>u_advection</strong> (<em>ndarray</em>) – contains velocity data (u component)</p></li>
+<li><p><strong>v_advection</strong> (<em>ndarray</em>) – contains velocity data (v component)</p></li>
+<li><p><strong>cpt_vortex</strong> (<em>int</em>) – current n° of the vortex</p></li>
+<li><p><strong>subtract_advection_field</strong> (<em>bool</em>) – if True, the advection field (u_advection, v_advection) is subtracted</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – directory where the results are written</p></li>
+<li><p><strong>correlation_value</strong> (<em>float</em>) – correlation between the vortex and a Lamb-Oseen model</p></li>
+<li><p><strong>time_step</strong> (<em>int</em>) – current time_step</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">image file</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">png</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>image file</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>png</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.plot_quiver">
-<code class="descclassname">fitting.</code><code class="descname">plot_quiver</code><span class="sig-paren">(</span><em>x_index</em>, <em>y_index</em>, <em>u_data</em>, <em>v_data</em>, <em>detection_field</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.plot_quiver" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">plot_quiver</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x_index</span></em>, <em class="sig-param"><span class="n">y_index</span></em>, <em class="sig-param"><span class="n">u_data</span></em>, <em class="sig-param"><span class="n">v_data</span></em>, <em class="sig-param"><span class="n">detection_field</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.plot_quiver" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot quiver: display a specific (x,y) location with vector fields.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x_index</strong> (<em>array of float</em>) – contains spatial mesh (x direction)</li>
-<li><strong>y_index</strong> (<em>array of float</em>) – contains spatial mesh (y direction)</li>
-<li><strong>u_data</strong> (<em>2D array of float</em>) – contains velocity data (u component)</li>
-<li><strong>v_data</strong> (<em>2D array of float</em>) – contains velocity data (v component)</li>
-<li><strong>detection_field</strong> (<em>2D array of float</em>) – detection field (vorticity …)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_index</strong> (<em>ndarray</em>) – contains spatial mesh (x direction)</p></li>
+<li><p><strong>y_index</strong> (<em>ndarray</em>) – contains spatial mesh (y direction)</p></li>
+<li><p><strong>u_data</strong> (<em>ndarray</em>) – contains velocity data (u component)</p></li>
+<li><p><strong>v_data</strong> (<em>ndarray</em>) – contains velocity data (v component)</p></li>
+<li><p><strong>detection_field</strong> (<em>ndarray</em>) – detection field (vorticity …)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">popup</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">image</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>popup</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>image</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.plot_vortex">
-<code class="descclassname">fitting.</code><code class="descname">plot_vortex</code><span class="sig-paren">(</span><em>vfield</em>, <em>vortices_list</em>, <em>output_dir</em>, <em>time_step</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.plot_vortex" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">plot_vortex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vfield</span></em>, <em class="sig-param"><span class="n">vortices_list</span></em>, <em class="sig-param"><span class="n">output_dir</span></em>, <em class="sig-param"><span class="n">time_step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.plot_vortex" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot vortex: plot a vortex and its corresponding vortex model</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</li>
-<li><strong>vortices_list</strong> (<em>list</em>) – contains all the detected vortices</li>
-<li><strong>output_dir</strong> (<em>str</em>) – directory where the results are written</li>
-<li><strong>time_step</strong> (<em>int</em>) – current time_step</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</p></li>
+<li><p><strong>vortices_list</strong> (<em>list</em>) – contains all the detected vortices</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – directory where the results are written</p></li>
+<li><p><strong>time_step</strong> (<em>int</em>) – current time_step</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">file</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">image</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>file</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>image</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.velocity_model">
-<code class="descclassname">fitting.</code><code class="descname">velocity_model</code><span class="sig-paren">(</span><em>core_radius</em>, <em>gamma</em>, <em>x_real</em>, <em>y_real</em>, <em>u_advection</em>, <em>v_advection</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.velocity_model" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">velocity_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">core_radius</span></em>, <em class="sig-param"><span class="n">gamma</span></em>, <em class="sig-param"><span class="n">x_real</span></em>, <em class="sig-param"><span class="n">y_real</span></em>, <em class="sig-param"><span class="n">u_advection</span></em>, <em class="sig-param"><span class="n">v_advection</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.velocity_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates the Lamb-Oseen vortex velocity array</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>core_radius</strong> (<em>float</em>) – core radius of the vortex</li>
-<li><strong>gamma</strong> (<em>float</em>) – circulation contained in the vortex</li>
-<li><strong>x_real</strong> (<em>float</em>) – relative x position of the vortex center</li>
-<li><strong>y_real</strong> (<em>float</em>) – relative y position of the vortex center</li>
-<li><strong>u_advection</strong> (<em>float</em>) – u advective velocity at the center</li>
-<li><strong>v_advection</strong> (<em>float</em>) – v advective velocity at the center</li>
-<li><strong>x</strong> (<em>float</em>) – </li>
-<li><strong>y</strong> (<em>float</em>) – </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>core_radius</strong> (<em>float</em>) – core radius of the vortex</p></li>
+<li><p><strong>gamma</strong> (<em>float</em>) – circulation contained in the vortex</p></li>
+<li><p><strong>x_real</strong> (<em>float</em>) – relative x position of the vortex center</p></li>
+<li><p><strong>y_real</strong> (<em>float</em>) – relative y position of the vortex center</p></li>
+<li><p><strong>u_advection</strong> (<em>float</em>) – u advective velocity at the center</p></li>
+<li><p><strong>v_advection</strong> (<em>float</em>) – v advective velocity at the center</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – </p></li>
+<li><p><strong>y</strong> (<em>float</em>) – </p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">velx, vely</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>velx, vely</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="fitting.window">
-<code class="descclassname">fitting.</code><code class="descname">window</code><span class="sig-paren">(</span><em>vfield</em>, <em>x_center_index</em>, <em>y_center_index</em>, <em>dist</em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.window" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">fitting.</code><code class="sig-name descname">window</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vfield</span></em>, <em class="sig-param"><span class="n">x_center_index</span></em>, <em class="sig-param"><span class="n">y_center_index</span></em>, <em class="sig-param"><span class="n">dist</span></em><span class="sig-paren">)</span><a class="headerlink" href="#fitting.window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines a window around (x; y) coordinates</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>vfield</strong> (<em>2D array of float</em>) – fullsize velocity field</li>
-<li><strong>x_center_index</strong> (<em>int</em>) – box center index (x)</li>
-<li><strong>y_center_index</strong> (<em>int</em>) – box center index (y)</li>
-<li><strong>dist</strong> – size of the vortex (mesh units)</li>
-<li><strong>dist</strong> – int</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vfield</strong> (<em>ndarray</em>) – full size velocity field</p></li>
+<li><p><strong>x_center_index</strong> (<em>int</em>) – box center index (x)</p></li>
+<li><p><strong>y_center_index</strong> (<em>int</em>) – box center index (y)</p></li>
+<li><p><strong>dist</strong> – size of the vortex (mesh units)</p></li>
+<li><p><strong>dist</strong> – int</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">cropped arrays for x, y, u and v</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">2D arrays of floats</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cropped arrays for x, y, u and v</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>2D arrays of floats</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -547,17 +486,15 @@ shape as “data”.</li>
 </ul>
 
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -578,12 +515,13 @@ shape as “data”.</li>
           <a href="detection.html" title="detection.py"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >Modules</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="modules.html" >Modules</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">fitting.py</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.1.
     </div>
   </body>
 </html>

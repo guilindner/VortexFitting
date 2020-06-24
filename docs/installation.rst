@@ -13,6 +13,7 @@ Using PIP
 ------------
 
 We recommend creating a new virtual environment for your projects
+
 .. code-block:: bash
 
    $ python3 -m venv NAME

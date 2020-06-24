@@ -1,19 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tutorial &#8212; VortexFitting 1 documentation</title>
     <link rel="stylesheet" href="_static/pyramid.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Examples" href="examples.html" />
@@ -41,7 +41,8 @@
         <li class="right" >
           <a href="installation.html" title="Installation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">VortexFitting 1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">VortexFitting 1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Tutorial</a></li> 
       </ul>
     </div>  
 
@@ -68,15 +69,15 @@ where z can also be the number of samples in a 2D field.</p>
 <span class="bp">self</span><span class="o">.</span><span class="n">x_coordinate_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_velocity_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_velocity_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">y_coordinate_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_velocity_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_velocity_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">z_coordinate_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_velocity_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_velocity_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">normalization_flag</span> <span class="o">=</span> <span class="bp">False</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">normalization_direction</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">normalization_flag</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">normalization_direction</span> <span class="o">=</span> <span class="kc">False</span>
 </pre></div>
 </div>
 <p>Here the names of the variables <em>velocity_x</em>, <em>velocity_y</em> and <em>velocity_z</em> are
 defined and an equally spaced mesh is created using <em>np.linspace</em>.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">No normalization is required for this case due to its homogeneity.</p>
+<p class="admonition-title">Note</p>
+<p>No normalization is required for this case due to its homogeneity.</p>
 </div>
 </div>
 <div class="section" id="parameters">
@@ -97,12 +98,12 @@ the <em>-s</em> argument, like this:</p>
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>Available schemes:</p>
-<ul class="last simple">
-<li>2 - Second Order (default)</li>
-<li>22 - Least-square filter</li>
-<li>4 - Fourth order</li>
+<ul class="simple">
+<li><p>2 - Second Order (default)</p></li>
+<li><p>22 - Least-square filter</p></li>
+<li><p>4 - Fourth order</p></li>
 </ul>
 </div>
 <p>We can as well change the detection method with the <em>-d</em> argument</p>
@@ -110,12 +111,12 @@ the <em>-s</em> argument, like this:</p>
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>Available methods:</p>
-<ul class="last simple">
-<li>Q - Q criterion</li>
-<li>swirling - Swirling Strenght (default)</li>
-<li>delta - Delta criterion</li>
+<ul class="simple">
+<li><p>Q - Q criterion</p></li>
+<li><p>swirling - Swirling Strenght (default)</p></li>
+<li><p>delta - Delta criterion</p></li>
 </ul>
 </div>
 <p>An initial radius can be set with <em>-rmax</em> argument.</p>
@@ -136,13 +137,13 @@ the <em>-s</em> argument, like this:</p>
 <h3>Data output<a class="headerlink" href="#data-output" title="Permalink to this headline">¶</a></h3>
 <p>The results will be written to the <em>../results/</em> folder with the following files:</p>
 <ul class="simple">
-<li>accepted.svg: The location and size of the accepted vortices</li>
-<li>linked.svg: same as <em>accepted.svg</em> but can be open on the web browser with
-clickable vortices</li>
-<li>vortex#_initial_vfield.png: Comparison of the velocity field of the vortex and the model</li>
-<li>vortex#_advection_field_subtracted.png: Comparison of the velocity field of the vortex and the model,
-subtracting the advection velocity</li>
-<li>vortices.dat: parameters of all the detected vortices</li>
+<li><p>accepted.svg: The location and size of the accepted vortices</p></li>
+<li><p>linked.svg: same as <em>accepted.svg</em> but can be open on the web browser with
+clickable vortices</p></li>
+<li><p>vortex#_initial_vfield.png: Comparison of the velocity field of the vortex and the model</p></li>
+<li><p>vortex#_advection_field_subtracted.png: Comparison of the velocity field of the vortex and the model,
+subtracting the advection velocity</p></li>
+<li><p>vortices.dat: parameters of all the detected vortices</p></li>
 </ul>
 </div>
 </div>
@@ -157,12 +158,12 @@ It will create a netCDF4 file with the same characteristics as the DNS HIT file.
 <p>You can tune the characteristics and position of the vortex by changing the
 following values directly on <em>generatedField.nc</em>:</p>
 <ul class="simple">
-<li>core_radius;</li>
-<li>gamma;</li>
-<li>x_center;</li>
-<li>y_center;</li>
-<li>u_advection;</li>
-<li>v_advection.</li>
+<li><p>core_radius;</p></li>
+<li><p>gamma;</p></li>
+<li><p>x_center;</p></li>
+<li><p>y_center;</p></li>
+<li><p>u_advection;</p></li>
+<li><p>v_advection.</p></li>
 </ul>
 <p>The size of the domain can also be changed on the <em>ndim</em> variable.</p>
 <p>You can use the <em>output</em> option (<em>-o</em>) to specify the name of the created file,
@@ -193,6 +194,7 @@ with the options <em>-nx</em> or <em>-ny</em></p>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -216,17 +218,15 @@ with the options <em>-nx</em> or <em>-ny</em></p>
 </ul>
 
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -246,12 +246,13 @@ with the options <em>-nx</em> or <em>-ny</em></p>
         <li class="right" >
           <a href="installation.html" title="Installation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">VortexFitting 1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">VortexFitting 1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Tutorial</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.1.
     </div>
   </body>
 </html>

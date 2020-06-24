@@ -10,11 +10,11 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="vortexfitting",
-    version="0.9",
+    version="0.9.2",
     description="A tool to locate and characterize vortices",
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/realpython/reader",
+    url="https://github.com/guilindner/VortexFitting",
     author="Guilherme Anrain Lindner",
     keywords='vortex cfd fluid mechanics',
     author_email="lindner.guilherme@gmail.com",

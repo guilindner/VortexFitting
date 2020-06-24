@@ -1,6 +1,8 @@
 Examples
 ========
 
+The example data files can be downloaded from the `github project page <https://github.com/guilindner/VortexFitting/tree/master/data>`_ 
+
 DNS case
 --------
 DNS simulation of an Homogeneous Isotropic Turbulence (HIT) case.
@@ -111,7 +113,7 @@ and the *self.normdir = 0* (for the y direction)
 
 .. code-block:: bash
    
-   $ vortexfitting.py -i data/test_dataPIV -ft piv_netcdf -t 1.5 
+   $ vortexfitting -i data/test_dataPIV -ft piv_netcdf -t 1.5 
 
 .. image:: _images/piv_15.svg
    :width: 90 %
@@ -138,7 +140,7 @@ For PIV data with Tecplot, we need to update the format, to match Tecplot file.
 
 .. code-block:: bash
    
-   $ python3 vortexfitting.py -i ../data/adim_vel_{:06d}.dat -first 10 -last 10 -t 5 -b 10 -ft piv_tecplot 
+   $ vortexfitting.py data/adim_vel_{:06d}.dat -first 10 -last 10 -t 5 -b 10 -ft piv_tecplot 
 
 .. image:: _images/PIV_accepted_10.svg
    :width: 40 %
@@ -151,7 +153,7 @@ If you want to analyze a set of images, use arguments *-first*, *-last* and *-st
 
 .. code-block:: bash
    
-   $ python3 vortexfitting.py -i ../data/dim_vel_{:06d}.dat -mf ../data/mean.dat -t 50 -first 10 -ft piv_tecplot
+   $ vortexfitting.py -i data/dim_vel_{:06d}.dat -mf data/mean.dat -t 50 -first 10 -ft piv_tecplot
 
 
 Numerical case - OpenFOAM file
@@ -169,7 +171,7 @@ with :math:`dx` and :math:`dy` the spatial resolution.
 
 .. code-block:: bash
    
-   $ python3 vortexfitting.py -i ../data/example_Ub_planeZ_0.01.raw -ft openfoam -rmax 0.0
+   $ vortexfitting.py -i data/example_Ub_planeZ_0.01.raw -ft openfoam -rmax 0.0
 
 .. image:: _images/openfoam_quiverplot.png
    :width: 45 %
