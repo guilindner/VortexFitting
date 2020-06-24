@@ -26,8 +26,8 @@ def main():
                                      formatter_class = argparse.RawTextHelpFormatter)
 
     parser.add_argument('-i', '--input', dest = 'input_filename',
-                        default = '../data/example_dataHIT.nc', type = str,
-                        help = 'Input file', metavar = 'FILE', required = True)
+                        default = 'data/example_dataHIT.nc', type = str,
+                        help = 'Input file', metavar = 'FILE')
 
     parser.add_argument('-o', '--output', dest = 'output_directory',
                         default = 'results', type = str,
@@ -162,6 +162,7 @@ def main():
         # print(round(time.time() - lap,3), 'seconds')
 
         if vfield.normalization_flag:
+            print(vfield.normalization_flag,vfield.normalization_direction)
             detection_field = fitting.normalize(detection_field, vfield.normalization_direction)  # normalization
 
         # ---- PEAK DETECTION ----#

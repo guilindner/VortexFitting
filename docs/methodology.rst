@@ -30,7 +30,7 @@ anti-symmetric part, :math:`D_{ij} = S_{ij} + \Omega_{ij}` where:
 :math:`S_{ij}` is known as the rate-of-strain tensor and :math:`\Omega_{ij}` is the
 vorticity tensor.
 
-The characteristic equation for :math:`\nabla u` is given by
+The characteristic equation for :math:`\bar{D}` is given by
 
 .. math::
    \lambda^3 + P \lambda^2 + Q \lambda + R = 0
@@ -53,7 +53,7 @@ Q criterion
 -----------
 
 The Q criterion proposed by Hunt *et al* (1988) [HUNT1988]_ identifies the vortices
-as flow regions with positive second invariant of $\nabla u$. An additional
+as flow regions with positive second invariant of $\bar{D}$. An additional
 condition is that the pressure in the eddy region should to be lower than the
 ambient pressure. Chakraborty *et al* (2005) [CHAKRA2005]_ quoted "in
 an incompressible flow Q is a local measure of the excess rotation rate relative
@@ -65,7 +65,7 @@ In practical terms, the vortex is detected in case of the second invariant  :mat
 ------------------------
 
 Chong *et al* (1990) [CHONG1990]_ define a vortex core to be the region where 
-:math:`\nabla v` has complex eigenvalues. In order to determine if the eigenvalues
+:math:`\bar{D}` has complex eigenvalues. In order to determine if the eigenvalues
 are complex, we examine the discriminant of the characteristic equation, considering
 the flow incompressible (P = 0).
 
@@ -78,11 +78,11 @@ Swirling strength criterion
 
 The swirling strength criterion (:math:`\lambda_{ci}`) was developed by Zhou
 *et al* (1999) [ZHOU1999]_. It defines a vortex core to be the region where
-:math:`\nabla v` has complex eigenvalues. It is based on the idea that the
+:math:`\bar{D}` has complex eigenvalues. It is based on the idea that the
 velocity gradient tensor in Cartesian coordinates can be decomposed as:
 
 .. math::
-   \nabla u = [\bar{\nu_r} \bar{\nu_{cr}} \bar{\nu_{ci}}]^T
+   \bar{D} = [\bar{\nu_r} \bar{\nu_{cr}} \bar{\nu_{ci}}]^T
    \left[\begin{array}{ccc}
    \lambda_r & 0 & 0 \\
    0 & \lambda_{cr} & \lambda{ci} \\

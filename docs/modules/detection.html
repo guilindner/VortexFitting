@@ -1,19 +1,26 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>detection.py &#8212; VortexFitting 1 documentation</title>
     <link rel="stylesheet" href="../_static/pyramid.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="fitting.py" href="fitting.html" />
@@ -24,7 +31,8 @@
 <link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
 <![endif]-->
 
-  </head><body>
+  </head>
+  <body>
 
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -42,8 +50,7 @@
           <a href="classes.html" title="classes.py"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Modules</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">detection.py</a></li> 
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Modules</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -55,68 +62,70 @@
   <div class="section" id="module-detection">
 <span id="detection-py"></span><h1>detection.py<a class="headerlink" href="#module-detection" title="Permalink to this headline">¶</a></h1>
 <p>Different methods for vortex detection</p>
-<dl class="py function">
+<dl class="function">
 <dt id="detection.calc_swirling">
-<code class="sig-prename descclassname">detection.</code><code class="sig-name descname">calc_swirling</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vfield</span></em><span class="sig-paren">)</span><a class="headerlink" href="#detection.calc_swirling" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">detection.</code><code class="descname">calc_swirling</code><span class="sig-paren">(</span><em>vfield</em><span class="sig-paren">)</span><a class="headerlink" href="#detection.calc_swirling" title="Permalink to this definition">¶</a></dt>
 <dd><p>2D Swirling strength</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>swirling strength criterion</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ndarray</p>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">swirling strength criterion</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="detection.delta_criterion">
-<code class="sig-prename descclassname">detection.</code><code class="sig-name descname">delta_criterion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vfield</span></em><span class="sig-paren">)</span><a class="headerlink" href="#detection.delta_criterion" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">detection.</code><code class="descname">delta_criterion</code><span class="sig-paren">(</span><em>vfield</em><span class="sig-paren">)</span><a class="headerlink" href="#detection.delta_criterion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delta Criterion</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>vfield</strong> (<em>class VelocityField</em>) – contains spatial mesh and velocity components</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>delta criterion</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ndarray</p>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vfield</strong> (<em>class VelocityField</em>) – contains spatial mesh and velocity components</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">delta criterion</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="detection.q_criterion">
-<code class="sig-prename descclassname">detection.</code><code class="sig-name descname">q_criterion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vfield</span></em><span class="sig-paren">)</span><a class="headerlink" href="#detection.q_criterion" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">detection.</code><code class="descname">q_criterion</code><span class="sig-paren">(</span><em>vfield</em><span class="sig-paren">)</span><a class="headerlink" href="#detection.q_criterion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Q Criterion
 vorticity magnitude and mean strain rate</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Q criterion</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ndarray</p>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vfield</strong> (<em>class VelocityField</em><em>(</em><em>)</em>) – contains spatial mesh and velocity components</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Q criterion</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
 
 
-            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h3><a href="../index.html">Table of Contents</a></h3>
+<h3><a href="../index.html">Table Of Contents</a></h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
@@ -136,15 +145,15 @@ vorticity magnitude and mean strain rate</p>
 </ul>
 
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
+  <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
-    </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -165,13 +174,12 @@ vorticity magnitude and mean strain rate</p>
           <a href="classes.html" title="classes.py"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >Modules</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">detection.py</a></li> 
+          <li class="nav-item nav-item-1"><a href="modules.html" >Modules</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Guilherme Lindner.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>

@@ -8,52 +8,34 @@ Data input
 ``````````
 
 The data used can be of different format.
-For netCDF4, the axis of the velocity components are ordered like z, y, x, 
+For NetCDF, the axis of the velocity components are ordered like z, y, x, 
 where z can also be the number of samples in a 2D field.
 
-TecPlot format or OpenFoam export are also accepted.
+Tecplot format or OpenFoam export are also accepted.
 
-The variable names should be changed in the **class.py** file
-
-In this example we have the DNS HIT format used in this tutorial:
-
-.. code-block:: python
-
-    self.u_velocity_matrix = np.array(datafile_read.variables['velocity_x'][time_step, :, :])
-    self.v_velocity_matrix = np.array(datafile_read.variables['velocity_y'][time_step, :, :])
-    self.w_velocity_matrix = np.array(datafile_read.variables['velocity_z'][time_step, :, :])
-    self.x_coordinate_matrix = np.linspace(0, self.u_velocity_matrix.shape[1], self.u_velocity_matrix.shape[1])
-    self.y_coordinate_matrix = np.linspace(0, self.u_velocity_matrix.shape[0], self.u_velocity_matrix.shape[0])
-    self.z_coordinate_matrix = np.linspace(0, self.u_velocity_matrix.shape[0], self.u_velocity_matrix.shape[0])
-    self.normalization_flag = False
-    self.normalization_direction = False
-
-Here the names of the variables *velocity_x*, *velocity_y* and *velocity_z* are
-defined and an equally spaced mesh is created using *np.linspace*. 
-
-.. note:: No normalization is required for this case due to its homogeneity.
+If you want to implement a custom format, change the variable names, their order ...
+it should be directly changed in the **class.py** file
 
 
 Parameters
 ``````````
 
-The code comes with a default test case for the HIT, located in *../data/example_dataHIT.nc*.
-The default configuration os **class.py** is set to handle the HIT case.
+The code comes with default test cases, located in *../data/*.
 
-If no input file with the *-i* argument has been specified, the *example_dataHIT.nc* will be used.
+If no input file with the *-i* (*--input*) argument has been specified, the *example_dataHIT.nc* will be used.
 
 .. code-block:: bash
    
-   $ python3 vortexfitting.py
+   $ vortexfitting
 
 If we want to define a threshold for the swirling strength, we can specify with
-the *-s* argument, like this:
+the *-t* (*--threshold*) argument, like this:
 
 .. code-block:: bash
 
    $ python3 vortexfitting.py -t 0.5
 
-The differencing scheme can be changed with the *-s* argument:
+The differencing scheme can be changed with the *-s* (*--scheme*) argument:
 
 .. code-block:: bash
 
@@ -65,7 +47,7 @@ The differencing scheme can be changed with the *-s* argument:
           * 22 - Least-square filter
           * 4 - Fourth order
 
-We can as well change the detection method with the *-d* argument
+We can as well change the detection method with the *-d* (*--detect*) argument
 
 .. code-block:: bash
 
@@ -77,13 +59,13 @@ We can as well change the detection method with the *-d* argument
           * swirling - Swirling Strenght (default)
           * delta - Delta criterion
 
-An initial radius can be set with *-rmax* argument. 
+An initial guessing radius can be set with *-rmax* argument. 
 
 .. code-block:: bash
 
    $ python3 vortexfitting.py -rmax 15
 
-An output directory can be specified with *-o* / *--output* argument. 
+An output directory can be specified with the *-o* (*--output*) argument. 
 
 .. code-block:: bash
 
@@ -96,6 +78,35 @@ For example, if you want to compute from image #10 to #20, each 2 images, enter:
 .. code-block:: bash
 
    $ python3 vortexfitting.py -first 10 -last 20 -step 2
+
+
+By default, the correlation threshold to detect a vortex is 0.75. This value may be changed with the
+*-ct* (*--corrthreshold*) argument.
+
+.. code-block:: bash
+
+   $ python3 vortexfitting.py -ct 0.85
+
+To avoid vortices overlapping, the box size parameter *-b* (*--boxsize*) can be used. 
+It takes an integer distance in mesh units, between two vortex centers.
+
+.. code-block:: bash
+
+   $ python3 vortexfitting.py -b 10
+
+
+The plot method is chosen with the *-p* (*--plot*) argument
+
+.. note:: Available schemes:
+          
+          * fit - detection and fitting, saves images (default)
+          * detect - Locate the potenial vortices (without fitting)
+          * fields - display the velocity fields and vorticity
+
+.. code-block:: bash
+
+   $ python3 vortexfitting.py -p fields
+
 
 
 Data output
@@ -111,12 +122,15 @@ The results will be written to the *../results/* folder with the following files
   subtracting the advection velocity
 * vortices.dat: parameters of all the detected vortices
 
+If you want to update the output format of *vortices.dat*, it should be done in the **output.py** file.
+
+The plot results are handled in the **fitting.py** module.
 
 Generating a custom Vortex
 --------------------------
 
 It's possible to generate a custom vortex using the **generateNetCDF.py** module.
-It will create a netCDF4 file with the same characteristics as the DNS HIT file.
+It will create a NetCDF file with the same characteristics as the DNS HIT file.
 
 .. code-block:: bash
 
@@ -148,7 +162,7 @@ For example:
 will produce a 300x300 mesh, in a file named *testGenerate.nc*.
 
 
-Converting netCDF to ASCII (and vice-versa)
+Converting NetCDF to ASCII (and vice-versa)
 -------------------------------------------
 
 If for any reason you need to convert a netCDF file to a text format (ASCII), the
@@ -162,7 +176,7 @@ all z planes (or time) into separated files.
 Depending on the file you need to change the variable names like *velocity_x*
 and such for the corresponding variable.
 
-The module **convertToNC.py** can convert an ASCII file to a netCDF4 format.
+The module **convertToNC.py** can convert an ASCII file to a NetCDF4 format.
 You can specify the spatial dimensions (*nx*, *ny* respectively for x and y directions),
 with the options *-nx* or *-ny*
 
