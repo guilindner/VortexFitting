@@ -8,7 +8,7 @@ python3 run.py  -i data/example_adim_vel_{:06d}.dat -ft piv_tecplot -o results/e
 
 python3 run.py  -i data/example_dataHIT.nc -ft dns -o results/example_dataHIT 
 
-python3 run.py  -i data/example_dataPIV.nc -ft piv_netcdf -o results/example_dataPIV -t 1.5
+python3 run.py  -i data/example_dataPIV.nc -ft piv_netcdf -o results/example_dataPIV -t 1.5 -rmax 0
 
 python3 run.py  -i data/example_dim_vel_{:06d}.dat -ft piv_tecplot -o results/example_dim_vel_000010 -first 10 -mf data/example_mean.dat -t 50 -rmax 2
 

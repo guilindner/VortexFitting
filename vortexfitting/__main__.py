@@ -163,7 +163,7 @@ def main():
         # print(round(time.time() - lap,3), 'seconds')
 
         if vfield.normalization_flag:
-            print(vfield.normalization_flag,vfield.normalization_direction)
+            print('Normalization for ',vfield.normalization_direction,' direction')
             detection_field = fitting.normalize(detection_field, vfield.normalization_direction)  # normalization
 
         #output.write_field('./results/detection_field.dat',args.detection_method,vfield,detection_field)

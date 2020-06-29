@@ -1,3 +1,3 @@
 TITLE="Vortex characteristics evolution"
-Variables="time","radius","gamma","xindex","yindex","uc","vc","dist","corr","vtheta"
+Variables="time","radius","gamma","xcenter","ycenter","ua","va","corr","vtheta"
 ZONE T="0", SOLUTIONTIME=0

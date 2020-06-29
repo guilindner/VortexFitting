@@ -725,7 +725,7 @@ def create_links(path, vortices_list, output_dir, time_step):
             else:
                 file_out.write(line)
         elif "vortex" in line:
-            file_out.write('   <a href="vortex%i_advection_field_subtracted.png">\n' % i)
+            file_out.write('   <a href="vortex%i_%i_advection_field_subtracted.png">\n' % (time_step, i))
             file_out.write(line)
             file_out.write('   <title>Vortex %i: r = %s gamma = %s</title>\n' % (
                 i, round(vortices_list[i][3], 1), round(vortices_list[i][2], 1)))

@@ -26,9 +26,9 @@ Case 1
    $ vortexfitting -t 0.0 -i data/example_dataHIT.nc
 
 .. image:: _images/HIT_00.svg
-   :width: 90%
+   :width: 80%
 
-361 vortices detected with 88 accepted.
+361 vortices detected with 84 accepted.
 
 Case 2
 ``````
@@ -37,9 +37,9 @@ Case 2
    $ vortexfitting -t 0.1 -i data/example_dataHIT.nc
 
 .. image:: _images/HIT_01.svg
-   :width: 90%
+   :width: 80%
 
-162 vortices detected with 75 accepted.
+162 vortices detected with 72 accepted.
 
 Case 3
 ``````
@@ -48,9 +48,9 @@ Case 3
    $ vortexfitting -t 0.2 -i data/example_dataHIT.nc
 
 .. image:: _images/HIT_02.svg
-   :width: 90%
+   :width: 80%
 
-58 vortices detected with 42 accepted.
+58 vortices detected with 40 accepted.
 
 Case 4
 ``````
@@ -60,7 +60,7 @@ Case 4
    $ vortexfitting -t 0.4 -i data/example_dataHIT.nc
 
 .. image:: _images/HIT_04.svg
-   :width: 90%
+   :width: 80%
 
 9 vortices detected with 8 accepted.
 
