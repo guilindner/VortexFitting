@@ -159,11 +159,14 @@ def main():
             detection_field = detection.calc_swirling(vfield)
         elif args.detection_method == 'delta':
             detection_field = detection.delta_criterion(vfield)
+
         # print(round(time.time() - lap,3), 'seconds')
 
         if vfield.normalization_flag:
             print(vfield.normalization_flag,vfield.normalization_direction)
             detection_field = fitting.normalize(detection_field, vfield.normalization_direction)  # normalization
+
+        #output.write_field('./results/detection_field.dat',args.detection_method,vfield,detection_field)
 
         # ---- PEAK DETECTION ----#
         print('Threshold=', args.detection_threshold, ', box size=', args.box_size)

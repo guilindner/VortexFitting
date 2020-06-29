@@ -59,6 +59,9 @@ We can as well change the detection method with the *-d* (*--detect*) argument
           * swirling - Swirling Strenght (default)
           * delta - Delta criterion
 
+If you want to write the detection field, the *write_field* function from the 
+**output.py** module should be useful: it can be used in **__main__.py**.
+
 An initial guessing radius can be set with *-rmax* argument. 
 
 .. code-block:: bash
