@@ -2,8 +2,8 @@
 #
 
 # You can set these variables from the command line.
-SPHINXOPTS    = -D graphviz_dot=/usr/bin/dot 
-SPHINXBUILD   = sphinx-build
+SPHINXOPTS    =
+SPHINXBUILD   = python -msphinx
 SPHINXPROJ    = VortexFitting
 SOURCEDIR     = .
 BUILDDIR      = _build
