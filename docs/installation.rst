@@ -32,16 +32,10 @@ In order to generate the documentation you need the **sphinx** package.
 
 To perform changes on the documentation, you should modify directly the *.rst*
 files, located in the *docs* folder. After modifying the desired files, run the
-script *update_docs.sh* (for Linux):
+script *update_docs.py* (for Linux and Windows):
 
 .. code-block:: bash
 
-   $ sh update_docs.sh
-
-or the *make.bat* file (for Windows):
-
-.. code-block:: bash
-
-   $ make html
+   $ python update_docs.py
 
 After this, the html files will be generated in the same folder.
