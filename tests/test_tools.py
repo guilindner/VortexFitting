@@ -14,7 +14,7 @@ test using "nosetests tests/test_tools.py"
 
 class ToolsTest(unittest.TestCase):
 
-    def test_get_fluc(self):
+    def test_get_fluctuations(self):
         print('Some tests from the fitting functions')
         sample_field = np.array([[1.1, 0.9, 1.3, 0.7],
                                  [2.1, 1.9, 2.3, 1.7],
@@ -24,7 +24,7 @@ class ToolsTest(unittest.TestCase):
         # Test in hom. in x axis
         mean = np.array([1.0, 2.0, 3.0, 4.0])
 
-        result_calc = fitting.get_fluc(sample_field, mean, 'x')
+        result_calc = fitting.get_fluctuations(sample_field, mean, 'x')
 
         result = np.array([[0.1, -0.1, 0.3, -0.3],
                            [0.1, -0.1, 0.3, -0.3],
@@ -36,7 +36,7 @@ class ToolsTest(unittest.TestCase):
         # Test in hom. in y axis
         mean = np.array([2.6, 2.4, 2.8, 2.2])
 
-        result_calc = fitting.get_fluc(sample_field, mean, 'y')
+        result_calc = fitting.get_fluctuations(sample_field, mean, 'y')
 
         result = np.array([[-1.5, -1.5, -1.5, -1.5],
                            [-0.5, -0.5, -0.5, -0.5],

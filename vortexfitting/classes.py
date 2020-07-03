@@ -38,7 +38,7 @@ class VelocityField:
     :type  w_velocity_matrix: ndarray
     :param normalization_flag: for normalization of the swirling field
     :type  normalization_flag: boolean
-    :param normalization_direction: False, 'x' or 'y'
+    :param normalization_direction: 'None', 'x' or 'y'
     :type  normalization_direction: str
     :param x_coordinate_step: for homogeneous mesh, provides a unique step
     :type  x_coordinate_step: float
@@ -54,10 +54,7 @@ class VelocityField:
     """
 
     def __init__(self, file_path="/", time_step=0, mean_file_path="/", file_type="/"):
-        """
 
-        :rtype:
-        """
         if '{:' in file_path:
             self.file_path = file_path.format(time_step)
         else:
@@ -68,13 +65,13 @@ class VelocityField:
         # file_type = 'tecplot' #change here to the desired format
 
         # To read data
-        # datafile_read = Dataset(path, 'r')
+        # datafile_read = netCDF4.Dataset(path, 'r')
         # self.u_velocity_matrix = np.array(datafile_read.variables['velocity_x'][time, :, :])
         # self.v_velocity_matrix = np.array(datafile_read.variables['velocity_y'][time, :, :])
         # self.w_velocity_matrix = np.array(datafile_read.variables['velocity_z'][time, :, :])
 
         # To read statistics
-        # datafile_read = Dataset('statistics.nc', 'r')
+        # datafile_read = netCDF4.Dataset('statistics.nc', 'r')
         # self.mean = np.array(datafile_read.variables['um'][time, :, :])
         # datafile_read.close()
 
@@ -127,7 +124,7 @@ class VelocityField:
             self.y_coordinate_size = self.u_velocity_matrix.shape[0]
             self.z_coordinate_size = 1
             self.normalization_flag = False
-            self.normalization_direction = False
+            self.normalization_direction = 'None'
             datafile_read.close()
             if self.mean_file_path != '/':
                 print("subtracting mean file")  # load and subtract mean data
@@ -141,7 +138,7 @@ class VelocityField:
                     self.w_velocity_matrix = self.w_velocity_matrix - w_velocity_matrix_mean
 
         # if file_type == 'dns2':
-        #    # ILKAY DATA FOR DNS, netCDF format
+        #    DATA FOR DNS, netCDF format
         #    datafile_read = netCDF4.Dataset(self.file_path, 'r')
         #    grp2 = netCDF4.Dataset('../data/DNS_example/vel_v_00000000.00400000.nc', 'r')
         #    grp3 = netCDF4.Dataset('../data/DNS_example/vel_w_00000000.00400000.nc', 'r')
@@ -180,8 +177,8 @@ class VelocityField:
             #    if list_variables[j] in ['VZ', 'W']:
             #        index_w=j
             try:
-                datafile_read = np.loadtxt(self.file_path, delimiter = " ", dtype = float,
-                                           skiprows = 3)  # skip header, default is 3 lines
+                datafile_read = np.loadtxt(self.file_path, delimiter=" ", dtype=float,
+                                           skiprows=3)  # skip header, default is 3 lines
             except IOError:
                 sys.exit("\nReading error. Maybe a wrong file type?\n")
 
@@ -208,7 +205,7 @@ class VelocityField:
             if self.mean_file_path != '/':
                 print("subtracting mean file")
                 # load and subtract mean data
-                datafile_mean_read = np.loadtxt(mean_file_path, delimiter = " ", dtype = float, skiprows = 3)
+                datafile_mean_read = np.loadtxt(mean_file_path, delimiter=" ", dtype=float, skiprows=3)
                 u_velocity_matrix_mean = np.array(datafile_mean_read[:, index_u]).reshape(self.x_coordinate_size,
                                                                                           self.y_coordinate_size)
                 v_velocity_matrix_mean = np.array(datafile_mean_read[:, index_v]).reshape(self.x_coordinate_size,
@@ -231,12 +228,12 @@ class VelocityField:
                 print('No z component')
 
             self.normalization_flag = False
-            self.normalization_direction = None
+            self.normalization_direction = 'None'
 
         if file_type == 'openfoam':
             try:
-                datafile_read = np.loadtxt(self.file_path, delimiter = " ", dtype = float,
-                                           skiprows = 2)  # skip header, default is 2 lines
+                datafile_read = np.loadtxt(self.file_path, delimiter=" ", dtype=float,
+                                           skiprows=2)  # skip header, default is 2 lines
             except IOError:
                 sys.exit("\nReading error. Maybe a wrong file type?\n")
 
@@ -270,7 +267,7 @@ class VelocityField:
                 print('No z component')
 
             self.normalization_flag = False
-            self.normalization_direction = None
+            self.normalization_direction = 'None'
 
         if file_type == 'test':
             self.x_coordinate_size, self.y_coordinate_size, self.z_coordinate_size = 11, 5, 1

@@ -14,24 +14,24 @@ import fitting
 args = []
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description = 'generate a vortex field in a netCDF file',
-                                     formatter_class = argparse.RawTextHelpFormatter)
+    parser = argparse.ArgumentParser(description='generate a vortex field in a netCDF file',
+                                     formatter_class=argparse.RawTextHelpFormatter)
 
-    parser.add_argument('-o', '--output', dest = 'outfile', type = str,
-                        help = 'output NetCDF file', metavar = 'FILE',
-                        default = '../data/generatedField.nc')
+    parser.add_argument('-o', '--output', dest='outfile', type=str,
+                        help='output NetCDF file', metavar='FILE',
+                        default='../data/generatedField.nc')
 
-    parser.add_argument('-ndim', '--ndim', dest = 'ndim', type = int,
-                        help = 'spatial mesh dimension, for each x and y variables',
-                        default = 256)
+    parser.add_argument('-ndim', '--ndim', dest='ndim', type=int,
+                        help='spatial mesh dimension, for each x and y variables',
+                        default=256)
 
     args = parser.parse_args()
 
-print("Generating {:s} file with a {:d}x{:d} mesh".format(args.outfile, args.ndim, args.ndim))
+print('Generating {:s} file with a {:d}x{:d} mesh'.format(args.outfile, args.ndim, args.ndim))
 
 # Try to write the file
 try:
-    datafile_write = netCDF4.Dataset(args.outfile, 'w', format = 'NETCDF4')
+    datafile_write = netCDF4.Dataset(args.outfile, 'w', format='NETCDF4')
 except IOError:
     print('There was an error writing the file!')
     sys.exit()

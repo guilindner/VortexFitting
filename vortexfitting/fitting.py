@@ -9,55 +9,55 @@ import scipy.ndimage
 import scipy.optimize as opt
 import matplotlib.pyplot as plt
 
-np.seterr(divide = 'ignore', invalid = 'ignore')
+np.seterr(divide='ignore', invalid='ignore')
 
 
-def get_fluc(x, mean, hom_axis):
+def get_fluctuations(velocity_matrix, mean, homogeneous_axis):
     """
     Used when you have a advective velocity along one axis
 
-    :param x: velocity field
-    :type x: ndarray
+    :param velocity_matrix: velocity field
+    :type velocity_matrix: ndarray
     :param mean: advective velocity to subtract
     :type mean: float
-    :param hom_axis: False, 'x', or 'y'. The axis which the mean is subtracted
-    :type hom_axis: str
+    :param homogeneous_axis: False, 'x', or 'y'. The axis which the mean is subtracted
+    :type homogeneous_axis: str
 
     :returns: input array, minus the advective velocity
     :rtype: ndarray
     """
-    if hom_axis is None:
-        x = x - mean
-    elif hom_axis == 'x':
-        x = x - mean[:, None]
-    elif hom_axis == 'y':
-        x = x - mean[None, :]
+    if homogeneous_axis is None:
+        velocity_matrix = velocity_matrix - mean
+    elif homogeneous_axis == 'x':
+        velocity_matrix = velocity_matrix - mean[:, None]
+    elif homogeneous_axis == 'y':
+        velocity_matrix = velocity_matrix - mean[None, :]
     else:
         sys.exit("Invalid homogeneity axis.")
-    return x
+    return velocity_matrix
 
 
-def normalize(x, hom_axis):
+def normalize(velocity_matrix, homogeneous_axis):
     """
     Normalize with swirling strength
 
-    :param x: velocity field
-    :type x: ndarray
-    :param hom_axis: False, 'x', or 'y'. The axis which the mean is subtracted
-    :type hom_axis: str
+    :param velocity_matrix: velocity field
+    :type velocity_matrix: ndarray
+    :param homogeneous_axis: False, 'x', or 'y'. The axis which the mean is subtracted
+    :type homogeneous_axis: str
 
     :returns: normalized array
     :rtype: ndarray
     """
-    if hom_axis is None:
-        x = x / np.sqrt(np.mean(x ** 2))
-    elif hom_axis == 'x':
-        x = x / np.sqrt(np.mean(x ** 2, axis = 1))
-    elif hom_axis == 'y':
-        x = x / np.sqrt(np.mean(x ** 2, axis = 0))
+    if homogeneous_axis is None:
+        velocity_matrix = velocity_matrix / np.sqrt(np.mean(velocity_matrix ** 2))
+    elif homogeneous_axis == 'x':
+        velocity_matrix = velocity_matrix / np.sqrt(np.mean(velocity_matrix ** 2, axis=1))
+    elif homogeneous_axis == 'y':
+        velocity_matrix = velocity_matrix / np.sqrt(np.mean(velocity_matrix ** 2, axis=0))
     else:
         sys.exit('Invalid homogeneity axis.')
-    return x
+    return velocity_matrix
 
 
 def window(vfield, x_center_index, y_center_index, dist):
@@ -95,7 +95,7 @@ def window(vfield, x_center_index, y_center_index, dist):
         y2 = vfield.v_velocity_matrix.shape[0]
     x_index, y_index = np.meshgrid(vfield.x_coordinate_matrix[int(x1):int(x2)],
                                    vfield.y_coordinate_matrix[int(y1):int(y2)],
-                                   indexing = 'xy')
+                                   indexing='xy')
     u_data = vfield.u_velocity_matrix[int(y1):int(y2), int(x1):int(x2)]
     v_data = vfield.v_velocity_matrix[int(y1):int(y2), int(x1):int(x2)]
     return x_index, y_index, u_data, v_data
@@ -127,8 +127,8 @@ def find_peaks(data, threshold, box_size):
     if np.all(data == data.flat[0]):
         return []
 
-    data_max = scipy.ndimage.maximum_filter(data, size = box_size,
-                                            mode = 'constant', cval = 0.0)
+    data_max = scipy.ndimage.maximum_filter(data, size=box_size,
+                                            mode='constant', cval=0.0)
 
     peak_goodmask = (data == data_max)  # good pixels are True
 
@@ -363,8 +363,8 @@ def fit(core_radius, gamma, x, y, x_real, y_real, u_data, v_data, u_advection, v
     :param i: current iteration for fitting
     :type core_radius: float
     :type gamma: float
-    :type x: float
-    :type y: float
+    :type x: ndarray
+    :type y: ndarray
     :type x_real: float
     :type y_real: float
     :type u_data: ndarray
@@ -372,7 +372,7 @@ def fit(core_radius, gamma, x, y, x_real, y_real, u_data, v_data, u_advection, v
     :type u_advection: float
     :type v_advection: float
     :type i: iterator
-    :returns: sol.x
+    :returns: fitted parameters (core_radius, gamma,xcenter,ycenter, u_advection, v_advection...)
     :rtype: list
     """
 
@@ -386,17 +386,28 @@ def fit(core_radius, gamma, x, y, x_real, y_real, u_data, v_data, u_advection, v
     def lamb_oseen_model(fitted):
         """
         Lamb-Oseen velocity model used for the nonlinear fitting
+
+        :param fitted: parameters of a vortex (core_radius, gamma,xcenter,ycenter, u_advection, v_advection)
+        :type fitted: list
+        :returns: velocity field, following a Lamb-Oseen model
+        :rtype: ndarray
         """
-        r = np.hypot(x - fitted[2], y - fitted[3])
-        expr2 = np.exp(-r ** 2 / fitted[0] ** 2)
-        z = fitted[1] / (2 * np.pi * r) * (1 - expr2)
-        z = np.nan_to_num(z)
-        zx = fitted[4] - z * (y - fitted[3]) / r - u_data
-        zy = fitted[5] + z * (x - fitted[2]) / r - v_data
-        zx = np.nan_to_num(zx)
-        zy = np.nan_to_num(zy)
-        zt = np.append(zx, zy)
-        return zt
+
+        core_radius_model = fitted[0]
+        gamma_model = fitted[1]
+        xcenter_model = fitted[2]
+        ycenter_model = fitted[3]
+        u_advection_model = fitted[4]
+        v_advection_model = fitted[5]
+        r = np.hypot(x - xcenter_model, y - ycenter_model)
+        u_theta_model = gamma_model / (2 * np.pi * r) * (1 - np.exp(-r ** 2 / core_radius_model ** 2))
+        u_theta_model = np.nan_to_num(u_theta_model)
+        u_model = u_advection_model - u_theta_model * (y - ycenter_model) / r - u_data
+        v_model = v_advection_model + u_theta_model * (x - xcenter_model) / r - v_data
+        u_model = np.nan_to_num(u_model)
+        v_model = np.nan_to_num(v_model)
+        vfield_model = np.append(u_model, v_model)
+        return vfield_model
 
     if i > 0:
         m = 1.0
@@ -411,8 +422,7 @@ def fit(core_radius, gamma, x, y, x_real, y_real, u_data, v_data, u_advection, v
              v_advection + abs(v_advection) + epsilon])
 
     sol = opt.least_squares(lamb_oseen_model, [core_radius, gamma, x_real, y_real, u_advection, v_advection],
-                            method = 'trf', bounds = bnds)
-
+                            method='trf', bounds=bnds)
     return sol.x
 
 
@@ -428,19 +438,19 @@ def plot_fields(vfield, detection_field):
     :rtype: image
     """
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)  # , sharex='col', sharey='row')
-    ax1.imshow(vfield.u_velocity_matrix, cmap = 'seismic', origin = "lower")
+    ax1.imshow(vfield.u_velocity_matrix, cmap='seismic', origin="lower")
     ax1.set_title('Velocity u (velocity_s)')
 
-    ax2.imshow(vfield.v_velocity_matrix, cmap = 'seismic', origin = "lower")
+    ax2.imshow(vfield.v_velocity_matrix, cmap='seismic', origin="lower")
     ax2.set_title('Velocity v (velocity_n)')
 
     if vfield.w_velocity_matrix:
-        ax3.imshow(vfield.w_velocity_matrix, cmap = 'seismic', origin = "lower")
+        ax3.imshow(vfield.w_velocity_matrix, cmap='seismic', origin="lower")
         ax3.set_title('Velocity w (velocity_z)')
     else:
         print('No w velocity')
     ax4.set_title('Vorticity')
-    ax4.imshow(detection_field, origin = "lower", cmap = 'seismic')
+    ax4.imshow(detection_field, origin="lower", cmap='seismic')
     plt.tight_layout()
 
     plt.show()
@@ -462,18 +472,18 @@ def plot_detect(vortices_counterclockwise, vortices_clockwise, detection_field, 
     plt.subplot()
     if args[0]:
         detection_field = detection_field.T  # transpose the detection field
-        plt.scatter(vortices_counterclockwise[0], vortices_counterclockwise[1], edgecolor = 'G', facecolor = 'G',
-                    label = 'left')
-        plt.scatter(vortices_clockwise[0], vortices_clockwise[1], edgecolor = 'Y', facecolor = 'Y', label = 'right')
+        plt.scatter(vortices_counterclockwise[0], vortices_counterclockwise[1], edgecolor='G', facecolor='G',
+                    label='left')
+        plt.scatter(vortices_clockwise[0], vortices_clockwise[1], edgecolor='Y', facecolor='Y', label='right')
     else:
-        plt.scatter(vortices_counterclockwise[1], vortices_counterclockwise[0], edgecolor = 'G', facecolor = 'G',
-                    label = 'left')
-        plt.scatter(vortices_clockwise[1], vortices_clockwise[0], edgecolor = 'Y', facecolor = 'Y', label = 'right')
+        plt.scatter(vortices_counterclockwise[1], vortices_counterclockwise[0], edgecolor='G', facecolor='G',
+                    label='left')
+        plt.scatter(vortices_clockwise[1], vortices_clockwise[0], edgecolor='Y', facecolor='Y', label='right')
 
     plt.title('Detected possible vortices')
     # plt.contourf(field, cmap="Greys_r")
 
-    plt.imshow(detection_field, origin = 'lower', cmap = "Greys_r")
+    plt.imshow(detection_field, origin='lower', cmap="Greys_r")
     plt.xlabel('x')
     plt.ylabel('y')
     # plt.legend()
@@ -504,7 +514,7 @@ def plot_quiver(x_index, y_index, u_data, v_data, detection_field):
     plt.figure()
     # plt.title('Velocity vectors centered at max swirling strength')
     plt.contourf(detection_field,
-                 extent = [x_index[0][0], x_index[0][-1], y_index[0][0], y_index[-1][0]])
+                 extent=[x_index[0][0], x_index[0][-1], y_index[0][0], y_index[-1][0]])
     s = 1  # sampling factor, can be modified
     plt.quiver(x_index[::s, ::s], y_index[::s, ::s], u_data[::s, ::s], v_data[::s, ::s])
     plt.show()
@@ -558,15 +568,15 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model,
     if x_index.size > 400:
         s = 2
     plt.quiver(x_index[::s, ::s], y_index[::s, ::s], u_data[::s, ::s], v_data[::s, ::s],
-               color = 'r', label = 'data')
+               color='r', label='data')
     plt.quiver(x_index[::s, ::s], y_index[::s, ::s], u_model[::s, ::s], v_model[::s, ::s],
-               color = 'b', label = 'model', alpha = 0.5)
-    circle1 = plt.Circle((xc, yc), core_radius, color = 'k', alpha = 0.05)
+               color='b', label='model', alpha=0.5)
+    circle1 = plt.Circle((xc, yc), core_radius, color='k', alpha=0.05)
     plt.gca().add_artist(circle1)
-    plt.gca().scatter([xc], [yc], marker = '+', color = 'k', s = 100)
+    plt.gca().scatter([xc], [yc], marker='+', color='k', s=100)
     plt.legend()
     plt.grid()
-    plt.gca().set_aspect('equal', adjustable = 'box')
+    plt.gca().set_aspect('equal', adjustable='box')
     #    plt.axes().set_aspect('equal') #deprecated
     plt.xlabel('x')
     plt.ylabel('y')
@@ -576,10 +586,10 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model,
         round(correlation_value, 2)))
     if not subtract_advection_field:
         plt.savefig(output_dir + '/vortex%i_%i_%s.png' % (time_step, cpt_vortex, 'initial_vfield'),
-                    format = 'png')
+                    format='png')
     else:
         plt.savefig(output_dir + '/vortex%i_%i_%s.png' % (time_step, cpt_vortex, 'advection_field_subtracted'),
-                    format = 'png')
+                    format='png')
     plt.close('all')
 
 
@@ -602,34 +612,34 @@ def plot_accepted(vfield, vortices_list, detection_field, output_dir, time_step)
     :rtype: image
     """
     plt.figure(1)
-    plt.contourf(vfield.x_coordinate_matrix, vfield.y_coordinate_matrix, detection_field, origin = 'lower',
-                 cmap = "bone")
+    plt.contourf(vfield.x_coordinate_matrix, vfield.y_coordinate_matrix, detection_field, origin='lower',
+                 cmap="bone")
     plt.xlabel('x')
     plt.ylabel('y')
     dx = vfield.x_coordinate_step
     dy = vfield.y_coordinate_step
     plt.figure(2)
-    plt.imshow(detection_field, origin = 'lower', cmap = "bone")
+    plt.imshow(detection_field, origin='lower', cmap="bone")
     for i, line in enumerate(vortices_list):
         if vortices_list[i][1] > 0:
             # orient = 'green'
             plt.figure(1)
             circle1 = plt.Circle((line[2], line[3]), line[0],
-                                 edgecolor = 'green', facecolor = 'none', gid = 'vortex%i' % i)
+                                 edgecolor='green', facecolor='none', gid='vortex%i' % i)
             plt.gca().add_artist(circle1)
             plt.figure(2)
             circle1 = plt.Circle((line[2] / dx, line[3] / dy), line[0] / np.hypot(dx, dy),
-                                 edgecolor = 'green', facecolor = 'none', gid = 'vortex%i' % i)
+                                 edgecolor='green', facecolor='none', gid='vortex%i' % i)
             plt.gca().add_artist(circle1)
         else:
             # orient = 'yellow'
             plt.figure(1)
             circle1 = plt.Circle((line[2], line[3]), line[0],
-                                 edgecolor = 'yellow', facecolor = 'none', gid = 'vortex%i' % i)
+                                 edgecolor='yellow', facecolor='none', gid='vortex%i' % i)
             plt.gca().add_artist(circle1)
             plt.figure(2)
             circle1 = plt.Circle((line[2] / dx, line[3] / dy), line[0] / np.hypot(dx, dy),
-                                 edgecolor = 'yellow', facecolor = 'none', gid = 'vortex%i' % i)
+                                 edgecolor='yellow', facecolor='none', gid='vortex%i' % i)
             plt.gca().add_artist(circle1)
 
     # Comparing data
@@ -649,11 +659,11 @@ def plot_accepted(vfield, vortices_list, detection_field, output_dir, time_step)
     # plt.legend()
     plt.figure(1)
     plt.tight_layout()
-    plt.savefig(output_dir + '/accepted_{:01d}.svg'.format(time_step), format = 'svg')
+    plt.savefig(output_dir + '/accepted_{:01d}.svg'.format(time_step), format='svg')
     create_links(output_dir + '/accepted_{:01d}.svg'.format(time_step), vortices_list, output_dir, time_step)
     plt.figure(2)
     plt.savefig(output_dir + '/meshed_{:01d}.svg'.format(time_step),
-                format = 'svg')  # use it to verify your coordinate system if needed !
+                format='svg')  # use it to verify your coordinate system if needed !
     # plt.savefig(output_dir+'/tk_{:01d}.png'.format(time_step), format='png', transparent=True)
 
     # plt.show()
@@ -677,11 +687,10 @@ def plot_vortex(vfield, vortices_list, output_dir, time_step):
     for cpt_vortex, line in enumerate(vortices_list):
         print('r: {:.3f}'.format(line[0]),
               'gamma: {:.2f}'.format(line[1]),
-              'x: {:.2f}'.format(line[2]),
-              'y: {:.2f}'.format(line[3]),
-              'dist: {:.2f}'.format(line[6]),
-              'corr: {:.2f}'.format(line[7]),
-              'vt: {:.2f}'.format(line[8]))
+              'xc: {:.2f}'.format(line[2]),
+              'yc: {:.2f}'.format(line[3]),
+              'correlation: {:.2f}'.format(line[7]),
+              'utheta: {:.2f}'.format(line[8]))
         dx = vfield.x_coordinate_step
         dy = vfield.y_coordinate_step
         x_index, y_index, u_data, v_data = window(vfield, round(line[2] / dx, 0), round(line[3] / dy, 0), line[6])
@@ -698,7 +707,7 @@ def plot_vortex(vfield, vortices_list, output_dir, time_step):
 
 def create_links(path, vortices_list, output_dir, time_step):
     """
-    create links: add some links bewteen the accepted.svg file and the detected vortices
+    create links: add some links between the accepted.svg file and the detected vortices
 
     :param path: path of the accepted.svg file
     :type path: str

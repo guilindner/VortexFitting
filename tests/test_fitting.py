@@ -1,5 +1,5 @@
 import unittest
-from nose import with_setup  # optional
+# from nose import with_setup  # optional
 
 import numpy as np
 import sys
@@ -21,8 +21,8 @@ sample_field = np.array([[1.1, 0.9, 1.3, 0.7],
 
 class FittingTest(unittest.TestCase):
 
-    #    def my_teardown_function():
-    #	print ("my_teardown_function")
+    # def my_teardown_function():
+    # print("my_teardown_function")
 
     def test_correlation_coef_1_1_1_1(self):
         # Exact same u and v compared with exact same u and v

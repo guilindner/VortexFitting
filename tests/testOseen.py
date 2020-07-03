@@ -12,17 +12,17 @@ import sys
 sys.path.insert(1, '../vortexfitting')
 
 import fitting  # noqa: E402
-import schemes  # noqa: E402
-import detection  # noqa: E402
+# import schemes  # noqa: E402
+# import detection  # noqa: E402
 from classes import VelocityField  # noqa: E402
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description = 'Optional app description',
-                                     formatter_class = argparse.RawTextHelpFormatter)
+    parser = argparse.ArgumentParser(description='Optional app description',
+                                     formatter_class=argparse.RawTextHelpFormatter)
 
-    parser.add_argument('-i', '--input', dest = 'infilename',
-                        default = '../data/example_dataHIT.nc',
-                        help = 'input NetCDF file', metavar = 'FILE')
+    parser.add_argument('-i', '--input', dest='infilename',
+                        default='../data/example_dataHIT.nc',
+                        help='input NetCDF file', metavar='FILE')
     args = parser.parse_args()
 
     print('Some tests for the Lamb-Oseen model')
