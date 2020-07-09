@@ -110,11 +110,10 @@ def main():
     #                        help='Displays info or hides it. (default: True) ')
 
     args = parser.parse_args()
-
     # start = time.time()
 
     # create file 'vortices.dat' to store output vortices data        
-    output.create(args.output_directory)
+    output.create(args.output_directory,args)
 
     # ---- LOAD DATA ----#
 

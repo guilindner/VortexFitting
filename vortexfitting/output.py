@@ -7,21 +7,36 @@ import os
 import numpy as np
 
 
-def create(output_directory):
+def create(output_directory, args):
     """
     Create an output file
 
     :param output_directory: directory hosting the file vortices.dat
     :type output_directory: str
+    :param args: directory hosting the file vortices.dat
+    :type args: class parser
     :returns: file with time, radius, gamma, xcenter, ycenter, u_advection, v_advection, correlation, vtheta
     :rtype: file
     """
+
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
     outfile = open(output_directory + '/vortices.dat', 'w')
     outfile.write("TITLE=\"Vortex characteristics evolution\"\n")
     outfile.write("Variables=\"time\",\"radius\",\"gamma\",\"xcenter\",\"ycenter\","
                   "\"u_advection\",\"v_advection\",\"correlation\",\"vtheta\"\n")
+    outfile.write("DATASETAUXDATA Detection_method=\"{}\"\n".format(args.detection_method))
+    if args.scheme == 22:
+        outfile.write("DATASETAUXDATA Scheme=\"{}\"\n".format('least_square'))
+    else:
+        outfile.write("DATASETAUXDATA Scheme=\"{}\"\n".format(args.scheme))
+    outfile.write("DATASETAUXDATA Box_size=\"{}\"\n".format(args.box_size))
+    outfile.write("DATASETAUXDATA Detection_threshold=\"{}\"\n".format(args.detection_threshold))
+    outfile.write("DATASETAUXDATA Rmax=\"{}\"\n".format(args.rmax))
+    outfile.write("DATASETAUXDATA Correlation_threshold=\"{}\"\n".format(args.correlation_threshold))
+    outfile.write("DATASETAUXDATA Vortex_Model=\"{}\"\n".format('Lamb_Oseen'))
+    outfile.write("DATASETAUXDATA Mean_file=\"{}\"\n".format(args.mean_filename))
+    outfile.write("DATASETAUXDATA File_type=\"{}\"\n".format(args.file_type))
     outfile.write("ZONE T=\"0\", SOLUTIONTIME=0\n")
     outfile.close()
 

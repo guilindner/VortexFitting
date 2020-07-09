@@ -43,8 +43,8 @@ The differencing scheme can be changed with the *-s* (*--scheme*) argument:
 
 .. note:: Available schemes:
           
-          * 2 - Second Order (default)
-          * 22 - Least-square filter
+          * 2 - Second Order
+          * 22 - Least-square filter (default)
           * 4 - Fourth order
 
 We can as well change the detection method with the *-d* (*--detect*) argument
@@ -56,7 +56,7 @@ We can as well change the detection method with the *-d* (*--detect*) argument
 .. note:: Available methods:
           
           * Q - Q criterion
-          * swirling - Swirling Strenght (default)
+          * swirling - Swirling Strenght criterion (default)
           * delta - Delta criterion
 
 If you want to write the detection field, the *write_field* function from the 
@@ -103,7 +103,7 @@ The plot method is chosen with the *-p* (*--plot*) argument
 .. note:: Available schemes:
           
           * fit - detection and fitting, saves images (default)
-          * detect - Locate the potenial vortices (without fitting)
+          * detect - Locate the potential vortices (without fitting)
           * fields - display the velocity fields and vorticity
 
 .. code-block:: bash
@@ -127,7 +127,11 @@ The results will be written to the *../results/* folder with the following files
 
 If you want to update the output format of *vortices.dat*, it should be done in the **output.py** file.
 
+NB: the *vortices.dat* file is written according to the TecPlot format. 
+It contains some auxiliary data, to keep a record of the different parameters used.
+
 The plot results are handled in the **fitting.py** module.
+
 
 Generating a custom Vortex
 --------------------------
