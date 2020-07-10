@@ -127,6 +127,8 @@ The results will be written to the *../results/* folder with the following files
 
 If you want to update the output format of *vortices.dat*, it should be done in the **output.py** file.
 
+The format (png, pdf ...) can be specified with the *-of* (*--output_format*) option.
+
 NB: the *vortices.dat* file is written according to the TecPlot format. 
 It contains some auxiliary data, to keep a record of the different parameters used.
 

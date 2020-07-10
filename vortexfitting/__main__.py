@@ -105,6 +105,10 @@ def main():
                         help='Correlation threshold (default: 0.75).\n'
                              'If the vortex is too big, its better to decrease this value')
 
+    parser.add_argument('-of', '--outputformat', dest='output_format',
+                        default='png', type=str,
+                        help='Format of the output file (default: png).\n'
+                             'Can be png, pdf, jpg ...')
     #    parser.add_argument('-v', '--verbose', dest='verbose',
     #                        default=False, type=bool,
     #                        help='Displays info or hides it. (default: True) ')
@@ -197,6 +201,7 @@ def main():
         if args.plot_method == 'fields':
             fitting.plot_fields(vfield, vorticity)
         if args.plot_method == 'fit':
-            fitting.plot_accepted(vfield, vortices, detection_field, args.output_directory, time_step)
-            fitting.plot_vortex(vfield, vortices, args.output_directory, time_step)
+            fitting.plot_accepted(vfield, vortices, detection_field, args.output_directory, time_step,
+                                  args.output_format)
+            fitting.plot_vortex(vfield, vortices, args.output_directory, time_step, args.output_format)
             output.write(vortices, args.output_directory, time_step)

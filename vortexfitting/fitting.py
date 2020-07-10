@@ -231,7 +231,7 @@ def velocity_model(core_radius, gamma, x_real, y_real, u_advection, v_advection,
     return velx, vely
 
 
-def get_vortices(vfield, peaks, vorticity, rmax, correlation_treshold):
+def get_vortices(vfield, peaks, vorticity, rmax, correlation_threshold):
     """
     General routine to check if the detected vortex is a real vortex
 
@@ -239,12 +239,12 @@ def get_vortices(vfield, peaks, vorticity, rmax, correlation_treshold):
     :param peaks: list of vortices
     :param vorticity: calculated field
     :param rmax: maximum radius (adapt it to your data domain)
-    :param correlation_treshold: threshold to detect a vortex (default is 0.75)
+    :param correlation_threshold: threshold to detect a vortex (default is 0.75)
     :type vfield: class VelocityField
     :type peaks: list
     :type vorticity: ndarray
     :type rmax: float
-    :type correlation_treshold: float
+    :type correlation_threshold: float
     :returns: list of detected vortices
     :rtype: list
     """
@@ -275,7 +275,7 @@ def get_vortices(vfield, peaks, vorticity, rmax, correlation_treshold):
                                               vortices_parameters[4], vortices_parameters[5], x_index, y_index)
             correlation_value = correlation_coef(u_data - vortices_parameters[4], v_data - vortices_parameters[5],
                                                  u_model - vortices_parameters[4], v_model - vortices_parameters[5])
-        if correlation_value > correlation_treshold:
+        if correlation_value > correlation_threshold:
             print('Accepted! Correlation = {:1.2f} (vortex #{:2d})'.format(correlation_value, cpt_accepted))
             u_theta = (vortices_parameters[1] / (2 * np.pi * vortices_parameters[0])) * (
                     1 - np.exp(-1))  # compute the tangential velocity at critical radius
@@ -438,19 +438,22 @@ def plot_fields(vfield, detection_field):
     :rtype: image
     """
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)  # , sharex='col', sharey='row')
-    ax1.imshow(vfield.u_velocity_matrix, cmap='seismic', origin="lower")
+    im1 = ax1.imshow(vfield.u_velocity_matrix, cmap='seismic', origin="lower")
     ax1.set_title('Velocity u (velocity_s)')
-
-    ax2.imshow(vfield.v_velocity_matrix, cmap='seismic', origin="lower")
+    fig.colorbar(im1, ax=ax1)
+    im2 = ax2.imshow(vfield.v_velocity_matrix, cmap='seismic', origin="lower")
     ax2.set_title('Velocity v (velocity_n)')
+    fig.colorbar(im2, ax=ax2)
 
-    if vfield.w_velocity_matrix:
-        ax3.imshow(vfield.w_velocity_matrix, cmap='seismic', origin="lower")
+    try:
+        im3 = ax3.imshow(vfield.w_velocity_matrix, cmap='seismic', origin="lower")
         ax3.set_title('Velocity w (velocity_z)')
-    else:
+        fig.colorbar(im3, ax=ax3)
+    except AttributeError:
         print('No w velocity')
+    im4 = ax4.imshow(detection_field, origin="lower", cmap='seismic')
     ax4.set_title('Vorticity')
-    ax4.imshow(detection_field, origin="lower", cmap='seismic')
+    fig.colorbar(im4, ax=ax4)
     plt.tight_layout()
 
     plt.show()
@@ -472,13 +475,15 @@ def plot_detect(vortices_counterclockwise, vortices_clockwise, detection_field, 
     plt.subplot()
     if args[0]:
         detection_field = detection_field.T  # transpose the detection field
-        plt.scatter(vortices_counterclockwise[0], vortices_counterclockwise[1], edgecolor='G', facecolor='G',
-                    label='left')
-        plt.scatter(vortices_clockwise[0], vortices_clockwise[1], edgecolor='Y', facecolor='Y', label='right')
+        plt.scatter(vortices_counterclockwise[0], vortices_counterclockwise[1],
+                    edgecolor='green', facecolor='green', label='counterclockwise')
+        plt.scatter(vortices_clockwise[0], vortices_clockwise[1],
+                    edgecolor='yellow', facecolor='yellow', label='clockwise')
     else:
-        plt.scatter(vortices_counterclockwise[1], vortices_counterclockwise[0], edgecolor='G', facecolor='G',
-                    label='left')
-        plt.scatter(vortices_clockwise[1], vortices_clockwise[0], edgecolor='Y', facecolor='Y', label='right')
+        plt.scatter(vortices_counterclockwise[1], vortices_counterclockwise[0],
+                    edgecolor='green', facecolor='green', label='counterclockwise')
+        plt.scatter(vortices_clockwise[1], vortices_clockwise[0],
+                    edgecolor='yellow', facecolor='yellow', label='clockwise')
 
     plt.title('Detected possible vortices')
     # plt.contourf(field, cmap="Greys_r")
@@ -522,7 +527,7 @@ def plot_quiver(x_index, y_index, u_data, v_data, detection_field):
 
 def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model,
              xc, yc, core_radius, gamma, u_advection, v_advection, correlation_value,
-             cpt_vortex, subtract_advection_field, output_dir, time_step):
+             cpt_vortex, subtract_advection_field, output_dir, time_step, output_format):
     """
     Plot fit
 
@@ -560,8 +565,10 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model,
     :type correlation_value: float
     :param time_step: current time_step
     :type time_step: int
+    :param output_format: format for output files (pdf, png ...)
+    :type output_format: str
     :returns: image file
-    :rtype: png
+    :rtype: image
     """
     plt.figure()
     s = 1  # sampling factor
@@ -577,7 +584,6 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model,
     plt.legend()
     plt.grid()
     plt.gca().set_aspect('equal', adjustable='box')
-    #    plt.axes().set_aspect('equal') #deprecated
     plt.xlabel('x')
     plt.ylabel('y')
 
@@ -585,17 +591,18 @@ def plot_fit(x_index, y_index, u_data, v_data, u_model, v_model,
         round(core_radius, 2), round(gamma, 2), round(u_advection, 2), round(v_advection, 2),
         round(correlation_value, 2)))
     if not subtract_advection_field:
-        plt.savefig(output_dir + '/vortex%i_%i_%s.png' % (time_step, cpt_vortex, 'initial_vfield'),
-                    format='png')
+        plt.savefig(output_dir + '/vortex%i_%i_%s.%s' % (time_step, cpt_vortex, 'initial_vfield', output_format),
+                    format=output_format)
     else:
-        plt.savefig(output_dir + '/vortex%i_%i_%s.png' % (time_step, cpt_vortex, 'advection_field_subtracted'),
-                    format='png')
+        plt.savefig(output_dir + '/vortex%i_%i_%s.%s' % (time_step, cpt_vortex, 'advection_field_subtracted',
+                                                         output_format),
+                    format=output_format)
     plt.close('all')
 
 
-def plot_accepted(vfield, vortices_list, detection_field, output_dir, time_step):
+def plot_accepted(vfield, vortices_list, detection_field, output_dir, time_step, output_format):
     """
-    Plot accepted: display the accepted vortices, with respect to the different criterion
+    Plot accepted: display the accepted vortices, with respect to the different criteria
     (correlation threshold, box size ...)
 
     :param vfield: contains spatial mesh and velocity components
@@ -608,6 +615,8 @@ def plot_accepted(vfield, vortices_list, detection_field, output_dir, time_step)
     :type output_dir: str
     :param time_step: current time_step
     :type time_step: int
+    :param output_format: format for output files (pdf, png ...)
+    :type output_format: str
     :returns: popup
     :rtype: image
     """
@@ -620,9 +629,12 @@ def plot_accepted(vfield, vortices_list, detection_field, output_dir, time_step)
     dy = vfield.y_coordinate_step
     plt.figure(2)
     plt.imshow(detection_field, origin='lower', cmap="bone")
+    plt.xlabel('x (mesh units)')
+    plt.ylabel('y (mesh units)')
+    plt.colorbar()
     for i, line in enumerate(vortices_list):
         if vortices_list[i][1] > 0:
-            # orient = 'green'
+            # Gamma > 0 (vorticity > 0): counterclockwise rotation
             plt.figure(1)
             circle1 = plt.Circle((line[2], line[3]), line[0],
                                  edgecolor='green', facecolor='none', gid='vortex%i' % i)
@@ -632,7 +644,7 @@ def plot_accepted(vfield, vortices_list, detection_field, output_dir, time_step)
                                  edgecolor='green', facecolor='none', gid='vortex%i' % i)
             plt.gca().add_artist(circle1)
         else:
-            # orient = 'yellow'
+            # Gamma < 0 (vorticity < 0): clockwise rotation
             plt.figure(1)
             circle1 = plt.Circle((line[2], line[3]), line[0],
                                  edgecolor='yellow', facecolor='none', gid='vortex%i' % i)
@@ -643,33 +655,35 @@ def plot_accepted(vfield, vortices_list, detection_field, output_dir, time_step)
             plt.gca().add_artist(circle1)
 
     # Comparing data
-    # fileIn = open('../data/dazin.dat', 'r')
-    # for line in fileIn:
-    # xComp = int(float(line.split()[1]))
-    # yComp = int(float(line.split()[2]))
-    # gammaComp = float(line.split()[3])
-    # rComp = float(line.split()[4])
-    # if gammaComp > 0:
-    # orient = 'R'
-    # else:
-    # orient = 'R'
-    # circle2=plt.Circle((xComp,yComp),rComp,edgecolor=orient,facecolor='none')
-    # plt.gca().add_artist(circle2)
+    # file_in = open('../data/comparison_data.dat', 'r')
+    # for line in file_in:
+    #     x_comp = int(float(line.split()[1]))
+    #     y_comp = int(float(line.split()[2]))
+    #     gamma_comp = float(line.split()[3])
+    #     r_comp = float(line.split()[4])
+    #     if gamma_comp > 0:
+    #         orient = 'green'
+    #     else:
+    #         orient = 'yellow'
+    #     circle2 = plt.Circle((x_comp, y_comp), r_comp, edgecolor=orient, facecolor='none')
+    #     plt.gca().add_artist(circle2)
 
     # plt.legend()
     plt.figure(1)
     plt.tight_layout()
-    plt.savefig(output_dir + '/accepted_{:01d}.svg'.format(time_step), format='svg')
-    create_links(output_dir + '/accepted_{:01d}.svg'.format(time_step), vortices_list, output_dir, time_step)
+    plt.savefig(output_dir + '/accepted_{}.svg'.format(time_step), format='svg')
+    plt.savefig(output_dir + '/accepted_{}.{}'.format(time_step, output_format), format=output_format)
+    create_links(output_dir + '/accepted_{}.svg'.format(time_step), vortices_list, output_dir, time_step,
+                 output_format)
     plt.figure(2)
-    plt.savefig(output_dir + '/meshed_{:01d}.svg'.format(time_step),
-                format='svg')  # use it to verify your coordinate system if needed !
+    plt.savefig(output_dir + '/meshed_{:01d}.{}'.format(time_step, output_format),
+                format=output_format)  # use it to verify your coordinate system if needed !
     # plt.savefig(output_dir+'/tk_{:01d}.png'.format(time_step), format='png', transparent=True)
 
     # plt.show()
 
 
-def plot_vortex(vfield, vortices_list, output_dir, time_step):
+def plot_vortex(vfield, vortices_list, output_dir, time_step, output_format):
     """
     Plot vortex: plot a vortex and its corresponding vortex model
 
@@ -681,6 +695,8 @@ def plot_vortex(vfield, vortices_list, output_dir, time_step):
     :type output_dir: str
     :param time_step: current time_step
     :type time_step: int
+    :param output_format: format for output files (pdf, png ...)
+    :type output_format: str
     :returns: file
     :rtype: image
     """
@@ -697,15 +713,16 @@ def plot_vortex(vfield, vortices_list, output_dir, time_step):
         u_model, v_model = velocity_model(line[0], line[1], line[2], line[3], line[4], line[5], x_index,
                                           y_index)
         correlation_value = correlation_coef(u_data, v_data, u_model, v_model)
-        plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, line[2], line[3],
-                 line[0], line[1], line[4], line[5], correlation_value, cpt_vortex, False, output_dir, time_step)
+        plot_fit(x_index, y_index, u_data, v_data, u_model, v_model,
+                 line[2], line[3], line[0], line[1], line[4], line[5], correlation_value,
+                 cpt_vortex, False, output_dir, time_step, output_format)
         correlation_value = correlation_coef(u_data - line[4], v_data - line[5], u_model - line[4], v_model - line[5])
-        plot_fit(x_index, y_index, u_data - line[4], v_data - line[5], u_model - line[4], v_model - line[5], line[2],
-                 line[3],
-                 line[0], line[1], line[4], line[5], correlation_value, cpt_vortex, True, output_dir, time_step)
+        plot_fit(x_index, y_index, u_data - line[4], v_data - line[5], u_model - line[4], v_model - line[5],
+                 line[2], line[3], line[0], line[1], line[4], line[5], correlation_value,
+                 cpt_vortex, True, output_dir, time_step, output_format)
 
 
-def create_links(path, vortices_list, output_dir, time_step):
+def create_links(path, vortices_list, output_dir, time_step, output_format):
     """
     create links: add some links between the accepted.svg file and the detected vortices
 
@@ -717,6 +734,8 @@ def create_links(path, vortices_list, output_dir, time_step):
     :type output_dir: str
     :param time_step: current time_step
     :type time_step: int
+    :param output_format: format for output files (pdf, png ...)
+    :type output_format: str
     :returns: file
     :rtype: image
     """
@@ -734,7 +753,7 @@ def create_links(path, vortices_list, output_dir, time_step):
             else:
                 file_out.write(line)
         elif "vortex" in line:
-            file_out.write('   <a href="vortex%i_%i_advection_field_subtracted.png">\n' % (time_step, i))
+            file_out.write('   <a href="vortex%i_%i_advection_field_subtracted.%s">\n' % (time_step, i, output_format))
             file_out.write(line)
             file_out.write('   <title>Vortex %i: r = %s gamma = %s</title>\n' % (
                 i, round(vortices_list[i][3], 1), round(vortices_list[i][2], 1)))
