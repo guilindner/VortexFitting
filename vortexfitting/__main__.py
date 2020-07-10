@@ -117,7 +117,7 @@ def main():
     # start = time.time()
 
     # create file 'vortices.dat' to store output vortices data        
-    output.create(args.output_directory,args)
+    output.create(args.output_directory, args)
 
     # ---- LOAD DATA ----#
 

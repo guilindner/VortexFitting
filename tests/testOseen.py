@@ -65,7 +65,7 @@ if __name__ == '__main__':
         print('correlation:', corr)
         print('---')
         fitting.plot_fit(x_index, y_index, u_data, v_data, u_model, v_model, model[2], model[3], model[0], model[1],
-                         model[4], model[5], corr, 0, 0, '.', 0)
+                         model[4], model[5], corr, 0, 0, '.', 0, 'png')
 
 
     test_oseen(0.2, 10, 10, 0.0, 0.0, 0.01, 0.01)
