@@ -1,26 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>classes.py &#8212; VortexFitting 1 documentation</title>
     <link rel="stylesheet" href="../_static/pyramid.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="detection.py" href="detection.html" />
@@ -31,8 +24,7 @@
 <link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
 <![endif]-->
 
-  </head>
-  <body>
+  </head><body>
 
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -50,7 +42,8 @@
           <a href="modules.html" title="Modules"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Modules</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">Modules</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">classes.py</a></li> 
       </ul>
     </div>  
 
@@ -62,64 +55,60 @@
   <div class="section" id="module-classes">
 <span id="classes-py"></span><h1>classes.py<a class="headerlink" href="#module-classes" title="Permalink to this headline">¶</a></h1>
 <p>class VelocityField</p>
-<dl class="class">
+<dl class="py class">
 <dt id="classes.VelocityField">
-<em class="property">class </em><code class="descclassname">classes.</code><code class="descname">VelocityField</code><span class="sig-paren">(</span><em>file_path='/'</em>, <em>time_step=0</em>, <em>mean_file_path='/'</em>, <em>file_type='/'</em><span class="sig-paren">)</span><a class="headerlink" href="#classes.VelocityField" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><code class="sig-prename descclassname">classes.</code><code class="sig-name descname">VelocityField</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_path</span><span class="o">=</span><span class="default_value">'/'</span></em>, <em class="sig-param"><span class="n">time_step</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">mean_file_path</span><span class="o">=</span><span class="default_value">'/'</span></em>, <em class="sig-param"><span class="n">file_type</span><span class="o">=</span><span class="default_value">'/'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#classes.VelocityField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Data file</p>
 <p>Loads the input file with the NetCFD (.nc) 
 format or a Tecplot format (.dat); 
 initialize the variables.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>file_path</strong> (<em>str</em>) – file path</li>
-<li><strong>time_step</strong> (<em>int</em>) – current time step</li>
-<li><strong>mean_file_path</strong> (<em>str</em>) – in case of a mean field subtraction</li>
-<li><strong>file_type</strong> (<em>str</em>) – ‘piv_netcdf’, ‘dns, ‘dns2’, ‘piv_tecplot’, ‘openfoam’</li>
-<li><strong>x_coordinate_matrix</strong> (<em>ndarray</em>) – spatial mesh</li>
-<li><strong>y_coordinate_matrix</strong> (<em>ndarray</em>) – spatial mesh</li>
-<li><strong>z_coordinate_matrix</strong> (<em>ndarray</em>) – spatial mesh, optional</li>
-<li><strong>u_velocity_matrix</strong> (<em>ndarray</em>) – 1st component velocity field</li>
-<li><strong>v_velocity_matrix</strong> (<em>ndarray</em>) – 2nd component velocity field</li>
-<li><strong>w_velocity_matrix</strong> (<em>ndarray</em>) – 3rd component velocity field, optional</li>
-<li><strong>normalization_flag</strong> (<em>boolean</em>) – for normalization of the swirling field</li>
-<li><strong>normalization_direction</strong> (<em>str</em>) – ‘None’, ‘x’ or ‘y’</li>
-<li><strong>x_coordinate_step</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</li>
-<li><strong>y_coordinate_step</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</li>
-<li><strong>z_coordinate_step</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</li>
-<li><strong>derivative</strong> (<em>dict</em>) – contains ‘dudx’, ‘dudy’, ‘dvdx’, ‘dvdy’. 
-Can be extended to the 3rd dimension</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>str</em>) – file path</p></li>
+<li><p><strong>time_step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>mean_file_path</strong> (<em>str</em>) – in case of a mean field subtraction</p></li>
+<li><p><strong>file_type</strong> (<em>str</em>) – ‘piv_netcdf’, ‘dns, ‘dns2’, ‘piv_tecplot’, ‘openfoam’</p></li>
+<li><p><strong>x_coordinate_matrix</strong> (<em>ndarray</em>) – spatial mesh</p></li>
+<li><p><strong>y_coordinate_matrix</strong> (<em>ndarray</em>) – spatial mesh</p></li>
+<li><p><strong>z_coordinate_matrix</strong> (<em>ndarray</em>) – spatial mesh, optional</p></li>
+<li><p><strong>u_velocity_matrix</strong> (<em>ndarray</em>) – 1st component velocity field</p></li>
+<li><p><strong>v_velocity_matrix</strong> (<em>ndarray</em>) – 2nd component velocity field</p></li>
+<li><p><strong>w_velocity_matrix</strong> (<em>ndarray</em>) – 3rd component velocity field, optional</p></li>
+<li><p><strong>normalization_flag</strong> (<em>boolean</em>) – for normalization of the swirling field</p></li>
+<li><p><strong>normalization_direction</strong> (<em>str</em>) – ‘None’, ‘x’ or ‘y’</p></li>
+<li><p><strong>x_coordinate_step</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</p></li>
+<li><p><strong>y_coordinate_step</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</p></li>
+<li><p><strong>z_coordinate_step</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</p></li>
+<li><p><strong>derivative</strong> (<em>dict</em>) – contains ‘dudx’, ‘dudy’, ‘dvdx’, ‘dvdy’. 
+Can be extended to the 3rd dimension</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">vfield, an instance of the VelocityField class</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">class VelocityField</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>vfield, an instance of the VelocityField class</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>class VelocityField</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h3><a href="../index.html">Table Of Contents</a></h3>
+<h3><a href="../index.html">Table of Contents</a></h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../methodology.html">Methodology</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">classes.py</a></li>
@@ -134,15 +123,15 @@ Can be extended to the 3rd dimension</li>
 </ul>
 
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -163,12 +152,13 @@ Can be extended to the 3rd dimension</li>
           <a href="modules.html" title="Modules"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >Modules</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="modules.html" >Modules</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">classes.py</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.1.
     </div>
   </body>
 </html>

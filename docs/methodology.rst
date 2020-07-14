@@ -112,7 +112,7 @@ Then the local maxima of the detection can be identified. The normalization is
 not required for the HIT cases, it is only used when we have an non-homogeneous
 direction.
 
-In figure :numref:`nonnorm2` we see the original swirling strength field, where
+In :numref:`nonnorm2` we see the original swirling strength field, where
 104 vortices were found, mostly near the wall, where the boundary layer plays an
 important role in increasing the swirling strengtht. The yellow circles corresponds
 to the vortices rotating clockwise and the green circles for the counter-clockwise
@@ -121,6 +121,8 @@ rotation.
 .. _nonnorm2:
 .. figure:: _images/PIVnonnormalized.png
    :align: center
+   
+   Swirling strength detection
 
 In figure :numref:`norm2` we show the fluctuation of the swirling strength field,
 by applying the Reynolds decomposition, now with 202 vortices found, minimizing
@@ -129,16 +131,20 @@ the wall influence over the detection.
 .. _norm2:
 .. figure:: _images/PIVnormalized.png
    :align: center
+   
+   Swirling strength detection applying Reynolds decomposition
 
 We can play with the distance between one detected vortex and another, by increasing
-the box size of the peak detection. In figure :numref:`boxnorm2` we set the box size
-to 12, instead of box size 6 used in figures :numref:`nonnorm2` and :numref:`norm2`.
+the box size of the peak detection. In :numref:`boxnorm2` we set the box size
+to 12, instead of box size 6 used in :numref:`nonnorm2` and :numref:`norm2`.
 With this setting we reduce the detected vortices to 154, by removing the overlapping
 ones.
 
 .. _boxnorm2:
 .. figure:: _images/PIVbox12normalized.png
    :align: center
+   
+   Swirling strength detection with bigger box search
 
 One interesting fact about the swirling strength (as well the other methods) is
 that the local maximum values does not always match the center of the vortex. We
@@ -147,6 +153,8 @@ show in :numref:`quiverDNS1` one example of this mismatch between them.
 .. _quiverDNS1:
 .. figure:: _images/dns_quiver1.png
    :align: center
+   
+   Relation between velocity vectors and swirling strength field
 
 Fitting of coherent structures
 ------------------------------
@@ -221,6 +229,104 @@ does this using a combination of Newton's method and the steepest descent method
 This is a so-called trust region method. This means that every step moves the
 current point to within a finite region. This makes the method more stable than
 Newton's method.
+
+
+Validation
+----------
+
+In this section, the fitting of the Lamb-Oseen vortex model is tested under different scenarios.
+For the first comparison a standard Lamb-Oseen vortex is created and VortexFitting tries to estimate its parameters.
+Four different cases (:numref:`CaseA`, :numref:`CaseB`, :numref:`CaseC` and :numref:`CaseD`), varying the core radius, the circulation $\Gamma$ and the distance of the center of vortex to the center of window (shift), are presented.
+
+.. _CaseA:
+.. figure:: _images/test_02_10.png
+   :width: 45 %
+
+   Case A
+
+.. _CaseB:
+.. figure:: _images/test_02_10_02.png
+   :width: 45 %
+
+   Case B
+   
+.. _CaseC:   
+.. figure:: _images/test_09_40.png
+   :width: 45 %
+
+   Case C
+
+.. _CaseD:   
+.. figure:: _images/test_09_40_02.png
+   :width: 45 %
+
+   Case D
+
+:numref:`TableCases` presents the fitting results: the guess is exact for all the cases (correlation = 1), as the data and model vectors totally overlaps themselves.
+
+.. _TableCases:
+.. table:: Validation of Fitting
+
+    +-----------+-------+-------+-------+-------+
+    |Param/Case |A      |B      |C      |D      |
+    +===========+=======+=======+=======+=======+
+    |radius     |0.2000 |0.2000 |0.9000 |0.8999 |
+    +-----------+-------+-------+-------+-------+
+    |circulation|10.0000|10.0000|40.0000|39.9999|
+    +-----------+-------+-------+-------+-------+
+    |x shift    |0.0000 |0.2000 |0.0000 |0.2000 |
+    +-----------+-------+-------+-------+-------+
+    |y shift    |0.0000 |0.2000 |0.0000 |0.2000 |
+    +-----------+-------+-------+-------+-------+
+    |correlation|1.0000 |1.0000 |1.0000 |1.0000 |
+    +-----------+-------+-------+-------+-------+
+
+
+For the second set of tests, a random noise is added to the original vortex field, creating a perturbation to the initial flow field.
+The fitting provides the results in :numref:`TableCases2`, corresponding to for cases (:numref:`CaseA2`, :numref:`CaseB2`, :numref:`CaseC2` and :numref:`CaseD2`).
+We can see a better correlation for the stronger vortices (higher circulation), meaning that they are less affected by the perturbation. 
+
+.. _CaseA2:
+.. figure:: _images/test_02_10N.png
+   :width: 45 %
+
+   Case A with perturbation
+
+.. _CaseB2:
+.. figure:: _images/test_02_10_02N.png
+   :width: 45 %
+
+   Case B with perturbation
+   
+.. _CaseC2:   
+.. figure:: _images/test_09_40N.png
+   :width: 45 %
+
+   Case C with perturbation
+
+.. _CaseD2:   
+.. figure:: _images/test_09_40_02N.png
+   :width: 45 %
+
+   Case D with perturbation
+
+
+.. _TableCases2:
+.. table:: Validation of Fitting with perturbation
+
+    +-----------+-------+-------+-------+-------+
+    |Param/Case |A      |B      |C      |D      |
+    +===========+=======+=======+=======+=======+
+    |radius     |0.1917 |0.2427 |0.9067 |0.9169 |
+    +-----------+-------+-------+-------+-------+
+    |circulation|10.1863|9.9743 |40.4885|40.5987|
+    +-----------+-------+-------+-------+-------+
+    |x shift    |0.0035 |0.1946 |0.0098 |0.1953 |
+    +-----------+-------+-------+-------+-------+
+    |y shift    |0.0028 |0.1918 |0.0085 |0.1995 |
+    +-----------+-------+-------+-------+-------+
+    |correlation|0.9406 |0.9153 |0.9895 |0.9869 |
+    +-----------+-------+-------+-------+-------+
 
 
 |
