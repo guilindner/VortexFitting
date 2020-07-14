@@ -211,29 +211,45 @@ class VelocityField:
                 if dx_tmp[i] == dx_tmp[0]:
                     self.y_coordinate_size = i
                     break;
-            self.x_coordinate_size = np.int(dx_tmp.shape[0] / self.y_coordinate_size);  # domain size
-            self.z_coordinate_size = 1
 
-            self.u_velocity_matrix = np.array(datafile_read[:, index_u]).reshape(self.x_coordinate_size,
-                                                                                 self.y_coordinate_size)
-            self.v_velocity_matrix = np.array(datafile_read[:, index_v]).reshape(self.x_coordinate_size,
-                                                                                 self.y_coordinate_size)
-            try:
-                self.w_velocity_matrix = np.array(datafile_read[:, index_w]).reshape(self.x_coordinate_size,
-                                                                                     self.y_coordinate_size)
-            except:
-                print('No w velocity matrix')
+            self.x_coordinate_size = len(np.unique(datafile_read.T[0]))
+            self.y_coordinate_size = len(np.unique(datafile_read.T[1]))
+            self.z_coordinate_size = len(np.unique(datafile_read.T[2]))
+
+            # Small hack to identify what is the plane direction, fix this!
+            if self.y_coordinate_size == 1:
+                self.y_coordinate_size = self.z_coordinate_size
+
+            self.u_velocity_matrix = np.array(datafile_read[:, index_u]).reshape(self.y_coordinate_size,
+                                                                                 self.x_coordinate_size)
+            self.v_velocity_matrix = np.array(datafile_read[:, index_v]).reshape(self.y_coordinate_size,
+                                                                                 self.x_coordinate_size)
+            self.w_velocity_matrix = np.array(datafile_read[:, index_w]).reshape(self.y_coordinate_size,
+                                                                                 self.x_coordinate_size)
+
+            if self.mean_file_path != '/':
+                print("subtracting mean file")
+                # load and subtract mean data
+                datafile_mean_read = np.loadtxt(mean_file_path, delimiter=" ", dtype=float, skiprows=2)
+                u_velocity_matrix_mean = np.array(datafile_mean_read[:, index_u]).reshape(self.y_coordinate_size,
+                                                                                          self.x_coordinate_size)
+                v_velocity_matrix_mean = np.array(datafile_mean_read[:, index_v]).reshape(self.y_coordinate_size,
+                                                                                          self.x_coordinate_size)
+                w_velocity_matrix_mean = np.array(datafile_mean_read[:, index_w]).reshape(self.y_coordinate_size,
+                                                                                          self.x_coordinate_size)
+                self.u_velocity_matrix -= u_velocity_matrix_mean
+                self.v_velocity_matrix -= v_velocity_matrix_mean
+                self.w_velocity_matrix -= w_velocity_matrix_mean
+
             tmp_x = np.array(datafile_read[:, index_x]).reshape(self.x_coordinate_size, self.y_coordinate_size)
-            tmp_y = np.array(datafile_read[:, index_y]).reshape(self.x_coordinate_size, self.y_coordinate_size)
+            tmp_y = np.array(datafile_read[:, index_z]).reshape(self.x_coordinate_size, self.y_coordinate_size)
+            tmp_z = np.array(datafile_read[:, index_z]).reshape(self.x_coordinate_size, self.y_coordinate_size)
+
             self.x_coordinate_matrix = np.linspace(0, np.max(tmp_x) - np.min(tmp_x), self.u_velocity_matrix.shape[1])
             self.y_coordinate_matrix = np.linspace(0, np.max(tmp_y) - np.min(tmp_y), self.u_velocity_matrix.shape[0])
-            try:
-                tmp_z = np.array(datafile_read[:, index_z]).reshape(self.x_coordinate_size, self.y_coordinate_size)
-                self.z_coordinate_matrix = tmp_z[0, 0]
-            except:
-                print('No z component')
+            self.z_coordinate_matrix = np.linspace(0, np.max(tmp_z) - np.min(tmp_z), self.u_velocity_matrix.shape[0])
 
-            self.normalization_flag = False
+            self.normalization_flag = True
             self.normalization_direction = None
 
         if file_type == 'test':
@@ -250,11 +266,8 @@ class VelocityField:
         self.y_coordinate_step = round((np.max(self.y_coordinate_matrix) - np.min(self.y_coordinate_matrix)) / (
                 np.size(self.y_coordinate_matrix) - 1), 6)
         self.z_coordinate_step = 0.0
+        print('steps',self.x_coordinate_step, self.y_coordinate_step, self.y_coordinate_step)
 
-        #        print(self.x_coordinate_step, self.x_coordinate_matrix[1]-self.x_coordinate_matrix[0])
-        #        print(self.x_coordinate_matrix, self.y_coordinate_matrix, self.z_coordinate_matrix)
-        #        print(self.x_coordinate_step, self.y_coordinate_step, self.z_coordinate_step)
-        #        print(self.x_coordinate_size, self.y_coordinate_size, self.z_coordinate_size)
         self.derivative = {'dudx': np.zeros_like(self.u_velocity_matrix),
                            'dudy': np.zeros_like(self.u_velocity_matrix),
                            'dudz': np.zeros_like(self.u_velocity_matrix),
