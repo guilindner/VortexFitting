@@ -120,6 +120,7 @@ rotation.
 
 .. _nonnorm2:
 .. figure:: _images/PIVnonnormalized.png
+   :alt: non normalized PIV field - Swirling strength detection
    :align: center
    
    Swirling strength detection
@@ -130,6 +131,7 @@ the wall influence over the detection.
 
 .. _norm2:
 .. figure:: _images/PIVnormalized.png
+   :alt: normalized PIV field - Swirling strength detection
    :align: center
    
    Swirling strength detection applying Reynolds decomposition
@@ -142,9 +144,10 @@ ones.
 
 .. _boxnorm2:
 .. figure:: _images/PIVbox12normalized.png
+   :alt: normalized PIV field with boxsize = 12 - Swirling strength detection
    :align: center
    
-   Swirling strength detection with bigger box search
+   Swirling strength detection with bigger box search (*boxsize* = 12)
 
 One interesting fact about the swirling strength (as well the other methods) is
 that the local maximum values does not always match the center of the vortex. We
@@ -152,6 +155,7 @@ show in :numref:`quiverDNS1` one example of this mismatch between them.
 
 .. _quiverDNS1:
 .. figure:: _images/dns_quiver1.png
+   :alt: relation between velocity vectors and swirling strength field
    :align: center
    
    Relation between velocity vectors and swirling strength field
@@ -241,26 +245,34 @@ Four different cases (:numref:`CaseA`, :numref:`CaseB`, :numref:`CaseC` and :num
 .. _CaseA:
 .. figure:: _images/test_02_10.png
    :width: 45 %
+   :alt: Case A - core radius = 0.2, Gamma = 10, x/y shift = 0
+   :align: center
 
-   Case A
+   Case A - core radius = 0.2, :math:`\Gamma = 10`, x/y shift = 0
 
 .. _CaseB:
 .. figure:: _images/test_02_10_02.png
    :width: 45 %
+   :alt: Case B - core radius = 0.2, Gamma = 10, x/y shift = 0.2
+   :align: center
 
-   Case B
+   Case B - core radius = 0.2, :math:`\Gamma = 10`, x/y shift = 0.2
    
 .. _CaseC:   
 .. figure:: _images/test_09_40.png
    :width: 45 %
+   :alt: Case C - core radius = 0.9, :math:`\Gamma = 40`, x/y shift = 0
+   :align: center
 
-   Case C
+   Case C - core radius = 0.9, Gamma = 40, x/y shift = 0
 
 .. _CaseD:   
 .. figure:: _images/test_09_40_02.png
    :width: 45 %
+   :alt: Case D - core radius = 0.9, Gamma = 40, x/y shift = 0.2
+   :align: center
 
-   Case D
+   Case D - core radius = 0.9, :math:`\Gamma = 40`, x/y shift = 0.2
 
 :numref:`TableCases` presents the fitting results: the guess is exact for all the cases (correlation = 1), as the data and model vectors totally overlaps themselves.
 
@@ -289,26 +301,34 @@ We can see a better correlation for the stronger vortices (higher circulation), 
 .. _CaseA2:
 .. figure:: _images/test_02_10N.png
    :width: 45 %
+   :alt: Case A with perturbation - core radius = 0.2, Gamma = 10, x/y shift = 0
+   :align: center
 
-   Case A with perturbation
+   Case A with perturbation - core radius = 0.2, :math:`\Gamma = 10`, x/y shift = 0
 
 .. _CaseB2:
 .. figure:: _images/test_02_10_02N.png
    :width: 45 %
+   :alt: Case B with perturbation - core radius = 0.2, Gamma = 10, x/y shift = 0.2
+   :align: center
 
-   Case B with perturbation
+   Case B with perturbation - core radius = 0.2, :math:`\Gamma = 10`, x/y shift = 0.2
    
 .. _CaseC2:   
 .. figure:: _images/test_09_40N.png
    :width: 45 %
+   :alt: Case C with perturbation - core radius = 0.2, Gamma = 40, x/y shift = 0
+   :align: center
 
-   Case C with perturbation
+   Case C with perturbation - core radius = 0.2, :math:`\Gamma = 40`, x/y shift = 0
 
 .. _CaseD2:   
 .. figure:: _images/test_09_40_02N.png
    :width: 45 %
+   :alt: Case D with perturbation - core radius = 0.2, Gamma = 40, x/y shift = 0.2
+   :align: center
 
-   Case D with perturbation
+   Case D with perturbation - core radius = 0.2, :math:`\Gamma = 40`, x/y shift = 0.2
 
 
 .. _TableCases2:

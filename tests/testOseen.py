@@ -21,14 +21,14 @@ if __name__ == '__main__':
                                      formatter_class=argparse.RawTextHelpFormatter)
 
     parser.add_argument('-i', '--input', dest='infilename',
-                        default='../data/example_dataHIT.nc',
+                        default='../data/example_data_numerical_PIV.nc',
                         help='input NetCDF file', metavar='FILE')
     args = parser.parse_args()
 
     print('Some tests for the Lamb-Oseen model')
     print(args.infilename)
 
-    vfield = VelocityField(args.infilename, 0, '/', 'dns')
+    vfield = VelocityField(args.infilename, 0, '/', 'piv_netcdf')
 
 
     def test_oseen(core_radius, gamma, dist, xdrift, ydrift, u_advection, v_advection):

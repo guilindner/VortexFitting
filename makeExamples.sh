@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python3 run.py -i data/example_Ub_planeZ_0.01.raw -ft openfoam -o results/example_openfoam -rmax 0 -p detect
+python3 run.py -i data/example_Ub_planeZ_0.01.raw -ft openfoam -o results/example_openfoam -rmax 0
 
 python3 run.py  -i data/example_Ub_planeZ_0.01.raw -ft openfoam -xy 20 50
 

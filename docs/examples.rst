@@ -27,6 +27,8 @@ Case 1
 
 .. image:: _images/HIT_00.svg
    :width: 80%
+   :alt: detected vortices for example_dataHIT.nc, with a threshold of 0.0
+   :align: center
 
 361 vortices detected with 84 accepted.
 
@@ -38,6 +40,8 @@ Case 2
 
 .. image:: _images/HIT_01.svg
    :width: 80%
+   :alt: detected vortices for example_dataHIT.nc, with a threshold of 0.1
+   :align: center
 
 162 vortices detected with 72 accepted.
 
@@ -49,6 +53,8 @@ Case 3
 
 .. image:: _images/HIT_02.svg
    :width: 80%
+   :alt: detected vortices for example_dataHIT.nc, with a threshold of 0.2
+   :align: center
 
 58 vortices detected with 40 accepted.
 
@@ -61,6 +67,8 @@ Case 4
 
 .. image:: _images/HIT_04.svg
    :width: 80%
+   :alt: detected vortices for example_dataHIT.nc, with a threshold of 0.4
+   :align: center
 
 9 vortices detected with 8 accepted.
 
@@ -69,13 +77,17 @@ and to the right we have the advection velocity subtracted.
 
 .. image:: _images/DNSvortex0_1.png
    :width: 45 %
+   :alt: detected vortex and its Lamb-Oseen model
 .. image:: _images/DNSvortex0_2.png
    :width: 45 %
+   :alt: detected vortex and its Lamb-Oseen model
 
 .. image:: _images/DNSvortex1_1.png
    :width: 45 %
+   :alt: detected vortex and its Lamb-Oseen model
 .. image:: _images/DNSvortex1_2.png
    :width: 45 %
+   :alt: detected vortex and its Lamb-Oseen model
 
 +----+---------+--------+--------+
 |Case|Threshold|Detected|Accepted|
@@ -116,13 +128,17 @@ and to the right we have the advection velocity subtracted.
 
 .. image:: _images/PIVvortex0_1.png
    :width: 45 %
+   :alt: detected vortex and its Lamb-Oseen model
 .. image:: _images/PIVvortex0_2.png
    :width: 45 %
+   :alt: detected vortex and its Lamb-Oseen model
 
 .. image:: _images/PIVvortex1_1.png
    :width: 45 %
+   :alt: detected vortex and its Lamb-Oseen model
 .. image:: _images/PIVvortex1_2.png
    :width: 45 %
+   :alt: detected vortex and its Lamb-Oseen model
 
 PIV case - Tecplot file
 -----------------------
@@ -137,6 +153,7 @@ It is done with the *-ft piv_tecplot* (*file type*) argument.
 
 .. image:: _images/PIV_accepted_10.svg
    :width: 40 %
+   :alt: detected vortices for an experimental case
 
 An average field can be subtracted, using *-mf* argument (*mean file*)
 
@@ -169,5 +186,7 @@ with :math:`dx` and :math:`dy` the spatial resolution.
 
 .. image:: _images/openfoam_quiverplot.png
    :width: 45 %
+   :alt: detected vortex for an openfoam simulation of an isolated columnar vortex
 .. image:: _images/openfoam.png
    :width: 45 %
+   :alt: detected vortex for an openfoam simulation of an isolated columnar vortex
