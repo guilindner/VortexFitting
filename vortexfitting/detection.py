@@ -16,7 +16,7 @@ def calc_swirling(vfield):
     :rtype: ndarray
     """
     print('Detection method: 2D swirling strength')
-    # A = np.zeros((vfield.u_velocity_matrix.size, 3, 3))
+
     matrix_a = np.array(
         [[vfield.derivative['dudx'].ravel(), vfield.derivative['dudy'].ravel(),
           vfield.derivative['dudz'].ravel()],

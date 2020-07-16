@@ -293,3 +293,16 @@ class VelocityField:
                            'dwdx': np.zeros_like(self.u_velocity_matrix),
                            'dwdy': np.zeros_like(self.u_velocity_matrix),
                            'dwdz': np.zeros_like(self.u_velocity_matrix)}
+
+        # if flip_axis:
+        #     print('flip axis')
+        #     self.u_velocity_matrix = np.rot90(self.u_velocity_matrix,3)
+        #     self.v_velocity_matrix = np.rot90(self.v_velocity_matrix,3)
+        #     try:
+        #         self.w_velocity_matrix = self.w_velocity_matrix.T
+        #     except AttributeError:
+        #         print('No w velocity matrix')
+        #     print(np.shape(self.x_coordinate_matrix), np.shape(self.y_coordinate_matrix))
+        #     self.x_coordinate_matrix, self.y_coordinate_matrix = self.y_coordinate_matrix,self.x_coordinate_matrix
+        #     self.x_coordinate_size, self.y_coordinate_size = self.y_coordinate_size, self.x_coordinate_size
+        #     self.x_coordinate_step, self.y_coordinate_step = self.y_coordinate_step, self.x_coordinate_step

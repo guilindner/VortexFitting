@@ -9,7 +9,6 @@ It detects the vortices and apply a fitting to them.
 import sys
 import os.path
 import argparse
-
 # import time
 
 sys.path.insert(1, './vortexfitting')
@@ -116,9 +115,6 @@ def main():
     args = parser.parse_args()
     # start = time.time()
 
-    # create file 'vortices.dat' to store output vortices data        
-    output.create(args.output_directory, args)
-
     # ---- LOAD DATA ----#
 
     if args.last < args.first:
@@ -133,6 +129,7 @@ def main():
         print('\nOpening file: ', args.input_filename.format(time_step), ', file type: ', args.file_type)
         if args.mean_filename != '/':
             print('Opening mean field: ', args.mean_filename)
+
         vfield = classes.VelocityField(args.input_filename, time_step, args.mean_filename, args.file_type)
 
         # ---- DIFFERENCE APPROXIMATION ----#
@@ -169,8 +166,6 @@ def main():
             print('Normalization for ', vfield.normalization_direction, ' direction')
             detection_field = fitting.normalize(detection_field, vfield.normalization_direction)  # normalization
 
-        # output.write_field('./results/detection_field.dat',args.detection_method,vfield,detection_field)
-
         # ---- PEAK DETECTION ----#
         print('Threshold=', args.detection_threshold, ', box size=', args.box_size)
 
@@ -201,7 +196,11 @@ def main():
         if args.plot_method == 'fields':
             fitting.plot_fields(vfield, vorticity)
         if args.plot_method == 'fit':
+            # create file 'vortices.dat' to store output vortices data        
+            output.create(args.output_directory, args)
             fitting.plot_accepted(vfield, vortices, detection_field, args.output_directory, time_step,
                                   args.output_format)
             fitting.plot_vortex(vfield, vortices, args.output_directory, time_step, args.output_format)
             output.write(vortices, args.output_directory, time_step)
+            # output.write_field(args.output_directory+'/detection_field.dat', args.detection_method,
+            #                    vfield,detection_field)

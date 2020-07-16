@@ -459,7 +459,7 @@ def plot_fields(vfield, detection_field):
     plt.show()
 
 
-def plot_detect(vortices_counterclockwise, vortices_clockwise, detection_field, *args):
+def plot_detect(vortices_counterclockwise, vortices_clockwise, detection_field, flip_axis):
     """
     Plot detect: display the location and rotation of the vortices
 
@@ -469,11 +469,13 @@ def plot_detect(vortices_counterclockwise, vortices_clockwise, detection_field, 
     :type vortices_clockwise: list of vortices
     :param detection_field: detection field (vorticity ...)
     :type detection_field: ndarray
+    :param flip_axis: for flipping x/y axis
+    :type flip_axis: bool
     :returns: popup
     :rtype: image
     """
     plt.subplot()
-    if args[0]:
+    if flip_axis:
         detection_field = detection_field.T  # transpose the detection field
         plt.scatter(vortices_counterclockwise[0], vortices_counterclockwise[1],
                     edgecolor='green', facecolor='green', label='counterclockwise')
