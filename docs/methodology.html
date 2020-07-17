@@ -68,31 +68,31 @@ vortex; the localization of the maxima of this function; and the adjustment
 <h2>Detection methods<a class="headerlink" href="#detection-methods" title="Permalink to this headline">¶</a></h2>
 <p>In this section, the detection methods implemented in the code for vortex
 identification are presented. These methods are based on the velocity gradient
-tensor, <img class="math" src="_images/math/06282858f9fa69319d9381c2043f8d89f1de25a3.png" alt="\overline{D}"/>, that can be written as:</p>
-<div class="math">
-<p><img src="_images/math/37d331872bccce71ceb318ca290950c681187cb4.png" alt="D_{ij} = \frac{\partial u_i}{\partial x_j}"/></p>
+tensor, <img class="math" src="_images/math/06282858f9fa69319d9381c2043f8d89f1de25a3.png" alt="\overline{D}"/>, that can be written as <a class="reference internal" href="#equation-eq_tensor_D">(1)</a></p>
+<div class="math" id="equation-eq_tensor_D">
+<p><span class="eqno">(1)<a class="headerlink" href="#equation-eq_tensor_D" title="Permalink to this equation">¶</a></span><img src="_images/math/37d331872bccce71ceb318ca290950c681187cb4.png" alt="D_{ij} = \frac{\partial u_i}{\partial x_j}"/></p>
 </div><p>As this is a second order tensor, it can be decomposed into a symmetric and
 anti-symmetric part, <img class="math" src="_images/math/53bb978c28a4fca1d2e5711bf3152e65f182884f.png" alt="D_{ij} = S_{ij} + \Omega_{ij}"/> where:</p>
-<div class="math">
-<p><img src="_images/math/0d9d1bf51babbf25b68a5fce448ee23f82e3082f.png" alt="S_{ij} = \frac{1}{2} \left(\frac{\partial u_i}{\partial x_j} +
+<div class="math" id="equation-eq_tensor_S">
+<p><span class="eqno">(2)<a class="headerlink" href="#equation-eq_tensor_S" title="Permalink to this equation">¶</a></span><img src="_images/math/0d9d1bf51babbf25b68a5fce448ee23f82e3082f.png" alt="S_{ij} = \frac{1}{2} \left(\frac{\partial u_i}{\partial x_j} +
 \frac{\partial u_j}{\partial x_i}\right)"/></p>
-</div><div class="math">
-<p><img src="_images/math/b527d3e4d6589c8a96c282b6615c83a831bf7179.png" alt="\Omega_{ij} = \frac{1}{2} \left(\frac{\partial u_i}{\partial x_j} -
+</div><div class="math" id="equation-eq_tensor_omega">
+<p><span class="eqno">(3)<a class="headerlink" href="#equation-eq_tensor_omega" title="Permalink to this equation">¶</a></span><img src="_images/math/b527d3e4d6589c8a96c282b6615c83a831bf7179.png" alt="\Omega_{ij} = \frac{1}{2} \left(\frac{\partial u_i}{\partial x_j} -
 \frac{\partial u_j}{\partial x_i}\right)"/></p>
-</div><p><img class="math" src="_images/math/f9aefa6e6dd9b26a90b378c77e493a0fe7db79ff.png" alt="S_{ij}"/> is known as the rate-of-strain tensor and <img class="math" src="_images/math/a77d8f7f396d4c1d9e610005aaf150bbd020048a.png" alt="\Omega_{ij}"/> is the
-vorticity tensor.</p>
-<p>The characteristic equation for <img class="math" src="_images/math/eeb7d854d71ddcc1537e1ece9017ae60ac703fc2.png" alt="\bar{D}"/> is given by</p>
-<div class="math">
-<p><img src="_images/math/a3f2adb46197c15367a9a3b8db89e0020989f251.png" alt="\lambda^3 + P \lambda^2 + Q \lambda + R = 0"/></p>
-</div><p>where P, Q and R are the three invariants of the velocity gradient tensor. Using
+</div><p><img class="math" src="_images/math/f9aefa6e6dd9b26a90b378c77e493a0fe7db79ff.png" alt="S_{ij}"/> is known as the rate-of-strain tensor <a class="reference internal" href="#equation-eq_tensor_S">(2)</a> and <img class="math" src="_images/math/a77d8f7f396d4c1d9e610005aaf150bbd020048a.png" alt="\Omega_{ij}"/> is the
+vorticity tensor <a class="reference internal" href="#equation-eq_tensor_omega">(3)</a>.</p>
+<p>The characteristic equation for <img class="math" src="_images/math/eeb7d854d71ddcc1537e1ece9017ae60ac703fc2.png" alt="\bar{D}"/> is given by <a class="reference internal" href="#equation-eq_characteristic_equation">(4)</a> :</p>
+<div class="math" id="equation-eq_characteristic_equation">
+<p><span class="eqno">(4)<a class="headerlink" href="#equation-eq_characteristic_equation" title="Permalink to this equation">¶</a></span><img src="_images/math/a3f2adb46197c15367a9a3b8db89e0020989f251.png" alt="\lambda^3 + P \lambda^2 + Q \lambda + R = 0"/></p>
+</div><p>where P <a class="reference internal" href="#equation-eq_P">(5)</a>, Q <a class="reference internal" href="#equation-eq_Q">(6)</a> and R <a class="reference internal" href="#equation-eq_R">(7)</a> are the three invariants of the velocity gradient tensor. Using
 the decomposition into symmetric and anti-symmetric parts, these invariants
 can be expressed as:</p>
-<div class="math">
-<p><img src="_images/math/8cf54edeb14d31849024a87a40d956a787b79109.png" alt="P = -tr(\bar{D})"/></p>
-</div><div class="math">
-<p><img src="_images/math/a69f36fb7823eb935addff55f9d59dab484298b1.png" alt="Q = \frac{1}{2} (tr(\bar{D})^2 -tr(\bar{D}^2)) = \frac{1}{2} (\|\Omega\|^2 -\|S\|^2)"/></p>
-</div><div class="math">
-<p><img src="_images/math/b98fddf0781eb412543cbd6b46a9343b0560d4a1.png" alt="R = -det(\bar{D})"/></p>
+<div class="math" id="equation-eq_P">
+<p><span class="eqno">(5)<a class="headerlink" href="#equation-eq_P" title="Permalink to this equation">¶</a></span><img src="_images/math/8cf54edeb14d31849024a87a40d956a787b79109.png" alt="P = -tr(\bar{D})"/></p>
+</div><div class="math" id="equation-eq_Q">
+<p><span class="eqno">(6)<a class="headerlink" href="#equation-eq_Q" title="Permalink to this equation">¶</a></span><img src="_images/math/a69f36fb7823eb935addff55f9d59dab484298b1.png" alt="Q = \frac{1}{2} (tr(\bar{D})^2 -tr(\bar{D}^2)) = \frac{1}{2} (\|\Omega\|^2 -\|S\|^2)"/></p>
+</div><div class="math" id="equation-eq_R">
+<p><span class="eqno">(7)<a class="headerlink" href="#equation-eq_R" title="Permalink to this equation">¶</a></span><img src="_images/math/b98fddf0781eb412543cbd6b46a9343b0560d4a1.png" alt="R = -det(\bar{D})"/></p>
 </div></div>
 <div class="section" id="q-criterion">
 <h2>Q criterion<a class="headerlink" href="#q-criterion" title="Permalink to this headline">¶</a></h2>
@@ -108,23 +108,24 @@ to the strain rate”.</p>
 <h2><img class="math" src="_images/math/4d26a3c646f81ab56cceb818c7801dd1f3cfaaf3.png" alt="\Delta"/> criterion<a class="headerlink" href="#criterion" title="Permalink to this headline">¶</a></h2>
 <p>Chong <em>et al</em> (1990) <a class="reference internal" href="#chong1990" id="id3">[CHONG1990]</a> define a vortex core to be the region where
 <img class="math" src="_images/math/eeb7d854d71ddcc1537e1ece9017ae60ac703fc2.png" alt="\bar{D}"/> has complex eigenvalues. In order to determine if the eigenvalues
-are complex, we examine the discriminant of the characteristic equation, considering
-the flow incompressible (P = 0).</p>
-<div class="math">
-<p><img src="_images/math/eca23fb19395340d7b4467a697d88862e05ae6b8.png" alt="\Delta = \left(\frac{Q}{3}\right)^3 + \left(\frac{R}{2}\right)^2 &gt; 0"/></p>
+are complex, we examine the discriminant of the characteristic equation <a class="reference internal" href="#equation-eq_delta_criterion">(8)</a>,
+considering the flow incompressible (P = 0).</p>
+<div class="math" id="equation-eq_delta_criterion">
+<p><span class="eqno">(8)<a class="headerlink" href="#equation-eq_delta_criterion" title="Permalink to this equation">¶</a></span><img src="_images/math/eca23fb19395340d7b4467a697d88862e05ae6b8.png" alt="\Delta = \left(\frac{Q}{3}\right)^3 + \left(\frac{R}{2}\right)^2 &gt; 0"/></p>
 </div></div>
 <div class="section" id="swirling-strength-criterion">
 <h2>Swirling strength criterion<a class="headerlink" href="#swirling-strength-criterion" title="Permalink to this headline">¶</a></h2>
-<p>The swirling strength criterion (<img class="math" src="_images/math/edf63edf19b49aa39ec3005de91eff83ef1bbbe5.png" alt="\lambda_{ci}"/>) was developed by Zhou
-<em>et al</em> (1999) <a class="reference internal" href="#zhou1999" id="id4">[ZHOU1999]</a>. It defines a vortex core to be the region where
+<p>The swirling strength criterion <img class="math" src="_images/math/edf63edf19b49aa39ec3005de91eff83ef1bbbe5.png" alt="\lambda_{ci}"/> <a class="reference internal" href="#equation-eq_lambda">(9)</a>
+was developed by Zhou <em>et al</em> (1999) <a class="reference internal" href="#zhou1999" id="id4">[ZHOU1999]</a>.
+It defines a vortex core to be the region where
 <img class="math" src="_images/math/eeb7d854d71ddcc1537e1ece9017ae60ac703fc2.png" alt="\bar{D}"/> has complex eigenvalues. It is based on the idea that the
 velocity gradient tensor in Cartesian coordinates can be decomposed as:</p>
-<div class="math">
-<p><img src="_images/math/0cd5cbcaf1f0b35ed0d20e07d7a7dc6902c05f89.png" alt="\bar{D} = [\bar{\nu_r} \bar{\nu_{cr}} \bar{\nu_{ci}}]^T
+<div class="math" id="equation-eq_lambda">
+<p><span class="eqno">(9)<a class="headerlink" href="#equation-eq_lambda" title="Permalink to this equation">¶</a></span><img src="_images/math/91154ea44770144e9d39196b6f28c54ea553188c.png" alt="\bar{D} = [\bar{\nu_r} \bar{\nu_{cr}} \bar{\nu_{ci}}]^T
 \left[\begin{array}{ccc}
 \lambda_r &amp; 0 &amp; 0 \\
-0 &amp; \lambda_{cr} &amp; \lambda{ci} \\
-0 &amp; -\lambda{ci} &amp; \lambda{cr} \end{array}\right]
+0 &amp; \lambda_{cr} &amp; \lambda_{ci} \\
+0 &amp; -\lambda_{ci} &amp; \lambda_{cr} \end{array}\right]
 [\bar{\nu_r} \bar{\nu_{cr}} \bar{\nu_{ci}}]^T"/></p>
 </div><p>where <img class="math" src="_images/math/af198cc9e8f5cd01bbefe2e68060d3fca18bd490.png" alt="\lambda_r"/> is the real eigenvalue, related to the eigenvector
 <img class="math" src="_images/math/b78394d00b424394921b457b7153b8af07fc939c.png" alt="\bar{\nu_r}"/>, and the complex conjugate pair of complex eigenvalues is
@@ -138,9 +139,9 @@ any value greater than zero should be considered a vortex. Experimental results
 <div class="section" id="localization-of-the-extrema">
 <h2>Localization of the extrema<a class="headerlink" href="#localization-of-the-extrema" title="Permalink to this headline">¶</a></h2>
 <p>To have smooth results on the swirling strength, we apply a normalization of the
-field. The swirling strength is divided by the wall-normal profile of its RMS value:</p>
-<div class="math">
-<p><img src="_images/math/a432f4bc897a07a74d2b2d20747b3d8b769d2de4.png" alt="\bar{\lambda}_{ci}(x_{1/3},x_2) = \frac{\lambda_{ci}(x_{1/3},x_2)}{\lambda_{ci,RMS}(x_2)}"/></p>
+field <a class="reference internal" href="#equation-eq_swirling_norm">(10)</a>. The swirling strength is divided by the wall-normal profile of its RMS value:</p>
+<div class="math" id="equation-eq_swirling_norm">
+<p><span class="eqno">(10)<a class="headerlink" href="#equation-eq_swirling_norm" title="Permalink to this equation">¶</a></span><img src="_images/math/a432f4bc897a07a74d2b2d20747b3d8b769d2de4.png" alt="\bar{\lambda}_{ci}(x_{1/3},x_2) = \frac{\lambda_{ci}(x_{1/3},x_2)}{\lambda_{ci,RMS}(x_2)}"/></p>
 </div><p>Then the local maxima of the detection can be identified. The normalization is
 not required for the HIT cases, it is only used when we have an non-homogeneous
 direction.</p>
@@ -185,33 +186,29 @@ vortex and its center. But even using a threshold on these methods, the presence
 of a real vortex is not always true. To improve this detection we use a Lamb-Oseen
 vortex model to be fitted on top of the actual detected peak to check if it is
 really a vortex.</p>
-<p>The correlation coefficient between the fitted model and the velocity field is calculated according to equation ref{eq:corr} and if it’s higher than 0.75 we can consider it a vortex.</p>
-<div class="math">
-<p><img src="_images/math/05e1e42015bc83ca93e9c4f6d1f6dd79e403ee73.png" alt="R(model/data) = \frac{\langle u_{model} \cdot u_{data} \rangle +
-                      \langle u_{model} \cdot u_{data} \rangle}
-                     {MAX(\langle u_{model} \cdot u_{model} +
-                           v_{model} \cdot v_{model}  \rangle,
-                          \langle u_{data} \cdot u_{data} +
-                           v_{data} \cdot v_{data}\rangle)}"/></p>
-</div></div>
+</div>
 <div class="section" id="lamb-oseen-vortex">
 <h2>Lamb-Oseen vortex<a class="headerlink" href="#lamb-oseen-vortex" title="Permalink to this headline">¶</a></h2>
 <p>The Lamb-Oseen vortex is a mathematical model for the flow velocity in the
-circumferential direction (<img class="math" src="_images/math/3be04d4207434584251f6921820c24ac9fa8c6f1.png" alt="\theta"/>), shown below. It
+circumferential direction (<img class="math" src="_images/math/984c8a8922eecd2d9e30bd84eb136b3faf36adb4.png" alt="\vec{e_\theta}"/>), shown below. It
 models a line vortex that decays due to viscosity.</p>
-<div class="math">
-<p><img src="_images/math/dc66df3fc466f497b4e9157c9943acdafb1aa717.png" alt="\label{eq:oseenDecay}
-\vec{u}_\theta(r,t) = \frac{\Gamma}{2\pi r} \left( 1 - \exp \left(
--\left(\frac{r}{r_0(t)}\right)^2\right)\right) \vec{e}_{\theta}"/></p>
+<div class="math" id="equation-eq_oseenDecay">
+<p><span class="eqno">(11)<a class="headerlink" href="#equation-eq_oseenDecay" title="Permalink to this equation">¶</a></span><img src="_images/math/65635b3694a7e7cb3de56ecb92d87afcff9487c3.png" alt="\vec{u}_\theta(r,t) = \frac{\Gamma}{2\pi r} \left[ 1 - \exp \left(
+-\left(\frac{r}{r_0(t)}\right)^2\right)\right] \vec{e}_{\theta}"/></p>
 </div><p>where <img class="math" src="_images/math/eaa6ad49a7f78fe5a13b486690163bf2dc7e3e60.png" alt="r"/> is the radius, <img class="math" src="_images/math/be9a07b2c8c9f23ba3ff5c67985ef3f26e1b427c.png" alt="r_0 = \sqrt{4 \nu t}"/> is the core radius of vortex,
 <img class="math" src="_images/math/ca3b8fa4180eee2dfc3af9d13fae1da451cd2c31.png" alt="\nu"/> is the viscosity and <img class="math" src="_images/math/d872993ed0c7c420e73e77a1d285ac100c516806.png" alt="\Gamma"/> is the circulation contained in the vortex.</p>
-<p>In this work we are dealing with a time-independent flow, so we have no decaying
-due to viscosity. And since the coherent structures are in movement, we add the
-advective velocity to the Lamb-Oseen vortex model shown below.</p>
-<div class="math">
-<p><img src="_images/math/3ada1e1ff7afb768184fbca182c019730ac0ec24.png" alt="\label{eq:oseen}
-\vec{u}(r,\theta) = \vec{u}_c + \frac{\Gamma}{2\pi r} \left( 1 - \exp \left(
--\left(\frac{r}{r_0}\right)^2\right)\right) \vec{e}_{\theta}"/></p>
+<p>Since the coherent structures are in movement, we add the
+advective velocity <img class="math" src="_images/math/57649815d515c2baa7b6fadfceed4067e439495f.png" alt="\vec{u_a}"/> to the Lamb-Oseen vortex model shown below.</p>
+<div class="math" id="equation-eq_oseen">
+<p><span class="eqno">(12)<a class="headerlink" href="#equation-eq_oseen" title="Permalink to this equation">¶</a></span><img src="_images/math/ef217602d7ecee6f4986e2eb1e547cc96f839808.png" alt="\vec{u}(r,\theta) = \vec{u}_a + \frac{\Gamma}{2\pi r} \left[ 1 - \exp \left(
+-\left(\frac{r}{r_0}\right)^2\right)\right] \vec{e}_{\theta}"/></p>
+</div><p>The correlation coefficient between the fitted model and the velocity field is calculated
+according to equation <a class="reference internal" href="#equation-eq_corr_ua">(13)</a> and if it’s higher than a chosen threshold
+(typically 0.75), we can consider it a vortex.</p>
+<div class="math" id="equation-eq_corr_ua">
+<p><span class="eqno">(13)<a class="headerlink" href="#equation-eq_corr_ua" title="Permalink to this equation">¶</a></span><img src="_images/math/d3e07657a7ee6e91d95a458406e8a776a55be4f6.png" alt="R(model/data) = \left( \frac{\langle (\vec{u}_{data}-\vec{u}_a).(\vec{u}_{model}
+-\vec{u}_a)\rangle }{\sqrt{\langle (\vec{u}_{data}-\vec{u}_a)^2\rangle}
+\sqrt{\langle (\vec{u}_{model}-\vec{u}_a)^2\rangle}} \right)^{1/2}"/></p>
 </div></div>
 <div class="section" id="non-linear-least-squares">
 <h2>Non-linear least squares<a class="headerlink" href="#non-linear-least-squares" title="Permalink to this headline">¶</a></h2>

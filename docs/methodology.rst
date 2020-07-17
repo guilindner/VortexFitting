@@ -10,11 +10,12 @@ Detection methods
 -----------------
 In this section, the detection methods implemented in the code for vortex
 identification are presented. These methods are based on the velocity gradient
-tensor, :math:`\overline{D}`, that can be written as:
+tensor, :math:`\overline{D}`, that can be written as :eq:`eq_tensor_D`
 
 
 .. math::
    D_{ij} = \frac{\partial u_i}{\partial x_j}
+   :label: eq_tensor_D
 
 As this is a second order tensor, it can be decomposed into a symmetric and
 anti-symmetric part, :math:`D_{ij} = S_{ij} + \Omega_{ij}` where:
@@ -22,32 +23,37 @@ anti-symmetric part, :math:`D_{ij} = S_{ij} + \Omega_{ij}` where:
 .. math::
    S_{ij} = \frac{1}{2} \left(\frac{\partial u_i}{\partial x_j} +
    \frac{\partial u_j}{\partial x_i}\right)
+   :label: eq_tensor_S
 
 .. math::
    \Omega_{ij} = \frac{1}{2} \left(\frac{\partial u_i}{\partial x_j} -
    \frac{\partial u_j}{\partial x_i}\right)
+   :label: eq_tensor_omega
 
-:math:`S_{ij}` is known as the rate-of-strain tensor and :math:`\Omega_{ij}` is the
-vorticity tensor.
+:math:`S_{ij}` is known as the rate-of-strain tensor :eq:`eq_tensor_S` and :math:`\Omega_{ij}` is the
+vorticity tensor :eq:`eq_tensor_omega`.
 
-The characteristic equation for :math:`\bar{D}` is given by
+The characteristic equation for :math:`\bar{D}` is given by :eq:`eq_characteristic_equation` :
 
 .. math::
    \lambda^3 + P \lambda^2 + Q \lambda + R = 0
+   :label: eq_characteristic_equation
 
-where P, Q and R are the three invariants of the velocity gradient tensor. Using
+where P :eq:`eq_P`, Q :eq:`eq_Q` and R :eq:`eq_R` are the three invariants of the velocity gradient tensor. Using
 the decomposition into symmetric and anti-symmetric parts, these invariants
 can be expressed as:
 
 .. math::
-   
    P = -tr(\bar{D})
+   :label: eq_P
 
 .. math::
    Q = \frac{1}{2} (tr(\bar{D})^2 -tr(\bar{D}^2)) = \frac{1}{2} (\|\Omega\|^2 -\|S\|^2)
+   :label: eq_Q
 
 .. math::
    R = -det(\bar{D})
+   :label: eq_R
 
 Q criterion
 -----------
@@ -66,18 +72,19 @@ In practical terms, the vortex is detected in case of the second invariant  :mat
 
 Chong *et al* (1990) [CHONG1990]_ define a vortex core to be the region where 
 :math:`\bar{D}` has complex eigenvalues. In order to determine if the eigenvalues
-are complex, we examine the discriminant of the characteristic equation, considering
-the flow incompressible (P = 0).
+are complex, we examine the discriminant of the characteristic equation :eq:`eq_delta_criterion`, 
+considering the flow incompressible (P = 0).
 
 .. math::
    \Delta = \left(\frac{Q}{3}\right)^3 + \left(\frac{R}{2}\right)^2 > 0
-
+   :label: eq_delta_criterion
 
 Swirling strength criterion
 ---------------------------
 
-The swirling strength criterion (:math:`\lambda_{ci}`) was developed by Zhou
-*et al* (1999) [ZHOU1999]_. It defines a vortex core to be the region where
+The swirling strength criterion :math:`\lambda_{ci}` :eq:`eq_lambda`
+was developed by Zhou *et al* (1999) [ZHOU1999]_. 
+It defines a vortex core to be the region where
 :math:`\bar{D}` has complex eigenvalues. It is based on the idea that the
 velocity gradient tensor in Cartesian coordinates can be decomposed as:
 
@@ -85,9 +92,10 @@ velocity gradient tensor in Cartesian coordinates can be decomposed as:
    \bar{D} = [\bar{\nu_r} \bar{\nu_{cr}} \bar{\nu_{ci}}]^T
    \left[\begin{array}{ccc}
    \lambda_r & 0 & 0 \\
-   0 & \lambda_{cr} & \lambda{ci} \\
-   0 & -\lambda{ci} & \lambda{cr} \end{array}\right]
+   0 & \lambda_{cr} & \lambda_{ci} \\
+   0 & -\lambda_{ci} & \lambda_{cr} \end{array}\right]
    [\bar{\nu_r} \bar{\nu_{cr}} \bar{\nu_{ci}}]^T
+   :label: eq_lambda
 
 where :math:`\lambda_r` is the real eigenvalue, related to the eigenvector
 :math:`\bar{\nu_r}`, and the complex conjugate pair of complex eigenvalues is
@@ -103,10 +111,11 @@ Localization of the extrema
 ---------------------------
 
 To have smooth results on the swirling strength, we apply a normalization of the
-field. The swirling strength is divided by the wall-normal profile of its RMS value:
+field :eq:`eq_swirling_norm`. The swirling strength is divided by the wall-normal profile of its RMS value:
 
 .. math::
    \bar{\lambda}_{ci}(x_{1/3},x_2) = \frac{\lambda_{ci}(x_{1/3},x_2)}{\lambda_{ci,RMS}(x_2)}
+   :label: eq_swirling_norm
 
 Then the local maxima of the detection can be identified. The normalization is
 not required for the HIT cases, it is only used when we have an non-homogeneous
@@ -170,43 +179,40 @@ of a real vortex is not always true. To improve this detection we use a Lamb-Ose
 vortex model to be fitted on top of the actual detected peak to check if it is
 really a vortex. 
 
-The correlation coefficient between the fitted model and the velocity field is calculated according to equation \ref{eq:corr} and if it's higher than 0.75 we can consider it a vortex.
-
-.. math::
-   R(model/data) = \frac{\langle u_{model} \cdot u_{data} \rangle +
-                         \langle u_{model} \cdot u_{data} \rangle}
-                        {MAX(\langle u_{model} \cdot u_{model} +
-                              v_{model} \cdot v_{model}  \rangle, 
-                             \langle u_{data} \cdot u_{data} +
-                              v_{data} \cdot v_{data}\rangle)}
-..   \label{eq:corr}
-   R(model/data) = \left( \frac{\langle (\vec{u}_{data}-\vec{u}_c).(\vec{u}_{model}
-   -\vec{u}_c)\rangle }{\sqrt{\langle (\vec{u}_{data}-\vec{u}_c)^2\rangle}
-   \sqrt{\langle (\vec{u}_{model}-\vec{u}_c)^2\rangle}} \right)^{1/2}
 
 Lamb-Oseen vortex
 -----------------
 
 The Lamb-Oseen vortex is a mathematical model for the flow velocity in the
-circumferential direction (:math:`\theta`), shown below. It
+circumferential direction (:math:`\vec{e_\theta}`), shown below. It
 models a line vortex that decays due to viscosity.
 
 .. math::
-   \label{eq:oseenDecay}
-   \vec{u}_\theta(r,t) = \frac{\Gamma}{2\pi r} \left( 1 - \exp \left(
-   -\left(\frac{r}{r_0(t)}\right)^2\right)\right) \vec{e}_{\theta}
+   \vec{u}_\theta(r,t) = \frac{\Gamma}{2\pi r} \left[ 1 - \exp \left(
+   -\left(\frac{r}{r_0(t)}\right)^2\right)\right] \vec{e}_{\theta}
+   :label: eq_oseenDecay
 
 where :math:`r` is the radius, :math:`r_0 = \sqrt{4 \nu t}` is the core radius of vortex,
 :math:`\nu` is the viscosity and :math:`\Gamma` is the circulation contained in the vortex. 
 
-In this work we are dealing with a time-independent flow, so we have no decaying
-due to viscosity. And since the coherent structures are in movement, we add the
-advective velocity to the Lamb-Oseen vortex model shown below.  
+Since the coherent structures are in movement, we add the
+advective velocity :math:`\vec{u_a}` to the Lamb-Oseen vortex model shown below.  
 
 .. math::
-   \label{eq:oseen}
-   \vec{u}(r,\theta) = \vec{u}_c + \frac{\Gamma}{2\pi r} \left( 1 - \exp \left(
-   -\left(\frac{r}{r_0}\right)^2\right)\right) \vec{e}_{\theta}
+   \vec{u}_\theta(r,t) = \vec{u}_a + \frac{\Gamma}{2\pi r} \left[ 1 - \exp \left(
+   -\left(\frac{r}{r_0}\right)^2\right)\right] \vec{e}_{\theta}
+   :label: eq_oseen
+
+The correlation coefficient between the fitted model and the velocity field is calculated 
+according to equation :eq:`eq_corr_ua` and if it's higher than a chosen threshold 
+(typically 0.75), we can consider it a vortex.
+
+
+.. math::
+   R(model/data) = \left( \frac{\langle (\vec{u}_{data}-\vec{u}_a).(\vec{u}_{model}
+   -\vec{u}_a)\rangle }{\sqrt{\langle (\vec{u}_{data}-\vec{u}_a)^2\rangle}
+   \sqrt{\langle (\vec{u}_{model}-\vec{u}_a)^2\rangle}} \right)^{1/2}
+   :label: eq_corr_ua
 
 Non-linear least squares
 ------------------------
@@ -223,6 +229,7 @@ arise especially in least squares curve fitting.
 
 .. math::
    \alpha_{kl} = \sum_{i=1}^N \frac{1}{\sigma_i^2} \left[ \frac{\partial y(x_i;a)}{\partial a_k} \frac{\partial y(x_i;a)}{\partial a_l} \right]
+
 
 Powell's dogleg method
 ``````````````````````
