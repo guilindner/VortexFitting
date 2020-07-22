@@ -153,6 +153,7 @@ It is done with the *-ft piv_tecplot* (*file type*) argument.
 
 .. image:: _images/PIV_accepted_10.svg
    :width: 40 %
+   :align: center
    :alt: detected vortices for an experimental case
 
 An average field can be subtracted, using *-mf* argument (*mean file*)
