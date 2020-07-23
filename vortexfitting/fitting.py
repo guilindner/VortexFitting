@@ -375,6 +375,11 @@ def fit(core_radius, gamma, x, y, x_real, y_real, u_data, v_data, u_advection, v
     :returns: fitted parameters (core_radius, gamma,xcenter,ycenter, u_advection, v_advection...)
     :rtype: list
     """
+    # Method for opt.least_squares fitting. Can be 
+    # 'trf': Trust Region Reflective algorithm
+    # 'dogbox': dogleg algorithm
+    # 'lm': Levenberg-Marquardt algorithm
+    method = 'trf' 
 
     x = x.ravel()
     y = y.ravel()
@@ -414,15 +419,30 @@ def fit(core_radius, gamma, x, y, x_real, y_real, u_data, v_data, u_advection, v
     else:
         m = 4.0
 
-    epsilon = 0.001
-    bnds = ([0, gamma - abs(gamma) * m / 2 - epsilon, x_real - m * dx - epsilon, y_real - m * dy - epsilon,
-             u_advection - abs(u_advection) - epsilon, v_advection - abs(v_advection) - epsilon],
-            [core_radius + core_radius * m, gamma + abs(gamma) * m / 2 + epsilon, x_real + m * dx + epsilon,
-             y_real + m * dy + epsilon, u_advection + abs(u_advection) + epsilon,
-             v_advection + abs(v_advection) + epsilon])
+    if method == 'trf':
+        epsilon = 0.001
+        bnds = ([0, gamma - abs(gamma) * m / 2 - epsilon, x_real - m * dx - epsilon, y_real - m * dy - epsilon,
+                 u_advection - abs(u_advection) - epsilon, v_advection - abs(v_advection) - epsilon],
+                [core_radius + core_radius * m, gamma + abs(gamma) * m / 2 + epsilon, x_real + m * dx + epsilon,
+                 y_real + m * dy + epsilon, u_advection + abs(u_advection) + epsilon,
+                 v_advection + abs(v_advection) + epsilon])
 
-    sol = opt.least_squares(lamb_oseen_model, [core_radius, gamma, x_real, y_real, u_advection, v_advection],
-                            method='trf', bounds=bnds)
+        sol = opt.least_squares(lamb_oseen_model, [core_radius, gamma, x_real, y_real, u_advection, v_advection],
+                                method='trf', bounds=bnds)
+    elif method == 'dogbox':
+        epsilon = 0.001
+        bnds = ([0, gamma - abs(gamma) * m / 2 - epsilon, x_real - m * dx - epsilon, y_real - m * dy - epsilon,
+                 u_advection - abs(u_advection) - epsilon, v_advection - abs(v_advection) - epsilon],
+                [core_radius + core_radius * m, gamma + abs(gamma) * m / 2 + epsilon, x_real + m * dx + epsilon,
+                 y_real + m * dy + epsilon, u_advection + abs(u_advection) + epsilon,
+                 v_advection + abs(v_advection) + epsilon])
+
+        sol = opt.least_squares(lamb_oseen_model, [core_radius, gamma, x_real, y_real, u_advection, v_advection],
+                                method='dogbox', bounds=bnds)
+    elif method == 'lm':
+        sol = opt.least_squares(lamb_oseen_model, [core_radius, gamma, x_real, y_real, u_advection, v_advection],
+                                method='lm', xtol = 10 * np.hypot(dx,dy) )
+
     return sol.x
 
 
