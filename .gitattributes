@@ -1,9 +1,1 @@
-docs/* linguist-documentation
-*.html linguist-vendored=false
-*.dat  linguist-vendored=false
-*.raw linguist-vendored=false
-*.nc linguist-vendored=false
-*.png linguist-vendored=false
-*.svg linguist-vendored=false
-*.pdf linguist-vendored=false
-
+*.* linguist-language=Python
