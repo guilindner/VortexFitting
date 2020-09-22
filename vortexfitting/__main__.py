@@ -1,23 +1,14 @@
 #!/usr/bin/env/ python3
-"""
-vortex detection tool, by Guilherme Lindner, 2017-04\n
-This program load data files from DNS simulations or PIV experiments, 
-with NetCDF, Tecplot or OpenFoam format.
-It detects the vortices and apply a fitting to them.
-"""
 
 import sys
 import os.path
 import argparse
-# import time
 
-sys.path.insert(1, './vortexfitting')
-
-import fitting  # noqa: E402
-import schemes  # noqa: E402
-import detection  # noqa: E402
-import output  # noqa: E402
-import classes  # noqa: E402
+from vortexfitting import fitting
+from vortexfitting import schemes
+from vortexfitting import detection
+from vortexfitting import output
+from vortexfitting import classes
 
 
 def main():
