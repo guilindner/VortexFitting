@@ -39,9 +39,8 @@ The characteristic equation for :math:`\bar{D}` is given by :eq:`eq_characterist
    \lambda^3 + P \lambda^2 + Q \lambda + R = 0
    :label: eq_characteristic_equation
 
-where P :eq:`eq_P`, Q :eq:`eq_Q` and R :eq:`eq_R` are the three invariants of the velocity gradient tensor. Using
-the decomposition into symmetric and anti-symmetric parts, these invariants
-can be expressed as:
+where P :eq:`eq_P`, Q :eq:`eq_Q` and R :eq:`eq_R` are the three invariants of the velocity gradient tensor. 
+Using the decomposition into symmetric and anti-symmetric parts, these invariants can be expressed as:
 
 .. math::
    P = -tr(\bar{D})
@@ -58,11 +57,11 @@ can be expressed as:
 Q criterion
 -----------
 
-The Q criterion proposed by Hunt *et al* (1988) [HUNT1988]_ identifies the vortices
-as flow regions with positive second invariant of $\bar{D}$. An additional
+The :math:`Q` criterion proposed by Hunt *et al* (1988) [HUNT1988]_ identifies the vortices
+as flow regions with positive second invariant of :math:`\bar{D}`. An additional
 condition is that the pressure in the eddy region should to be lower than the
 ambient pressure. Chakraborty *et al* (2005) [CHAKRA2005]_ quoted "in
-an incompressible flow Q is a local measure of the excess rotation rate relative
+an incompressible flow :math:`Q` is a local measure of the excess rotation rate relative
 to the strain rate".
 
 In practical terms, the vortex is detected in case of the second invariant  :math:`Q > 0`.
@@ -73,7 +72,7 @@ In practical terms, the vortex is detected in case of the second invariant  :mat
 Chong *et al* (1990) [CHONG1990]_ define a vortex core to be the region where 
 :math:`\bar{D}` has complex eigenvalues. In order to determine if the eigenvalues
 are complex, we examine the discriminant of the characteristic equation :eq:`eq_delta_criterion`, 
-considering the flow incompressible (P = 0).
+considering the flow incompressible (:math:`P = 0`).
 
 .. math::
    \Delta = \left(\frac{Q}{3}\right)^3 + \left(\frac{R}{2}\right)^2 > 0
