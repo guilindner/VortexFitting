@@ -11,8 +11,8 @@ else:
 if sys.version_info[0] < 3:
     raise Exception("Must be using Python 3")
 else:        
-	cwd = os.getcwd()
-	os.chdir(cwd + '/tests')    
+    cwd = os.getcwd()
+    os.chdir(cwd + '/tests')    
     cwd = os.getcwd()
     os.chdir(cwd + '/tests')
 
