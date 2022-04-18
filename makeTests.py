@@ -13,8 +13,6 @@ if sys.version_info[0] < 3:
 else:        
     cwd = os.getcwd()
     os.chdir(cwd + '/tests')    
-    cwd = os.getcwd()
-    os.chdir(cwd + '/tests')
 
     cmd = 'python3 test_fitting.py'
     os.system(cmd)
