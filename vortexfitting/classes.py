@@ -237,7 +237,7 @@ class VelocityField:
             except IOError:
                 sys.exit("\nReading error. Maybe a wrong file type?\n")
 
-            index_x, index_y, index_z, index_u, index_v, index_w = 0, 1, 2, 3, 4, 6
+            index_x, index_y, index_z, index_u, index_v, index_w = 0, 1, 2, 3, 4, 5
             dx_tmp = np.array(datafile_read[:, index_x])
             for i in range(1, dx_tmp.shape[0]):
                 if dx_tmp[i] == dx_tmp[0]:
