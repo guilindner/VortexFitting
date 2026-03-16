@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Schemes module &#8212; VortexFitting 2.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=cb9af8c9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pyramid.css?v=46fd03ae" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../_static/doctools.js?v=aa79a7b1"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Output module" href="vortexfitting.output.html" />
+    <link rel="prev" title="Fitting module" href="vortexfitting.fitting.html" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="vortexfitting.output.html" title="Output module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="vortexfitting.fitting.html" title="Fitting module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="vortexfitting.html" accesskey="U">Vortexfitting package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Schemes module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-vortexfitting.schemes">
+<span id="schemes-module"></span><h1>Schemes module<a class="headerlink" href="#module-vortexfitting.schemes" title="Link to this heading">¶</a></h1>
+<p>Difference schemes for the velocity derivatives (updated with SciPy convolutions).</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>new difference schemes should be added here</p>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="vortexfitting.schemes.fourth_order_diff">
+<span class="sig-prename descclassname"><span class="pre">vortexfitting.schemes.</span></span><span class="sig-name descname"><span class="pre">fourth_order_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vfield</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vortexfitting.classes.html#vortexfitting.classes.VelocityField" title="vortexfitting.classes.VelocityField"><span class="pre">VelocityField</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#vortexfitting.schemes.fourth_order_diff" title="Link to this definition">¶</a></dt>
+<dd><p>Fourth order accurate finite difference scheme using SciPy convolutions.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Kernel: [1, -8, 0, 8, -1] / (12 dx)</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Params vfield<span class="colon">:</span></dt>
+<dd class="field-odd"><p>2D array of the velocity field, containing u and v</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>derivative</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>2D array of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vortexfitting.schemes.least_square_diff">
+<span class="sig-prename descclassname"><span class="pre">vortexfitting.schemes.</span></span><span class="sig-name descname"><span class="pre">least_square_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vfield</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vortexfitting.classes.html#vortexfitting.classes.VelocityField" title="vortexfitting.classes.VelocityField"><span class="pre">VelocityField</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#vortexfitting.schemes.least_square_diff" title="Link to this definition">¶</a></dt>
+<dd><p>Least-square 5-point derivative scheme via SciPy convolution.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Kernel (Raffel 1998):    [-2, -1, 0, 1, 2] / (10 dx)</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Params vfield<span class="colon">:</span></dt>
+<dd class="field-odd"><p>2D array of the velocity field, containing u and v</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>derivative</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>2D array of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vortexfitting.schemes.second_order_diff">
+<span class="sig-prename descclassname"><span class="pre">vortexfitting.schemes.</span></span><span class="sig-name descname"><span class="pre">second_order_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vfield</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vortexfitting.classes.html#vortexfitting.classes.VelocityField" title="vortexfitting.classes.VelocityField"><span class="pre">VelocityField</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#vortexfitting.schemes.second_order_diff" title="Link to this definition">¶</a></dt>
+<dd><p>Second order accurate finite difference scheme using SciPy convolutions.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Kernel: [-1, 0, 1] / (2dx)</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Params vfield<span class="colon">:</span></dt>
+<dd class="field-odd"><p>2D array of the velocity field, containing u and v</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>derivative</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>2D array of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../methodology.html">Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../software_options.html">Software options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="vortexfitting.html">Vortexfitting package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="vortexfitting.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.classes.html">Classes module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.fitting.html">Fitting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.detection.html">Detection module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Schemes module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#vortexfitting.schemes.fourth_order_diff"><code class="docutils literal notranslate"><span class="pre">fourth_order_diff()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vortexfitting.schemes.least_square_diff"><code class="docutils literal notranslate"><span class="pre">least_square_diff()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vortexfitting.schemes.second_order_diff"><code class="docutils literal notranslate"><span class="pre">second_order_diff()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.output.html">Output module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.GUI.html">GUI module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.GUI_utils.html">GUI_utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.convertToASCII.html">ConvertToASCII module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.convertToNC.html">ConvertToNC module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.generateNetCDF.html">GenerateNetCDF module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html#articles">Articles</a></li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="vortexfitting.output.html" title="Output module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="vortexfitting.fitting.html" title="Fitting module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="vortexfitting.html" >Vortexfitting package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Schemes module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2020, Guilherme Lindner.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Classes module &#8212; VortexFitting 2.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=cb9af8c9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pyramid.css?v=46fd03ae" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../_static/doctools.js?v=aa79a7b1"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Detection module" href="vortexfitting.detection.html" />
+    <link rel="prev" title="GUI_utils module" href="vortexfitting.GUI_utils.html" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="vortexfitting.detection.html" title="Detection module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="vortexfitting.GUI_utils.html" title="GUI_utils module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="vortexfitting.html" accesskey="U">Vortexfitting package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Classes module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-vortexfitting.classes">
+<span id="classes-module"></span><h1>Classes module<a class="headerlink" href="#module-vortexfitting.classes" title="Link to this heading">¶</a></h1>
+<p>class VelocityField</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>new file type reader should be added here</p>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="vortexfitting.classes.VelocityField">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">vortexfitting.classes.</span></span><span class="sig-name descname"><span class="pre">VelocityField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.classes.VelocityField" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Data file</p>
+<p>Loads the input file with the NetCFD (.nc)
+format, a Tecplot format (.dat) or a raw / dat file;
+initialize the variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>str</em>) – file path</p></li>
+<li><p><strong>time_step</strong> (<em>int</em>) – current time step</p></li>
+<li><p><strong>mean_file_path</strong> (<em>str</em>) – in case of a mean field subtraction</p></li>
+<li><p><strong>file_type</strong> (<em>str</em>) – ‘PIV NetCDF (.nc)’, ‘DNS (.nc), ‘PIV Tecplot (.dat)’, ‘OpenFOAM (.raw)’, ‘HDF5 (.h5)’</p></li>
+<li><p><strong>self.x_coordinate_matrix</strong> (<em>ndarray</em>) – spatial mesh</p></li>
+<li><p><strong>self.y_coordinate_matrix</strong> (<em>ndarray</em>) – spatial mesh</p></li>
+<li><p><strong>self.z_coordinate_matrix</strong> (<em>ndarray</em>) – spatial mesh, optional</p></li>
+<li><p><strong>self.u_velocity_matrix</strong> (<em>ndarray</em>) – 1st component velocity field</p></li>
+<li><p><strong>self.v_velocity_matrix</strong> (<em>ndarray</em>) – 2nd component velocity field</p></li>
+<li><p><strong>self.w_velocity_matrix</strong> (<em>ndarray</em>) – 3rd component velocity field, optional</p></li>
+<li><p><strong>self.detection_field</strong> (<em>ndarray</em>) – ndarray</p></li>
+<li><p><strong>self.normalization_flag</strong> (<em>boolean</em>) – for normalization of the swirling field</p></li>
+<li><p><strong>self.normalization_direction</strong> (<em>str</em>) – ‘None’, ‘x’ or ‘y’</p></li>
+<li><p><strong>self.x_coordinate_step</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</p></li>
+<li><p><strong>self.y_coordinate_step</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</p></li>
+<li><p><strong>self.z_coordinate_step</strong> (<em>float</em>) – for homogeneous mesh, provides a unique step</p></li>
+<li><p><strong>self.derivative</strong> (<em>dict</em>) – contains ‘dudx’, ‘dudy’, ‘dvdx’, ‘dvdy’.
+Can be extended to the 3rd dimension</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>vfield, an instance of the VelocityField class</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>class VelocityField</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../methodology.html">Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../software_options.html">Software options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="vortexfitting.html">Vortexfitting package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="vortexfitting.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Classes module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#vortexfitting.classes.VelocityField"><code class="docutils literal notranslate"><span class="pre">VelocityField</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.fitting.html">Fitting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.detection.html">Detection module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.schemes.html">Schemes module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.output.html">Output module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.GUI.html">GUI module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.GUI_utils.html">GUI_utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.convertToASCII.html">ConvertToASCII module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.convertToNC.html">ConvertToNC module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.generateNetCDF.html">GenerateNetCDF module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html#articles">Articles</a></li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="vortexfitting.detection.html" title="Detection module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="vortexfitting.GUI_utils.html" title="GUI_utils module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="vortexfitting.html" >Vortexfitting package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Classes module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2020, Guilherme Lindner.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

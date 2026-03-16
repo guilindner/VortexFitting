@@ -8,7 +8,8 @@ Vortex Fitting Documentation
 
 This tools allows the detection and fitting of vortices in a turbulent flow.
 
-It uses data from DNS or PIV using several formats (netCDF4, TecPlot, OpenFoam ...).
+It uses data from numerical studies or experimental results,
+using several formats (netCDF4, TecPlot, OpenFoam, HDF5 ...).
 
 The code is hosted at https://github.com/guilindner/VortexFitting
 
@@ -24,7 +25,20 @@ The code is hosted at https://github.com/guilindner/VortexFitting
    installation
    software_options
    examples
-   modules/modules
+   
+   modules/vortexfitting
+   modules/vortexfitting.classes
+   modules/vortexfitting.fitting
+   modules/vortexfitting.detection
+   modules/vortexfitting.schemes
+   modules/vortexfitting.output
+   modules/vortexfitting.GUI
+   modules/vortexfitting.GUI_utils
+   modules/vortexfitting.convertToASCII
+   modules/vortexfitting.convertToNC
+   modules/vortexfitting.generateNetCDF
+
+
    contributors
 
 Indices and tables

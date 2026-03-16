@@ -191,3 +191,46 @@ with :math:`dx` and :math:`dy` the spatial resolution.
 .. image:: _images/openfoam.png
    :width: 45 %
    :alt: detected vortex for an openfoam simulation of an isolated columnar vortex
+   
+   
+Huge dataset - HDF5 file
+------------------------
+
+Experimental datasets from [TOWNE2023]_ are used to evaluate the capacity of VortexFitting to read huge files, 
+
+especially, the turbulent boundary layer and transverse gust experimental results.
+
+For example, the gust experiment dataset provided by [TOWNE2023]_ is about 11.4 Go.
+
+Detection is performed with a specific timestep (here t = 5): 283 vortices are detected. 
+
+Tests are run on a Windows computer, with 64 Go of RAM and 32 available cores.
+
+Parameters are: 
+
+* swirling and least-square filter methods
+
+* a Lamb-Oseen model
+
+* a boxsize of 6, a detection threshold of 0.01 and a correlation threshold of 0.5
+
+The effect of parallelization is provided in the following table:
+
+
++----------------+--------+--------+-------+-------+--------+
+|Number of cores | 1      | 2      | 4     | 8     | 16     |
++================+========+========+=======+=======+========+
+|Elapsed time    | 43.018 | 15.709 | 9.475 | 7.262 | 20.885 |
++----------------+--------+--------+-------+-------+--------+ 
+|Gain (%)        | 0%	  | 63.42% |77.93% | 83.09%| 51.49% |
++----------------+--------+--------+-------+-------+--------+
+
+
+
+References
+----------
+
+.. [TOWNE2023] Towne, A., Dawson, S. T., Brès, G. A., Lozano-Durán, A., Saxton-Fox, T., Pet al. (2023). 
+   *A database for reduced-complexity modeling of fluid flows.*
+   AIAA journal, 61(7), 2867-2892.
+   

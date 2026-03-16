@@ -13,6 +13,11 @@ if is_windows:
         if os.path.isfile(file):
             print(file)
             shutil.copy2(file, './')
+    files = glob.iglob(os.path.join('./_build/html/modules', "*.html"))
+    for file in files:
+        if os.path.isfile(file):
+            print(file)
+            shutil.copy2(file, './modules')
 else:
     print("Running on Linux ...")
     cmd='make html && cp -R _build/html/* .'

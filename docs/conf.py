@@ -12,7 +12,13 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../vortexfitting'))
+
+ROOT = os.path.abspath('..')                  # racine (celle qui contient le dossier 'vortexfitting')
+PKG  = os.path.join(ROOT, 'vortexfitting')    # dossier du package (celui qui contient classes.py, fitting.py, ...)
+
+# On met les deux au tout début du sys.path
+sys.path[:0] = [ROOT, PKG]
+
 
 # -- Project information -----------------------------------------------------
 
@@ -21,7 +27,7 @@ copyright = '2020, Guilherme Lindner'
 author = 'Guilherme Lindner \\ Yann Devaux'
 
 # The full version, including alpha/beta/rc tags
-release = '1'
+release = '2.0.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -31,9 +37,9 @@ release = '1'
 # ones.
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.todo',
-              'sphinx.ext.imgmath',
+              'sphinx.ext.mathjax',
               'sphinx.ext.graphviz']
-
+mathjax_path = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -65,6 +71,25 @@ html_sidebars = {'**': ['globaltoc.html','searchbox.html']}
 html_static_path = ['_static']
 
 numfig = True
+
+
+# Pour éviter que __all__ ne masque des fonctions
+autodoc_default_options = {
+    'members': True,
+    'undoc-members': True,
+    'show-inheritance': True,
+    'ignore-module-all': True,
+}
+
+
+autodoc_mock_imports = [
+    "wx",
+    "netCDF4",
+    "scipy",
+    "matplotlib",
+    "matplotlib.backends",
+    "matplotlib.backends.backend_agg",
+]
 
 
 

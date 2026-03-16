@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>GenerateNetCDF module &#8212; VortexFitting 2.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=cb9af8c9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pyramid.css?v=46fd03ae" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../_static/doctools.js?v=aa79a7b1"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contributors" href="../contributors.html" />
+    <link rel="prev" title="ConvertToNC module" href="vortexfitting.convertToNC.html" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../contributors.html" title="Contributors"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="vortexfitting.convertToNC.html" title="ConvertToNC module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="vortexfitting.html" accesskey="U">Vortexfitting package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">GenerateNetCDF module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-vortexfitting.generateNetCDF">
+<span id="generatenetcdf-module"></span><h1>GenerateNetCDF module<a class="headerlink" href="#module-vortexfitting.generateNetCDF" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="vortexfitting.generateNetCDF.generateNetCDF">
+<span class="sig-prename descclassname"><span class="pre">vortexfitting.generateNetCDF.</span></span><span class="sig-name descname"><span class="pre">generateNetCDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outfile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ndim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">core_radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_advection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_advection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uz0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theoretical_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#vortexfitting.generateNetCDF.generateNetCDF" title="Link to this definition">¶</a></dt>
+<dd><p>Produce a NetCDF file with a theoretical model of a vortex</p>
+<p>Args:
+:param outfile: path for the out file
+:param ndim: grid size
+:param core_radius: vortex radius
+:param gamma: vortex circulation
+:param x_center: x coordinate of the vortex center
+:param y_center: y coordinate of the vortex center
+:param u_advection: u component for advection velocity
+:param v_advection: v component for advection velocity
+:param uz0: vertical velocity
+:param theoretical_model: chosen model, could be Rankine, Lamb-Oseen or Batchelor
+:type outfile: str
+:type ndim: int
+:type core_radius: float
+:type gamma: float
+:type x_center: float
+:type y_center: float
+:type u_advection: float
+:type v_advection: float
+:type uz0: float
+:type theoretical_model: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>file</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>NetCDF file</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../methodology.html">Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../software_options.html">Software options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="vortexfitting.html">Vortexfitting package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="vortexfitting.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.classes.html">Classes module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.fitting.html">Fitting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.detection.html">Detection module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.schemes.html">Schemes module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.output.html">Output module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.GUI.html">GUI module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.GUI_utils.html">GUI_utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.convertToASCII.html">ConvertToASCII module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.convertToNC.html">ConvertToNC module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">GenerateNetCDF module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#vortexfitting.generateNetCDF.generateNetCDF"><code class="docutils literal notranslate"><span class="pre">generateNetCDF()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html#articles">Articles</a></li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../contributors.html" title="Contributors"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="vortexfitting.convertToNC.html" title="ConvertToNC module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="vortexfitting.html" >Vortexfitting package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">GenerateNetCDF module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2020, Guilherme Lindner.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

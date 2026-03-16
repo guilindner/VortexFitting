@@ -1,26 +1,17 @@
+<!DOCTYPE html>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" data-content_root="./">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Installation &#8212; VortexFitting 1 documentation</title>
-    <link rel="stylesheet" href="_static/pyramid.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Installation &#8212; VortexFitting 2.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=cb9af8c9" />
+    <link rel="stylesheet" type="text/css" href="_static/pyramid.css?v=46fd03ae" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <script src="_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="_static/doctools.js?v=aa79a7b1"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Software options" href="software_options.html" />
@@ -31,10 +22,9 @@
 <link rel="stylesheet" href="_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
 <![endif]-->
 
-  </head>
-  <body>
+  </head><body>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -49,7 +39,8 @@
         <li class="right" >
           <a href="methodology.html" title="Methodology"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">VortexFitting 1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">VortexFitting 2.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Installation</a></li> 
       </ul>
     </div>  
 
@@ -58,49 +49,51 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h1>
 <p>The VortexFitting code works only on  <strong>Python 3.6</strong> and superior.
 The following packages are used:</p>
 <ul class="simple">
-<li>NumPy</li>
-<li>SciPy</li>
-<li>Matplotlib</li>
-<li>netCDF4</li>
+<li><p>NumPy</p></li>
+<li><p>SciPy</p></li>
+<li><p>Matplotlib</p></li>
+<li><p>netCDF4</p></li>
+<li><p>wxPython (for Graphical interface)</p></li>
 </ul>
-<div class="section" id="using-pip">
-<h2>Using PIP<a class="headerlink" href="#using-pip" title="Permalink to this headline">¶</a></h2>
+<section id="using-pip">
+<h2>Using PIP<a class="headerlink" href="#using-pip" title="Link to this heading">¶</a></h2>
 <p>We recommend creating a new virtual environment for your projects</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 -m venv NAME
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>NAME
 
-$ <span class="nb">source</span> NAME/bin/activate
+$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>NAME/bin/activate
 
-$ pip install vortexfitting
+$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>vortexfitting
 </pre></div>
 </div>
 <p>Simply run “pip install vortexfitting”</p>
-</div>
-<div class="section" id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">¶</a></h2>
 <p>In order to generate the documentation you need the <strong>sphinx</strong> package.</p>
 <p>To perform changes on the documentation, you should modify directly the <em>.rst</em>
 files, located in the <em>docs</em> folder. After modifying the desired files, run the
 script <em>update_docs.py</em> (for Linux and Windows):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python update_docs.py
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>update_docs.py
 </pre></div>
 </div>
 <p>After this, the html files will be generated in the same folder.</p>
-</div>
-</div>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-<h3><a href="index.html">Table Of Contents</a></h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<h3><a href="index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="methodology.html">Methodology</a></li>
@@ -111,26 +104,26 @@ script <em>update_docs.py</em> (for Linux and Windows):</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="software_options.html">Software options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.html">vortexfitting package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html#articles">Articles</a></li>
 </ul>
 
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
     </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -145,12 +138,13 @@ script <em>update_docs.py</em> (for Linux and Windows):</p>
         <li class="right" >
           <a href="methodology.html" title="Methodology"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">VortexFitting 1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">VortexFitting 2.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Installation</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2020, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    &#169; Copyright 2020, Guilherme Lindner.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     </div>
   </body>
 </html>

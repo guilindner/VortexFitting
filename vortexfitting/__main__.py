@@ -3,6 +3,7 @@
 import sys
 import os.path
 import argparse
+import numpy as np
 
 from vortexfitting import fitting
 from vortexfitting import schemes
@@ -24,11 +25,11 @@ def main():
                         help='To specify an output directory', metavar='DIRECTORY')
 
     parser.add_argument('-s', '--scheme', dest='scheme',
-                        default=22, type=int,
+                        default="Least-square", type=str,
                         help='Scheme for differencing\n'
-                             '2 = second order \n'
-                             '22 = least-square filter (default)\n'
-                             '4 = fourth order')
+                             'Second-order \n'
+                             'Least-square (default)\n'
+                             'Fourth-order')
 
     parser.add_argument('-d', '--detect', dest='detection_method',
                         default='swirling', type=str,
@@ -82,6 +83,11 @@ def main():
                         default=10, type=float,
                         help='Initial guess on the vortex radius (default: 10)')
 
+    parser.add_argument('-m', '--model', dest='theoretical_model',
+                        default='lamb-oseen', type=str,
+                        help='Theoretical model for the vortex.\n'
+                              'Could be Rankine, Lamb-Oseen or Batchelor (defaut: Lamb-Oseen)')    
+                        
     parser.add_argument('-ft', '--filetype', dest='file_type',
                         default='dns', type=str,
                         help='Type of the file (default: dns)\n'
@@ -98,7 +104,10 @@ def main():
     parser.add_argument('-of', '--outputformat', dest='output_format',
                         default='png', type=str,
                         help='Format of the output file (default: png).\n'
-                             'Can be png, pdf, jpg ...')
+                             'Can be png, pdf, jpg ...')                         
+    parser.add_argument('-nc', '--corenumber', dest='core_number',
+                        default='1', type=int,
+                        help='For parallelization')   
     #    parser.add_argument('-v', '--verbose', dest='verbose',
     #                        default=False, type=bool,
     #                        help='Displays info or hides it. (default: True) ')
@@ -122,27 +131,23 @@ def main():
             print('Opening mean field: ', args.mean_filename)
 
         vfield = classes.VelocityField(args.input_filename, time_step, args.mean_filename, args.file_type)
-
         # ---- DIFFERENCE APPROXIMATION ----#
-        # lap = time.time()
-        if args.scheme == 4:
+        if args.scheme == "Fourth-order":
             vfield.derivative = schemes.fourth_order_diff(vfield)
-        elif args.scheme == 2:
+        elif args.scheme == "Second-order":
             vfield.derivative = schemes.second_order_diff(vfield)
-        elif args.scheme == 22:
+        elif args.scheme == "Least-square":
             vfield.derivative = schemes.least_square_diff(vfield)
         else:
             print('No scheme', args.scheme, 'found. Exiting!')
             sys.exit()
-        # print(round(time.time() - lap,3), 'seconds')
 
         # ---- VORTICITY ----#
 
         vorticity = vfield.derivative['dvdx'] - vfield.derivative['dudy']
 
         # ---- METHOD FOR DETECTION OF VORTICES ----#
-        # lap = time.time()
-
+    
         detection_field = []
         if args.detection_method == 'Q':
             detection_field = detection.calc_q_criterion(vfield)
@@ -150,8 +155,6 @@ def main():
             detection_field = detection.calc_swirling(vfield)
         elif args.detection_method == 'delta':
             detection_field = detection.calc_delta_criterion(vfield)
-
-        # print(round(time.time() - lap,3), 'seconds')
 
         if vfield.normalization_flag:
             print('Normalization for ', vfield.normalization_direction, ' direction')
@@ -169,18 +172,19 @@ def main():
         # ---- MODEL FITTING ----#
         vortices = list()
         if (args.plot_method == 'fit') and (args.xy_location == [0, 0]):
-            vortices = fitting.get_vortices(vfield, peaks, vorticity, args.rmax, args.correlation_threshold)
+            print('Theoretical model: ', args.theoretical_model)
+            vortices = fitting.get_vortices(vfield, peaks, vorticity, args.rmax, args.correlation_threshold, args.theoretical_model, args.core_number)
             print('---- Accepted vortices ----')
             print(len(vortices))
-        else:
-            print('No fitting')
+            #print('No fitting')
 
         # ---- PLOTTING OPTIONS ----#
         if args.xy_location != [0, 0]:
             x_location = int(args.xy_location[0])
             y_location = int(args.xy_location[1])
+            detection_field = np.asarray(detection_field)
             detection_field_window = detection_field[y_location - 10:y_location + 10, x_location - 10:x_location + 10]
-            x_index, y_index, u_data, v_data = fitting.window(vfield, x_location, y_location, 10)
+            x_index, y_index, u_data, v_data = fitting.window(vfield, x_location, y_location, 10, args.theoretical_model)
             fitting.plot_quiver(x_index, y_index, u_data, v_data, detection_field_window)
         if args.plot_method == 'detect':
             fitting.plot_detect(vortices_counterclockwise, vortices_clockwise, detection_field, args.flip_axis)
@@ -191,7 +195,7 @@ def main():
             output.create(args.output_directory, args)
             fitting.plot_accepted(vfield, vortices, detection_field, args.output_directory, time_step,
                                   args.output_format)
-            fitting.plot_vortex(vfield, vortices, args.output_directory, time_step, args.output_format)
+            fitting.plot_vortex(vfield, vortices, args.output_directory, time_step, args.output_format, args.theoretical_model)
             output.write(vortices, args.output_directory, time_step)
             # output.write_field(args.output_directory+'/detection_field.dat', args.detection_method,
             #                    vfield,detection_field)

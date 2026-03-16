@@ -1,6 +1,8 @@
 import os
 import sys
 
+PYTHON=sys.executable
+
 is_windows = sys.platform.startswith('win')
 
 if is_windows:
@@ -11,30 +13,52 @@ else:
 if sys.version_info[0] < 3:
     raise Exception("Must be using Python 3")
 else:
-    cmd = 'python3 run.py -i data/example_Ub_planeZ_0.01.raw ' \
+    cmd = f'{PYTHON} run.py -i data/generated_rankine.nc -ft dns -o results/rankine -m rankine -t 0.15 -s Fourth-order -nc 2'
+    os.system(cmd)
+
+    cmd = f'{PYTHON} run.py -i data/generated_rankine.nc -ft dns -o results/rankine -m rankine -t 0.15 -s Second-order'
+    os.system(cmd)
+
+    cmd = f'{PYTHON} run.py -i data/generated_rankine.nc -ft dns -o results/rankine -m rankine -t 0.15 -s Least-square'
+    os.system(cmd)
+
+    cmd = f'{PYTHON} run.py -i data/generated_lamb-oseen.nc -ft dns -o results/lamb-oseen -m lamb-oseen -t 0.15'
+    os.system(cmd)
+
+    cmd = f'{PYTHON} run.py -i data/generated_batchelor.nc -ft dns -o results/batchelor -m batchelor -t 0.15'
+    os.system(cmd)
+
+    cmd = f'{PYTHON} run.py -i data/example_vel_{{:06d}}.dat ' \
+          '-ft piv_tecplot -o results/example_temporal_series -mf data/example_mean.dat \
+          -first 5 -last 6 -t 20 -ct 0.5'
+    os.system(cmd)
+
+    cmd = f'{PYTHON} run.py -i data/example_Ub_planeZ_0.01.raw ' \
           '-ft openfoam -o results/example_openfoam -rmax 0'
     os.system(cmd)
 
-    cmd = 'python3 run.py -i data/example_Ub_planeZ_0.01.raw ' \
+    cmd = f'{PYTHON} run.py -i data/example_Ub_planeZ_0.01.raw ' \
           '-ft openfoam -xy 20 50 -p detect'
     os.system(cmd)
 
-    cmd = 'python3 run.py -i data/example_adim_vel_{:06d}.dat ' \
+    cmd = f'{PYTHON} run.py -i data/example_adim_vel_{{:06d}}.dat ' \
           '-ft piv_tecplot -o results/example_adim_vel_000010 -first 10 -t 5 -b 20'
     os.system(cmd)
 
-    cmd = 'python3 run.py -i data/example_data_HIT.nc ' \
+    cmd = f'{PYTHON} run.py -i data/example_data_HIT.nc ' \
           '-ft dns -o results/example_data_HIT '
     os.system(cmd)
 
-    cmd = 'python3 run.py -i data/example_data_numerical_PIV.nc ' \
+    cmd = f'{PYTHON} run.py -i data/example_data_numerical_PIV.nc ' \
           '-ft piv_netcdf -o results/example_data_numerical_PIV -t 1.5 -rmax 0'
     os.system(cmd)
 
-    cmd = 'python3 run.py -i data/example_dim_vel_{:06d}.dat ' \
-          '-ft piv_tecplot -o results/example_dim_vel_000010 -first 10 -mf data/example_mean.dat -t 50 -ct 0.5 -b 15'
+    cmd = f'{PYTHON} run.py -i data/example_dim_vel_{{:06d}}.dat ' \
+          '-ft piv_tecplot -o results/example_dim_vel_000010 -first 10 \
+          -mf data/example_mean.dat -t 50 -ct 0.5 -b 15'
     os.system(cmd)
 
-    cmd = 'python3 run.py -i data/example_vel_{:06d}.dat ' \
-          '-ft piv_tecplot -o results/example_temporal_series -mf data/example_mean.dat -first 5 -last 6 -t 20 -ct 0.5'
+    cmd = f'{PYTHON} run.py -i data/example_vel_{{:06d}}.dat ' \
+          '-ft piv_tecplot -o results/example_temporal_series -mf data/example_mean.dat \
+          -first 5 -last 6 -t 20 -ct 0.5'
     os.system(cmd)

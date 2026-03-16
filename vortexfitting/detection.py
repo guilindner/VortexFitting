@@ -1,12 +1,16 @@
 #!/usr/bin/env/ python3
 """
-Different methods for vortex detection
+Different methods for vortex detection.
+Currently, supported methods are: Swirling strenght, Q criterion, Delta criterion
+
+.. tip:: new detection methods should be added here
 """
 
 import numpy as np
+from classes import VelocityField
 
 
-def calc_swirling(vfield):
+def calc_swirling(vfield: VelocityField) -> np.ndarray:
     """
     2D Swirling strength
 
@@ -26,6 +30,7 @@ def calc_swirling(vfield):
           -vfield.derivative['dudx'].ravel() - vfield.derivative['dvdy'].ravel()]])
 
     matrix_a = matrix_a.transpose((2, 1, 0))
+    matrix_a = np.nan_to_num(matrix_a)
     eigenvalues = np.linalg.eigvals(matrix_a)
     swirling = np.max(eigenvalues.imag, axis=1).reshape(vfield.u_velocity_matrix[:, 0].size,
                                                         vfield.u_velocity_matrix[0, :].size)
@@ -33,7 +38,7 @@ def calc_swirling(vfield):
     return swirling
 
 
-def calc_q_criterion(vfield):
+def calc_q_criterion(vfield: VelocityField) -> np.ndarray:
     """
     Q Criterion
     vorticity magnitude and mean strain rate
@@ -52,7 +57,7 @@ def calc_q_criterion(vfield):
     return q_matrix
 
 
-def calc_delta_criterion(vfield):
+def calc_delta_criterion(vfield: VelocityField) -> np.ndarray:
     """
     Delta Criterion
 

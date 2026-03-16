@@ -1,26 +1,18 @@
+<!DOCTYPE html>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" data-content_root="./">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Vortex Fitting Documentation &#8212; VortexFitting 1 documentation</title>
-    <link rel="stylesheet" href="_static/pyramid.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Vortex Fitting Documentation &#8212; VortexFitting 2.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=cb9af8c9" />
+    <link rel="stylesheet" type="text/css" href="_static/pyramid.css?v=46fd03ae" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <script src="_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="_static/doctools.js?v=aa79a7b1"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Introduction" href="introduction.html" />
@@ -30,10 +22,9 @@
 <link rel="stylesheet" href="_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
 <![endif]-->
 
-  </head>
-  <body>
+  </head><body>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -45,7 +36,8 @@
         <li class="right" >
           <a href="introduction.html" title="Introduction"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">VortexFitting 1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">VortexFitting 2.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Vortex Fitting Documentation</a></li> 
       </ul>
     </div>  
 
@@ -54,27 +46,27 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="vortex-fitting-documentation">
-<h1>Vortex Fitting Documentation<a class="headerlink" href="#vortex-fitting-documentation" title="Permalink to this headline">¶</a></h1>
+  <section id="vortex-fitting-documentation">
+<h1>Vortex Fitting Documentation<a class="headerlink" href="#vortex-fitting-documentation" title="Link to this heading">¶</a></h1>
 <p>This tools allows the detection and fitting of vortices in a turbulent flow.</p>
-<p>It uses data from DNS or PIV using several formats (netCDF4, TecPlot, OpenFoam …).</p>
+<p>It uses data from numerical studies or experimental results,
+using several formats (netCDF4, TecPlot, OpenFoam, HDF5 …).</p>
 <p>The code is hosted at <a class="reference external" href="https://github.com/guilindner/VortexFitting">https://github.com/guilindner/VortexFitting</a></p>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">This software is still under development</p>
+<p class="admonition-title">Warning</p>
+<p>This software is still under development</p>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="methodology.html">Methodology</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="methodology.html#detection-methods">Detection methods</a></li>
 <li class="toctree-l2"><a class="reference internal" href="methodology.html#q-criterion">Q criterion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="methodology.html#criterion"><img class="math" src="_images/math/4d26a3c646f81ab56cceb818c7801dd1f3cfaaf3.png" alt="\Delta"/> criterion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="methodology.html#delta-criterion"><span class="math notranslate nohighlight">\(\Delta\)</span> criterion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="methodology.html#swirling-strength-criterion">Swirling strength criterion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="methodology.html#localization-of-the-extrema">Localization of the extrema</a></li>
 <li class="toctree-l2"><a class="reference internal" href="methodology.html#fitting-of-coherent-structures">Fitting of coherent structures</a></li>
-<li class="toctree-l2"><a class="reference internal" href="methodology.html#lamb-oseen-vortex">Lamb-Oseen vortex</a></li>
 <li class="toctree-l2"><a class="reference internal" href="methodology.html#non-linear-least-squares">Non-linear least squares</a></li>
 <li class="toctree-l2"><a class="reference internal" href="methodology.html#validation">Validation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="methodology.html#references">References</a></li>
@@ -86,9 +78,11 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="software_options.html">Software options</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="software_options.html#graphical-user-interface-gui">Graphical User Interface (GUI)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="software_options.html#how-to-use-the-code-detection-and-fitting-options">How to use the code / detection and fitting options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="software_options.html#generating-a-custom-vortex">Generating a custom Vortex</a></li>
 <li class="toctree-l2"><a class="reference internal" href="software_options.html#converting-netcdf-to-ascii-and-vice-versa">Converting NetCDF to ASCII (and vice-versa)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="software_options.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a><ul>
@@ -96,64 +90,143 @@
 <li class="toctree-l2"><a class="reference internal" href="examples.html#piv-case-netcdf-file">PIV case - NetCDF file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#piv-case-tecplot-file">PIV case - Tecplot file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#numerical-case-openfoam-file">Numerical case - OpenFOAM file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#huge-dataset-hdf5-file">Huge dataset - HDF5 file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#references">References</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Modules</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="modules/classes.html">classes.py</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules/detection.html">detection.py</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules/fitting.html">fitting.py</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules/output.html">output.py</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules/schemes.html">schemes.py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.html">Vortexfitting package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.classes.html">Classes module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.classes.html#vortexfitting.classes.VelocityField"><code class="docutils literal notranslate"><span class="pre">VelocityField</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.fitting.html">Fitting module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.correlation_coef"><code class="docutils literal notranslate"><span class="pre">correlation_coef()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.create_links"><code class="docutils literal notranslate"><span class="pre">create_links()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.direction_rotation"><code class="docutils literal notranslate"><span class="pre">direction_rotation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.find_peaks"><code class="docutils literal notranslate"><span class="pre">find_peaks()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.fit"><code class="docutils literal notranslate"><span class="pre">fit()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.full_fit"><code class="docutils literal notranslate"><span class="pre">full_fit()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.get_fluctuations"><code class="docutils literal notranslate"><span class="pre">get_fluctuations()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.get_vortices"><code class="docutils literal notranslate"><span class="pre">get_vortices()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.normalize"><code class="docutils literal notranslate"><span class="pre">normalize()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.plot_accepted"><code class="docutils literal notranslate"><span class="pre">plot_accepted()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.plot_detect"><code class="docutils literal notranslate"><span class="pre">plot_detect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.plot_fields"><code class="docutils literal notranslate"><span class="pre">plot_fields()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.plot_fit"><code class="docutils literal notranslate"><span class="pre">plot_fit()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.plot_quiver"><code class="docutils literal notranslate"><span class="pre">plot_quiver()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.plot_vortex"><code class="docutils literal notranslate"><span class="pre">plot_vortex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.process_vortex"><code class="docutils literal notranslate"><span class="pre">process_vortex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.velocity_model"><code class="docutils literal notranslate"><span class="pre">velocity_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.fitting.html#vortexfitting.fitting.window"><code class="docutils literal notranslate"><span class="pre">window()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.detection.html">Detection module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.detection.html#vortexfitting.detection.calc_delta_criterion"><code class="docutils literal notranslate"><span class="pre">calc_delta_criterion()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.detection.html#vortexfitting.detection.calc_q_criterion"><code class="docutils literal notranslate"><span class="pre">calc_q_criterion()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.detection.html#vortexfitting.detection.calc_swirling"><code class="docutils literal notranslate"><span class="pre">calc_swirling()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.schemes.html">Schemes module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.schemes.html#vortexfitting.schemes.fourth_order_diff"><code class="docutils literal notranslate"><span class="pre">fourth_order_diff()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.schemes.html#vortexfitting.schemes.least_square_diff"><code class="docutils literal notranslate"><span class="pre">least_square_diff()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.schemes.html#vortexfitting.schemes.second_order_diff"><code class="docutils literal notranslate"><span class="pre">second_order_diff()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.output.html">Output module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.output.html#vortexfitting.output.create"><code class="docutils literal notranslate"><span class="pre">create()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.output.html#vortexfitting.output.write"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.output.html#vortexfitting.output.write_field"><code class="docutils literal notranslate"><span class="pre">write_field()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.GUI.html">GUI module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.GUI.html#vortexfitting.GUI.AboutTab"><code class="docutils literal notranslate"><span class="pre">AboutTab</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.GUI.html#vortexfitting.GUI.MainFrame"><code class="docutils literal notranslate"><span class="pre">MainFrame</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.GUI.html#vortexfitting.GUI.MyApp"><code class="docutils literal notranslate"><span class="pre">MyApp</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.GUI.html#vortexfitting.GUI.UtilitiesTab"><code class="docutils literal notranslate"><span class="pre">UtilitiesTab</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.GUI.html#vortexfitting.GUI.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.GUI_utils.html">GUI_utils module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.GUI_utils.html#vortexfitting.GUI_utils.gui_plot_accepted"><code class="docutils literal notranslate"><span class="pre">gui_plot_accepted()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.GUI_utils.html#vortexfitting.GUI_utils.gui_plot_fit"><code class="docutils literal notranslate"><span class="pre">gui_plot_fit()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.GUI_utils.html#vortexfitting.GUI_utils.gui_plot_vortex"><code class="docutils literal notranslate"><span class="pre">gui_plot_vortex()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.convertToASCII.html">ConvertToASCII module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.convertToASCII.html#vortexfitting.convertToASCII.netcdf_to_ascii"><code class="docutils literal notranslate"><span class="pre">netcdf_to_ascii()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.convertToNC.html">ConvertToNC module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.convertToNC.html#vortexfitting.convertToNC.ascii_to_netcdf"><code class="docutils literal notranslate"><span class="pre">ascii_to_netcdf()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.convertToNC.html#vortexfitting.convertToNC.deduce_dimensions"><code class="docutils literal notranslate"><span class="pre">deduce_dimensions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.generateNetCDF.html">GenerateNetCDF module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/vortexfitting.generateNetCDF.html#vortexfitting.generateNetCDF.generateNetCDF"><code class="docutils literal notranslate"><span class="pre">generateNetCDF()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html#articles">Articles</a></li>
 </ul>
 </div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
-</div>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-<h3><a href="#">Table Of Contents</a></h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<h3><a href="#">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="methodology.html">Methodology</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="software_options.html">Software options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.html">Vortexfitting package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.classes.html">Classes module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.fitting.html">Fitting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.detection.html">Detection module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.schemes.html">Schemes module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.output.html">Output module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.GUI.html">GUI module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.GUI_utils.html">GUI_utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.convertToASCII.html">ConvertToASCII module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.convertToNC.html">ConvertToNC module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.generateNetCDF.html">GenerateNetCDF module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html#articles">Articles</a></li>
 </ul>
 
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
     </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -165,12 +238,13 @@
         <li class="right" >
           <a href="introduction.html" title="Introduction"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">VortexFitting 1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">VortexFitting 2.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Vortex Fitting Documentation</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2020, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    &#169; Copyright 2020, Guilherme Lindner.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     </div>
   </body>
 </html>

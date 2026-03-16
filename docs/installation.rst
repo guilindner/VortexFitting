@@ -8,6 +8,7 @@ The following packages are used:
 * SciPy
 * Matplotlib
 * netCDF4
+* wxPython (for Graphical interface)
 
 Using PIP
 ------------

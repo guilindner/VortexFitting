@@ -28,8 +28,10 @@ class FittingTest(unittest.TestCase):
         # Exact same u and v compared with exact same u and v
         result_calc = fitting.correlation_coef(sample_field,
                                                sample_field,
+                                               None,
                                                sample_field,
-                                               sample_field)
+                                               sample_field,
+                                               None)
 
         np.testing.assert_almost_equal(result_calc, 1.0)
 
@@ -37,8 +39,10 @@ class FittingTest(unittest.TestCase):
         # Different u and v compared with the same u and v
         result_calc = fitting.correlation_coef(sample_field * 2.0,
                                                sample_field * 0.5,
+                                               None,
                                                sample_field * 2.0,
-                                               sample_field * 0.5)
+                                               sample_field * 0.5,
+                                               None)
 
         np.testing.assert_almost_equal(result_calc, 1.0)
 
@@ -46,8 +50,10 @@ class FittingTest(unittest.TestCase):
         # Different u and v compared with u=0 and v=v
         result_calc = fitting.correlation_coef(sample_field * 2.0,
                                                sample_field * 2.0,
+                                               None,                                               
                                                sample_field,
-                                               sample_field)
+                                               sample_field,
+                                               None)
 
         np.testing.assert_almost_equal(result_calc, 0.5)
 
@@ -55,8 +61,10 @@ class FittingTest(unittest.TestCase):
         # Different u and v compared with u=0 and v=v
         result_calc = fitting.correlation_coef(sample_field * 0.5,
                                                sample_field * 0.5,
+                                               None,
                                                sample_field,
-                                               sample_field)
+                                               sample_field,
+                                               None)
 
         np.testing.assert_almost_equal(result_calc, 0.5)
 
@@ -64,8 +72,10 @@ class FittingTest(unittest.TestCase):
         # Different u and v compared with u=0 and v=v
         result_calc = fitting.correlation_coef(sample_field * 0.25,
                                                sample_field * 0.25,
+                                               None,
                                                sample_field,
-                                               sample_field)
+                                               sample_field, 
+                                               None)
 
         np.testing.assert_almost_equal(result_calc, 0.25)
 
@@ -73,8 +83,10 @@ class FittingTest(unittest.TestCase):
         # Different u and v compared with u=0 and v=v
         result_calc = fitting.correlation_coef(sample_field,
                                                sample_field * 0.,
+                                               None,
                                                sample_field,
-                                               sample_field)
+                                               sample_field,
+                                               None)
 
         np.testing.assert_almost_equal(result_calc, 0.5)
 
@@ -82,8 +94,10 @@ class FittingTest(unittest.TestCase):
         # Different u and v compared with u=0 and v=v
         result_calc = fitting.correlation_coef(sample_field,
                                                sample_field,
+                                               None,
                                                sample_field * 0.0,
-                                               sample_field)
+                                               sample_field, 
+                                               None)
 
         np.testing.assert_almost_equal(result_calc, 0.5)
 

@@ -1,6 +1,39 @@
 Software options
 ================
 
+Graphical User Interface (GUI)
+------------------------------
+
+The GUI contains 3 panels: 
+
+* Main panel: to perform vortex fitting
+* Utilities: tools to generate a custom vortex and to convert files (netCDF <-> ASCII format)
+* About: displays information about the code
+
+
+.. _gui_vortexfitting:
+.. figure:: _images/GUI.png
+   :width: 75 %
+   :alt: GUI for VortexFitting
+   :align: center
+   
+   Main page of the VortexFitting Gui
+   
+The main page displays 2 figures: the left one for the global vorticity field, 
+the right one for the detected vortex.  
+ 
+When several vortices are found, one can sweep between the different vortices, 
+with the arrows behind the figure.
+
+Each figure can be resized with a specific interface below, and can be exported.
+
+The right side panel lists all the options needed to perform **VortexFitting**.
+Those parameters are stored in a config file (.cfg format), 
+which can be loaded or saved with the bottom buttons.
+
+One can 
+
+
 How to use the code / detection and fitting options
 ---------------------------------------------------
 
@@ -11,7 +44,7 @@ The data used can be of different format.
 For NetCDF, the axis of the velocity components are ordered like z, y, x, 
 where z can also be the number of samples in a 2D field.
 
-Tecplot format or OpenFoam export are also accepted.
+Tecplot format (.dat), OpenFOAM (.raw) or HDF5 (.h5) export are also accepted.
 
 If you want to implement a custom format, change the variable names, their order ...
 it should be directly changed in the **class.py** file
@@ -39,13 +72,13 @@ The differencing scheme can be changed with the *-s* (*--scheme*) argument:
 
 .. code-block:: bash
 
-   $ python3 vortexfitting.py -s 4
+   $ python3 vortexfitting.py -s Fourth-order
 
 .. note:: Available schemes:
           
-          * 2 - Second Order
-          * 22 - Least-square filter (default)
-          * 4 - Fourth order
+          * Second-order
+          * Least-square filter (default)
+          * Fourth-order
 
 We can as well change the detection method with the *-d* (*--detect*) argument
 
@@ -110,6 +143,44 @@ The plot method is chosen with the *-p* (*--plot*) argument
 
    $ python3 vortexfitting.py -p fields
 
+Parallelization
+```````````````
+
+Parallelization has been added to VortexFitting since V2.0.0. It is useful on huge dataset. 
+
+The core numbers can be specified by the *-nc* (*--corenumber*) argument.
+
+.. code-block:: bash
+
+   $ python3 vortexfitting.py -nc 8
+   
+It has been tested on the Gust experiment dataset from [TOWNE2023B]_: the example file is about 11.4 Go. 
+
+For a specific time step (here t = 5), 283 vortices are detected. 
+
+Parameters are: swirling and least-square filter methods, with a Lamb-Oseen model, a boxsize of 6, detection threshold of 0.01, 
+and correlation threshold of 0.5. 
+
+The tests are run on a Windows computer, with 64 Go of RAM and 32 available cores. 
+
+The effect of parallelization is provided in te following table:
+
+.. _TablePar:
+.. table:: Effect of parallelization
+
+    +----------------+------------------+----------+----------+
+    |Number of cores | Elapsed time (s) | Speed-up | Gain (%) | 
+    +================+==================+==========+==========+
+    |1               |43.018            | 1.0×     | 0%       |
+    +----------------+------------------+----------+----------+
+    |2               |15.709            | 2.7×     | 63.5%    |
+    +----------------+------------------+----------+----------+
+    |4               |9.475             | 4.5×     | 78.0%    |
+    +----------------+------------------+----------+----------+
+    |8               |7.262             | 5.9×     | 83.1%    |
+    +----------------+------------------+----------+----------+
+    |16              |20.885            | 2.1×     | 51.5%    |
+    +----------------+------------------+----------+----------+
 
 
 Data output
@@ -199,4 +270,10 @@ with the options *-nx* or *-ny*
 .. code-block:: bash
 
    $ python3 convertToNC.py -i input.dat -o output.nc
+   
+   
+References
+----------
 
+.. [TOWNE2023B] Towne A., Dawson S. T., Brès G. A., Lozano-Duran A., Saxton-Fox T. , Parthasarathy A., Jones A. R., Biler H. , Yeh C.-A., Patel H. D., et al.
+	*A database for reduced-complexity modeling of fluid flows.*, AIAA journal, 61 (7) 2867–2892, 2023.

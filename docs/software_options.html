@@ -1,26 +1,17 @@
+<!DOCTYPE html>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" data-content_root="./">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Software options &#8212; VortexFitting 1 documentation</title>
-    <link rel="stylesheet" href="_static/pyramid.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Software options &#8212; VortexFitting 2.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=cb9af8c9" />
+    <link rel="stylesheet" type="text/css" href="_static/pyramid.css?v=46fd03ae" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <script src="_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="_static/doctools.js?v=aa79a7b1"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Examples" href="examples.html" />
@@ -31,10 +22,9 @@
 <link rel="stylesheet" href="_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
 <![endif]-->
 
-  </head>
-  <body>
+  </head><body>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -49,7 +39,8 @@
         <li class="right" >
           <a href="installation.html" title="Installation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">VortexFitting 1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">VortexFitting 2.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Software options</a></li> 
       </ul>
     </div>  
 
@@ -58,152 +49,231 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="software-options">
-<h1>Software options<a class="headerlink" href="#software-options" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="how-to-use-the-code-detection-and-fitting-options">
-<h2>How to use the code / detection and fitting options<a class="headerlink" href="#how-to-use-the-code-detection-and-fitting-options" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="data-input">
-<h3>Data input<a class="headerlink" href="#data-input" title="Permalink to this headline">¶</a></h3>
+  <section id="software-options">
+<h1>Software options<a class="headerlink" href="#software-options" title="Link to this heading">¶</a></h1>
+<section id="graphical-user-interface-gui">
+<h2>Graphical User Interface (GUI)<a class="headerlink" href="#graphical-user-interface-gui" title="Link to this heading">¶</a></h2>
+<p>The GUI contains 3 panels:</p>
+<ul class="simple">
+<li><p>Main panel: to perform vortex fitting</p></li>
+<li><p>Utilities: tools to generate a custom vortex and to convert files (netCDF &lt;-&gt; ASCII format)</p></li>
+<li><p>About: displays information about the code</p></li>
+</ul>
+<figure class="align-center" id="id2">
+<span id="gui-vortexfitting"></span><a class="reference internal image-reference" href="_images/GUI.png"><img alt="GUI for VortexFitting" src="_images/GUI.png" style="width: 75%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 13 </span><span class="caption-text">Main page of the VortexFitting Gui</span><a class="headerlink" href="#id2" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>The main page displays 2 figures: the left one for the global vorticity field,
+the right one for the detected vortex.</p>
+<p>When several vortices are found, one can sweep between the different vortices,
+with the arrows behind the figure.</p>
+<p>Each figure can be resized with a specific interface below, and can be exported.</p>
+<p>The right side panel lists all the options needed to perform <strong>VortexFitting</strong>.
+Those parameters are stored in a config file (.cfg format),
+which can be loaded or saved with the bottom buttons.</p>
+<p>One can</p>
+</section>
+<section id="how-to-use-the-code-detection-and-fitting-options">
+<h2>How to use the code / detection and fitting options<a class="headerlink" href="#how-to-use-the-code-detection-and-fitting-options" title="Link to this heading">¶</a></h2>
+<section id="data-input">
+<h3>Data input<a class="headerlink" href="#data-input" title="Link to this heading">¶</a></h3>
 <p>The data used can be of different format.
 For NetCDF, the axis of the velocity components are ordered like z, y, x,
 where z can also be the number of samples in a 2D field.</p>
-<p>Tecplot format or OpenFoam export are also accepted.</p>
+<p>Tecplot format (.dat), OpenFOAM (.raw) or HDF5 (.h5) export are also accepted.</p>
 <p>If you want to implement a custom format, change the variable names, their order …
 it should be directly changed in the <strong>class.py</strong> file</p>
-</div>
-<div class="section" id="parameters">
-<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h3>
 <p>The code comes with default test cases, located in <em>../data/</em>.</p>
 <p>If no input file with the <em>-i</em> (<em>–input</em>) argument has been specified, the <em>example_dataHIT.nc</em> will be used.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ vortexfitting
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>vortexfitting
 </pre></div>
 </div>
 <p>If we want to define a threshold for the swirling strength, we can specify with
 the <em>-t</em> (<em>–threshold</em>) argument, like this:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -t <span class="m">0</span>.5
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>vortexfitting.py<span class="w"> </span>-t<span class="w"> </span><span class="m">0</span>.5
 </pre></div>
 </div>
 <p>The differencing scheme can be changed with the <em>-s</em> (<em>–scheme</em>) argument:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -s <span class="m">4</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>vortexfitting.py<span class="w"> </span>-s<span class="w"> </span>Fourth-order
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>Available schemes:</p>
-<ul class="last simple">
-<li>2 - Second Order</li>
-<li>22 - Least-square filter (default)</li>
-<li>4 - Fourth order</li>
+<ul class="simple">
+<li><p>Second-order</p></li>
+<li><p>Least-square filter (default)</p></li>
+<li><p>Fourth-order</p></li>
 </ul>
 </div>
 <p>We can as well change the detection method with the <em>-d</em> (<em>–detect</em>) argument</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -d Q
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>vortexfitting.py<span class="w"> </span>-d<span class="w"> </span>Q
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>Available methods:</p>
-<ul class="last simple">
-<li>Q - Q criterion</li>
-<li>swirling - Swirling Strenght criterion (default)</li>
-<li>delta - Delta criterion</li>
+<ul class="simple">
+<li><p>Q - Q criterion</p></li>
+<li><p>swirling - Swirling Strenght criterion (default)</p></li>
+<li><p>delta - Delta criterion</p></li>
 </ul>
 </div>
 <p>If you want to write the detection field, the <em>write_field</em> function from the
 <strong>output.py</strong> module should be useful: it can be used in <strong>__main__.py</strong>.</p>
 <p>An initial guessing radius can be set with <em>-rmax</em> argument.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -rmax <span class="m">15</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>vortexfitting.py<span class="w"> </span>-rmax<span class="w"> </span><span class="m">15</span>
 </pre></div>
 </div>
 <p>An output directory can be specified with the <em>-o</em> (<em>–output</em>) argument.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -o ../results/MY_DIRECTORY
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>vortexfitting.py<span class="w"> </span>-o<span class="w"> </span>../results/MY_DIRECTORY
 </pre></div>
 </div>
 <p>Use arguments <em>-first</em>, <em>-last</em> and <em>-step</em> to analyze a set of images. Default for <em>-step</em> is 1.</p>
 <p>For example, if you want to compute from image #10 to #20, each 2 images, enter:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -first <span class="m">10</span> -last <span class="m">20</span> -step <span class="m">2</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>vortexfitting.py<span class="w"> </span>-first<span class="w"> </span><span class="m">10</span><span class="w"> </span>-last<span class="w"> </span><span class="m">20</span><span class="w"> </span>-step<span class="w"> </span><span class="m">2</span>
 </pre></div>
 </div>
 <p>By default, the correlation threshold to detect a vortex is 0.75. This value may be changed with the
 <em>-ct</em> (<em>–corrthreshold</em>) argument.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -ct <span class="m">0</span>.85
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>vortexfitting.py<span class="w"> </span>-ct<span class="w"> </span><span class="m">0</span>.85
 </pre></div>
 </div>
 <p>To avoid vortices overlapping, the box size parameter <em>-b</em> (<em>–boxsize</em>) can be used.
 It takes an integer distance in mesh units, between two vortex centers.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -b <span class="m">10</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>vortexfitting.py<span class="w"> </span>-b<span class="w"> </span><span class="m">10</span>
 </pre></div>
 </div>
 <p>The plot method is chosen with the <em>-p</em> (<em>–plot</em>) argument</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>Available methods:</p>
-<ul class="last simple">
-<li>fit - detection and fitting, saves images (default)</li>
-<li>detect - Locate the potential vortices (without fitting)</li>
-<li>fields - display the velocity fields and vorticity</li>
+<ul class="simple">
+<li><p>fit - detection and fitting, saves images (default)</p></li>
+<li><p>detect - Locate the potential vortices (without fitting)</p></li>
+<li><p>fields - display the velocity fields and vorticity</p></li>
 </ul>
 </div>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 vortexfitting.py -p fields
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>vortexfitting.py<span class="w"> </span>-p<span class="w"> </span>fields
 </pre></div>
 </div>
+</section>
+<section id="parallelization">
+<h3>Parallelization<a class="headerlink" href="#parallelization" title="Link to this heading">¶</a></h3>
+<p>Parallelization has been added to VortexFitting since V2.0.0. It is useful on huge dataset.</p>
+<p>The core numbers can be specified by the <em>-nc</em> (<em>–corenumber</em>) argument.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>vortexfitting.py<span class="w"> </span>-nc<span class="w"> </span><span class="m">8</span>
+</pre></div>
 </div>
-<div class="section" id="data-output">
-<h3>Data output<a class="headerlink" href="#data-output" title="Permalink to this headline">¶</a></h3>
+<p>It has been tested on the Gust experiment dataset from <a class="reference internal" href="#towne2023b" id="id1"><span>[TOWNE2023B]</span></a>: the example file is about 11.4 Go.</p>
+<p>For a specific time step (here t = 5), 283 vortices are detected.</p>
+<p>Parameters are: swirling and least-square filter methods, with a Lamb-Oseen model, a boxsize of 6, detection threshold of 0.01,
+and correlation threshold of 0.5.</p>
+<p>The tests are run on a Windows computer, with 64 Go of RAM and 32 available cores.</p>
+<p>The effect of parallelization is provided in te following table:</p>
+<span id="tablepar"></span><table class="docutils align-default" id="id3">
+<caption><span class="caption-number">Table 3 </span><span class="caption-text">Effect of parallelization</span><a class="headerlink" href="#id3" title="Link to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Number of cores</p></th>
+<th class="head"><p>Elapsed time (s)</p></th>
+<th class="head"><p>Speed-up</p></th>
+<th class="head"><p>Gain (%)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>43.018</p></td>
+<td><p>1.0×</p></td>
+<td><p>0%</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>15.709</p></td>
+<td><p>2.7×</p></td>
+<td><p>63.5%</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>9.475</p></td>
+<td><p>4.5×</p></td>
+<td><p>78.0%</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>7.262</p></td>
+<td><p>5.9×</p></td>
+<td><p>83.1%</p></td>
+</tr>
+<tr class="row-even"><td><p>16</p></td>
+<td><p>20.885</p></td>
+<td><p>2.1×</p></td>
+<td><p>51.5%</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="data-output">
+<h3>Data output<a class="headerlink" href="#data-output" title="Link to this heading">¶</a></h3>
 <p>The results will be written to the <em>../results/</em> folder with the following files:</p>
 <ul class="simple">
-<li>accepted.svg: The location and size of the accepted vortices</li>
-<li>linked.svg: same as <em>accepted.svg</em> but can be open on the web browser with
-clickable vortices</li>
-<li>vortex#_initial_vfield.png: Comparison of the velocity field of the vortex and the model</li>
-<li>vortex#_advection_field_subtracted.png: Comparison of the velocity field of the vortex and the model,
-subtracting the advection velocity</li>
-<li>vortices.dat: parameters of all the detected vortices</li>
+<li><p>accepted.svg: The location and size of the accepted vortices</p></li>
+<li><p>linked.svg: same as <em>accepted.svg</em> but can be open on the web browser with
+clickable vortices</p></li>
+<li><p>vortex#_initial_vfield.png: Comparison of the velocity field of the vortex and the model</p></li>
+<li><p>vortex#_advection_field_subtracted.png: Comparison of the velocity field of the vortex and the model,
+subtracting the advection velocity</p></li>
+<li><p>vortices.dat: parameters of all the detected vortices</p></li>
 </ul>
 <p>If you want to update the output format of <em>vortices.dat</em>, it should be done in the <strong>output.py</strong> file.</p>
 <p>The format (png, pdf …) can be specified with the <em>-of</em> (<em>–output_format</em>) option.</p>
 <p>NB: the <em>vortices.dat</em> file is written according to the TecPlot format.
 It contains some auxiliary data, to keep a record of the different parameters used.</p>
 <p>The plot results are handled in the <strong>fitting.py</strong> module.</p>
-</div>
-</div>
-<div class="section" id="generating-a-custom-vortex">
-<h2>Generating a custom Vortex<a class="headerlink" href="#generating-a-custom-vortex" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="generating-a-custom-vortex">
+<h2>Generating a custom Vortex<a class="headerlink" href="#generating-a-custom-vortex" title="Link to this heading">¶</a></h2>
 <p>It’s possible to generate a custom vortex using the <strong>generateNetCDF.py</strong> module.
 It will create a NetCDF file with the same characteristics as the DNS HIT file.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 generateNetCDF.py
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>generateNetCDF.py
 </pre></div>
 </div>
 <p>This command will create a file <em>generatedField.nc</em> at the data folder.</p>
 <p>You can tune the characteristics and position of the vortex by changing the
 following values directly on <em>generatedField.nc</em>:</p>
 <ul class="simple">
-<li>core_radius;</li>
-<li>gamma;</li>
-<li>x_center;</li>
-<li>y_center;</li>
-<li>u_advection;</li>
-<li>v_advection.</li>
+<li><p>core_radius;</p></li>
+<li><p>gamma;</p></li>
+<li><p>x_center;</p></li>
+<li><p>y_center;</p></li>
+<li><p>u_advection;</p></li>
+<li><p>v_advection.</p></li>
 </ul>
 <p>The size of the domain can also be changed on the <em>ndim</em> variable.</p>
 <p>You can use the <em>output</em> option (<em>-o</em>) to specify the name of the created file,
 and <em>ndim</em> (<em>-ndim</em>) option to change the domain size.
 For example:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 generateNetCDF.py -o ./data/testGenerate.nc -ndim <span class="m">300</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>generateNetCDF.py<span class="w"> </span>-o<span class="w"> </span>./data/testGenerate.nc<span class="w"> </span>-ndim<span class="w"> </span><span class="m">300</span>
 </pre></div>
 </div>
 <p>will produce a 300x300 mesh, in a file named <em>testGenerate.nc</em>.</p>
-<div class="figure align-center" id="id1">
-<span id="generatenetcdf-vortex"></span><a class="reference internal image-reference" href="_images/generateNetCDF_vortex.png"><img alt="Vortex produced with the generateNetCDF.py function" src="_images/generateNetCDF_vortex.png" style="width: 45%;" /></a>
-<p class="caption"><span class="caption-number">Fig. 13 </span><span class="caption-text">Vortex produced with the <strong>generateNetCDF.py</strong> function</span></p>
-</div>
-</div>
-<div class="section" id="converting-netcdf-to-ascii-and-vice-versa">
-<h2>Converting NetCDF to ASCII (and vice-versa)<a class="headerlink" href="#converting-netcdf-to-ascii-and-vice-versa" title="Permalink to this headline">¶</a></h2>
+<figure class="align-center" id="id4">
+<span id="generatenetcdf-vortex"></span><a class="reference internal image-reference" href="_images/generateNetCDF_vortex.png"><img alt="Vortex produced with the generateNetCDF.py function" src="_images/generateNetCDF_vortex.png" style="width: 45%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 14 </span><span class="caption-text">Vortex produced with the <strong>generateNetCDF.py</strong> function</span><a class="headerlink" href="#id4" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="converting-netcdf-to-ascii-and-vice-versa">
+<h2>Converting NetCDF to ASCII (and vice-versa)<a class="headerlink" href="#converting-netcdf-to-ascii-and-vice-versa" title="Link to this heading">¶</a></h2>
 <p>If for any reason you need to convert a netCDF file to a text format (ASCII), the
 module <strong>convertToASCII.py</strong> can do the job. It will open the <em>infile</em> and save
 all z planes (or time) into separated files.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 convertToASCII.py -i input.nc -o output.dat
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>convertToASCII.py<span class="w"> </span>-i<span class="w"> </span>input.nc<span class="w"> </span>-o<span class="w"> </span>output.dat
 </pre></div>
 </div>
 <p>Depending on the file you need to change the variable names like <em>velocity_x</em>
@@ -211,51 +281,64 @@ and such for the corresponding variable.</p>
 <p>The module <strong>convertToNC.py</strong> can convert an ASCII file to a NetCDF4 format.
 You can specify the spatial dimensions (<em>nx</em>, <em>ny</em> respectively for x and y directions),
 with the options <em>-nx</em> or <em>-ny</em></p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python3 convertToNC.py -i input.dat -o output.nc
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python3<span class="w"> </span>convertToNC.py<span class="w"> </span>-i<span class="w"> </span>input.dat<span class="w"> </span>-o<span class="w"> </span>output.nc
 </pre></div>
 </div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="towne2023b" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">TOWNE2023B</a><span class="fn-bracket">]</span></span>
+<p>Towne A., Dawson S. T., Brès G. A., Lozano-Duran A., Saxton-Fox T. , Parthasarathy A., Jones A. R., Biler H. , Yeh C.-A., Patel H. D., et al.
+<em>A database for reduced-complexity modeling of fluid flows.</em>, AIAA journal, 61 (7) 2867–2892, 2023.</p>
 </div>
 </div>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-<h3><a href="index.html">Table Of Contents</a></h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<h3><a href="index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="methodology.html">Methodology</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Software options</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#graphical-user-interface-gui">Graphical User Interface (GUI)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-use-the-code-detection-and-fitting-options">How to use the code / detection and fitting options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#generating-a-custom-vortex">Generating a custom Vortex</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#converting-netcdf-to-ascii-and-vice-versa">Converting NetCDF to ASCII (and vice-versa)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/vortexfitting.html">vortexfitting package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html#articles">Articles</a></li>
 </ul>
 
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
     </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -270,12 +353,13 @@ with the options <em>-nx</em> or <em>-ny</em></p>
         <li class="right" >
           <a href="installation.html" title="Installation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">VortexFitting 1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">VortexFitting 2.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Software options</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2020, Guilherme Lindner.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    &#169; Copyright 2020, Guilherme Lindner.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     </div>
   </body>
 </html>

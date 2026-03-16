@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="vortexfitting",
-    version="1.0.1",
+    version="2.0.0",
     description="A tool to locate and characterize vortices",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -30,7 +30,7 @@ setup(
     #package_dir={'vortexfitting': 'vortexfitting'},
     #package_data={'vortexfitting': ['data/*.*']},
     #include_package_data=True,
-    install_requires=['netcdf4','matplotlib', 'numpy', 'scipy'],
+    install_requires=['netcdf4','matplotlib', 'numpy', 'scipy','wxPython'],
     project_urls={  
         'Source': 'https://github.com/guilindner/VortexFitting',
     },

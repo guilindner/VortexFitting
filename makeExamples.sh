@@ -1,5 +1,13 @@
 #!/bin/bash
 
+python3 run.py -i data/generated_rankine.nc -ft dns -o results/rankine -m rankine -t 0.15
+
+python3 run.py -i data/generated_rankine.nc -ft dns -o results/rankine -m rankine -t 0.15 -nc 2
+
+python3 run.py -i data/generated_lamb-oseen.nc -ft dns -o results/lamb-oseen -m lamb-oseen -t 0.15
+
+python3 run.py -i data/generated_batchelor.nc -ft dns -o results/batchelor -m batchelor -t 0.15
+
 python3 run.py -i data/example_Ub_planeZ_0.01.raw -ft openfoam -o results/example_openfoam -rmax 0
 
 python3 run.py  -i data/example_Ub_planeZ_0.01.raw -ft openfoam -xy 20 50
@@ -16,6 +24,12 @@ python3 run.py  -i data/example_vel_{:06d}.dat -ft piv_tecplot -o results/exampl
 
 
 exit
+
+vortexfitting -i data/generated_rankine.nc -ft dns -o results/rankine -m rankine -t 0.15
+
+vortexfitting -i data/generated_lamb-oseen.nc -ft dns -o results/lamb-oseen -m lamb-oseen -t 0.15
+
+vortexfitting -i data/generated_batchelor.nc -ft dns -o results/batchelor -m batchelor -t 0.15
 
 vortexfitting -i data/example_Ub_planeZ_0.01.raw -ft openfoam -o results/example_openfoam -rmax 0
 

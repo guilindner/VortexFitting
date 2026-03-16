@@ -1,6 +1,8 @@
 import os
 import sys
 
+PYTHON = sys.executable
+
 is_windows = sys.platform.startswith('win')
 
 if is_windows:
@@ -14,18 +16,19 @@ else:
     cwd = os.getcwd()
     os.chdir(cwd + '/tests')    
 
-    cmd = 'python3 test_fitting.py'
+    cmd = f'{PYTHON} test_fitting.py'
     os.system(cmd)
-    cmd = 'python3 test_tools.py'
+    cmd = f'{PYTHON} test_tools.py'
     os.system(cmd)
-    cmd = 'python3 testOseen.py'
+    cmd = f'{PYTHON} test_Lamb_Oseen.py'
     os.system(cmd)
-
+    cmd = f'{PYTHON} test_Rankine.py'
+    os.system(cmd)
+    
     os.chdir(cwd + '/vortexfitting')
 
-    cmd = 'python3 convertToASCII.py -i ../data/example_data_HIT.nc -o ../data/test_dataHIT_ascii.dat'
+    cmd = f'{PYTHON} convertToASCII.py -i ../data/example_data_HIT.nc -o ../data/test_dataHIT_ascii.dat'
     os.system(cmd)
-    cmd = 'python3 convertToNC.py -i ../data/test_dataHIT_ascii.dat -o ../data/test_dataHIT_back_converted.nc'
+    cmd = f'{PYTHON} convertToNC.py -i ../data/test_dataHIT_ascii.dat -o ../data/test_dataHIT_back_converted.nc'
     os.system(cmd)
-    cmd = 'python3 generateNetCDF.py'
-    os.system(cmd)
+

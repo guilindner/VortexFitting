@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>GUI module &#8212; VortexFitting 2.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=cb9af8c9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pyramid.css?v=46fd03ae" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../_static/doctools.js?v=aa79a7b1"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="GUI_utils module" href="vortexfitting.GUI_utils.html" />
+    <link rel="prev" title="Vortexfitting package" href="vortexfitting.html" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="vortexfitting.GUI_utils.html" title="GUI_utils module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="vortexfitting.html" title="Vortexfitting package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="vortexfitting.html" accesskey="U">Vortexfitting package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">GUI module</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-vortexfitting.GUI">
+<span id="gui-module"></span><h1>GUI module<a class="headerlink" href="#module-vortexfitting.GUI" title="Link to this heading">¶</a></h1>
+<p>All the basics for the Graphical User Interface, with wxPython</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="vortexfitting.GUI.AboutTab">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">vortexfitting.GUI.</span></span><span class="sig-name descname"><span class="pre">AboutTab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.AboutTab" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Panel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.AboutTab.show_about">
+<span class="sig-name descname"><span class="pre">show_about</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.AboutTab.show_about" title="Link to this definition">¶</a></dt>
+<dd><p>Define an “About” window, with information about VortexFitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_event</strong> (<em>wx._event</em>) – event triggered when the “About” button, on About panel, is clicked.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MainFrame">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">vortexfitting.GUI.</span></span><span class="sig-name descname"><span class="pre">MainFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MainFrame" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Frame</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MainFrame.on_flip_axis">
+<span class="sig-name descname"><span class="pre">on_flip_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MainFrame.on_flip_axis" title="Link to this definition">¶</a></dt>
+<dd><p>Method called when the Flip Axis button is toggled for a specific figure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the corresponding figure and canvas.</p></li>
+<li><p><strong>_event</strong> (<em>event</em>) – event associated with the button pressed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MainFrame.on_next_vortex">
+<span class="sig-name descname"><span class="pre">on_next_vortex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MainFrame.on_next_vortex" title="Link to this definition">¶</a></dt>
+<dd><p>Method called when the “Next” button is pressed to navigate to the next vortex.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_event</strong> (<em>event</em>) – event associated with the button press.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MainFrame.on_previous_vortex">
+<span class="sig-name descname"><span class="pre">on_previous_vortex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MainFrame.on_previous_vortex" title="Link to this definition">¶</a></dt>
+<dd><p>Method called when the “Previous” button is pressed to navigate to the previous vortex.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_event</strong> (<em>event</em>) – event associated with the button press.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MainFrame.on_read_parameters">
+<span class="sig-name descname"><span class="pre">on_read_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MainFrame.on_read_parameters" title="Link to this definition">¶</a></dt>
+<dd><p>Method to read a configuration file and update the analysis parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_event</strong> (<em>event</em>) – event associated with the file reading button.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MainFrame.on_save_figure">
+<span class="sig-name descname"><span class="pre">on_save_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MainFrame.on_save_figure" title="Link to this definition">¶</a></dt>
+<dd><p>Method called to save the current figure as a PNG file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the figure to save.</p></li>
+<li><p><strong>_event</strong> (<em>event</em>) – event associated with the save button.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MainFrame.on_save_parameters">
+<span class="sig-name descname"><span class="pre">on_save_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MainFrame.on_save_parameters" title="Link to this definition">¶</a></dt>
+<dd><p>Save the current analysis parameters to a configuration file (.cfg).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_event</strong> (<em>event</em>) – event associated with the save parameters button.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MainFrame.on_start">
+<span class="sig-name descname"><span class="pre">on_start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MainFrame.on_start" title="Link to this definition">¶</a></dt>
+<dd><p>Get all the parameters and run the analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_event</strong> (<em>event</em>) – event associated with the button pressed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MainFrame.on_toggle_time_series">
+<span class="sig-name descname"><span class="pre">on_toggle_time_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MainFrame.on_toggle_time_series" title="Link to this definition">¶</a></dt>
+<dd><p>Enable / disable the time series buttons</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_event</strong> (<em>event</em>) – event associated with the button pressed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MainFrame.on_update_axes">
+<span class="sig-name descname"><span class="pre">on_update_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MainFrame.on_update_axes" title="Link to this definition">¶</a></dt>
+<dd><p>Method called when the “Refresh” button is pressed, to update the figure axes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the corresponding figure and canvas.</p></li>
+<li><p><strong>_event</strong> (<em>event</em>) – event associated with the button pressed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MainFrame.on_vortex_text_enter">
+<span class="sig-name descname"><span class="pre">on_vortex_text_enter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MainFrame.on_vortex_text_enter" title="Link to this definition">¶</a></dt>
+<dd><p>Method called when a new vortex number is entered in the text field.
+Validates the input and updates the vortex display accordingly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_event</strong> (<em>event</em>) – event associated with pressing Enter in the text field.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MainFrame.refresh_canvas">
+<span class="sig-name descname"><span class="pre">refresh_canvas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MainFrame.refresh_canvas" title="Link to this definition">¶</a></dt>
+<dd><p>Refresh the given canvas and its parent window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>canvas</strong> (<em>canvas</em>) – the matplotlib canvas to refresh.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MainFrame.run_analysis">
+<span class="sig-name descname"><span class="pre">run_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MainFrame.run_analysis" title="Link to this definition">¶</a></dt>
+<dd><p>Run the current analysis parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>analysis_parameters</strong> (<em>dict</em>) – all the analysis parameters</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MainFrame.set_choice_selection">
+<span class="sig-name descname"><span class="pre">set_choice_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">choice_widget</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MainFrame.set_choice_selection" title="Link to this definition">¶</a></dt>
+<dd><p>Set choice selection based on a parameter value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>choice_widget</strong> (<em>widget</em>) – the widget to update</p></li>
+<li><p><strong>parameter_value</strong> (<em>string</em>) – parameter from the Analysis structure</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MainFrame.update_file_status">
+<span class="sig-name descname"><span class="pre">update_file_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MainFrame.update_file_status" title="Link to this definition">¶</a></dt>
+<dd><p>Check if the file exists and update the icon and input file label accordingly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>event</strong> (<em>event</em>) – event tu the update of the file status</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MyApp">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">vortexfitting.GUI.</span></span><span class="sig-name descname"><span class="pre">MyApp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MyApp" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">App</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.MyApp.OnInit">
+<span class="sig-name descname"><span class="pre">OnInit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.MyApp.OnInit" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="vortexfitting.GUI.UtilitiesTab">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">vortexfitting.GUI.</span></span><span class="sig-name descname"><span class="pre">UtilitiesTab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.UtilitiesTab" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Panel</span></code></p>
+<p>A tab in the GUI providing utilities for generating and converting NetCDF and ASCII files.</p>
+<p>Features:
+- Generate a NetCDF file with customizable parameters.
+- Convert a NetCDF file to an ASCII file.
+- Convert an ASCII file to a NetCDF file.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.UtilitiesTab.convert_ascii_to_netcdf">
+<span class="sig-name descname"><span class="pre">convert_ascii_to_netcdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.UtilitiesTab.convert_ascii_to_netcdf" title="Link to this definition">¶</a></dt>
+<dd><p>Converts an ASCII file to a NetCDF file.</p>
+<p>The ASCII file path is taken from the ASCII input field, and the output
+NetCDF file path is specified in the NetCDF output field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_event</strong> (<em>wx._event</em>) – event triggered when the “Convert” button for ASCII to NetCDF is clicked.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.UtilitiesTab.convert_netcdf_to_ascii">
+<span class="sig-name descname"><span class="pre">convert_netcdf_to_ascii</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.UtilitiesTab.convert_netcdf_to_ascii" title="Link to this definition">¶</a></dt>
+<dd><p>Converts a NetCDF file to an ASCII file.</p>
+<p>The NetCDF file path is taken from the NetCDF input field, and the output
+ASCII file path is specified in the ASCII output field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_event</strong> (<em>wx._event</em>) – event triggered when the “Convert” button for NetCDF to ASCII is clicked.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.UtilitiesTab.on_browse_ascii">
+<span class="sig-name descname"><span class="pre">on_browse_ascii</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.UtilitiesTab.on_browse_ascii" title="Link to this definition">¶</a></dt>
+<dd><p>Opens a file dialog to select an ASCII file for conversion.</p>
+<p>The selected file path is displayed in the ASCII input field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_event</strong> (<em>wx._event</em>) – event triggered when the “Browse” button for ASCII is clicked.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.UtilitiesTab.on_browse_netcdf">
+<span class="sig-name descname"><span class="pre">on_browse_netcdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.UtilitiesTab.on_browse_netcdf" title="Link to this definition">¶</a></dt>
+<dd><p>Opens a file dialog to select a NetCDF file for conversion.</p>
+<p>The selected file path is displayed in the NetCDF input field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_event</strong> (<em>wx._event</em>) – event triggered when the “Browse” button for NetCDF is clicked.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vortexfitting.GUI.UtilitiesTab.on_generate">
+<span class="sig-name descname"><span class="pre">on_generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.UtilitiesTab.on_generate" title="Link to this definition">¶</a></dt>
+<dd><p>Generates a NetCDF file with parameters specified by the user in the input fields.</p>
+<p>The parameters include physical properties like core radius, circulation, and
+advection velocities, as well as output file name and grid dimensions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_event</strong> (<em>wx._event</em>) – event triggered when the “Generate” button is clicked.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>empty</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="vortexfitting.GUI.main">
+<span class="sig-prename descclassname"><span class="pre">vortexfitting.GUI.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#vortexfitting.GUI.main" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../methodology.html">Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../software_options.html">Software options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="vortexfitting.html">Vortexfitting package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="vortexfitting.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.classes.html">Classes module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.fitting.html">Fitting module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.detection.html">Detection module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.schemes.html">Schemes module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.output.html">Output module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">GUI module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#vortexfitting.GUI.AboutTab"><code class="docutils literal notranslate"><span class="pre">AboutTab</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vortexfitting.GUI.MainFrame"><code class="docutils literal notranslate"><span class="pre">MainFrame</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vortexfitting.GUI.MyApp"><code class="docutils literal notranslate"><span class="pre">MyApp</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vortexfitting.GUI.UtilitiesTab"><code class="docutils literal notranslate"><span class="pre">UtilitiesTab</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vortexfitting.GUI.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.GUI_utils.html">GUI_utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.convertToASCII.html">ConvertToASCII module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.convertToNC.html">ConvertToNC module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vortexfitting.generateNetCDF.html">GenerateNetCDF module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html#articles">Articles</a></li>
+</ul>
+
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="vortexfitting.GUI_utils.html" title="GUI_utils module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="vortexfitting.html" title="Vortexfitting package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">VortexFitting 2.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="vortexfitting.html" >Vortexfitting package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">GUI module</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2020, Guilherme Lindner.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

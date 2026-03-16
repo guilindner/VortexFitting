@@ -178,9 +178,19 @@ of a real vortex is not always true. To improve this detection we use a Lamb-Ose
 vortex model to be fitted on top of the actual detected peak to check if it is
 really a vortex. 
 
+Rankine vortex
+``````````````
 
+The Rankine vortex is a mathematical model for the flow velocity in the
+circumferential direction (:math:`\vec{e_\theta}`), shown below. 
+
+.. math::
+   \vec{u}_\theta(r,t) = \frac{\displaystyle \Gamma}{2\pi}\begin{cases}  
+   r(t)/r_{0}^2 & r \le r_{0}, \\ 1/ r(t) & r > r_{0} \end{cases}
+   :label: eq_rankine
+   
 Lamb-Oseen vortex
------------------
+`````````````````
 
 The Lamb-Oseen vortex is a mathematical model for the flow velocity in the
 circumferential direction (:math:`\vec{e_\theta}`), shown below. It
@@ -202,6 +212,21 @@ advective velocity :math:`\vec{u_a}` to the Lamb-Oseen vortex model shown below.
    -\left(\frac{r}{r_0}\right)^2\right)\right] \vec{e}_{\theta}
    :label: eq_oseen
 
+
+
+Batchelor vortex
+````````````````
+
+The Batchelor model proposed here is based on the Lamb-Oseen model, 
+with an extension for the vertical velocity, as used by [LACAZE2007]_.
+
+.. math::
+   \vec{u}_{z} = \vec{u}_{z,0} \exp \left(-\frac{r}{r_0}^2\right) \vec{e}_{z}
+   :label: eq_batchelor
+   
+Correlation coefficient
+```````````````````````
+
 The correlation coefficient between the fitted model and the velocity field is calculated 
 according to equation :eq:`eq_corr_ua` and if it's higher than a chosen threshold 
 (typically 0.75), we can consider it a vortex.
@@ -213,6 +238,7 @@ according to equation :eq:`eq_corr_ua` and if it's higher than a chosen threshol
    \sqrt{\langle (\vec{u}_{model}-\vec{u}_a)^2\rangle}} \right)^{1/2}
    :label: eq_corr_ua
 
+   
 Non-linear least squares
 ------------------------
 
@@ -376,4 +402,8 @@ References
 .. [HUNT1988] Hunt, J. C. R., Wray, A. A. & Moin, P.
    *Eddies, stream, and convergence zones in turbulent flows.*
    Center for Turbulence Research Report, CTR-S88, 1988
+   
+.. [LACAZE2007] Lacaze, L., Ryan, K., & Le Dizès, S.
+   *Elliptic instability in a strained Batchelor vortex.*
+   Journal of Fluid Mechanics, 577 :341–361, 2007
 
