@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -e
+
+# Use non-interactive matplotlib backend (no display needed)
+export MPLBACKEND=Agg
+
+cd /code
+
+python makeExamples.py
+
+# Copy results to Code Ocean output directory
+cp -r results/* ../results/
